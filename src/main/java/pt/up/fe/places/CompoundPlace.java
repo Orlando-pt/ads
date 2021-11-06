@@ -6,8 +6,8 @@ import java.util.List;
 public class CompoundPlace extends Place {
     private List<Place> children;
 
-    public CompoundPlace(Double latitude, Double longitude, Double area) {
-        super(latitude, longitude, area);
+    public CompoundPlace(String name, Double latitude, Double longitude, Double area) {
+        super(name, latitude, longitude, area);
         this.children = new ArrayList<>();
     }
 

@@ -2,8 +2,8 @@ package pt.up.fe.places;
 
 public class Parish extends Place {
 
-    public Parish(Double latitude, Double longitude, Double area) {
-        super(latitude, longitude, area);
+    public Parish(String name, Double latitude, Double longitude, Double area) {
+        super(name, latitude, longitude, area);
     }
 
     @Override

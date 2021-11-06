@@ -7,10 +7,11 @@ public abstract class Place extends BaseClass {
     private Double longitude;
     private Double area;
 
-    public Place(Double latitude, Double longitude, Double area) {
+    public Place(String name, Double latitude, Double longitude, Double area) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.area = area;
+        this.setName(name);
     }
 
     public abstract Boolean isComposite();
