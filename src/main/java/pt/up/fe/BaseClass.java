@@ -1,5 +1,7 @@
 package pt.up.fe;
 
+import pt.up.fe.sources.Source;
+
 public abstract class BaseClass {
     private String name;
     private String description;

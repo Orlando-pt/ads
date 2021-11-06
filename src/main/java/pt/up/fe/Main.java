@@ -11,6 +11,7 @@ public class Main {
 
             switch (selection) {
                 case 0:
+                    System.err.println("Bye bye, have a nice day.\n");
                     System.exit(0);
                     break;
                 case 1:

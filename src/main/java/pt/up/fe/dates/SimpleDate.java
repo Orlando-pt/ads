@@ -1,4 +1,4 @@
-package pt.up.fe.date;
+package pt.up.fe.dates;
 
 public class SimpleDate implements IDate{
     private Integer year;
