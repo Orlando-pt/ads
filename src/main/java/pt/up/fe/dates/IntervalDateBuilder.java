@@ -55,5 +55,11 @@ public class IntervalDateBuilder implements IBuilder{
         this.activeDate.setSecond(second);
         return this;
     }
-    
+    @Override
+    public IDate build() {
+        return new IntervalDate(
+            startDate,
+            endDate
+        );
+    }
 }

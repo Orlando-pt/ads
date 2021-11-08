@@ -9,4 +9,5 @@ public interface IBuilder {
     IBuilder setHour(int hour);
     IBuilder setMinute(int minute);
     IBuilder setSecond(int second);
+    IDate build();
 }

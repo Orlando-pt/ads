@@ -43,5 +43,8 @@ public class SimpleDateBuilder implements IBuilder{
         this.date.setSecond(second);
         return this;
     }
-    
+    @Override
+    public IDate build() {
+        return this.date;
+    }   
 }
