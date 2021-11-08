@@ -1,12 +1,18 @@
 package pt.up.fe;
 
+import pt.up.fe.person.Genre;
+import pt.up.fe.person.Person;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        List<Person> peopleList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Search for person \n....");
+            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Record a new person \n....");
             int selection = sc.nextInt();
 
             switch (selection) {
@@ -15,12 +21,51 @@ public class Main {
                     System.exit(0);
                     break;
                 case 1:
-                    // code block
+                    Person newPerson = createPerson(sc);
+                    peopleList.add(newPerson);
                     break;
                 default:
                     System.err.println("Invalid input.\n");
             }
         }
 
+    }
+
+    public static Person createPerson(Scanner sc) {
+        System.out.println("A new person if being created...");
+        Person person = new Person();
+        System.out.println("What is the the name of the person?");
+        String name = sc.nextLine();
+        person.setName(name);
+
+        int genre = 0;
+        while (genre != 1 || genre != 2) {
+            System.out.println("What is the genre of the person? \n 1 - Male \n 2 - Female");
+            genre = sc.nextInt();
+        }
+        person.setGenre(Genre.valueOf(genre));
+
+        System.out.println("Do you want to add description? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Enter the description wanted.");
+            String description = sc.nextLine();
+            person.setDescription(description);
+        }
+
+        System.out.println("Do you want to add source? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            int choiceSource = 0;
+            while (choiceSource != 1 || choiceSource != 2) {
+                System.out.println("Do you want to use a existent source (1) or a new one (2)?");
+                choiceSource = sc.nextInt();
+            }
+            if (choiceSource == 1) {
+                // Use Listing Function
+            } else {
+                // Use Create Function
+            }
+        }
+
+        return person;
     }
 }
