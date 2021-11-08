@@ -8,6 +8,8 @@ import pt.up.fe.places.Place;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public abstract class Event extends BaseClass {
     private Place place;
     private IDate date;
@@ -24,6 +26,16 @@ public abstract class Event extends BaseClass {
         this.placeRelations = new HashMap<>();
         this.specialPurposeFields = new HashMap<>();
 
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (Exception e) {
+            return ""; // TODO
+        }
     }
 
     public Place getPlace() {
