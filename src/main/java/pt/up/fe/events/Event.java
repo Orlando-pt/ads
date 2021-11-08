@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +21,7 @@ public abstract class Event extends BaseClass {
     private Map<String, Place> placeRelations;
     private Map<String, String> specialPurposeFields;
 
-    public Logger logger; 
+    public static Logger logger; 
 
     public Event(Place place, IDate date) {
         this.place = place;
@@ -30,11 +31,13 @@ public abstract class Event extends BaseClass {
         this.placeRelations = new HashMap<>();
         this.specialPurposeFields = new HashMap<>();
 
+        this.logger = initializeLogger();
     }
 
     @Override
     public String toString() {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         try {
             return mapper.writeValueAsString(this);
         } catch (Exception e) {
@@ -42,6 +45,8 @@ public abstract class Event extends BaseClass {
             return "";
         }
     }
+
+    public abstract Logger initializeLogger();
 
     public Place getPlace() {
         return place;
