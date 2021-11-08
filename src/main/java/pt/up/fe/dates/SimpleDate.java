@@ -1,6 +1,6 @@
 package pt.up.fe.dates;
 
-public class SimpleDate implements IDate{
+public class SimpleDate implements IDate {
     private Integer year;
     private Integer month;
     private Integer day;

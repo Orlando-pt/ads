@@ -1,4 +1,4 @@
-package pt.up.fe.Date;
+package pt.up.fe.dates;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

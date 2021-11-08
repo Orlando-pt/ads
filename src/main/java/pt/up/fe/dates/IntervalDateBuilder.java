@@ -1,7 +1,6 @@
 package pt.up.fe.dates;
 
-public class IntervalDateBuilder implements IBuilder{
-    
+public class IntervalDateBuilder implements IBuilder {
     private SimpleDate startDate;
     private SimpleDate endDate;
 
@@ -17,10 +16,10 @@ public class IntervalDateBuilder implements IBuilder{
 
     @Override
     public IBuilder switchDate() {
-        if (this.activeDate.equals(startDate)) 
+        if (this.activeDate.equals(startDate))
             this.activeDate = this.endDate;
-        else 
-        this.activeDate = this.startDate;
+        else
+            this.activeDate = this.startDate;
 
         return this;
     }
@@ -30,31 +29,37 @@ public class IntervalDateBuilder implements IBuilder{
         this.activeDate.setYear(year);
         return this;
     }
+
     @Override
     public IBuilder setMonth(int month) {
         this.activeDate.setMonth(month);
         return this;
     }
+
     @Override
     public IBuilder setDay(int day) {
         this.activeDate.setDay(day);
         return this;
     }
+
     @Override
     public IBuilder setHour(int hour) {
         this.activeDate.setHour(hour);
         return this;
     }
+
     @Override
     public IBuilder setMinute(int minute) {
         this.activeDate.setMinute(minute);
         return this;
     }
+
     @Override
     public IBuilder setSecond(int second) {
         this.activeDate.setSecond(second);
         return this;
     }
+
     @Override
     public IDate build() {
         return new IntervalDate(
