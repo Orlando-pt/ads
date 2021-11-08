@@ -1,7 +1,6 @@
 package pt.up.fe.events;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import pt.up.fe.places.Parish;
 import pt.up.fe.places.Place;
 
 public class EventTest {
-    
+
     @Test
     void testJsonParsingOfEvents() {
         /**
@@ -61,4 +60,5 @@ public class EventTest {
             jesusDeath.toString()
         );
     }
+
 }

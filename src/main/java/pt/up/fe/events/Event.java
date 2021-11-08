@@ -10,6 +10,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.logging.log4j.Logger;
+
 public abstract class Event extends BaseClass {
     private Place place;
     private IDate date;
@@ -17,6 +19,8 @@ public abstract class Event extends BaseClass {
     private Map<String, IDate> dateRelations;
     private Map<String, Place> placeRelations;
     private Map<String, String> specialPurposeFields;
+
+    public Logger logger; 
 
     public Event(Place place, IDate date) {
         this.place = place;
@@ -34,7 +38,8 @@ public abstract class Event extends BaseClass {
         try {
             return mapper.writeValueAsString(this);
         } catch (Exception e) {
-            return ""; // TODO
+            logger.error("Error parsing Event.", e);
+            return "";
         }
     }
 
