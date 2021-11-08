@@ -6,15 +6,15 @@ import pt.up.fe.events.Event;
 import java.util.List;
 
 public class Person extends BaseClass {
-    private Genre genre;
+    private Gender gender;
     private List<Event> events;
 
-    public Genre getGenre() {
-        return genre;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public List<Event> getEvents() {
@@ -27,5 +27,14 @@ public class Person extends BaseClass {
 
     public void removeEvent(Event event) {
         this.events.remove(event);
+    }
+
+    @Override
+    public String toString() {
+        return "Name - " + this.getName() +
+                "\nGender - " + gender +
+                "\nEvents - \n" + events +
+                "\n Description - " + this.getDescription() +
+                "\n Source - " + this.getSource();
     }
 }

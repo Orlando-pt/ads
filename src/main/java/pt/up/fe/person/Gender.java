@@ -3,24 +3,24 @@ package pt.up.fe.person;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Genre {
+public enum Gender {
     MALE(1), FEMALE(2);
 
     private int value;
     private static Map map = new HashMap<>();
 
-    Genre(int value) {
+    Gender(int value) {
         this.value = value;
     }
 
     static {
-        for (Genre genre : Genre.values()) {
-            map.put(genre.value, genre);
+        for (Gender gender : Gender.values()) {
+            map.put(gender.value, gender);
         }
     }
 
-    public static Genre valueOf(int genre) {
-        return (Genre) map.get(genre);
+    public static Gender valueOf(int gender) {
+        return (Gender) map.get(gender);
     }
 }
 
