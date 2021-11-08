@@ -1,6 +1,6 @@
 package pt.up.fe.dates;
 
-public class IntervalDate implements IDate{
+public class IntervalDate implements IDate {
     private SimpleDate startDate;
     private SimpleDate endDate;
 
