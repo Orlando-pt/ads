@@ -1,6 +1,6 @@
 package pt.up.fe.dates;
 
-public class SimpleDate implements IDate{
+public class SimpleDate implements IDate {
     private Integer year;
     private Integer month;
     private Integer day;
@@ -66,5 +66,60 @@ public class SimpleDate implements IDate{
                 ", minute=" + minute +
                 ", second=" + second +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((day == null) ? 0 : day.hashCode());
+        result = prime * result + ((hour == null) ? 0 : hour.hashCode());
+        result = prime * result + ((minute == null) ? 0 : minute.hashCode());
+        result = prime * result + ((month == null) ? 0 : month.hashCode());
+        result = prime * result + ((second == null) ? 0 : second.hashCode());
+        result = prime * result + ((year == null) ? 0 : year.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SimpleDate other = (SimpleDate) obj;
+        if (day == null) {
+            if (other.day != null)
+                return false;
+        } else if (!day.equals(other.day))
+            return false;
+        if (hour == null) {
+            if (other.hour != null)
+                return false;
+        } else if (!hour.equals(other.hour))
+            return false;
+        if (minute == null) {
+            if (other.minute != null)
+                return false;
+        } else if (!minute.equals(other.minute))
+            return false;
+        if (month == null) {
+            if (other.month != null)
+                return false;
+        } else if (!month.equals(other.month))
+            return false;
+        if (second == null) {
+            if (other.second != null)
+                return false;
+        } else if (!second.equals(other.second))
+            return false;
+        if (year == null) {
+            if (other.year != null)
+                return false;
+        } else if (!year.equals(other.year))
+            return false;
+        return true;
     }
 }
