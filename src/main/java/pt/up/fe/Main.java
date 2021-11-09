@@ -2,13 +2,11 @@ package pt.up.fe;
 
 import pt.up.fe.dates.IBuilder;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dates.SimpleDateBuilder;
 import pt.up.fe.events.*;
 import pt.up.fe.places.Place;
 import pt.up.fe.places.PlaceBuilder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -53,33 +51,30 @@ public class Main {
     }
 
     public static Event newEventInstance(String event, Scanner sc) {
-        Place place = null;
-        IDate date = null;
-
         switch (event.toLowerCase()) {
             case "birth":
                 EventCreator birthCreator = new BirthCreator();
-                return populateBirthEvent(birthCreator.createEvent(place, date), sc);
+                return populateBirthEvent(birthCreator.createEvent(), sc);
             case "death":
                 EventCreator deathCreator = new DeathCreator();
-                return deathCreator.createEvent(place, date);
+                return deathCreator.createEvent();
             case "emigration":
                 EventCreator emigrationCreator = new EmigrationCreator();
-                return emigrationCreator.createEvent(place, date);
+                return emigrationCreator.createEvent();
             case "marriage":
                 EventCreator marriageCreator = new MarriageCreator();
-                return marriageCreator.createEvent(place, date);
+                return marriageCreator.createEvent();
             case "residence":
                 EventCreator residenceCreator = new ResidenceCreator();
-                return residenceCreator.createEvent(place, date);
+                return residenceCreator.createEvent();
             default:
                 EventCreator customCreator = new CustomCreator(event);
-                return customCreator.createEvent(place, date);
+                return customCreator.createEvent();
         }
     }
 
     public static Event populateBirthEvent(Event birthEvent, Scanner sc) {
-        System.out.println("--- Birth Event ---");
+        System.out.println("--- Birth Event ---"1);
         System.out.println("\nMaternity:");
         String maternity = sc.nextLine() + sc.nextLine();
         birthEvent.addSpecialPurposeField("Maternity", maternity);

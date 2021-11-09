@@ -5,7 +5,7 @@ import pt.up.fe.places.Place;
 
 public class MarriageCreator extends EventCreator{
     @Override
-    public Event createEvent(Place place, IDate date) {
-        return new Marriage(place, date);
+    public Event createEvent() {
+        return new Marriage();
     }
 }

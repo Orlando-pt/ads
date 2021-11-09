@@ -11,7 +11,7 @@ public class CustomCreator extends EventCreator {
     }
 
     @Override
-    public Event createEvent(Place place, IDate date) {
-        return new CustomEvent(place, date, this.event);
+    public Event createEvent() {
+        return new CustomEvent(this.event);
     }
 }
