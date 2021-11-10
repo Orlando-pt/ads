@@ -11,6 +11,7 @@ import pt.up.fe.events.*;
 
 import pt.up.fe.places.Place;
 import pt.up.fe.places.PlaceBuilder;
+import pt.up.fe.sources.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +53,64 @@ public class Main {
             }
         }
     }
+
+    public static Source createSource(Scanner sc) {
+        // Menu logic
+        List<String> sourceTypes = Arrays.asList("Book", "HistoricalRecord", "OnlineResource", "OrallyTransmitted", "Custom");
+        System.out.println("What type of source do you want to create?");
+        sourceTypes.forEach(type -> {
+            System.out.println(String.format("%s - %s", sourceTypes.indexOf(type), type));
+        });
+        int chosenSource = sc.nextInt();
+
+        if (chosenSource < 0 || chosenSource > sourceTypes.toArray().length - 1) {
+            System.err.println("Invalid input.\n");
+            System.exit(0);
+        }
+
+        return newSourceInstance(sourceTypes.get(chosenSource), sc);
+    }
+
+    public static Source newSourceInstance(String source, Scanner sc) {
+        System.out.println("What is the the name of the source?");
+        String name = sc.nextLine();
+
+        switch (source.toLowerCase()) {
+            case "book":
+                return new Book(name);
+            case "historicalrecord":
+                return new HistoricalRecord(name);
+            case "onlineresource":
+                OnlineResource onlineResource =  new OnlineResource(name);
+                return populateOnlineResource(onlineResource, sc);
+            case "orallytransmitted":
+                return new OrallyTransmitted(name);
+            default:
+                return new CustomSource(name);
+        }
+    }
+
+    public static OnlineResource populateOnlineResource(OnlineResource onlineResource, Scanner sc) {
+        System.out.println("--- Online Resource Source ---");
+
+        while (true){
+            System.out.println("Do you want to add authors? (Y to add)");
+            if(!sc.nextLine().equalsIgnoreCase("Y"))
+                break;
+
+            System.out.println("\nInsert Author:");
+            onlineResource.addAuthor(sc.nextLine());
+        }
+
+        System.out.println("Do you want to add link? (Y to add)");
+        if(sc.nextLine().equalsIgnoreCase("Y")){
+            System.out.println("\nInsert Link:");
+            onlineResource.setLink(sc.nextLine());
+        }
+
+        return onlineResource;
+    }
+
 
     public static Event createEvent(Scanner sc) {
         // Menu logic
@@ -283,7 +342,9 @@ public class Main {
         if (choiceSource == 1) {
             // TODO Use Listing Function
         } else {
-            // TODO Use Create Function
+            Source source = createSource(sc);
+            person.setSource(source);
+            System.out.println("Source added to person");
         }
     }
 

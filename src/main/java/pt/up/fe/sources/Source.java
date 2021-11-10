@@ -35,7 +35,21 @@ public abstract class Source {
         return authors;
     }
 
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
+    public void addAuthor(String author) {
+        this.authors.add(author);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("\n Name: " + this.getName());
+        sBuilder.append("\n Date Of Publication: " + this.getDateOfPublication());
+
+        sBuilder.append("\n Authors: ");
+        for (String author : this.getAuthors()) {
+            sBuilder.append("\n" + author);
+        }
+
+        return sBuilder.toString();
     }
 }

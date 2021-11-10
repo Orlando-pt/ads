@@ -14,4 +14,13 @@ public class OnlineResource extends Source {
     public void setLink(String link) {
         this.link = link;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Source type: " + this.getClass().getSimpleName());
+        sBuilder.append(super.toString());
+        sBuilder.append("\n Link: " + this.getLink());
+        return sBuilder.toString();
+    }
 }
