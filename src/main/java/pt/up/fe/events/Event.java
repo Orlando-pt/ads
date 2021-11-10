@@ -1,7 +1,7 @@
 package pt.up.fe.events;
 
 import pt.up.fe.BaseClass;
-import pt.up.fe.Person;
+import pt.up.fe.person.Person;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.places.Place;
 

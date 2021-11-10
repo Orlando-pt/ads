@@ -1,22 +1,31 @@
 package pt.up.fe;
 
+import pt.up.fe.person.Gender;
+import pt.up.fe.person.Person;
+
 import pt.up.fe.dates.IBuilder;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDateBuilder;
+
 import pt.up.fe.events.*;
+
 import pt.up.fe.places.Place;
 import pt.up.fe.places.PlaceBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        List<Person> peopleList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Create Event \n....");
+            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Record a new person \n 2 - Create Event....");
+
             int selection = sc.nextInt();
+            sc.nextLine();
 
             switch (selection) {
                 case 0:
@@ -24,8 +33,16 @@ public class Main {
                     System.exit(0);
                     break;
                 case 1:
+                    Person newPerson = createPerson(sc);
+                    peopleList.add(newPerson);
+
+                    System.out.println("You've created a new Person:\n" + newPerson);
+
+                    break;
+                case 2:
                     Event newEvent = createEvent(sc);
                     System.out.println(newEvent.toString());
+
                     break;
                 default:
                     System.err.println("Invalid input.\n");
@@ -113,7 +130,7 @@ public class Main {
         System.out.println("\nNote: You have to define they key values that you want.");
 
         Boolean counter = true;
-        while(counter) {
+        while (counter) {
             System.out.println("\nWhat kind of date you want to create?");
             System.out.println("Key: ");
             String key = sc.nextLine();
@@ -147,14 +164,14 @@ public class Main {
 
     public static IDate createDate(Scanner sc) {
         int typeOfDate = 0;
-        while(typeOfDate != 1 && typeOfDate != 2) {
+        while (typeOfDate != 1 && typeOfDate != 2) {
             System.out.println("What kind of date you want to create?");
             System.out.println("1 - Simple Date");
             System.out.println("2 - Interval Date");
             typeOfDate = sc.nextInt();
         }
 
-        if(typeOfDate == 1) {
+        if (typeOfDate == 1) {
             IBuilder dateBuilder = new SimpleDateBuilder().reset();
 
             System.out.println("--- Simple Date constructor ---");
@@ -178,5 +195,54 @@ public class Main {
         // TODO: Implement interval date, create function with above logic and reuse twice
 
         return null;
+    }
+
+    public static Person createPerson(Scanner sc) {
+        System.out.println("A new person if being created...");
+        Person person = new Person();
+
+        String name = new String();
+
+        while (name.isEmpty()) {
+            System.out.println("What is the the name of the person?");
+            name = sc.nextLine();
+        }
+        person.setName(name);
+
+        int gender = 0;
+        List<Gender> genderTypes = List.of(Gender.values());
+        while (gender < 1 && gender > genderTypes.size()) {
+            System.out.println("What is the gender of the person?");
+            genderTypes.forEach(type -> {
+                System.out.println(String.format("\n %s - %s", genderTypes.indexOf(type) + 1, type));
+            });
+            gender = sc.nextInt();
+            sc.nextLine();
+        }
+        person.setGender(Gender.valueOf(gender));
+
+        System.out.println("Do you want to add description? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Enter the description wanted.");
+            String description = sc.nextLine();
+            person.setDescription(description);
+        }
+
+        System.out.println("Do you want to add source? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            int choiceSource = 0;
+            while (choiceSource != 1 && choiceSource != 2) {
+                System.out.println("Do you want to use a existent source (1) or a new one (2)?");
+                choiceSource = sc.nextInt();
+                sc.nextLine();
+            }
+            if (choiceSource == 1) {
+                // TODO Use Listing Function
+            } else {
+                // TODO Use Create Function
+            }
+        }
+
+        return person;
     }
 }
