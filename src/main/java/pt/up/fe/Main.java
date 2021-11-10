@@ -202,7 +202,7 @@ public class Main {
 
     public static void displayPeople(Scanner sc, List<Person> peopleList) {
         peopleList.forEach(person -> {
-            System.out.println(String.format("%s - %s", peopleList.indexOf(person) + 1, person));
+            System.out.println(String.format("%s - %s \n", peopleList.indexOf(person) + 1, person));
         });
 
         System.out.println("Do you want to edit a person? (Y to edit)");
