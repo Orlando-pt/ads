@@ -25,6 +25,7 @@ public class Main {
             System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Record a new person \n 2 - Create Event....");
 
             int selection = sc.nextInt();
+            sc.nextLine();
 
             switch (selection) {
                 case 0:
@@ -34,6 +35,8 @@ public class Main {
                 case 1:
                     Person newPerson = createPerson(sc);
                     peopleList.add(newPerson);
+
+                    System.out.println("You've created a new Person:\n" + newPerson);
 
                     break;
                 case 2:
@@ -127,7 +130,7 @@ public class Main {
         System.out.println("\nNote: You have to define they key values that you want.");
 
         Boolean counter = true;
-        while(counter) {
+        while (counter) {
             System.out.println("\nWhat kind of date you want to create?");
             System.out.println("Key: ");
             String key = sc.nextLine();
@@ -161,14 +164,14 @@ public class Main {
 
     public static IDate createDate(Scanner sc) {
         int typeOfDate = 0;
-        while(typeOfDate != 1 && typeOfDate != 2) {
+        while (typeOfDate != 1 && typeOfDate != 2) {
             System.out.println("What kind of date you want to create?");
             System.out.println("1 - Simple Date");
             System.out.println("2 - Interval Date");
             typeOfDate = sc.nextInt();
         }
 
-        if(typeOfDate == 1) {
+        if (typeOfDate == 1) {
             IBuilder dateBuilder = new SimpleDateBuilder().reset();
 
             System.out.println("--- Simple Date constructor ---");
@@ -197,14 +200,24 @@ public class Main {
     public static Person createPerson(Scanner sc) {
         System.out.println("A new person if being created...");
         Person person = new Person();
-        System.out.println("What is the the name of the person?");
-        String name = sc.nextLine();
+
+        String name = new String();
+
+        while (name.isEmpty()) {
+            System.out.println("What is the the name of the person?");
+            name = sc.nextLine();
+        }
         person.setName(name);
 
         int gender = 0;
-        while (gender != 1 || gender != 2) {
-            System.out.println("What is the gender of the person? \n 1 - Male \n 2 - Female");
+        List<Gender> genderTypes = List.of(Gender.values());
+        while (gender < 1 && gender > genderTypes.size()) {
+            System.out.println("What is the gender of the person?");
+            genderTypes.forEach(type -> {
+                System.out.println(String.format("\n %s - %s", genderTypes.indexOf(type) + 1, type));
+            });
             gender = sc.nextInt();
+            sc.nextLine();
         }
         person.setGender(Gender.valueOf(gender));
 
@@ -221,11 +234,12 @@ public class Main {
             while (choiceSource != 1 && choiceSource != 2) {
                 System.out.println("Do you want to use a existent source (1) or a new one (2)?");
                 choiceSource = sc.nextInt();
+                sc.nextLine();
             }
             if (choiceSource == 1) {
-                // Use Listing Function
+                // TODO Use Listing Function
             } else {
-                // Use Create Function
+                // TODO Use Create Function
             }
         }
 
