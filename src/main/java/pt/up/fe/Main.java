@@ -22,11 +22,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         List<Person> peopleList = new ArrayList<>();
+        List<Source> sourcesList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         while (true) {
 
-            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Record a new person " +
-                    "\n 2 - Display people on the system\n  3 - Create Event \n");
+            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Create Person " +
+                    "\n 2 - List people \n  3 - Create Event \n 4 - Create Source \n 5 - List Sources");
 
             int selection = sc.nextInt();
             sc.nextLine();
@@ -37,7 +38,7 @@ public class Main {
                     System.exit(0);
                     break;
                 case 1:
-                    Person newPerson = createPerson(sc);
+                    Person newPerson = createPerson(sc, sourcesList);
                     peopleList.add(newPerson);
                     System.out.println("You've created a new Person:\n" + newPerson);
                     break;
@@ -48,10 +49,23 @@ public class Main {
                     Event newEvent = createEvent(sc);
                     System.out.println(newEvent.toString());
                     break;
+                case 4:
+                    Source newSource = createSource(sc);
+                    System.out.println(newSource.toString());
+                    break;
+                case 5:
+                    displaySources(sc, sourcesList);
+                    break;
                 default:
                     System.err.println("Invalid input.\n");
             }
         }
+    }
+
+    public static void displaySources(Scanner sc, List<Source> sourcesList) {
+        sourcesList.forEach(source -> {
+            System.out.println(String.format("%s - %s \n", sourcesList.indexOf(source) + 1, source));
+        });
     }
 
     public static Source createSource(Scanner sc) {
@@ -68,7 +82,9 @@ public class Main {
             System.exit(0);
         }
 
-        return newSourceInstance(sourceTypes.get(chosenSource), sc);
+        Source newSource = newSourceInstance(sourceTypes.get(chosenSource), sc);
+
+        return newSource;
     }
 
     public static Source newSourceInstance(String source, Scanner sc) {
@@ -81,7 +97,7 @@ public class Main {
             case "historicalrecord":
                 return new HistoricalRecord(name);
             case "onlineresource":
-                OnlineResource onlineResource =  new OnlineResource(name);
+                OnlineResource onlineResource = new OnlineResource(name);
                 return populateOnlineResource(onlineResource, sc);
             case "orallytransmitted":
                 return new OrallyTransmitted(name);
@@ -93,9 +109,9 @@ public class Main {
     public static OnlineResource populateOnlineResource(OnlineResource onlineResource, Scanner sc) {
         System.out.println("--- Online Resource Source ---");
 
-        while (true){
+        while (true) {
             System.out.println("Do you want to add authors? (Y to add)");
-            if(!sc.nextLine().equalsIgnoreCase("Y"))
+            if (!sc.nextLine().equalsIgnoreCase("Y"))
                 break;
 
             System.out.println("\nInsert Author:");
@@ -103,7 +119,7 @@ public class Main {
         }
 
         System.out.println("Do you want to add link? (Y to add)");
-        if(sc.nextLine().equalsIgnoreCase("Y")){
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
             System.out.println("\nInsert Link:");
             onlineResource.setLink(sc.nextLine());
         }
@@ -278,7 +294,8 @@ public class Main {
     }
 
     public static void editPerson(Scanner sc, Person person) {
-        editPersonLoop: while (true) {
+        editPersonLoop:
+        while (true) {
             System.out.println(String.format("Editing Person: \n %s", person));
             System.out.println("What do you want to edit?\n 0 - Leave \n 1 - Name\n 2 - Gender \n 3 - Description \n " +
                     "4 - Source");
@@ -333,14 +350,22 @@ public class Main {
         person.setGender(Gender.valueOf(gender));
     }
 
-    public static void enterPersonSource(Scanner sc, Person person) {
+    public static void enterPersonSource(Scanner sc, Person person, List<Source> sourcesList) {
         int choiceSource = 0;
         while (choiceSource != 1 && choiceSource != 2) {
             System.out.println("Do you want to use a existent source (1) or a new one (2)?");
             choiceSource = sc.nextInt();
+            sc.nextLine();
         }
         if (choiceSource == 1) {
-            // TODO Use Listing Function
+            displaySources(sc, sourcesList);
+            System.out.println("What is the source of the person? (if invalid is ignored)");
+            int choiceSourcePerson = sc.nextInt() - 1;
+            sc.nextLine();
+            if (choiceSourcePerson > 0 && choiceSourcePerson < sourcesList.size()) {
+                person.setSource(sourcesList.get(choiceSource));
+            }
+
         } else {
             Source source = createSource(sc);
             person.setSource(source);
@@ -348,7 +373,7 @@ public class Main {
         }
     }
 
-    public static Person createPerson(Scanner sc) {
+    public static Person createPerson(Scanner sc, List<Source> sourcesList) {
         System.out.println("A new person is being created...");
         Person person = new Person();
         enterPersonName(sc, person);
@@ -362,7 +387,7 @@ public class Main {
 
         System.out.println("Do you want to add source? (Y to add)");
         if (sc.nextLine().equalsIgnoreCase("Y")) {
-            enterPersonSource(sc, person);
+            enterPersonSource(sc, person, sourcesList);
         }
 
         return person;
