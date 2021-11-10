@@ -7,6 +7,11 @@ public class CSVTemplateMethod extends ExportTemplateMethod {
     }
 
     @Override
+    public void writeOnFile() {
+        //do something
+    }
+
+    @Override
     public void closeFile() {
         //do something
     }
