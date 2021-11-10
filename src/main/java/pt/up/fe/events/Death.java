@@ -4,8 +4,7 @@ import pt.up.fe.dates.IDate;
 import pt.up.fe.places.Place;
 
 public class Death extends Event {
-    public Death(Place place, IDate date) {
-        super(place, date);
+    public Death() {
         this.setName(this.getClass().getSimpleName());
     }
 }
