@@ -16,9 +16,7 @@ public abstract class Event extends BaseClass {
     private Map<String, Place> placeRelations;
     private Map<String, String> specialPurposeFields;
 
-    public Event(Place place, IDate date) {
-        this.place = place;
-        this.date = date;
+    public Event() {
         this.peopleRelations = new HashMap<>();
         this.dateRelations = new HashMap<>();
         this.placeRelations = new HashMap<>();
