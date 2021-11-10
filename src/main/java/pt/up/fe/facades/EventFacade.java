@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import pt.up.fe.Person;
+import pt.up.fe.person.Person;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.events.Birth;
 import pt.up.fe.events.CustomEvent;

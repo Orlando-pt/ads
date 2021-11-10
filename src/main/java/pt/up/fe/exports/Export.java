@@ -1,6 +1,6 @@
 package pt.up.fe.exports;
 
-import pt.up.fe.Person;
+import pt.up.fe.person.Person;
 import pt.up.fe.events.Event;
 
 import java.util.List;
