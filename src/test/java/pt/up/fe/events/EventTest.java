@@ -20,16 +20,16 @@ public class EventTest {
         date.setMonth(12);
         date.setYear(2020);
 
-        Place nazare = new Parish("Nazaré", 0d, 0d, 1d);
+        Place nazare = new Parish("Nazaré");
 
-        Event jesusBirth = new Birth(
-            nazare,
-            date
-        );
+        Event jesusBirth = new Birth();
+        jesusBirth.setDate(date);
+        jesusBirth.setPlace(nazare);
 
-        String expectedResult = "{\"name\":\"Birth\",\"description\":null,\"source\":null,\"place\":{\"name\":\"Nazaré\",\"description" + 
-        "\":null,\"source\":null,\"latitude\":0.0,\"longitude\":0.0,\"area\":1.0,\"composite\":false},\"date\":{\"year\":2020,\"month\":12,\"day\":25,\"hour\":null," + 
-        "\"minute\":null,\"second\":null},\"peopleRelations\":{},\"dateRelations\":{},\"placeRelations\":{},\"specialPurposeFields\":{}}";
+        String expectedResult = "{\"name\":\"Birth\",\"description\":null,\"source\":null,\"place\":{\"name\":\"Nazaré\",\"description\"" + 
+        ":null,\"source\":null,\"latitude\":null,\"longitude\":null,\"altitude\":null,\"area\":0.0,\"composite\":false},\"date\"" +
+        ":{\"year\":2020,\"month\":12,\"day\":25,\"hour\":null,\"minute\":null,\"second\":null},\"peopleRelations\":{},\"dateRelations\":{},\"placeRelations\"" +
+        ":{},\"specialPurposeFields\":{}}";
 
         assertEquals(
             expectedResult,
@@ -44,16 +44,16 @@ public class EventTest {
         dateOfDeath.setMonth(12);
         dateOfDeath.setYear(2020);
 
-        Place jerusalem = new Parish("Jerusalem", 1d, 1d, 2d);
+        Place jerusalem = new Parish("Jerusalem");
 
-        Event jesusDeath = new Death(
-            jerusalem,
-            dateOfDeath
-        );
+        Event jesusDeath = new Death();
+        jesusDeath.setDate(dateOfDeath);
+        jesusDeath.setPlace(jerusalem);
 
-        String expectedResultDeath = "{\"name\":\"Death\",\"description\":null,\"source\":null,\"place\":{\"name\":\"Jerusalem\",\"description" + 
-        "\":null,\"source\":null,\"latitude\":1.0,\"longitude\":1.0,\"area\":2.0,\"composite\":false},\"date\":{\"year\":2020,\"month\":12,\"day\":26,\"hour\":null," + 
-        "\"minute\":null,\"second\":null},\"peopleRelations\":{},\"dateRelations\":{},\"placeRelations\":{},\"specialPurposeFields\":{}}";
+        String expectedResultDeath = "{\"name\":\"Death\",\"description\":null,\"source\":null,\"place\":{\"name\":\"Jerusalem\",\"description\"" + 
+        ":null,\"source\":null,\"latitude\":null,\"longitude\":null,\"altitude\":null,\"area\":0.0,\"composite\":false},\"date\"" +
+        ":{\"year\":2020,\"month\":12,\"day\":26,\"hour\":null,\"minute\":null,\"second\":null},\"peopleRelations\":{},\"dateRelations\":{},\"placeRelations\"" +
+        ":{},\"specialPurposeFields\":{}}";
 
         assertEquals(
             expectedResultDeath,

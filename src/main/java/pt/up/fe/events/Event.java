@@ -29,7 +29,7 @@ public abstract class Event extends BaseClass {
         this.placeRelations = new HashMap<>();
         this.specialPurposeFields = new HashMap<>();
 
-        this.logger = initializeLogger();
+        logger = initializeLogger();
     }
 
     @Override
