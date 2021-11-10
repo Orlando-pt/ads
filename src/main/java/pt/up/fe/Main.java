@@ -69,12 +69,12 @@ public class Main {
                 return residenceCreator.createEvent();
             default:
                 EventCreator customCreator = new CustomCreator(event);
-                return customCreator.createEvent();
+                return populateCustomEvent(customCreator.createEvent(), sc);
         }
     }
 
     public static Event populateBirthEvent(Event birthEvent, Scanner sc) {
-        System.out.println("--- Birth Event ---"1);
+        System.out.println("--- Birth Event ---");
         System.out.println("\nMaternity:");
         String maternity = sc.nextLine() + sc.nextLine();
         birthEvent.addSpecialPurposeField("Maternity", maternity);
@@ -105,6 +105,27 @@ public class Main {
         birthEvent.setDescription(sc.nextLine());
 
         return birthEvent;
+    }
+
+    public static Event populateCustomEvent(Event customEvent, Scanner sc) {
+        sc.nextLine();
+        System.out.println("--- Custom Event ---");
+        System.out.println("\nNote: You have to define they key values that you want.");
+
+        Boolean counter = true;
+        while(counter) {
+            System.out.println("\nWhat kind of date you want to create?");
+            System.out.println("Key: ");
+            String key = sc.nextLine();
+            System.out.println("Value");
+            String value = sc.nextLine();
+            customEvent.addSpecialPurposeField(key, value);
+
+            System.out.println("\n--- Do you wanna continue (Y) or wanna stop (N)? ---");
+            counter = sc.nextLine().equalsIgnoreCase("Y");
+        }
+
+        return customEvent;
     }
 
     public static Place choosePlace() {
