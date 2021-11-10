@@ -20,5 +20,7 @@ public abstract class ExportTemplateMethod {
 
     public abstract void openFile();
 
+    public abstract void writeOnFile();
+
     public abstract void closeFile();
 }
