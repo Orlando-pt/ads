@@ -26,8 +26,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         while (true) {
 
-            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Create Person " +
-                    "\n 2 - List people \n  3 - Create Event \n 4 - Create Source \n 5 - List Sources");
+            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Create Person" +
+                    "\n 2 - List people\n 3 - Create Event\n 4 - Create Source\n 5 - List Sources");
 
             int selection = sc.nextInt();
             sc.nextLine();
@@ -52,6 +52,7 @@ public class Main {
                 case 4:
                     Source newSource = createSource(sc);
                     System.out.println(newSource.toString());
+                    sourcesList.add(newSource);
                     break;
                 case 5:
                     displaySources(sc, sourcesList);
@@ -76,6 +77,7 @@ public class Main {
             System.out.println(String.format("%s - %s", sourceTypes.indexOf(type), type));
         });
         int chosenSource = sc.nextInt();
+        sc.nextLine();
 
         if (chosenSource < 0 || chosenSource > sourceTypes.toArray().length - 1) {
             System.err.println("Invalid input.\n");
@@ -368,6 +370,7 @@ public class Main {
 
         } else {
             Source source = createSource(sc);
+            sourcesList.add(source);
             person.setSource(source);
             System.out.println("Source added to person");
         }
