@@ -12,7 +12,7 @@ The main functionalities of the program implemented already without GUI are:
 # Introduction
 At this document it will be explained what was the process to develop this platform. This software system helps to support the work of historians and individual genealogy researchers by storing data related to individuals, their relations, and other important kinds of information.
 
-# Goals
+<!-- # Goals -->
 
 # The Design
 
@@ -65,16 +65,27 @@ As far as implementation is concerned, we had to create a abstract class **Place
 
 ---
 
-## Solving The Insertion Of Locations
+## Solving Exporting/Loading Data In Different Formats
+And now, how do we export, for instance the locations, in different formats?
 
 ### Problem In Context
+It was required to **load and save** data using **different formats** (e.g. CSV, XML, GEDCOM) and having in mind that new export formats should be easy to add.
 
 ### Design Problem To Solve
+The problem here was that not only would we need to use **many strategies** at a time to load or save data, but also that **some of the steps** required to do this will be **shared among all strategies**.
 
 ### The Pattern
+To solve this problem, a mix of the **Strategy Pattern** and **Template Method Pattern** was used. It was used the **Strategy Pattern** in the sense that there are **various strategies** in place to load or save data in various formats which follow a **common interface**. With this, it is only necessary to **choose a strategy before using the same methods**, regardless of the strategy type. The Template Method Pattern was introduced to keep some of the data processing that all strategies follow in a common place. With this, these methods stay in the abstract class letting the specific work to be implemented by each strategy.
 
 ### Implementation
 
-<img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+<img src="images/class-Export.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+
+Since most of the steps are located on the abstract class, this implementation is more of a Template Method Pattern than a Strategy Pattern.
 
 ### Consequences
+- Positive consequences:
+    - By using this approach, not only is it possible to **add new support** for new types of files but also gives the freedom to the program to **switch between different strategies** of exporting or loading, just like it is necessary.
+    - We are effectively **deleting repeated code** by putting it in abstract class.
+- Negative consequences:
+    - If the use of a specific type of file needs more steps than the general ones defined, it may need to join more than one step at the same method since we are limiting the structure of an algorithm.
