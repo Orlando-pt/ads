@@ -2,9 +2,7 @@ package pt.up.fe.facades;
 
 import java.util.Scanner;
 
-import pt.up.fe.dates.IBuilder;
-import pt.up.fe.dates.IDate;
-import pt.up.fe.dates.SimpleDateBuilder;
+import pt.up.fe.dates.*;
 
 public class DateFacade {
     public static IDate createDate(Scanner sc) {
@@ -14,31 +12,69 @@ public class DateFacade {
             System.out.println("1 - Simple Date");
             System.out.println("2 - Interval Date");
             typeOfDate = sc.nextInt();
+            sc.nextLine();
         }
 
         if(typeOfDate == 1) {
-            IBuilder dateBuilder = new SimpleDateBuilder().reset();
-
             System.out.println("--- Simple Date constructor ---");
-            System.out.println("Year: ");
-            dateBuilder.setYear(sc.nextInt());
-            System.out.println("Month: ");
-            dateBuilder.setMonth(sc.nextInt());
-            System.out.println("Day: ");
-            dateBuilder.setDay(sc.nextInt());
-            System.out.println("Hour: ");
-            dateBuilder.setHour(sc.nextInt());
-            System.out.println("Minute: ");
-            dateBuilder.setMinute(sc.nextInt());
-            System.out.println("Second: ");
-            dateBuilder.setSecond(sc.nextInt());
-            System.out.println("... \n");
-
-            return dateBuilder.build();
+            return createSimpleDate(sc);
         }
 
-        // TODO: Implement interval date, create function with above logic and reuse twice
+        System.out.println("\n--- Date 1 ---");
+        IDate date1 = createSimpleDate(sc);
+        System.out.println("\n--- Date 2 --- ");
+        IDate date2 = createSimpleDate(sc);
 
-        return null;
+        return new IntervalDate((SimpleDate) date1, (SimpleDate) date2);
+    }
+
+    public static IDate createSimpleDate(Scanner sc) {
+        IBuilder dateBuilder = new SimpleDateBuilder().reset();
+
+        System.out.println("\nDo you want to add Year? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Year: ");
+            dateBuilder.setYear(sc.nextInt());
+            sc.nextLine();
+        }
+
+        System.out.println("\nDo you want to add Month? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Month: ");
+            dateBuilder.setMonth(sc.nextInt());
+            sc.nextLine();
+        }
+
+        System.out.println("\nDo you want to add Day? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Day: ");
+            dateBuilder.setDay(sc.nextInt());
+            sc.nextLine();
+        }
+
+        System.out.println("\nDo you want to add Hour? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Hour: ");
+            dateBuilder.setHour(sc.nextInt());
+            sc.nextLine();
+        }
+
+        System.out.println("\nDo you want to add Minute? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Minute: ");
+            dateBuilder.setMinute(sc.nextInt());
+            sc.nextLine();
+        }
+
+        System.out.println("\nDo you want to add Second? (Y to add)");
+        if (sc.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("Second: ");
+            dateBuilder.setSecond(sc.nextInt());
+            sc.nextLine();
+        }
+
+        System.out.println("... \n");
+
+        return dateBuilder.build();
     }
 }
