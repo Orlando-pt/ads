@@ -1,6 +1,6 @@
 # Report
 
-# Functionalities Made Until Date
+# Functionalities Made So Far
 The main functionalities of the program implemented already without GUI are:
 - Allow record of **places**
 - Allow record of **dates**
@@ -36,4 +36,45 @@ For the implementation of the builder pattern, we created an interface **Ibuilde
 ### Consequences
 One of the consequences of the builder is that it doesn’t allow other objects to access the date while it’s being built and for this use case it doesn’t matter so we didn’t identify any other problem.
 
+---
+
 ## Solving The Insertion Of Locations
+Finding a structured way to store locations was also something we had to look into. We explain the process below.
+
+### Problem In Context
+The problem is finding a structured way to **save locations**. These locations have the particularity that they can be **contained** within other locations or themselves contain thirds. For example, the district Porto is a location. Porto contains countys like Porto itself, Amarante, Felgueiras, Vila Nova de Gaia, etc. This countys are also locations and they can have other locations inside them.
+
+### Design Problem To Solve
+Therefore, what needs to be resolved is this way of structuring locations so that districts can contain counties, counties can contain parishes, and in the end, everything that was listed above has to be called by location.
+
+### The Pattern
+The problem that was described above can be visually transcribed to a **tree structure** where there are parent locations that give rise to child locations. The pattern that allows the implementation of such structures is the **Composite Pattern**. This pattern is the best ally of this kind of tree structures so it was the one we chose to solve the location problem.
+
+### Implementation
+As far as implementation is concerned, we had to create a abstract class **Place** that has similar attributes to the different types of locations (latitude, longitude, area). This class plays the role of **Component** within what is estipulated by the **Composite Pattern**. Next we created, the **CompoundPlace** class which **extends Place** and plays the role of **Composite**. This *Composite* schematizes the case of locations such as Porto that contains other locations and therefore need some way to aggregate others. The composite will allow this. It will have a list with all the children locations, all of them of the **Place** type. Which means that we can either add final locations (Leafs) or a Composite itself. Lastly, the **Parish** class also **extends Place** and refers to a location that will not include other locations. So, the **Parish** class, as it was implicitly said before, maps directly to a **Leaf** on the *Composite Pattern*.
+
+<img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+
+### Consequences
+- Positive consequences:
+    - Thinking of the various locations as nodes in a tree is a very natural way to solve this data structuring problem.
+    - It is a pattern that very easily incorporates with the **Builder Pattern** in order to allow the quick insertion of locations in the tree.
+    - It will be necessary to iterate through these locations in order to choose the one that interests us. Given this, the composite pattern makes it easy to use an **Iterator Pattern** to traverse the various nodes of the tree.
+- Negative consequences:
+    - If for some reason a **Leaf** location becomes **Composite** we will need to add logic to transform this *Leaf* into *Composite* which may not be solved trivially.
+
+---
+
+## Solving The Insertion Of Locations
+
+### Problem In Context
+
+### Design Problem To Solve
+
+### The Pattern
+
+### Implementation
+
+<img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+
+### Consequences
