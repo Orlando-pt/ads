@@ -2,12 +2,14 @@
 
 # Functionalities Made So Far
 The main functionalities of the program implemented already without GUI are:
+- Allow record of **dates** (simple and interval)
+
+The main functionalities already started:
 - Allow record of **places**
-- Allow record of **dates**
-    - Both **simple** and **interval** dates
 - Allow record of **events**
     - For this iteration it can only record 2 types of events (Birth and Custom)
-- Allow record of **people**
+- Allow record, display and edit of **people**
+- Allow record of **sources**
 
 # Introduction
 At this document it will be explained what was the process to develop this platform. This software system helps to support the work of historians and individual genealogy researchers by storing data related to individuals, their relations, and other important kinds of information.
