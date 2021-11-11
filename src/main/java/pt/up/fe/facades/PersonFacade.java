@@ -1,6 +1,7 @@
 package pt.up.fe.facades;
 
 import java.util.List;
+import java.util.Scanner;
 
 import pt.up.fe.Main;
 import pt.up.fe.person.Gender;
@@ -8,7 +9,31 @@ import pt.up.fe.person.Person;
 import pt.up.fe.sources.Source;
 
 public class PersonFacade {
-    public static Person createPerson() {
+    private Scanner scanner;
+    private SourceFacade sourceFacade;
+
+    public PersonFacade(Scanner scanner, SourceFacade sourceFacade) {
+        this.scanner = scanner;
+        this.sourceFacade = sourceFacade;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public SourceFacade getSourceFacade() {
+        return sourceFacade;
+    }
+
+    public void setSourceFacade(SourceFacade sourceFacade) {
+        this.sourceFacade = sourceFacade;
+    }
+
+    public Person createPerson() {
         System.out.println("A new person is being created...");
         Person person = new Person();
         enterPersonName(person);
@@ -16,31 +41,31 @@ public class PersonFacade {
         enterPersonGender(person);
 
         System.out.println("Do you want to add description? (Y to add)");
-        if (Main.sc.nextLine().equalsIgnoreCase("Y")) {
+        if (this.getScanner().nextLine().equalsIgnoreCase("Y")) {
             enterPersonDescription(person);
         }
 
         System.out.println("Do you want to add source? (Y to add)");
-        if (Main.sc.nextLine().equalsIgnoreCase("Y")) {
+        if (this.getScanner().nextLine().equalsIgnoreCase("Y")) {
             enterPersonSource(person);
         }
 
         return person;
     }
 
-    public static void enterPersonDescription(Person person) {
+    public void enterPersonDescription(Person person) {
         System.out.println("Enter the description wanted.");
-        String description = Main.sc.nextLine();
+        String description = this.getScanner().nextLine();
         person.setDescription(description);
     }
 
-    public static void enterPersonName(Person person) {
+    public void enterPersonName(Person person) {
         System.out.println("What is the the name of the person?");
-        String name = Main.sc.nextLine();
+        String name = this.getScanner().nextLine();
         person.setName(name);
     }
 
-    public static void enterPersonGender(Person person) {
+    public void enterPersonGender(Person person) {
         int gender = 0;
         List<Gender> genderTypes = List.of(Gender.values());
         while (gender < 1 || gender > genderTypes.size()) {
@@ -48,13 +73,13 @@ public class PersonFacade {
             genderTypes.forEach(type -> {
                 System.out.println(String.format("%s - %s", genderTypes.indexOf(type) + 1, type));
             });
-            gender = Main.sc.nextInt();
-            Main.sc.nextLine();
+            gender = this.getScanner().nextInt();
+            this.getScanner().nextLine();
         }
         person.setGender(Gender.valueOf(gender));
     }
 
-    public static void enterPersonSource(Person person) {
+    public void enterPersonSource(Person person) {
         int choiceSource = 0;
 
         if (Main.sourcesList.isEmpty()){
@@ -63,34 +88,34 @@ public class PersonFacade {
 
         while (choiceSource != 1 && choiceSource != 2) {
             System.out.println("Do you want to use a existent source (1) or a new one (2)?");
-            choiceSource = Main.sc.nextInt();
-            Main.sc.nextLine();
+            choiceSource = this.getScanner().nextInt();
+            this.getScanner().nextLine();
         }
         if (choiceSource == 1) {
-            SourceFacade.displaySources();
+            this.getSourceFacade().displaySources();
             System.out.println("What is the source of the person? (if invalid is ignored)");
-            int choiceSourcePerson = Main.sc.nextInt() - 1;
-            Main.sc.nextLine();
+            int choiceSourcePerson = this.getScanner().nextInt() - 1;
+            this.getScanner().nextLine();
             if (choiceSourcePerson > 0 && choiceSourcePerson < Main.sourcesList.size()) {
                 person.setSource(Main.sourcesList.get(choiceSource));
             }
 
         } else {
-            Source source = SourceFacade.newSourceInstance();
+            Source source = this.getSourceFacade().newSourceInstance();
             Main.sourcesList.add(source);
             person.setSource(source);
             System.out.println("Source added to person");
         }
     }
 
-    public static void editPerson(Person person) {
+    public void editPerson(Person person) {
         editPersonLoop:
         while (true) {
             System.out.println(String.format("Editing Person:\n%s", person));
             System.out.println("What do you want to edit?\n 0 - Leave \n 1 - Name\n 2 - Gender \n 3 - Description \n " +
                     "4 - Source");
-            int editSelection = Main.sc.nextInt();
-            Main.sc.nextLine();
+            int editSelection = this.getScanner().nextInt();
+            this.getScanner().nextLine();
 
             switch (editSelection) {
                 case 0:
@@ -114,7 +139,7 @@ public class PersonFacade {
         }
     }
 
-    public static void displayPeople() {
+    public void displayPeople() {
         if(Main.peopleList.isEmpty()){
             System.err.println("There are no people on the system.");
             return;
@@ -125,11 +150,11 @@ public class PersonFacade {
         });
 
         System.out.println("Do you want to edit a person? (Y to edit)");
-        if (Main.sc.nextLine().equalsIgnoreCase("Y")) {
+        if (this.getScanner().nextLine().equalsIgnoreCase("Y")) {
             int choicePerson = 0;
             while (choicePerson < 1 || choicePerson > Main.peopleList.size()) {
                 System.out.println("Enter the person number.");
-                choicePerson = Main.sc.nextInt();
+                choicePerson = this.getScanner().nextInt();
             }
             editPerson(Main.peopleList.get(choicePerson - 1));
 

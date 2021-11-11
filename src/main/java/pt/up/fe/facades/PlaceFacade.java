@@ -3,8 +3,24 @@ package pt.up.fe.facades;
 import pt.up.fe.places.Place;
 import pt.up.fe.places.PlaceBuilder;
 
+import java.util.Scanner;
+
 public class PlaceFacade {
-    public static Place choosePlace() {
+    private Scanner scanner;
+
+    public PlaceFacade(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Place choosePlace() {
         PlaceBuilder builder = new PlaceBuilder("Portugal");
 
         return builder

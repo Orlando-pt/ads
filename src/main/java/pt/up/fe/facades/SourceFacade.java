@@ -5,10 +5,24 @@ import pt.up.fe.sources.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class SourceFacade {
+    private Scanner scanner;
 
-    public static void displaySources() {
+    public SourceFacade(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public void displaySources() {
         if (Main.peopleList.isEmpty()) {
             System.err.println("There are no Sources on the system.");
             return;
@@ -19,7 +33,7 @@ public class SourceFacade {
         });
     }
 
-    public static Source newSourceInstance() {
+    public Source newSourceInstance() {
         System.out.println("Creating new Source...");
         System.out.println("What is the the type of Source you want to create?");
         List<String> sourceTypes = Arrays.asList("Book", "Historical Record", "Online Resource",
@@ -28,8 +42,8 @@ public class SourceFacade {
         sourceTypes.forEach(type -> {
             System.out.println(String.format("%s - %s", sourceTypes.indexOf(type) + 1, type));
         });
-        int chosenSource = Main.sc.nextInt();
-        Main.sc.nextLine();
+        int chosenSource = this.getScanner().nextInt();
+        this.getScanner().nextLine();
 
         if (chosenSource < 1 || chosenSource > sourceTypes.toArray().length) {
             System.err.println("Invalid input.\n");
@@ -39,7 +53,7 @@ public class SourceFacade {
         System.out.println(sourceTypes.get(chosenSource - 1) + " was chosen.");
 
         System.out.println("What name do you want to give to the " + sourceTypes.get(chosenSource - 1) + "?");
-        String name = Main.sc.nextLine();
+        String name = this.getScanner().nextLine();
 
         switch (chosenSource) {
             case 1:
@@ -56,22 +70,22 @@ public class SourceFacade {
         }
     }
 
-    public static OnlineResource populateOnlineResource(OnlineResource onlineResource) {
+    public OnlineResource populateOnlineResource(OnlineResource onlineResource) {
         System.out.println("--- Online Resource Source ---");
 
         while (true) {
             System.out.println("Do you want to add authors? (Y to add)");
-            if (!Main.sc.nextLine().equalsIgnoreCase("Y"))
+            if (!this.getScanner().nextLine().equalsIgnoreCase("Y"))
                 break;
 
             System.out.println("\nInsert Author:");
-            onlineResource.addAuthor(Main.sc.nextLine());
+            onlineResource.addAuthor(this.getScanner().nextLine());
         }
 
         System.out.println("Do you want to add link? (Y to add)");
-        if (Main.sc.nextLine().equalsIgnoreCase("Y")) {
+        if (this.getScanner().nextLine().equalsIgnoreCase("Y")) {
             System.out.println("\nInsert Link:");
-            onlineResource.setLink(Main.sc.nextLine());
+            onlineResource.setLink(this.getScanner().nextLine());
         }
 
         return onlineResource;
