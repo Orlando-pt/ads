@@ -1,7 +1,7 @@
 package pt.up.fe.sources;
 
 public class Book extends Source{
-    private int pages;
+    private Integer pages;
     private String publisher;
 
     public Book(String name) {
