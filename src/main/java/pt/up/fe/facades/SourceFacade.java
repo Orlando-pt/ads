@@ -3,27 +3,53 @@ package pt.up.fe.facades;
 import pt.up.fe.Main;
 import pt.up.fe.sources.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SourceFacade {
 
     public static void displaySources() {
+        if (Main.peopleList.isEmpty()) {
+            System.err.println("There are no Sources on the system.");
+            return;
+        }
+
         Main.sourcesList.forEach(source -> {
-            System.out.println(String.format("%s - %s \n", Main.sourcesList.indexOf(source) + 1, source));
+            System.out.println(String.format("Source nº%s: %s \n", Main.sourcesList.indexOf(source) + 1, source));
         });
     }
 
     public static Source newSourceInstance() {
-        System.out.println("What is the the name of the source?");
+        System.out.println("Creating new Source...");
+        System.out.println("What is the the type of Source you want to create?");
+        List<String> sourceTypes = Arrays.asList("Book", "Historical Record", "Online Resource",
+                "Orally Transmitted", "Custom Source");
+
+        sourceTypes.forEach(type -> {
+            System.out.println(String.format("%s - %s", sourceTypes.indexOf(type) + 1, type));
+        });
+        int chosenSource = Main.sc.nextInt();
+        Main.sc.nextLine();
+
+        if (chosenSource < 1 || chosenSource > sourceTypes.toArray().length) {
+            System.err.println("Invalid input.\n");
+            System.exit(0);
+        }
+
+        System.out.println(sourceTypes.get(chosenSource - 1) + " was chosen.");
+
+        System.out.println("What name do you want to give to the " + sourceTypes.get(chosenSource - 1) + "?");
         String name = Main.sc.nextLine();
 
-        switch (name.toLowerCase()) {
-            case "book":
+        switch (chosenSource) {
+            case 1:
                 return new Book(name);
-            case "historicalrecord":
+            case 2:
                 return new HistoricalRecord(name);
-            case "onlineresource":
+            case 3:
                 OnlineResource onlineResource = new OnlineResource(name);
                 return populateOnlineResource(onlineResource);
-            case "orallytransmitted":
+            case 4:
                 return new OrallyTransmitted(name);
             default:
                 return new CustomSource(name);

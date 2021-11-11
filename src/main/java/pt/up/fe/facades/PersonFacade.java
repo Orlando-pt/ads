@@ -15,7 +15,7 @@ public class PersonFacade {
 
         enterPersonGender(person);
 
-        System.out.println("Do you want to add deMain.scription? (Y to add)");
+        System.out.println("Do you want to add description? (Y to add)");
         if (Main.sc.nextLine().equalsIgnoreCase("Y")) {
             enterPersonDescription(person);
         }
@@ -29,7 +29,7 @@ public class PersonFacade {
     }
 
     public static void enterPersonDescription(Person person) {
-        System.out.println("Enter the deMain.scription wanted.");
+        System.out.println("Enter the description wanted.");
         String description = Main.sc.nextLine();
         person.setDescription(description);
     }
@@ -56,6 +56,11 @@ public class PersonFacade {
 
     public static void enterPersonSource(Person person) {
         int choiceSource = 0;
+
+        if (Main.sourcesList.isEmpty()){
+            choiceSource = 2;
+        }
+
         while (choiceSource != 1 && choiceSource != 2) {
             System.out.println("Do you want to use a existent source (1) or a new one (2)?");
             choiceSource = Main.sc.nextInt();
@@ -82,7 +87,7 @@ public class PersonFacade {
         editPersonLoop:
         while (true) {
             System.out.println(String.format("Editing Person:\n%s", person));
-            System.out.println("What do you want to edit?\n 0 - Leave \n 1 - Name\n 2 - Gender \n 3 - DeMain.scription \n " +
+            System.out.println("What do you want to edit?\n 0 - Leave \n 1 - Name\n 2 - Gender \n 3 - Description \n " +
                     "4 - Source");
             int editSelection = Main.sc.nextInt();
             Main.sc.nextLine();

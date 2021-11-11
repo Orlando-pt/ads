@@ -101,7 +101,7 @@ public class EventFacade {
             Boolean peopleCounter = true;
             while (peopleCounter) {
 
-                System.out.println("What's the relation with the person?");
+                System.out.println("What's the event relation with the person?");
                 String relation = Main.sc.nextLine();
                 birthEvent.addPeopleRelation(relation, createPerson(relation));
 
