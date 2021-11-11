@@ -8,21 +8,22 @@ class EventFacadeTest {
 
     @Test
     void createEvent() {
+        // cannot mock Scanner. with the terminal implementation it is not possible
     }
 
     @Test
     void newEventInstance() {
+        // cannot mock Scanner. with the terminal implementation it is not possible
     }
 
     @Test
     void populateBirthEvent() {
+        // cannot mock Scanner. with the terminal implementation it is not possible
     }
 
     @Test
     void populateCustomEvent() {
+        // cannot mock Scanner. with the terminal implementation it is not possible
     }
 
-    @Test
-    void createPerson() {
-    }
 }
