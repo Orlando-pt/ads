@@ -1,15 +1,9 @@
 package pt.up.fe.exports;
 
-public class XMLTemplateMethod extends ExportTemplateMethod{
-
-
+public class XMLTemplateMethod extends ExportTemplateMethod {
     @Override
-    public void openFile() {
+    public void writeToFile() {
         //do something
     }
 
-    @Override
-    public void closeFile() {
-        //do something
-    }
 }
