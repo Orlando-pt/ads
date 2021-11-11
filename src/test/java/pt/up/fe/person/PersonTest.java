@@ -8,6 +8,8 @@ import pt.up.fe.events.Event;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
@@ -23,6 +25,7 @@ class PersonTest {
         person.setName("Hugo");
         Event birth = new Birth();
         birth.setName("Birth of Hugo");
+
 
         personEvents = new ArrayList<>();
         personEvents.add(birth);
@@ -43,6 +46,27 @@ class PersonTest {
         assertEquals("Hugo", person.getName());
         assertEquals(personEvents, person.getEvents());
         assertEquals(children, person.getChildren());
+    }
+
+    @Test
+    public void testPersonGetParentsWhenHaveParents() {
+        Person mother = new Person();
+        mother.setName("Maria");
+        Person father = new Person();
+        father.setName("Luis");
+
+        person.getEvents().get(0).addPeopleRelation("Mother", mother);
+        person.getEvents().get(0).addPeopleRelation("Father", father);
+        assertThat(person.getParents().keySet(), hasSize(2));
+        assertEquals(person.getParents().get("Father"), father);
+        assertEquals(person.getParents().get("Mother"), mother);
+    }
+
+    @Test
+    public void testPersonGetParentsWhenNoParents() {
+        assertThat(person.getParents().keySet(), hasSize(0));
+        assertEquals(person.getParents().get("Father"), null);
+        assertEquals(person.getParents().get("Mother"), null);
     }
 
 }
