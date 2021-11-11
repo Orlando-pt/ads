@@ -1,7 +1,7 @@
 package pt.up.fe.events;
 
-import pt.up.fe.dates.IDate;
-import pt.up.fe.places.Place;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CustomEvent extends Event {
 
@@ -9,15 +9,7 @@ public class CustomEvent extends Event {
         this.setName(name);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append("Event type: " + super.getName());
-
-        for (var field : super.getSpecialPurposeFields().entrySet()) {
-            sBuilder.append("\n" + field.getKey() + ": " + field.getValue());
-        }
-
-        return sBuilder.toString();
+    public Logger initializeLogger() {
+        return LogManager.getLogger(CustomEvent.class);
     }
 }
