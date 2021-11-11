@@ -8,6 +8,11 @@ import pt.up.fe.places.Place;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import org.apache.logging.log4j.Logger;
+
 public abstract class Event extends BaseClass {
     private Place place;
     private IDate date;
@@ -16,13 +21,30 @@ public abstract class Event extends BaseClass {
     private Map<String, Place> placeRelations;
     private Map<String, String> specialPurposeFields;
 
+    private static Logger logger;
+
     public Event() {
         this.peopleRelations = new HashMap<>();
         this.dateRelations = new HashMap<>();
         this.placeRelations = new HashMap<>();
         this.specialPurposeFields = new HashMap<>();
 
+        logger = initializeLogger();
     }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (Exception e) {
+            logger.error("Error parsing Event.", e);
+            return "";
+        }
+    }
+
+    public abstract Logger initializeLogger();
 
     public Place getPlace() {
         return place;

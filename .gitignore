@@ -18,6 +18,9 @@ local.properties
 .loadpath
 .recommenders
 
+### vscode ###
+.vscode/
+
 # External tool builders
 .externalToolBuilders/
 
