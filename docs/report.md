@@ -40,7 +40,7 @@ One of the consequences of the builder is that it doesn’t allow other objects 
 
 ---
 
-## Solving The Insertion Of Locations
+## Solving The Location Structure
 Finding a structured way to store locations was also something we had to look into. We explain the process below.
 
 ### Problem In Context
@@ -121,7 +121,7 @@ The implementation takes into consideration the various types of entities presen
 
 ---
 
-## Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects
+## Solving The Addition of Locations
 How can we add locations easily?
 
 ### Problem In Context
