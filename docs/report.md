@@ -113,6 +113,11 @@ The implementation takes into consideration the various types of entities presen
 
 
 ### Consequences
+- Positive Consequences:
+    - It will provide a simple interface to be used not only by the GUI but also by the main program.
+    - Creates an abstraction that abstracts potentially complex code.
+- Negative Consequences:
+    - The various facades can very easily become too general and contain methods with very different scopes. The trend will be for these classes to become [God Object](https://duckduckgo.com). Therefore, it will be necessary to have a doubled attention in the future so that this does not happen.
 
 ---
 
