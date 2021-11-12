@@ -115,17 +115,33 @@ The implementation takes into consideration the various types of entities presen
 ---
 
 ## Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects
-How can we **abstract the algorithmic complexity** of creating, editing or removing the different types of entities?
+How can we add locations easily?
 
 ### Problem In Context
+The application needs to create places and aggregate them following the concept of “Compound Place” and “Parish”. CompoundPlace is the aggregator of Parish at the most basic level, but in a composite pattern, we also need to take into consideration that the aggregator can also aggregate other aggregators.
 
 ### Design Problem To Solve
+In a simple way, in the Composite Pattern, the composite provides utility methods (like addChild and removeChild) that allows us to start creating the tree, but it requires us to instantiate the composite object, then instantiate all its children to be added via those utility methods. This is an approach that works, but it’s not actually user friendly.
 
 ### The Pattern
+The builder pattern allows us to build complex objects and structures step by step.
+It allows us to just say, “startComposite”, “startLeaf”, “startComposite” and it automatically generates the following:
+```
+Composite
+	Leaf
+	Composite
+```
+The pattern extracts the complex code of creating objects and puts it in a class that is only responsible for that exact task.
+
 
 ### Implementation
+In the context of this problem, the builder pattern will allow us to build the tree of Places without knowing exactly what it does. Then the client just receives a Place and it doesn’t know if the object is a CompoundPlace or a Parish. The importante, is that at the end the client receives a Place.
 
-<img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+<img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
 
 
 ### Consequences
+- Positive Consequences:
+    - It guarantees that the responsibility of instantiating new objects are deferred to another source only responsible for creating those objects.
+    - Simplifies the creation process of complex objects, abstracting that implementation.
+        In case the way the objects are instantiated changes, we can just swap the implementation of the builder pattern without affecting code that relies on that same builder.
