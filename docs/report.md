@@ -89,3 +89,43 @@ Since most of the steps are located on the abstract class, this implementation i
     - We are effectively **deleting repeated code** by putting it in abstract class.
 - Negative consequences:
     - If the use of a specific type of file needs more steps than the general ones defined, it may need to join more than one step at the same method since we are limiting the structure of an algorithm.
+
+---
+
+## Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects
+How can we **abstract the algorithmic complexity** of creating, editing or removing the different types of entities?
+
+### Problem In Context
+It is necessary to create objects representing the various types of entities using a simple interface. The simplicity of this interface should be an advantage at the time of GUI implementation.
+
+### Design Problem To Solve
+Assuming that we have to instantiate the various objects, such as instantiating events, people, locations, etc. The logic associated with these processes can become complex. Not only complex but extensive.
+
+### The Pattern
+The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user (currently the Main.class class) but it is expected that this class becomes very extensive, which would worsen its understandability, as well as its maintainability.
+
+### Implementation
+The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, a**bstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used in the main program (Main.java) allowing to call the creation, editing, ... methods in a really simple way.
+
+<img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+
+
+### Consequences
+
+---
+
+## Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects
+How can we **abstract the algorithmic complexity** of creating, editing or removing the different types of entities?
+
+### Problem In Context
+
+### Design Problem To Solve
+
+### The Pattern
+
+### Implementation
+
+<img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+
+
+### Consequences
