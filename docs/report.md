@@ -18,7 +18,7 @@ At this document it will be explained what was the process to develop this platf
 
 # The Design
 
-## Solving Simple Dates Snd Intervals
+## Solving Simple Dates And Intervals
 We'll start by explaining how we solved the problem of having uncertain dates.
 
 ### Problem In Context
@@ -146,4 +146,7 @@ In the context of this problem, the builder pattern will allow us to build the t
 - Positive Consequences:
     - It guarantees that the responsibility of instantiating new objects are deferred to another source only responsible for creating those objects.
     - Simplifies the creation process of complex objects, abstracting that implementation.
-        In case the way the objects are instantiated changes, we can just swap the implementation of the builder pattern without affecting code that relies on that same builder.
+    - In case the way the objects are instantiated changes, we can just swap the implementation of the builder pattern without affecting code that relies on that same builder.
+- Negative Consequences:
+    - A builder pattern introduces new classes, making it yet another piece of code to maintain.
+    - Finding the common interface of a builder can be difficult if the object it’s trying to create is not the best one or it’s not final.
