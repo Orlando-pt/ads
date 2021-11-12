@@ -104,20 +104,20 @@ It is necessary to create objects representing the various types of entities usi
 Assuming that we have to instantiate the various objects, such as instantiating events, people, locations, etc. The logic associated with these processes can become complex. Not only complex but extensive.
 
 ### The Pattern
-The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user (currently the Main.class class) but it is expected that this class becomes very extensive, which would worsen its understandability, as well as its maintainability.
+The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user (currently the Main.class class) but it is expected that this class becomes **very extensive**, which would worsen its understandability, as well as its maintainability.
 
 ### Implementation
-The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, a**bstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used in the main program (Main.java) allowing to call the creation, editing, ... methods in a really simple way.
+The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, **abstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used in the main program (Main.java) allowing to call the creation, editing, ... methods in a really simple way.
 
 <img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
 
 
 ### Consequences
 - Positive Consequences:
-    - It will provide a simple interface to be used not only by the GUI but also by the main program.
+    - It will provide a **simple interface** to be used not only by the GUI but also by the main program.
     - Creates an abstraction that abstracts potentially complex code.
 - Negative Consequences:
-    - The various facades can very easily become too general and contain methods with very different scopes. The trend will be for these classes to become [God Object](https://duckduckgo.com). Therefore, it will be necessary to have a doubled attention in the future so that this does not happen.
+    - The various facades can very easily **become too general** and contain methods with very different scopes. The trend will be for these classes to become [God Object](https://duckduckgo.com). Therefore, it will be necessary to have a doubled attention in the future so that this does not happen.
 
 ---
 
@@ -128,28 +128,28 @@ How can we add locations easily?
 The application needs to create places and aggregate them following the concept of “Compound Place” and “Parish”. CompoundPlace is the aggregator of Parish at the most basic level, but in a composite pattern, we also need to take into consideration that the aggregator can also aggregate other aggregators.
 
 ### Design Problem To Solve
-In a simple way, in the Composite Pattern, the composite provides utility methods (like addChild and removeChild) that allows us to start creating the tree, but it requires us to instantiate the composite object, then instantiate all its children to be added via those utility methods. This is an approach that works, but it’s not actually user friendly.
+In a simple way, in the Composite Pattern, the composite provides utility methods (like addChild and removeChild) that allows us to start creating the tree, but it requires us to **instantiate the composite object**, then instantiate all its children to be added via those utility methods. This is an approach that works, but it’s not actually **user friendly**.
 
 ### The Pattern
-The builder pattern allows us to build complex objects and structures step by step.
+The builder pattern allows us to **build complex objects and structures step by step**.
 It allows us to just say, “startComposite”, “startLeaf”, “startComposite” and it automatically generates the following:
 ```
 Composite
 	Leaf
 	Composite
 ```
-The pattern extracts the complex code of creating objects and puts it in a class that is only responsible for that exact task.
+The pattern **extracts the complex code of creating objects** and puts it in a class that is only responsible for that exact task.
 
 
 ### Implementation
-In the context of this problem, the builder pattern will allow us to build the tree of Places without knowing exactly what it does. Then the client just receives a Place and it doesn’t know if the object is a CompoundPlace or a Parish. The importante, is that at the end the client receives a Place.
+In the context of this problem, the builder pattern will allow us to build the tree of Places without knowing exactly what it does. Then the client just receives a Place and it doesn’t know if the object is a CompoundPlace or a Parish. The important, is that at the end the client receives a Place.
 
 <img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
 
 
 ### Consequences
 - Positive Consequences:
-    - It guarantees that the responsibility of instantiating new objects are deferred to another source only responsible for creating those objects.
+    - It guarantees that the responsibility of **instantiating new objects are deferred to another source** only responsible for creating those objects.
     - Simplifies the creation process of complex objects, abstracting that implementation.
     - In case the way the objects are instantiated changes, we can just swap the implementation of the builder pattern without affecting code that relies on that same builder.
 - Negative Consequences:
