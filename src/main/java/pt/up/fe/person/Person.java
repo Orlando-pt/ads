@@ -10,6 +10,16 @@ public class Person extends BaseClass {
     private List<Event> events = new ArrayList<>();
     private List<Person> children = new ArrayList<>();
 
+    public Person getFather() {
+        // TODO
+        return null;
+    }
+
+    public Person getMother() {
+        // TODO
+        return null;
+    }
+    
     public Gender getGender() {
         return gender;
     }

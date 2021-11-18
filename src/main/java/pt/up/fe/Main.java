@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static List<Person> peopleList = new ArrayList<>();
+    
     public static List<Source> sourcesList = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -34,7 +34,6 @@ public class Main {
                     break;
                 case 1:
                     Person newPerson = personFacade.createPerson();
-                    peopleList.add(newPerson);
                     System.out.println("You've created a new Person:\n" + newPerson);
                     break;
                 case 2:

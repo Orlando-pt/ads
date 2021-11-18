@@ -23,7 +23,7 @@ public class SourceFacade {
     }
 
     public void displaySources() {
-        if (Main.peopleList.isEmpty()) {
+        if (PersonFacade.peopleList.isEmpty()) {
             System.err.println("There are no Sources on the system.");
             return;
         }

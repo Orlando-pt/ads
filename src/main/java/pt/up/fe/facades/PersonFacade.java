@@ -1,5 +1,6 @@
 package pt.up.fe.facades;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ import pt.up.fe.sources.Source;
 public class PersonFacade {
     private Scanner scanner;
     private SourceFacade sourceFacade;
+    public static List<Person> peopleList = new ArrayList<>();
 
     public PersonFacade(Scanner scanner, SourceFacade sourceFacade) {
         this.scanner = scanner;
@@ -49,6 +51,8 @@ public class PersonFacade {
         if (this.getScanner().nextLine().equalsIgnoreCase("Y")) {
             enterPersonSource(person);
         }
+
+        peopleList.add(person);
 
         return person;
     }
@@ -140,23 +144,23 @@ public class PersonFacade {
     }
 
     public void displayPeople() {
-        if(Main.peopleList.isEmpty()){
+        if(peopleList.isEmpty()){
             System.err.println("There are no people on the system.");
             return;
         }
 
-        Main.peopleList.forEach(person -> {
-            System.out.println(String.format("\nPerson nº%s:\n%s \n", Main.peopleList.indexOf(person) + 1, person));
+        peopleList.forEach(person -> {
+            System.out.println(String.format("\nPerson nº%s:\n%s \n", peopleList.indexOf(person) + 1, person));
         });
 
         System.out.println("Do you want to edit a person? (Y to edit)");
         if (this.getScanner().nextLine().equalsIgnoreCase("Y")) {
             int choicePerson = 0;
-            while (choicePerson < 1 || choicePerson > Main.peopleList.size()) {
+            while (choicePerson < 1 || choicePerson > peopleList.size()) {
                 System.out.println("Enter the person number.");
                 choicePerson = this.getScanner().nextInt();
             }
-            editPerson(Main.peopleList.get(choicePerson - 1));
+            editPerson(peopleList.get(choicePerson - 1));
 
         }
 
