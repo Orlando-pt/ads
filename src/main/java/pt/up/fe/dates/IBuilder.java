@@ -1,21 +1,22 @@
 package pt.up.fe.dates;
 
 public interface IBuilder {
-    IBuilder reset();
 
-    IBuilder switchDate();
+  IBuilder reset();
 
-    IBuilder setYear(int year);
+  IBuilder switchDate();
 
-    IBuilder setMonth(int month);
+  IBuilder setYear(int year);
 
-    IBuilder setDay(int day);
+  IBuilder setMonth(int month);
 
-    IBuilder setHour(int hour);
+  IBuilder setDay(int day);
 
-    IBuilder setMinute(int minute);
+  IBuilder setHour(int hour);
 
-    IBuilder setSecond(int second);
+  IBuilder setMinute(int minute);
 
-    IDate build();
+  IBuilder setSecond(int second);
+
+  IDate build();
 }
