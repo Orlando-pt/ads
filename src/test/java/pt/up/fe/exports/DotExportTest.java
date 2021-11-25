@@ -1,26 +1,91 @@
 package pt.up.fe.exports;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import pt.up.fe.events.Marriage;
+import pt.up.fe.person.Person;
+
 public class DotExportTest {
 
     private DotExport dotExport;
+    private List<Person> listOfPeople;
+
+    public DotExportTest() {
+        listOfPeople = new ArrayList<>();
+    }
 
     @BeforeEach
     void setUp() {
-        dotExport = new DotExport(new ArrayList<>());
+        this.generateFamilyTree();
+        dotExport = new DotExport(this.listOfPeople);
     }
 
     @Test
-    void testGetImage() throws Exception{
-        this.dotExport.experimentGraphViz();
+    void createGraphImageTest() throws Exception{
+        this.dotExport.createGraphHavingRoot(this.listOfPeople.get(0), "brenoOurFather");
     }
     
-    @Test
-    void testNumber2() throws Exception {
-        this.dotExport.experimentNumber2();
+    private void generateFamilyTree() {
+        Person breno = new Person();
+        Person catia = new Person();
+        breno.setName("Breno");
+        catia.setName("Catia");
+        Marriage brenoAndCatia = new Marriage(breno, catia);
+        breno.addEvent(brenoAndCatia);
+        catia.addEvent(brenoAndCatia);
+
+        Person diogo = new Person();
+        Person sofia = new Person();
+        diogo.setName("Diogo");
+        sofia.setName("Sofia");
+        Marriage diogoAndSofia = new Marriage(diogo, sofia);
+        diogo.addEvent(diogoAndSofia);
+        sofia.addEvent(diogoAndSofia);
+
+        Person hugo = new Person();
+        Person carolina = new Person();
+        hugo.setName("Hugo");
+        carolina.setName("Carolina");
+        Marriage hugoAndCarolina = new Marriage(hugo, carolina);
+        hugo.addEvent(hugoAndCarolina);
+        carolina.addEvent(hugoAndCarolina);
+
+        Person orlando = new Person();
+
+        orlando.setName("Orlando");
+        breno.getChildren().addAll(Arrays.asList(diogo, hugo, orlando));
+
+        Person antero = new Person();
+        Person deolinda = new Person();
+        Person bruno = new Person();
+        Person francisco = new Person();
+
+        antero.setName("Antero");
+        deolinda.setName("Deolinda");
+        bruno.setName("Bruno");
+        francisco.setName("Francisco");
+
+        diogo.addChild(antero);
+        hugo.getChildren().addAll(Arrays.asList(deolinda, bruno, francisco));
+
+
+        this.listOfPeople = Arrays.asList(
+            breno,
+            catia,
+            diogo,
+            sofia,
+            hugo,
+            carolina,
+            orlando,
+            antero,
+            deolinda,
+            bruno,
+            francisco
+        );
     }
 }

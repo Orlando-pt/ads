@@ -2,8 +2,10 @@ package pt.up.fe.person;
 
 import pt.up.fe.BaseClass;
 import pt.up.fe.events.Event;
+import pt.up.fe.events.Marriage;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Person extends BaseClass {
     private Gender gender;
@@ -50,6 +52,24 @@ public class Person extends BaseClass {
 
     public void removeChild(Person person) {
         this.children.remove(person);
+    }
+
+    public int getNumberOfMarriages() {
+        return (int) this.events.parallelStream().filter(
+            (event) -> event.getClass() == Marriage.class
+        ).count();
+    }
+
+    public boolean marriedMoreThanOnce() {
+        return this.getNumberOfMarriages() > 1;
+    }
+
+    public Person getPartner() {
+        Marriage marriage = (Marriage) this.events.stream().filter(
+            (event) -> event.getClass() == Marriage.class
+        ).collect(Collectors.toList()).get(0);
+
+        return marriage.getPartner(this);
     }
 
     public Map<String, Person> getParents() {

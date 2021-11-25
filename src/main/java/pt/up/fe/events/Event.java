@@ -32,17 +32,17 @@ public abstract class Event extends BaseClass {
         logger = initializeLogger();
     }
 
-    @Override
-    public String toString() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (Exception e) {
-            logger.error("Error parsing Event.", e);
-            return "";
-        }
-    }
+    // @Override
+    // public String toString() {
+    //     ObjectMapper mapper = new ObjectMapper();
+    //     mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    //     try {
+    //         return mapper.writeValueAsString(this);
+    //     } catch (Exception e) {
+    //         logger.error("Error parsing Event.", e);
+    //         return "";
+    //     }
+    // }
 
     public abstract Logger initializeLogger();
 
