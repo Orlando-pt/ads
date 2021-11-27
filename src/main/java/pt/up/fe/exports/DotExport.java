@@ -3,15 +3,15 @@ package pt.up.fe.exports;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Font;
 import guru.nidi.graphviz.attribute.Rank;
-import guru.nidi.graphviz.attribute.Arrow.DirType;
 import guru.nidi.graphviz.attribute.Rank.RankDir;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -20,6 +20,8 @@ import guru.nidi.graphviz.model.LinkSource;
 import guru.nidi.graphviz.model.LinkTarget;
 import guru.nidi.graphviz.model.MutableGraph;
 import static guru.nidi.graphviz.model.Factory.*;
+
+import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 
 public class DotExport {
@@ -74,38 +76,73 @@ public class DotExport {
     public List<LinkSource> getLinkSourcesTree(Person root) {
         List<LinkSource> linkSources = new ArrayList<>();
 
-        LinkedList<Person> personsWaitingQueue = new LinkedList<>();
-        personsWaitingQueue.add(root);
+        LinkedList<ImmutablePair<Person, Person>> personsWaitingQueue = new LinkedList<>();
+        personsWaitingQueue.add(new ImmutablePair<Person,Person>(root, null));
         
-        Person currentNode = null;
-        // loop for all the childrens
+        ImmutablePair<Person, Person> currentNode = null;
+        // loop to traverse all nodes of the tree
         while (!personsWaitingQueue.isEmpty()) {
             currentNode = personsWaitingQueue.pollFirst();
 
-            // add children
-            personsWaitingQueue.addAll(currentNode.getChildren());
+            // loop through all childrens
+            for (Person children : currentNode.left.getChildren()) {
 
-            // make links to all the childrens
-            for (Person children : currentNode.getChildren())
+                ImmutablePair<Person, Person> child = new ImmutablePair<Person,Person>(children, currentNode.left);
+                // add child to linked list
+                personsWaitingQueue.add(child);
+
+                // add link between father and son
                 linkSources.add(
                     node(
-                        currentNode.getNumberOfMarriages() == 1 ? 
-                        currentNode.getName() + " and " + currentNode.getPartner().getName() :
-                        currentNode.getName()
+                        computeNodeString(currentNode)
                     )
                     .link(
-                        node(
-                            children.getNumberOfMarriages() == 1 ?
-                            children.getName() + " and " + children.getPartner().getName() :
-                            children.getName()
-                        )
+                        computeNodeString(child)
                     )
                 );
+            }
             
         }
 
-
         return linkSources;
+    }
+
+    private String computeNodeString(ImmutablePair<Person, Person> nodePair) {
+        Person node = nodePair.left;
+        Person father = nodePair.right;
+
+        switch (node.getNumberOfMarriages()) {
+            case 0:
+                return node.getName() + this.addIfParentHasMultipleMarriages(node, father);
+            case 1:
+                return node.getName() + " and " + node.getPartner().getName() +
+                                this.addIfParentHasMultipleMarriages(node, father);
+            default:
+                List<String> partnerNames = node.getPartners()
+                                                .stream().map((person) -> person.getName())
+                                                    .collect(Collectors.toList());
+
+                return node.getName() + " and " + String.join(", ", partnerNames) +
+                            this.addIfParentHasMultipleMarriages(node, father);
+        }
+    }
+
+    private String addIfParentHasMultipleMarriages(Person child, Person parent) {
+        if (parent == null)
+            return "";
+        
+        if (!parent.marriedMoreThanOnce())
+            return "";
+
+        String ret = "\n";
+
+        if (parent.getGender() == Gender.MALE)
+            ret += "Mother: ";
+        else
+            ret += "Father: ";         
+        
+        return ret + child.getOppositeParent(parent).getName();
+
     }
 
     /**
