@@ -4,23 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Gender {
-    MALE(1), FEMALE(2);
+  MALE(1), FEMALE(2);
 
-    private int value;
-    private static Map map = new HashMap<>();
+  private static final Map map = new HashMap<>();
 
-    Gender(int value) {
-        this.value = value;
+  static {
+    for (Gender gender : Gender.values()) {
+      map.put(gender.value, gender);
     }
+  }
 
-    static {
-        for (Gender gender : Gender.values()) {
-            map.put(gender.value, gender);
-        }
-    }
+  private final int value;
 
-    public static Gender valueOf(int gender) {
-        return (Gender) map.get(gender);
-    }
+  Gender(int value) {
+    this.value = value;
+  }
+
+  public static Gender valueOf(int gender) {
+    return (Gender) map.get(gender);
+  }
 }
 

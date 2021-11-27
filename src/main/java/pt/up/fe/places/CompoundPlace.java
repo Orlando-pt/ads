@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompoundPlace extends Place {
-  private List<Place> children = new ArrayList<>();
+
+  private final List<Place> children = new ArrayList<>();
 
   public CompoundPlace(String name) {
     super(name);

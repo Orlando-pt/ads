@@ -2,18 +2,19 @@ package pt.up.fe.sources;
 
 import pt.up.fe.places.Place;
 
-public class HistoricalRecord extends Source{
-    private Place nationalArchiveCountry;
+public class HistoricalRecord extends Source {
 
-    public HistoricalRecord(String name) {
-        super(name);
-    }
+  private Place nationalArchiveCountry;
 
-    public Place getNationalArchiveCountry() {
-        return nationalArchiveCountry;
-    }
+  public HistoricalRecord(String name) {
+    super(name);
+  }
 
-    public void setNationalArchiveCountry(Place nationalArchiveCountry) {
-        this.nationalArchiveCountry = nationalArchiveCountry;
-    }
+  public Place getNationalArchiveCountry() {
+    return nationalArchiveCountry;
+  }
+
+  public void setNationalArchiveCountry(Place nationalArchiveCountry) {
+    this.nationalArchiveCountry = nationalArchiveCountry;
+  }
 }

@@ -3,31 +3,32 @@ package pt.up.fe;
 import pt.up.fe.sources.Source;
 
 public abstract class BaseClass {
-    private String name;
-    private String description;
-    private Source source;
 
-    public String getName() {
-        return name;
-    }
+  private String name;
+  private String description;
+  private Source source;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public Source getSource() {
-        return source;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setSource(Source source) {
-        this.source = source;
-    }
+  public Source getSource() {
+    return source;
+  }
+
+  public void setSource(Source source) {
+    this.source = source;
+  }
 }

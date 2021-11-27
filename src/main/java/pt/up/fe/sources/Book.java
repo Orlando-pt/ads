@@ -1,26 +1,27 @@
 package pt.up.fe.sources;
 
-public class Book extends Source{
-    private Integer pages;
-    private String publisher;
+public class Book extends Source {
 
-    public Book(String name) {
-        super(name);
-    }
+  private Integer pages;
+  private String publisher;
 
-    public int getPages() {
-        return pages;
-    }
+  public Book(String name) {
+    super(name);
+  }
 
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
+  public int getPages() {
+    return pages;
+  }
 
-    public String getPublisher() {
-        return publisher;
-    }
+  public void setPages(int pages) {
+    this.pages = pages;
+  }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+  public String getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(String publisher) {
+    this.publisher = publisher;
+  }
 }
