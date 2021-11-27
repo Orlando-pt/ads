@@ -2,12 +2,49 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pt.up.fe.controllers.MainController">
+<AnchorPane maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.MainController">
    <children>
-      <Button layoutX="93.0" layoutY="88.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="People" />
+      <Button layoutX="89.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Persons">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Text layoutX="197.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HighestTree">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <Button layoutX="210.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Events">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="321.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Places">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="423.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Sources">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="222.0" layoutY="216.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Load">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="322.0" layoutY="216.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Export">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="214.0" layoutY="300.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Graphical Visualization">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
