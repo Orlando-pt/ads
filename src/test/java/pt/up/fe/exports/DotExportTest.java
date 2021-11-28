@@ -112,6 +112,18 @@ public class DotExportTest {
         catarina.addEvent(birthOfTrambolho);
         trambolho.addEvent(birthOfTrambolho);
 
+        //Children of trambolho
+        Person trambolha = new Person();
+        trambolha.setName("Trambolha");
+        Marriage trambolhoAndTrambolha = new Marriage(trambolho, trambolha);
+        trambolho.addEvent(trambolhoAndTrambolha);
+        trambolha.addEvent(trambolhoAndTrambolha);
+        Person infeliz = new Person();
+        infeliz.setName("Infeliz");
+        trambolho.addChild(infeliz);
+        trambolha.addChild(infeliz);
+
+
         this.listOfPeople = Arrays.asList(
             breno,
             catia,

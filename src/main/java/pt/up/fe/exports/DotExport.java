@@ -122,7 +122,7 @@ public class DotExport {
                                                 .stream().map((person) -> person.getName())
                                                     .collect(Collectors.toList());
 
-                return node.getName() + " and " + String.join(", ", partnerNames) +
+                return node.getName() + " and [" + String.join(", ", partnerNames) + "]" +
                             this.addIfParentHasMultipleMarriages(node, father);
         }
     }
@@ -134,14 +134,7 @@ public class DotExport {
         if (!parent.marriedMoreThanOnce())
             return "";
 
-        String ret = "\n";
-
-        if (parent.getGender() == Gender.MALE)
-            ret += "Mother: ";
-        else
-            ret += "Father: ";         
-        
-        return ret + child.getOppositeParent(parent).getName();
+        return "\nFrom marriage with: " + child.getOppositeParent(parent).getName();
 
     }
 
