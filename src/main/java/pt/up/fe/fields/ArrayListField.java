@@ -25,19 +25,7 @@ public class ArrayListField<T> extends Field implements ExportFieldInterface{
         this.fieldValue = fieldValue;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((fieldValue == null) ? 0 : fieldValue.hashCode());
-        return result;
-    }
-
-    @Override
-    public String exportFieldValue() {
-        if (super.isSensitive())
-            return "";
-        
+    private String transformArrayToString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
@@ -61,8 +49,28 @@ public class ArrayListField<T> extends Field implements ExportFieldInterface{
     }
 
     @Override
+    public String exportFieldValue() {
+        if (super.isSensitive())
+            return "";
+        
+        return this.transformArrayToString();
+    }
+
+    @Override
+    public String exportFieldValueIncludingSensitive() {
+        return this.transformArrayToString();
+    }
+
+    @Override
     public String toString() {
         return "ArrayListField [fieldValue=" + fieldValue + ", isSensitive=" + super.isSensitive() + "]";
     }
-    
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((fieldValue == null) ? 0 : fieldValue.hashCode());
+        return result;
+    }
 }

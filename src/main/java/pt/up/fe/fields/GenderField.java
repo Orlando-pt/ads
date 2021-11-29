@@ -32,6 +32,11 @@ public class GenderField extends Field implements ExportFieldInterface{
     }
 
     @Override
+    public String exportFieldValueIncludingSensitive() {
+        return this.fieldValue.toString();
+    }
+
+    @Override
     public String toString() {
         return "GenderField [fieldValue=" + fieldValue + ", isSensitive=" + super.isSensitive() + "]";
     }

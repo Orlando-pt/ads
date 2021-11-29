@@ -30,6 +30,11 @@ public class PersonField extends Field implements ExportFieldInterface{
 
         return this.fieldValue.toString();
     }
+    
+    @Override
+    public String exportFieldValueIncludingSensitive() {
+        return this.fieldValue.toString();
+    }
 
     @Override
     public String toString() {

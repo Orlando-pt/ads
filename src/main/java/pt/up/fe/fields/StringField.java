@@ -49,6 +49,11 @@ public class StringField extends Field implements ExportFieldInterface{
 
         return this.fieldValue;
     }
+    
+    @Override
+    public String exportFieldValueIncludingSensitive() {
+        return this.fieldValue;
+    }
 
     @Override
     public String toString() {
