@@ -7,6 +7,7 @@
    <children>
       <fx:include source="../contentarea/GeneralSettingsPage.fxml" />
       <fx:include source="../contentarea/PersonsPage.fxml" />
+      <fx:include source="../contentarea/CreatePersonPage.fxml" />
       <fx:include source="../contentarea/ApplicationPage.fxml" />
       <fx:include source="../contentarea/HomePage.fxml" />
    </children>

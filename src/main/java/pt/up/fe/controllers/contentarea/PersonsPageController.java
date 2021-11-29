@@ -1,18 +1,13 @@
 package pt.up.fe.controllers.contentarea;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import pt.up.fe.App;
+import javafx.scene.input.MouseEvent;
+import pt.up.fe.helpers.CustomSceneHelper;
 
 public class PersonsPageController {
 
-  // Add a public no-args constructor
   public PersonsPageController() {
   }
 
@@ -20,12 +15,10 @@ public class PersonsPageController {
   private void initialize(URL url, ResourceBundle resources) {
   }
 
-  public void goToCreatePersonScreen(ActionEvent event) throws IOException {
-    Scene peopleScene = new Scene(App.loadFXML("createPerson"));
-
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setScene(peopleScene);
-    stage.show();
+  @FXML
+  private void goToAnotherPersonPage(MouseEvent event) {
+    String buttonID = CustomSceneHelper.getSourceID(event.getSource());
+    CustomSceneHelper.bringNodeToFront(buttonID, "Page");
   }
 
 

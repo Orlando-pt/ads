@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 
 public class CreatePersonPageController {
 
-  // Add a public no-args constructor
+
   public CreatePersonPageController() {
   }
 

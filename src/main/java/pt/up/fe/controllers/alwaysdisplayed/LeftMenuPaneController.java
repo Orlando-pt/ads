@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pt.up.fe.controllers.alwaysdisplayed;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -13,14 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import pt.up.fe.helpers.services.CustomSceneHelper;
+import pt.up.fe.helpers.CustomSceneHelper;
 
 
-public class LeftMenuPaneController implements Initializable
-{
-    CustomSceneHelper sceneHelper = new CustomSceneHelper();
-    
-    private Boolean logThreadStarted = false;
+public class LeftMenuPaneController implements Initializable {
+
     
     @FXML
     private Button homeButton, applicationButton, personsbutton, _generalButton, logsButton;
@@ -28,25 +20,25 @@ public class LeftMenuPaneController implements Initializable
     @FXML
     private void highlightButton(MouseEvent event)
     {
-        String nodeID = sceneHelper.getSourceID(event.getSource());
-        Node eventNode = sceneHelper.getNodeById(nodeID);
+        String nodeID = CustomSceneHelper.getSourceID(event.getSource());
+        Node eventNode = CustomSceneHelper.getNodeById(nodeID);
         eventNode.setStyle("-fx-background-color: #555764;");
     }
     
     @FXML
     private void unHighlightButton(MouseEvent event)
     {
-        String nodeId = sceneHelper.getSourceID(event.getSource());
-        Node eventNode = sceneHelper.getNodeById(nodeId);
+        String nodeId = CustomSceneHelper.getSourceID(event.getSource());
+        Node eventNode = CustomSceneHelper.getNodeById(nodeId);
         eventNode.setStyle("-fx-background-color: #3A3C43;");
     }
     
     @FXML
     private void unHighlightButtonIfNotActive(MouseEvent event)
     {
-        Node activePage = sceneHelper.getNodeById("pageNameLabel");
-        String activePageName = sceneHelper.getSourceName(activePage);
-        String hoveredButton = sceneHelper.getSourceName(event.getSource());
+        Node activePage = CustomSceneHelper.getNodeById("pageNameLabel");
+        String activePageName = CustomSceneHelper.getSourceName(activePage);
+        String hoveredButton = CustomSceneHelper.getSourceName(event.getSource());
         if (!activePageName.equals(hoveredButton))
         {
             unHighlightButton(event);
@@ -56,7 +48,7 @@ public class LeftMenuPaneController implements Initializable
     @FXML
     private void unHighlightByID(String nodeId)
     {
-        Node previousPageButton = sceneHelper.getNodeById(nodeId);
+        Node previousPageButton = CustomSceneHelper.getNodeById(nodeId);
         previousPageButton.setStyle("-fx-background-color: #3A3C43;");
     }
     
@@ -64,17 +56,17 @@ public class LeftMenuPaneController implements Initializable
     private void menuButtonClicked(MouseEvent event) throws FileNotFoundException, InterruptedException
     {
         //Unhighlights the previous button that was clicked. 
-        Node pageNameLabel = sceneHelper.getNodeById("pageNameLabel");
-        String previousPageName = sceneHelper.getSourceName(pageNameLabel);
-        String previousPageNameID = sceneHelper.convertNameToID(previousPageName, "Button");
+        Node pageNameLabel = CustomSceneHelper.getNodeById("pageNameLabel");
+        String previousPageName = CustomSceneHelper.getSourceName(pageNameLabel);
+        String previousPageNameID = CustomSceneHelper.convertNameToID(previousPageName, "Button");
         unHighlightByID(previousPageNameID);
         
         //Changes name of the label in top left of top menu bar (id of pageNameLabel) to the name of the button clicked. 
-        String buttonName = sceneHelper.getSourceName(event.getSource());
-        sceneHelper.changeLabelName("pageNameLabel", buttonName);
+        String buttonName = CustomSceneHelper.getSourceName(event.getSource());
+        CustomSceneHelper.changeLabelName("pageNameLabel", buttonName);
 
         //Brings the page clicked to the front. 
-        sceneHelper.bringNodeToFront(buttonName, "Page");
+        CustomSceneHelper.bringNodeToFront(buttonName, "Page");
     }
     
     @Override
