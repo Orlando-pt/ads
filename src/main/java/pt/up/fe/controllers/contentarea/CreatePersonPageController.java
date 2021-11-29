@@ -1,13 +1,13 @@
-package pt.up.fe.controllers;
+package pt.up.fe.controllers.contentarea;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 
-public class PeopleController {
+public class CreatePersonPageController {
 
   // Add a public no-args constructor
-  public PeopleController() {
+  public CreatePersonPageController() {
   }
 
   @FXML

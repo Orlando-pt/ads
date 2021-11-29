@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="homePage" fx:id="homePage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" styleClass="homePage" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.HomePageController">
+   <children>
+      <Button layoutX="90.0" layoutY="188.0" mnemonicParsing="false" text="Persons">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Text fill="WHITE" layoutX="221.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HighestTree">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <Button layoutX="211.0" layoutY="188.0" mnemonicParsing="false" text="Events">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="323.0" layoutY="188.0" mnemonicParsing="false" text="Places">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="454.0" layoutY="188.0" mnemonicParsing="false" text="Sources">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="236.0" layoutY="329.0" mnemonicParsing="false" text="Load">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="377.0" layoutY="329.0" mnemonicParsing="false" text="Export">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="236.0" layoutY="438.0" mnemonicParsing="false" text="Graphical Visualization">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

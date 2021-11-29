@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="contentAreaPane" fx:id="contentAreaPane" layoutX="155.0" layoutY="27.0" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" styleClass="contentAreaPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.alwaysdisplayed.ContentAreaPaneController">
+
+   <children>
+      <fx:include source="../contentarea/GeneralSettingsPage.fxml" />
+      <fx:include source="../contentarea/PersonsPage.fxml" />
+      <fx:include source="../contentarea/ApplicationPage.fxml" />
+      <fx:include source="../contentarea/HomePage.fxml" />
+   </children>
+</AnchorPane>
