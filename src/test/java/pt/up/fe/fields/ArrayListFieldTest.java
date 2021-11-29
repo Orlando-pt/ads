@@ -17,7 +17,6 @@ public class ArrayListFieldTest {
         notSensitiveArray.getFieldValue().add("you");
         notSensitiveArray.getFieldValue().add("doin?");
 
-        System.out.println(notSensitiveArray.toString());
         assertEquals("[Hello, How, you, doin?]", notSensitiveArray.exportFieldValue());
 
         ArrayListField<String> sensitiveArray = new ArrayListField<>(true, notSensitiveArray.getFieldValue());
