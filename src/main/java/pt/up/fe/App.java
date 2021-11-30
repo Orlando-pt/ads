@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pt.up.fe.person.Gender;
+import pt.up.fe.person.Person;
 
 public class App extends Application {
 
@@ -21,8 +23,43 @@ public class App extends Application {
 
 
   @Override
-  public void start(Stage stage) throws Exception
-  {
+  public void start(Stage stage) throws Exception {
+    Person breno = new Person();
+    Person catia = new Person();
+    breno.setName("Breno");
+    breno.setGender(Gender.MALE);
+    catia.setName("Catia");
+    catia.setGender(Gender.FEMALE);
+
+    Person diogo = new Person();
+    Person sofia = new Person();
+    diogo.setName("Diogo");
+    diogo.setMiddleName("Cão");
+    diogo.setLastName("Costa");
+    sofia.setName("Sofia");
+    diogo.setGender(Gender.MALE);
+    sofia.setGender(Gender.FEMALE);
+
+    Person hugo = new Person();
+    Person carolina = new Person();
+    hugo.setName("Hugo");
+    carolina.setName("Carolina");
+    hugo.setGender(Gender.MALE);
+    carolina.setGender(Gender.FEMALE);
+
+    diogo.addChild(hugo);
+    sofia.addChild(hugo);
+
+    breno.addChild(carolina);
+    catia.addChild(carolina);
+
+    Main.peopleList.add(breno);
+    Main.peopleList.add(catia);
+    Main.peopleList.add(hugo);
+    Main.peopleList.add(carolina);
+    Main.peopleList.add(diogo);
+    Main.peopleList.add(sofia);
+
     stage.initStyle(StageStyle.UNDECORATED);
     setPrimaryStage(stage);
     setPrimaryScene(scene);
@@ -34,31 +71,25 @@ public class App extends Application {
     stage.show();
   }
 
-  public static void main(String[] args)
-  {
+  public static void main(String[] args) {
     launch(args);
   }
 
-  private void setPrimaryStage(Stage stage)
-  {
+  private void setPrimaryStage(Stage stage) {
     App.stage = stage;
   }
 
-  public static Stage getMainStage()
-  {
+  public static Stage getMainStage() {
     return App.stage;
   }
 
-  private void setPrimaryScene(Scene scene)
-  {
+  private void setPrimaryScene(Scene scene) {
     App.scene = scene;
   }
 
-  public static Scene getMainScene()
-  {
+  public static Scene getMainScene() {
     return App.scene;
   }
-
 
 
 }

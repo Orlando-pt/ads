@@ -2,7 +2,10 @@ package pt.up.fe.facades;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import pt.up.fe.Main;
+import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 import pt.up.fe.sources.Source;
@@ -163,4 +166,26 @@ public class PersonFacade {
     }
 
   }
+
+  public static List<Person> filterPersons(FilterPersonsDTO filterPersonsDTO) {
+
+    Predicate<Person> byFirstName = person -> filterPersonsDTO.getFirstName().isEmpty()
+        || person.getName()
+        .contains(filterPersonsDTO.getFirstName());
+    Predicate<Person> byMiddleName = person -> filterPersonsDTO.getMiddleName().isEmpty()
+        || person.getMiddleName()
+        .contains(filterPersonsDTO.getMiddleName());
+    Predicate<Person> byLastName = person -> filterPersonsDTO.getLastName().isEmpty()
+        || person.getLastName()
+        .contains(filterPersonsDTO.getLastName());
+
+    List<Person> result = Main.peopleList.stream().filter(byFirstName).filter(byMiddleName)
+        .filter(byLastName)
+        .collect(Collectors.toList());
+
+    return result;
+
+  }
+
 }
+

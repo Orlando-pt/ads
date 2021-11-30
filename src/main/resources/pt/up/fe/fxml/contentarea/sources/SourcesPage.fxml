@@ -7,7 +7,7 @@
 
 <AnchorPane id="sourcesPage" fx:id="sourcesPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.SourcesPageController">
    <children>
-      <Text fill="WHITE" layoutX="190.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person Menu">
+      <Text fill="WHITE" layoutX="190.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Source Menu">
          <font>
             <Font size="40.0" />
          </font>
