@@ -7,12 +7,18 @@ import java.util.Map;
 import java.util.Optional;
 import pt.up.fe.BaseClass;
 import pt.up.fe.events.Event;
+import pt.up.fe.iterators.PersonBreathIterator;
+import pt.up.fe.iterators.PersonIteratorInterface;
 
 public class Person extends BaseClass {
 
   private Gender gender;
   private final List<Event> events = new ArrayList<>();
   private final List<Person> children = new ArrayList<>();
+
+  public PersonIteratorInterface createIterator() {
+    return new PersonBreathIterator(this);
+  }
 
   public Gender getGender() {
     return gender;
