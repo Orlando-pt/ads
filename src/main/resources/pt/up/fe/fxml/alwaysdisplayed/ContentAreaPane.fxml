@@ -5,10 +5,19 @@
 <AnchorPane id="contentAreaPane" fx:id="contentAreaPane" layoutX="155.0" layoutY="27.0" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" styleClass="contentAreaPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.alwaysdisplayed.ContentAreaPaneController">
 
    <children>
-      <fx:include source="../contentarea/GeneralSettingsPage.fxml" />
-      <fx:include source="../contentarea/PersonsPage.fxml" />
-      <fx:include source="../contentarea/CreatePersonPage.fxml" />
-      <fx:include source="../contentarea/ApplicationPage.fxml" />
+      <fx:include source="../contentarea/persons/PersonsPage.fxml" />
+      <fx:include source="../contentarea/persons/CreatePersonPage.fxml" />
+      <fx:include source="../contentarea/persons/ViewEditPersonPage.fxml" />
+      <fx:include source="../contentarea/persons/ListPersonsPage.fxml" />
+
+      <fx:include source="../contentarea/sources/SourcesPage.fxml" />
+      <fx:include source="../contentarea/sources/CreateSourcePage.fxml" />
+      <fx:include source="../contentarea/sources/CreateBookPage.fxml" />
+      <fx:include source="../contentarea/sources/CreateCustomSourcePage.fxml" />
+      <fx:include source="../contentarea/sources/CreateHistoricalRecordPage.fxml" />
+      <fx:include source="../contentarea/sources/CreateOnlineResourcePage.fxml" />
+      <fx:include source="../contentarea/sources/CreateOrallyTransmittedPage.fxml" />
+
       <fx:include source="../contentarea/HomePage.fxml" />
    </children>
 </AnchorPane>

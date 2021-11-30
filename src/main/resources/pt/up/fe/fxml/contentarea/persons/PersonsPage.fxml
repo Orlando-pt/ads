@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="personsPage" fx:id="personsPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.PersonsPageController">
+<AnchorPane id="personsPage" fx:id="personsPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.PersonsPageController">
    <children>
       <Text fill="WHITE" layoutX="190.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person Menu">
          <font>
@@ -17,12 +17,12 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="252.0" layoutY="185.0" mnemonicParsing="false" text="Edit Person">
+      <Button layoutX="252.0" layoutY="185.0" mnemonicParsing="false" fx:id="viewEditPerson" onMouseClicked="#goToAnotherPersonPage" text="View/Edit Person">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="411.0" layoutY="185.0" mnemonicParsing="false" text="List Persons">
+      <Button layoutX="411.0" layoutY="185.0" mnemonicParsing="false" fx:id="listPersons" onMouseClicked="#goToAnotherPersonPage" text="List Persons">
          <font>
             <Font size="16.0" />
          </font>

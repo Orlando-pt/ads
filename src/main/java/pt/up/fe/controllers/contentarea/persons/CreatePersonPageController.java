@@ -1,4 +1,4 @@
-package pt.up.fe.controllers.contentarea;
+package pt.up.fe.controllers.contentarea.persons;
 
 import java.net.URL;
 import java.util.ResourceBundle;
