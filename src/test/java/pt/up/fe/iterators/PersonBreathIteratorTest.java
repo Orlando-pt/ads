@@ -55,10 +55,15 @@ public class PersonBreathIteratorTest {
     }
 
     @Test
-    void apagar() {
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
+    void testLevelOfNextPerson() {
+        // make the iterator pass to second level
+        for (int i = 0; i < 4; i++)
+            this.iterator.next();
+
+        assertEquals(
+            2,
+            this.iterator.levelOfNextPerson()
+        );
     }
 
     private Person buildGenealogyTree() {

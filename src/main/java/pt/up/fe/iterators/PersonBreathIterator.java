@@ -22,6 +22,19 @@ public class PersonBreathIterator implements PersonIteratorInterface<ImmutablePa
     public PersonBreathIterator(Person root) {
         this.waitingNodeQueue = new LinkedList<>();
         this.waitingNodeQueue.add(new ImmutablePair<Integer,Person>(0, root));
+
+    }
+
+    protected void addChildrenToWaitingQueue(ImmutablePair<Integer, Person> node) {
+        node.right.getChildren().forEach(
+            (child) -> this.waitingNodeQueue.add(
+                new ImmutablePair<Integer,Person>(node.left + 1, child)
+            )
+        );
+    }
+
+    protected LinkedList<ImmutablePair<Integer, Person>> getWaitingQueue() {
+        return this.waitingNodeQueue;
     }
 
     @Override
@@ -32,12 +45,14 @@ public class PersonBreathIterator implements PersonIteratorInterface<ImmutablePa
     @Override
     public ImmutablePair<Integer, Person> next() {
         ImmutablePair<Integer, Person> currentPerson = this.waitingNodeQueue.pollFirst();
-        currentPerson.right.getChildren().forEach(
-            (child) -> this.waitingNodeQueue.add(
-                new ImmutablePair<Integer,Person>(currentPerson.left + 1, child)
-            )
-        );
+        
+        this.addChildrenToWaitingQueue(currentPerson);
         return currentPerson;
     }
     
+    @Override
+    public int levelOfNextPerson() {
+        return this.waitingNodeQueue.peek().left;
+    }
+
 }
