@@ -20,6 +20,10 @@ import pt.up.fe.dtos.sources.FilterSourcesDTO;
 import pt.up.fe.dtos.sources.SourceTableDTO;
 import pt.up.fe.facades.SourceFacade;
 import pt.up.fe.places.Place;
+import pt.up.fe.sources.Book;
+import pt.up.fe.sources.HistoricalRecord;
+import pt.up.fe.sources.OnlineResource;
+import pt.up.fe.sources.OrallyTransmitted;
 import pt.up.fe.sources.Source;
 
 public class ListSourcesPageController implements Initializable {
@@ -125,7 +129,23 @@ public class ListSourcesPageController implements Initializable {
           source.getName(),
           source.getDateOfPublication(), source.getAuthors().toString(), source);
 
-
+      //TODO Melhorar código (ou não?!)
+      switch (source.getClass().getSimpleName()) {
+        case "Book":
+          sourceTableDTO.setPages(((Book) source).getPages());
+          sourceTableDTO.setPublisher(((Book) source).getPublisher());
+          break;
+        case "HistoricalRecord":
+          sourceTableDTO.setNationalArchiveCountry(
+              ((HistoricalRecord) source).getNationalArchiveCountry());
+          break;
+        case "OnlineResource":
+          sourceTableDTO.setLink(((OnlineResource) source).getLink());
+          break;
+        case "OrallyTransmitted":
+          sourceTableDTO.setPlace(((OrallyTransmitted) source).getPlace());
+          break;
+      }
       list.add(sourceTableDTO);
     });
 
