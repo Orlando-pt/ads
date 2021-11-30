@@ -94,8 +94,6 @@ public class PersonBreathIteratorTest {
         catia.addChild(carolina);
         catia.addChild(orlando);
 
-        // add one that is after the treshold
-
         return diogo;
     }
 }
