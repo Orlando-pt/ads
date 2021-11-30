@@ -1,5 +1,6 @@
 package pt.up.fe.dtos.persons;
 
+import pt.up.fe.dates.IDate;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 
@@ -13,14 +14,14 @@ public class PersonTableDTO {
 
   private Gender gender;
 
-  private String birthDate;
+  private IDate birthDate;
 
   private Integer children;
 
   private Person person;
 
   public PersonTableDTO(String firstName, String lastName, String middleName,
-      Gender gender, String birthDate, Integer children, Person person) {
+      Gender gender, IDate birthDate, Integer children, Person person) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.middleName = middleName;
@@ -38,11 +39,11 @@ public class PersonTableDTO {
     this.person = person;
   }
 
-  public String getBirthDate() {
+  public IDate getBirthDate() {
     return birthDate;
   }
 
-  public void setBirthDate(String birthDate) {
+  public void setBirthDate(IDate birthDate) {
     this.birthDate = birthDate;
   }
 

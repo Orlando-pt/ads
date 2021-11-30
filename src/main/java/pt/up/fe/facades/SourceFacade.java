@@ -3,7 +3,10 @@ package pt.up.fe.facades;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import pt.up.fe.Main;
+import pt.up.fe.dtos.sources.FilterSourcesDTO;
 import pt.up.fe.sources.Book;
 import pt.up.fe.sources.CustomSource;
 import pt.up.fe.sources.HistoricalRecord;
@@ -97,5 +100,19 @@ public class SourceFacade {
     }
 
     return onlineResource;
+  }
+
+  public static List<Source> filterSources(FilterSourcesDTO filterSourcesDTO) {
+
+    Predicate<Source> byName = source -> filterSourcesDTO.getName().isEmpty()
+        || source.getName() != null && source.getName().toLowerCase()
+        .contains(filterSourcesDTO.getName().toLowerCase());
+
+    List<Source> result = Main.sourcesList.stream()
+        .filter(byName)
+        .collect(Collectors.toList());
+
+    return result;
+
   }
 }

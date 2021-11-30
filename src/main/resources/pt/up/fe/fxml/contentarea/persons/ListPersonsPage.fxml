@@ -51,5 +51,11 @@
             <Font size="16.0" />
          </font>
       </Label>
+      <Button fx:id="selectViewButton" layoutX="274.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#selectPerson" prefHeight="26.0" prefWidth="114.0" text="View/Edit Person" />
+      <Label fx:id="selectViewButtonLabel" layoutX="105.0" layoutY="522.0" text="To View/Edit a person, select one and then click the following button" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

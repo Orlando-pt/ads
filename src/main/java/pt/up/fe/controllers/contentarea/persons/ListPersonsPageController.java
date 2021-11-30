@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.facades.PersonFacade;
@@ -27,6 +28,12 @@ public class ListPersonsPageController implements Initializable {
 
   @FXML
   private Label selectButtonLabel;
+
+  @FXML
+  private Button selectViewButton;
+
+  @FXML
+  private Label selectViewButtonLabel;
 
   @FXML
   private TextField firstNameInput;
@@ -69,10 +76,17 @@ public class ListPersonsPageController implements Initializable {
     children.setCellValueFactory(new PropertyValueFactory<>("children"));
     birthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
 
-    if(false){
+    if (false) {
       selectButton.setVisible(false);
       selectButtonLabel.setVisible(false);
+      selectViewButton.setVisible(true);
+      selectViewButtonLabel.setVisible(true);
 
+    } else {
+      selectViewButton.setVisible(false);
+      selectViewButtonLabel.setVisible(false);
+      selectButton.setVisible(true);
+      selectButtonLabel.setVisible(true);
     }
 
     filterPersons();
@@ -104,7 +118,7 @@ public class ListPersonsPageController implements Initializable {
 
     personsFiltered.forEach(person -> {
       list.add(new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
-          person.getGender(), "", person.getChildren().size(), person));
+          person.getGender(), new SimpleDate(), person.getChildren().size(), person));
     });
 
   }

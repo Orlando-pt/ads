@@ -1,17 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="listSourcesPage" fx:id="listPersonsPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.ListSourcesPageController">
-   <children>
-      <Text fill="WHITE" layoutX="223.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Sources">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
-      <ListView layoutX="44.0" layoutY="93.0" prefHeight="457.0" prefWidth="561.0" />
-   </children>
+<AnchorPane id="listSourcesPage" fx:id="listSourcesPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.ListSourcesPageController">
+  <children>
+    <Text fill="WHITE" layoutX="225.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Sources">
+      <font>
+        <Font size="40.0" />
+      </font>
+    </Text>
+
+    <TableView fx:id="sourcesTable" layoutX="15.0" layoutY="165.0" prefHeight="355.0" prefWidth="606.0">
+      <columns>
+            <TableColumn fx:id="type" prefWidth="91.0" text="Type" />
+        <TableColumn fx:id="name" prefWidth="91.0" text="Name" />
+        <TableColumn fx:id="dateOfPublication" prefWidth="139.0" text="Date Of Publication" />
+        <TableColumn fx:id="authors" prefWidth="143.0" text="Authors" />
+        <TableColumn fx:id="pages" prefWidth="60.0" text="Pages" />
+        <TableColumn fx:id="publisher" prefWidth="103.0" text="Publisher" />
+        <TableColumn fx:id="nationalArchiveCountry" prefWidth="103.0" text="National Archive Country" />
+        <TableColumn fx:id="link" prefWidth="60.0" text="Link" />
+        <TableColumn fx:id="place" prefWidth="60.0" text="Place" />
+      </columns>
+    </TableView>
+
+    <Button layoutX="563.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#search" prefHeight="26.0" prefWidth="67.0" text="Search" />
+    <Label layoutX="24.0" layoutY="74.0" text="Name" textFill="WHITE">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </Label>
+    <TextField fx:id="nameInput" layoutX="24.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
+    <Button fx:id="selectButton" layoutX="274.0" layoutY="544.0" mnemonicParsing="false" onMouseClicked="#selectSource" prefHeight="26.0" prefWidth="114.0" text="Select Source" />
+    <Label fx:id="selectButtonLabel" layoutX="141.0" layoutY="523.0" text="Please select a Source and then click the following button" textFill="WHITE">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </Label>
+    <Button fx:id="selectViewButton" layoutX="274.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#selectSource" prefHeight="26.0" prefWidth="114.0" text="View/Edit Source" />
+    <Label fx:id="selectViewButtonLabel" layoutX="105.0" layoutY="522.0" text="To View/Edit a Source, select one and then click the following button" textFill="WHITE">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </Label>
+  </children>
 </AnchorPane>

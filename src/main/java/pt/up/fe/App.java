@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
+import pt.up.fe.sources.Book;
 
 public class App extends Application {
 
@@ -59,6 +60,10 @@ public class App extends Application {
     Main.peopleList.add(carolina);
     Main.peopleList.add(diogo);
     Main.peopleList.add(sofia);
+
+    Book book = new Book("nome");
+    book.setPages(2);
+    Main.sourcesList.add(book);
 
     stage.initStyle(StageStyle.UNDECORATED);
     setPrimaryStage(stage);

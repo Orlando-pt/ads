@@ -170,17 +170,19 @@ public class PersonFacade {
   public static List<Person> filterPersons(FilterPersonsDTO filterPersonsDTO) {
 
     Predicate<Person> byFirstName = person -> filterPersonsDTO.getFirstName().isEmpty()
-        || person.getName()
-        .contains(filterPersonsDTO.getFirstName());
-    Predicate<Person> byMiddleName = person -> filterPersonsDTO.getMiddleName().isEmpty()
-        || person.getMiddleName()
-        .contains(filterPersonsDTO.getMiddleName());
-    Predicate<Person> byLastName = person -> filterPersonsDTO.getLastName().isEmpty()
-        || person.getLastName()
-        .contains(filterPersonsDTO.getLastName());
+        || person.getName() != null && person.getName().toLowerCase()
+        .contains(filterPersonsDTO.getFirstName().toLowerCase());
 
-    List<Person> result = Main.peopleList.stream().filter(byFirstName).filter(byMiddleName)
-        .filter(byLastName)
+    Predicate<Person> byMiddleName = person -> filterPersonsDTO.getMiddleName().isEmpty()
+        || person.getMiddleName() != null && person.getMiddleName().toLowerCase()
+        .contains(filterPersonsDTO.getMiddleName().toLowerCase());
+
+    Predicate<Person> byLastName = person -> filterPersonsDTO.getLastName().isEmpty()
+        || person.getLastName() != null && person.getLastName().toLowerCase().contains(
+        filterPersonsDTO.getLastName().toLowerCase());
+
+    List<Person> result = Main.peopleList.stream()
+        .filter(byFirstName.and(byMiddleName.and(byLastName)))
         .collect(Collectors.toList());
 
     return result;

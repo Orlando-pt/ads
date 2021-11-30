@@ -3,12 +3,13 @@ package pt.up.fe.controllers.contentarea.sources;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.helpers.CustomSceneHelper;
 
-public class CreateSourcePageController {
+public class CreateSourcePageController implements Initializable {
 
   @FXML
   ToggleGroup source_type;
@@ -18,7 +19,7 @@ public class CreateSourcePageController {
   }
 
   @FXML
-  private void initialize(URL url, ResourceBundle resources) {
+  public void initialize(URL url, ResourceBundle resources) {
   }
 
   @FXML

@@ -17,6 +17,7 @@
       <fx:include source="../contentarea/sources/CreateHistoricalRecordPage.fxml" />
       <fx:include source="../contentarea/sources/CreateOnlineResourcePage.fxml" />
       <fx:include source="../contentarea/sources/CreateOrallyTransmittedPage.fxml" />
+      <fx:include source="../contentarea/sources/ListSourcesPage.fxml" />
 
       <fx:include source="../contentarea/HomePage.fxml" />
    </children>
