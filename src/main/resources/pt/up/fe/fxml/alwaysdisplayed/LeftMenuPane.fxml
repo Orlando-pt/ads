@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutX="1.0" layoutY="60.0" prefHeight="575.0" prefWidth="150.0" style="-fx-background-color: #2A2B31;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.alwaysdisplayed.LeftMenuPaneController">
+<AnchorPane layoutX="1.0" layoutY="60.0" prefHeight="575.0" prefWidth="150.0" style="-fx-background-color: #2A2B31;" xmlns="http://javafx.com/javafx/14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.alwaysdisplayed.LeftMenuPaneController">
    <children>
       <Button id="homeButton" fx:id="homeButton" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#menuButtonClicked" onMouseEntered="#highlightButton" onMouseExited="#unHighlightButtonIfNotActive" prefHeight="61.0" prefWidth="140.0" style="-fx-background-color: #3A3C43; -fx-background-radius: 1;" styleClass="leftPaneButton" text="Home" textFill="#ddd6d6">
          <font>
@@ -17,6 +17,11 @@
          </font>
       </Button>
       <Button id="sourcesButton" fx:id="applicationButton" layoutX="5.0" layoutY="137" mnemonicParsing="false" onMouseClicked="#menuButtonClicked" onMouseEntered="#highlightButton" onMouseExited="#unHighlightButtonIfNotActive" prefHeight="61.0" prefWidth="140.0" style="-fx-background-color: #3A3C43; -fx-background-radius: 1;" styleClass="leftPaneButton" text="Sources" textFill="#ddd6d6">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button id="eventsButton" fx:id="eventsButton" layoutX="5.0" layoutY="204.0" mnemonicParsing="false" onMouseClicked="#menuButtonClicked" onMouseEntered="#highlightButton" onMouseExited="#unHighlightButtonIfNotActive" prefHeight="61.0" prefWidth="140.0" style="-fx-background-color: #3A3C43; -fx-background-radius: 1;" styleClass="leftPaneButton" text="Events" textFill="#ddd6d6">
          <font>
             <Font size="18.0" />
          </font>

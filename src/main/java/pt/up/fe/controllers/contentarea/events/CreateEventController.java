@@ -1,24 +1,16 @@
-package pt.up.fe.controllers.events;
+package pt.up.fe.controllers.contentarea.events;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.stage.Stage;
-import pt.up.fe.App;
+import pt.up.fe.helpers.CustomSceneHelper;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CreateEventController implements Initializable {
-
-    @FXML
-    private Button button;
-
     @FXML
     private ComboBox<String> comboBox;
 
@@ -35,20 +27,7 @@ public class CreateEventController implements Initializable {
     }
 
     public void createNewEvent(ActionEvent event) throws IOException {
-        String name = comboBox.getValue().toLowerCase() + "Event";
-
-        Scene scene = new Scene(App.loadFXML(name));
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void goBack(ActionEvent event) throws IOException {
-        Scene scene = new Scene(App.loadFXML("event"));
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        String name = comboBox.getValue() + "Event";
+        CustomSceneHelper.bringNodeToFront(name, "Page");
     }
 }
