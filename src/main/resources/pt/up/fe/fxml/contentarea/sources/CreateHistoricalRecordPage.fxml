@@ -3,49 +3,67 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane id="createHistoricalRecordPage" fx:id="createHistoricalRecordPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.CreateHistoricalRecordPageController">
+<AnchorPane id="createHistoricalRecordPage" fx:id="createHistoricalRecordPage" prefHeight="575.0"
+  prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="pt.up.fe.controllers.contentarea.sources.CreateHistoricalRecordPageController">
   <children>
-    <Text fill="WHITE" layoutX="122.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Historical Record">
+    <Text fill="WHITE" layoutX="135.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0"
+      text="Create Historical Record">
       <font>
-        <Font size="40.0" />
+        <Font size="40.0"/>
       </font>
     </Text>
-    <TextField layoutX="71.0" layoutY="158.0" prefHeight="35.0" prefWidth="223.0" promptText="Insert book's name" />
+    <TextField fx:id="historicalRecordNameInput" layoutX="71.0" layoutY="158.0" prefHeight="35.0"
+      prefWidth="223.0" promptText="Insert historical record name"/>
     <Label layoutX="71.0" layoutY="132.0" text="Name" textFill="WHITE">
       <font>
-        <Font size="20.0" />
+        <Font size="20.0"/>
       </font>
     </Label>
     <Label layoutX="74.0" layoutY="215.0" text="Authors" textFill="WHITE">
       <font>
-        <Font size="20.0" />
+        <Font size="20.0"/>
       </font>
     </Label>
-    <Label layoutX="221.0" layoutY="356.0" text="National Archive Country" textFill="WHITE">
+    <Button fx:id="createHistoricalRecordButton" layoutX="244.0" layoutY="475.0"
+      mnemonicParsing="false"
+      onMouseClicked="#createHistoricalRecord" text="Create Historical Record">
       <font>
-        <Font size="20.0" />
+        <Font size="14.0"/>
       </font>
-    </Label>
-    <Button layoutX="298.0" layoutY="458.0" mnemonicParsing="false" text="Create" />
+    </Button>
     <Label layoutX="347.0" layoutY="132.0" text="Date of Publication" textFill="WHITE">
       <font>
-        <Font size="20.0" />
+        <Font size="20.0"/>
       </font>
     </Label>
-    <ListView layoutX="71.0" layoutY="241.0" prefHeight="85.0" prefWidth="223.0" />
-    <TextField layoutX="351.0" layoutY="241.0" prefHeight="35.0" prefWidth="250.0" promptText="Insert new author's name" />
+    <TableView fx:id="authorsTable" layoutX="71.0" layoutY="241.0" prefHeight="85.0"
+      prefWidth="223.0">
+      <columns>
+        <TableColumn fx:id="authorNameColumn" prefWidth="223.0" text="Author Name"/>
+      </columns>
+    </TableView>
+    <TextField fx:id="authorNameInput" layoutX="351.0" layoutY="241.0" prefHeight="35.0"
+      prefWidth="250.0" promptText="Insert new author's name"/>
     <Label layoutX="351.0" layoutY="215.0" text="Add Authors" textFill="WHITE">
       <font>
-        <Font size="20.0" />
+        <Font size="20.0"/>
       </font>
     </Label>
-    <Button layoutX="436.0" layoutY="288.0" mnemonicParsing="false" text="Add Author" />
-    <DatePicker layoutX="351.0" layoutY="158.0" prefHeight="35.0" prefWidth="250.0" />
+    <Button fx:id="addAuthorButton" layoutX="436.0" layoutY="288.0" mnemonicParsing="false"
+      onMouseClicked="#addAuthor" text="Add Author"/>
+    <DatePicker layoutX="351.0" layoutY="158.0" prefHeight="35.0" prefWidth="250.0"/>
+    <Label layoutX="221.0" layoutY="351.0" text="National Archive Country" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
   </children>
 </AnchorPane>

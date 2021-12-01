@@ -3,60 +3,79 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane id="createBookPage" fx:id="createBookPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.CreateBookPageController">
-   <children>
-      <Text fill="WHITE" layoutX="206.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Book">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
-      <TextField layoutX="71.0" layoutY="158.0" prefHeight="35.0" prefWidth="223.0" promptText="Insert book's name" />
-      <Label layoutX="71.0" layoutY="132.0" text="Name" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="74.0" layoutY="215.0" text="Authors" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="68.0" layoutY="349.0" text="Nº Pages" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Button layoutX="296.0" layoutY="471.0" mnemonicParsing="false" text="Create">
-         <font>
-            <Font size="14.0" />
-         </font></Button>
-      <Label layoutX="347.0" layoutY="132.0" text="Date of Publication" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <ListView layoutX="71.0" layoutY="241.0" prefHeight="85.0" prefWidth="223.0" />
-      <TextField layoutX="351.0" layoutY="241.0" prefHeight="35.0" prefWidth="250.0" promptText="Insert new author's name" />
-      <Label layoutX="351.0" layoutY="215.0" text="Add Authors" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Button layoutX="436.0" layoutY="288.0" mnemonicParsing="false" text="Add Author" />
-      <DatePicker layoutX="351.0" layoutY="158.0" prefHeight="35.0" prefWidth="250.0" />
-      <Spinner layoutX="71.0" layoutY="387.0" prefHeight="26.0" prefWidth="123.0" />
-      <Label layoutX="355.0" layoutY="349.0" text="Publisher" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextField layoutX="351.0" layoutY="383.0" prefHeight="35.0" prefWidth="250.0" promptText="Insert new publisher's name" />
-   </children>
+<?import pt.up.fe.helpers.NumberTextField?>
+<AnchorPane id="createBookPage" fx:id="createBookPage" prefHeight="575.0" prefWidth="650.0"
+  style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="pt.up.fe.controllers.contentarea.sources.CreateBookPageController">
+  <children>
+    <Text fill="WHITE" layoutX="206.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0"
+      text="Create Book">
+      <font>
+        <Font size="40.0"/>
+      </font>
+    </Text>
+    <TextField fx:id="bookNameInput" layoutX="71.0" layoutY="158.0" prefHeight="35.0"
+      prefWidth="223.0"
+      promptText="Insert book's name"/>
+    <Label layoutX="71.0" layoutY="132.0" text="Name" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
+    <Label layoutX="74.0" layoutY="215.0" text="Authors" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
+    <Label layoutX="68.0" layoutY="349.0" text="Nº Pages" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
+    <Button fx:id="createBookButton" onMouseClicked="#createBook" layoutX="296.0" layoutY="471.0"
+      mnemonicParsing="false" text="Create Book">
+      <font>
+        <Font size="14.0"/>
+      </font>
+    </Button>
+    <Label layoutX="347.0" layoutY="132.0" text="Date of Publication" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
+    <TableView fx:id="authorsTable" layoutX="71.0" layoutY="241.0" prefHeight="85.0"
+      prefWidth="223.0">
+      <columns>
+        <TableColumn fx:id="authorNameColumn" prefWidth="223.0" text="Author Name"/>
+      </columns>
+    </TableView>
+    <TextField fx:id="authorNameInput" layoutX="351.0" layoutY="241.0" prefHeight="35.0"
+      prefWidth="250.0"
+      promptText="Insert new author's name"/>
+    <Label layoutX="351.0" layoutY="215.0" text="Add Authors" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
+    <Button fx:id="addAuthorButton" onMouseClicked="#addAuthor" layoutX="436.0" layoutY="288.0"
+      mnemonicParsing="false" text="Add Author"/>
+    <DatePicker layoutX="351.0" layoutY="158.0" prefHeight="35.0" prefWidth="250.0"/>
+    <NumberTextField fx:id="pagesInput" layoutX="71.0" layoutY="387.0" prefHeight="35.0"
+      prefWidth="123.0"/>
+    <Label layoutX="355.0" layoutY="349.0" text="Publisher" textFill="WHITE">
+      <font>
+        <Font size="20.0"/>
+      </font>
+    </Label>
+    <TextField fx:id="publisherNameInput" layoutX="351.0" layoutY="383.0" prefHeight="35.0"
+      prefWidth="250.0"
+      promptText="Insert new publisher's name"/>
+  </children>
 </AnchorPane>
