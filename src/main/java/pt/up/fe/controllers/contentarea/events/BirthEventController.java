@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import pt.up.fe.dtos.events.FieldDTO;
 
 import java.net.URL;
@@ -96,5 +97,23 @@ public class BirthEventController implements Initializable  {
     private void initFieldsCols() {
         col_field.setCellValueFactory(new PropertyValueFactory<>("field"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        this.editableCols();
+    }
+
+    private void editableCols() {
+        col_field.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_field.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setField(e.getNewValue());
+        });
+
+        col_name.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_name.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setName(e.getNewValue());
+        });
+
+        table_fields.setEditable(true);
     }
 }
