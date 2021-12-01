@@ -1,13 +1,16 @@
 package pt.up.fe.dtos.persons;
 
 import pt.up.fe.person.Gender;
+import pt.up.fe.sources.Source;
 
 public class PersonDTO {
+
   private String firstName;
   private String middleName;
   private String lastName;
   private String description;
   private Gender gender;
+  private Source source;
 
   public String getFirstName() {
     return firstName;
@@ -31,6 +34,14 @@ public class PersonDTO {
 
   public void setGender(Gender gender) {
     this.gender = gender;
+  }
+
+  public Source getSource() {
+    return source;
+  }
+
+  public void setSource(Source source) {
+    this.source = source;
   }
 
   public String getMiddleName() {

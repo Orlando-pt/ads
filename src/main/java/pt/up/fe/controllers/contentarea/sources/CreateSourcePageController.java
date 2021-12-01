@@ -14,10 +14,6 @@ public class CreateSourcePageController implements Initializable {
   @FXML
   ToggleGroup source_type;
 
-
-  public CreateSourcePageController() {
-  }
-
   @FXML
   public void initialize(URL url, ResourceBundle resources) {
   }

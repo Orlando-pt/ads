@@ -59,7 +59,7 @@ public class TitleBarController implements Initializable {
 
   @FXML
   private void minimizeButtonClicked(MouseEvent event) {
-    Stage stage = App.getMainStage();
+    Stage stage = Main.getMainStage();
     stage.setIconified(true);
   }
 
