@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane id="birthEventPage" fx:id="birthEventPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.BirthEventController">
+<ScrollPane id="birthEventPage" fx:id="birthEventPage" hbarPolicy="NEVER" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.BirthEventController">
   <content>
-    <AnchorPane prefHeight="1295.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;">
+    <AnchorPane prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;">
         <children>
             <Label layoutX="261.0" layoutY="14.0" prefWidth="79.0" text="Birth Event" textAlignment="CENTER" textFill="WHITE">
                 <font>

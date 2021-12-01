@@ -1,7 +1,6 @@
 package pt.up.fe.controllers.contentarea.events;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -10,14 +9,14 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
+import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEventHandler;
 import pt.up.fe.person.Person;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class BirthEventController implements Initializable {
@@ -96,7 +95,26 @@ public class BirthEventController implements Initializable {
 
     @FXML
     void createEvent(ActionEvent event) {
+        HashMap<String, Person> persons = new HashMap<>();
+        for (PersonEventDTO item : this.table_persons.getItems()) {
+            persons.put(item.getRelationship(), item.getPerson());
+        }
 
+        HashMap<String, String> specialPurposeFields = new HashMap<>();
+        for (FieldDTO item : this.table_fields.getItems()) {
+            specialPurposeFields.put(item.getField(), item.getName());
+        }
+
+        Event birthEvent = new EventFacade().createBirthEvent(
+                this.maternity.getText(),
+                this.placeBirth.getText(),
+                this.birthDate.toString(),
+                persons,
+                specialPurposeFields,
+                this.description.getText()
+        );
+
+        System.out.println(birthEvent.toString());
     }
 
     @FXML

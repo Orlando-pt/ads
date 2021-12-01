@@ -21,7 +21,6 @@ public class Main {
     Scanner sc = new Scanner(System.in);
     PlaceFacade placeFacade = new PlaceFacade(sc);
     DateFacade dateFacade = new DateFacade(sc);
-    EventFacade eventFacade = new EventFacade(placeFacade, dateFacade, sc);
     SourceFacade sourceFacade = new SourceFacade(sc);
     PersonFacade personFacade = new PersonFacade(sc, sourceFacade);
     while (true) {
@@ -45,8 +44,6 @@ public class Main {
           personFacade.displayPeople();
           break;
         case 3:
-          Event newEvent = eventFacade.createEvent();
-          System.out.println(newEvent.toString());
           break;
         case 4:
           Source newSource = sourceFacade.newSourceInstance();
