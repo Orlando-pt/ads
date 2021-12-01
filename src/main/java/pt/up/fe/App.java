@@ -6,24 +6,95 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import pt.up.fe.person.Gender;
+import pt.up.fe.person.Person;
+import pt.up.fe.sources.Book;
 
 public class App extends Application {
 
   private static Scene scene;
+  private static Stage stage;
+
 
   public static Parent loadFXML(String fxml) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
     return fxmlLoader.load();
   }
 
-  public static void main(String[] args) {
-    launch();
-  }
 
   @Override
-  public void start(Stage stage) throws IOException {
-    scene = new Scene(loadFXML("main"));
+  public void start(Stage stage) throws Exception {
+    Person breno = new Person();
+    Person catia = new Person();
+    breno.setName("Breno");
+    breno.setGender(Gender.MALE);
+    catia.setName("Catia");
+    catia.setGender(Gender.FEMALE);
+
+    Person diogo = new Person();
+    Person sofia = new Person();
+    diogo.setName("Diogo");
+    diogo.setMiddleName("Cão");
+    diogo.setLastName("Costa");
+    sofia.setName("Sofia");
+    diogo.setGender(Gender.MALE);
+    sofia.setGender(Gender.FEMALE);
+
+    Person hugo = new Person();
+    Person carolina = new Person();
+    hugo.setName("Hugo");
+    carolina.setName("Carolina");
+    hugo.setGender(Gender.MALE);
+    carolina.setGender(Gender.FEMALE);
+
+    diogo.addChild(hugo);
+    sofia.addChild(hugo);
+
+    breno.addChild(carolina);
+    catia.addChild(carolina);
+
+    Main.peopleList.add(breno);
+    Main.peopleList.add(catia);
+    Main.peopleList.add(hugo);
+    Main.peopleList.add(carolina);
+    Main.peopleList.add(diogo);
+    Main.peopleList.add(sofia);
+
+    Book book = new Book("nome");
+    book.setPages(2);
+    Main.sourcesList.add(book);
+
+    stage.initStyle(StageStyle.UNDECORATED);
+    setPrimaryStage(stage);
+    setPrimaryScene(scene);
+    Parent root = loadFXML("fxml/alwaysdisplayed/main");
+
+    scene = new Scene(root);
+
     stage.setScene(scene);
     stage.show();
   }
+
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+  private void setPrimaryStage(Stage stage) {
+    App.stage = stage;
+  }
+
+  public static Stage getMainStage() {
+    return App.stage;
+  }
+
+  private void setPrimaryScene(Scene scene) {
+    App.scene = scene;
+  }
+
+  public static Scene getMainScene() {
+    return App.scene;
+  }
+
+
 }
