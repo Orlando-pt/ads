@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <javafx.version>14</javafx.version>
+        <javafx.version>17</javafx.version>
         <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
     </properties>
 
@@ -133,7 +133,7 @@
                     <artifactId>javafx-maven-plugin</artifactId>
                     <version>${javafx.maven.plugin.version}</version>
                     <configuration>
-                        <mainClass>pt.up.fe.App</mainClass>
+                        <mainClass>pt.up.fe.Main</mainClass>
                     </configuration>
                 </plugin>
             </plugins>

@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import pt.up.fe.App;
+import pt.up.fe.Main;
 
 public class TitleBarController implements Initializable {
 
@@ -36,7 +36,7 @@ public class TitleBarController implements Initializable {
   @FXML
   private void titleBarDragged(MouseEvent event) throws IOException {
     //Makes the title bar movable when dragging it.
-    Stage stage = App.getMainStage();
+    Stage stage = Main.getMainStage();
     stage.setX(event.getScreenX() - xOffset);
     stage.setY(event.getScreenY() - yOffset);
   }

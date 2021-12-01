@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import pt.up.fe.App;
+import pt.up.fe.Main;
 
 
 /*
@@ -19,7 +19,7 @@ public class CustomSceneHelper {
   private static Scene scene;
 
   public static void setMainScene() {
-    scene = App.getMainScene();
+    scene = Main.getMainScene();
   }
 
   //The source argument uses event.getSource(), which returns in the following format: Button[id=homeButton, styleClass=button leftPaneButton]'Home'
