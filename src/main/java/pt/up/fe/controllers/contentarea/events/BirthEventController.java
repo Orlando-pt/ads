@@ -1,17 +1,26 @@
 package pt.up.fe.controllers.contentarea.events;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import pt.up.fe.dtos.events.FieldDTO;
+import pt.up.fe.dtos.events.PersonEventDTO;
+import pt.up.fe.events.Event;
+import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.PersonCustomEvent;
+import pt.up.fe.helpers.events.PersonCustomEventHandler;
+import pt.up.fe.person.Person;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class BirthEventController implements Initializable  {
+public class BirthEventController implements Initializable {
 
     @FXML
     private DatePicker birthDate;
@@ -47,13 +56,13 @@ public class BirthEventController implements Initializable  {
     private TableColumn<FieldDTO, String> col_name;
 
     @FXML
-    private TableView<?> table_persons;
+    private TableView<PersonEventDTO> table_persons;
 
     @FXML
-    private TableColumn<?, ?> col_person_name;
+    private TableColumn<PersonEventDTO, String> col_relationship;
 
     @FXML
-    private TableColumn<?, ?> col_relationship;
+    private TableColumn<PersonEventDTO, String> col_person_name;
 
     @FXML
     void addCustomField(ActionEvent event) {
@@ -71,13 +80,18 @@ public class BirthEventController implements Initializable  {
     }
 
     @FXML
-    void addCustomPerson(ActionEvent event) {
+    void addPerson(ActionEvent event) {
+        CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
-    }
+        String btnName = ((Button) event.getSource()).getText();
 
-    @FXML
-    void addMother(ActionEvent event) {
-
+        CustomSceneHelper.getNodeById("listPersonsPage").addEventFilter(PersonCustomEvent.PERSON, new PersonCustomEventHandler(this.handleRelation(btnName)) {
+            @Override
+            public void handle(PersonCustomEvent personCustomEvent) {
+                table_persons.getItems().add(new PersonEventDTO(getRelation(), personCustomEvent.getPerson())); // Add person to table
+                CustomSceneHelper.getNodeById("listPersonsPage").removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
+            }
+        });
     }
 
     @FXML
@@ -87,11 +101,12 @@ public class BirthEventController implements Initializable  {
 
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
-        this.initFieldsTable();
+        this.initTables();
     }
 
-    private void initFieldsTable() {
+    private void initTables() {
         this.initFieldsCols();
+        this.initPersonsCols();
     }
 
     private void initFieldsCols() {
@@ -99,6 +114,11 @@ public class BirthEventController implements Initializable  {
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         this.editableCols();
+    }
+
+    private void initPersonsCols() {
+        col_relationship.setCellValueFactory(new PropertyValueFactory<>("relationship"));
+        col_person_name.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
     private void editableCols() {
@@ -115,5 +135,19 @@ public class BirthEventController implements Initializable  {
         });
 
         table_fields.setEditable(true);
+    }
+
+    private String handleRelation(String btnName) {
+        if(btnName.contains("Mother") || btnName.contains("Father")) {
+            return btnName.replaceAll("Add ", "");
+        }
+
+        String relation = relationshipInput.getText();
+
+        if(relation.isEmpty()) {
+            return null;
+        }
+
+        return relation;
     }
 }

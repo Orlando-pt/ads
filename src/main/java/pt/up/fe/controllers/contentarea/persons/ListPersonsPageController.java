@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,10 +15,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.controllers.contentarea.events.BirthEventController;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.facades.PersonFacade;
+import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.SingletonHolder;
+import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 
@@ -101,7 +106,12 @@ public class ListPersonsPageController implements Initializable {
   @FXML
   private void selectPerson(MouseEvent event) {
     Person person = personsTable.getSelectionModel().getSelectedItem().getPerson();
-    System.out.println(person);
+
+    CustomSceneHelper.getNodeById("listPersonsPage").fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
+
+    CustomSceneHelper.bringNodeToFront("BirthEvent", "Page");
+
+    this.clearPage();
   }
 
   private void filterPersons() {
@@ -120,7 +130,13 @@ public class ListPersonsPageController implements Initializable {
       list.add(new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
           person.getGender(), new SimpleDate(), person.getChildren().size(), person));
     });
+  }
 
+  private void clearPage() {
+    firstNameInput.clear();
+    middleNameInput.clear();
+    lastNameInput.clear();
+    this.filterPersons();
   }
 
 

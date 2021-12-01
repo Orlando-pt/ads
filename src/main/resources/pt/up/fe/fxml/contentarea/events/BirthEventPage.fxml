@@ -33,7 +33,7 @@
                     <Font name="System Bold" size="18.0" />
                 </font>
             </Label>
-            <Button layoutX="467.0" layoutY="368.0" mnemonicParsing="false" onAction="#addCustomPerson" text="Add Custom Person" />
+            <Button layoutX="467.0" layoutY="368.0" mnemonicParsing="false" onAction="#addPerson" text="Add Custom Person" />
             <TableView fx:id="table_persons" layoutX="57.0" layoutY="420.0" prefHeight="200.0" prefWidth="538.0">
                 <columns>
                     <TableColumn fx:id="col_relationship" prefWidth="271.0" text="Relationship" />
@@ -62,8 +62,8 @@
                     <Font size="20.0" />
                 </font>
             </Button>
-            <Button layoutX="422.0" layoutY="311.0" mnemonicParsing="false" onAction="#addMother" text="Add Mother" />
-            <Button layoutX="515.0" layoutY="311.0" mnemonicParsing="false" onAction="#addMother" text="Add Father" />
+            <Button layoutX="422.0" layoutY="311.0" mnemonicParsing="false" onAction="#addPerson" text="Add Mother" />
+            <Button layoutX="515.0" layoutY="311.0" mnemonicParsing="false" onAction="#addPerson" text="Add Father" />
             <TextField fx:id="relationshipInput" layoutX="57.0" layoutY="368.0" prefHeight="25.0" prefWidth="399.0" promptText="Relationship" />
             <Button layoutX="467.0" layoutY="713.0" mnemonicParsing="false" onAction="#addCustomField" prefHeight="25.0" prefWidth="123.0" text="Add Custom Field" />
             <TextField fx:id="fieldInput" layoutX="55.0" layoutY="713.0" prefHeight="25.0" prefWidth="200.0" promptText="Field" />
