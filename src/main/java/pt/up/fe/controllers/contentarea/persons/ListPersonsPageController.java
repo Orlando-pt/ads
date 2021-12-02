@@ -149,7 +149,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
       list.add(new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
           person.getGender(), new SimpleDate(), person.getChildren().size(), person));
     });
-
   }
 
   @Override

@@ -5,7 +5,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import pt.up.fe.controllers.contentarea.events.EventController;
 import pt.up.fe.controllers.contentarea.IContentPageController;
+import pt.up.fe.controllers.contentarea.dates.CreateDateController;
+import pt.up.fe.controllers.contentarea.events.BirthEventController;
+import pt.up.fe.controllers.contentarea.events.CreateEventController;
 import pt.up.fe.controllers.contentarea.persons.CreatePersonPageController;
 import pt.up.fe.controllers.contentarea.persons.ListPersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.PersonsPageController;
@@ -57,6 +61,18 @@ public class ContentAreaPaneController implements Initializable {
 
   @FXML
   private ListSourcesPageController listSourcesPageController;
+
+  @FXML
+  private EventController eventsPageController;
+
+  @FXML
+  private CreateEventController createEventPageController;
+
+  @FXML
+  private BirthEventController birthEventPageController;
+
+  @FXML
+  private CreateDateController createDatePageController;
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {

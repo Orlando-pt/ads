@@ -19,6 +19,12 @@
       <fx:include fx:id="createOrallyTransmittedPage" source="../contentarea/sources/CreateOrallyTransmittedPage.fxml" />
       <fx:include fx:id="listSourcesPage" source="../contentarea/sources/ListSourcesPage.fxml" />
 
+      <fx:include fx:id="eventsPage" source="../contentarea/events/EventsPage.fxml" />
+      <fx:include fx:id="createEventPage" source="../contentarea/events/CreateEventPage.fxml" />
+      <fx:include fx:id="birthEventPage" source="../contentarea/events/BirthEventPage.fxml" />
+
+      <fx:include fx:id="createDatePage" source="../contentarea/CreateDatePage.fxml" />
+
       <fx:include fx:id="homePage" source="../contentarea/HomePage.fxml" />
    </children>
 </AnchorPane>
