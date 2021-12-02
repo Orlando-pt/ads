@@ -1,8 +1,15 @@
 package pt.up.fe.places;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Parish extends Place {
 
   private Double area = 0d;
+
+  public Parish() {
+    super("");
+  }
 
   public Parish(String name) {
     super(name);
@@ -20,6 +27,21 @@ public class Parish extends Place {
 
   public void setArea(Double area) {
     this.area = area;
+  }
+
+  @Override
+  public Map<String, Object> export() {
+    Map<String, Object> retMap = new HashMap<>();
+    retMap.put("Name", getName());
+    retMap.put("Area", this.area);
+    return retMap;
+  }
+
+  @Override
+  public Place load(Map<String, Object> place) {
+    this.setName((String) place.get("Name"));
+    this.setArea((Double) place.get("Area"));
+    return this;
   }
 
   @Override

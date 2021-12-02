@@ -1,8 +1,9 @@
 package pt.up.fe.places;
 
 import pt.up.fe.BaseClass;
+import pt.up.fe.exports.PlaceExportLoadInterface;
 
-public abstract class Place extends BaseClass {
+public abstract class Place extends BaseClass implements PlaceExportLoadInterface{
 
   private Double latitude;
   private Double longitude;
