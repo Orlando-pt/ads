@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,11 +15,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.dtos.sources.FilterSourcesDTO;
 import pt.up.fe.dtos.sources.SourceTableDTO;
 import pt.up.fe.facades.SourceFacade;
+import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.SelectModeCustomEvent;
+import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.places.Place;
 import pt.up.fe.sources.Book;
 import pt.up.fe.sources.HistoricalRecord;
@@ -26,7 +31,7 @@ import pt.up.fe.sources.OnlineResource;
 import pt.up.fe.sources.OrallyTransmitted;
 import pt.up.fe.sources.Source;
 
-public class ListSourcesPageController implements Initializable {
+public class ListSourcesPageController implements Initializable, IContentPageController {
 
   @FXML
   private Button selectButton;
@@ -88,21 +93,20 @@ public class ListSourcesPageController implements Initializable {
     link.setCellValueFactory(new PropertyValueFactory<>("link"));
     place.setCellValueFactory(new PropertyValueFactory<>("place"));
 
-    if (false) {
-      selectButton.setVisible(false);
-      selectButtonLabel.setVisible(false);
-      selectViewButton.setVisible(true);
-      selectViewButtonLabel.setVisible(true);
-
-    } else {
-      selectViewButton.setVisible(false);
-      selectViewButtonLabel.setVisible(false);
-      selectButton.setVisible(true);
-      selectButtonLabel.setVisible(true);
-    }
-
-    filterSources();
+    this.changeButtonLayout(true);
+    this.clearPage();
     sourcesTable.setItems(list);
+  }
+
+  @Override
+  public void setEventHandlers() {
+    CustomSceneHelper.getNodeById("listSourcesPage").addEventFilter(
+        SelectModeCustomEvent.SELECT_MODE, new EventHandler<SelectModeCustomEvent>() {
+          @Override
+          public void handle(SelectModeCustomEvent selectModeCustomEvent) {
+            changeButtonLayout(selectModeCustomEvent.getSelectMode());
+          }
+        });
   }
 
   @FXML
@@ -113,7 +117,11 @@ public class ListSourcesPageController implements Initializable {
   @FXML
   private void selectSource(MouseEvent event) {
     Source source = sourcesTable.getSelectionModel().getSelectedItem().getSource();
-    System.out.println(source);
+    CustomSceneHelper.getNodeById("createPersonPage")
+        .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, source));
+    CustomSceneHelper.bringNodeToFront("createPerson", "Page");
+    this.clearPage();
+    this.changeButtonLayout(false);
   }
 
   private void filterSources() {
@@ -129,7 +137,6 @@ public class ListSourcesPageController implements Initializable {
           source.getName(),
           source.getDateOfPublication(), source.getAuthors().toString(), source);
 
-      //TODO Melhorar código (ou não?!)
       switch (source.getClass().getSimpleName()) {
         case "Book":
           sourceTableDTO.setPages(((Book) source).getPages());
@@ -149,6 +156,27 @@ public class ListSourcesPageController implements Initializable {
       list.add(sourceTableDTO);
     });
 
+  }
+
+  @Override
+  public void clearPage() {
+    nameInput.clear();
+    this.filterSources();
+    this.changeButtonLayout(false);
+  }
+
+  private void changeButtonLayout(Boolean selectMode) {
+    if (selectMode) {
+      selectViewButton.setVisible(false);
+      selectViewButtonLabel.setVisible(false);
+      selectButton.setVisible(true);
+      selectButtonLabel.setVisible(true);
+    } else {
+      selectButton.setVisible(false);
+      selectButtonLabel.setVisible(false);
+      selectViewButton.setVisible(true);
+      selectViewButtonLabel.setVisible(true);
+    }
   }
 
 

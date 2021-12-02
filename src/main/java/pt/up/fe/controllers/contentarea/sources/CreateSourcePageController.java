@@ -7,9 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.helpers.CustomSceneHelper;
 
-public class CreateSourcePageController implements Initializable {
+public class CreateSourcePageController implements Initializable, IContentPageController {
 
   @FXML
   ToggleGroup source_type;
@@ -26,4 +27,13 @@ public class CreateSourcePageController implements Initializable {
   }
 
 
+  @Override
+  public void setEventHandlers() {
+
+  }
+
+  @Override
+  public void clearPage() {
+
+  }
 }

@@ -55,6 +55,7 @@ public class LeftMenuPaneController implements Initializable {
     @FXML
     private void menuButtonClicked(MouseEvent event) throws FileNotFoundException, InterruptedException
     {
+        CustomSceneHelper.contentAreaPaneController.cleanAll();
         //Unhighlights the previous button that was clicked. 
         Node pageNameLabel = CustomSceneHelper.getNodeById("pageNameLabel");
         String previousPageName = CustomSceneHelper.getSourceName(pageNameLabel);

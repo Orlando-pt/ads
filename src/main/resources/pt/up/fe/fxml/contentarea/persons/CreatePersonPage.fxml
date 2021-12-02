@@ -61,8 +61,8 @@
         </RadioButton>
         <RadioButton fx:id="selectSource" layoutX="264.0" layoutY="473.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" text="Existing Source" textFill="WHITE" toggleGroup="$source_radio" />
         <RadioButton fx:id="newSource" layoutX="460.0" layoutY="473.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" text="New Source" textFill="WHITE" toggleGroup="$source_radio" />
-        <Button fx:id="selectSourceButton" layoutX="278.0" layoutY="503.0" mnemonicParsing="false" text="Select Source" />
-        <Button fx:id="newSourceButton" layoutX="451.0" layoutY="503.0" mnemonicParsing="false" text="Create New Source" />
+        <Button fx:id="selectSourceButton" onMouseClicked="#selectSource" layoutX="278.0" layoutY="503.0" mnemonicParsing="false" text="Select Source" />
+        <Button fx:id="newSourceButton" onMouseClicked="#addSource" layoutX="451.0" layoutY="503.0" mnemonicParsing="false" text="Create New Source" />
         <Button fx:id="birthButton" layoutX="254.0" layoutY="567.0" onMouseClicked="#createPersonAndGoToBirth" mnemonicParsing="false" text="Go to Birth Information"/>
             <TextField fx:id="middleNameInput" layoutX="360.0" layoutY="158.0" prefHeight="35.0" prefWidth="200.0" promptText="Insert person's middle name" />
             <Label layoutX="360.0" layoutY="132.0" text="Middle Name" textFill="WHITE">

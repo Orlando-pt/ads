@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 import pt.up.fe.sources.Book;
@@ -80,6 +81,7 @@ public class Main extends Application {
 
     stage.setScene(scene);
     stage.show();
+    CustomSceneHelper.contentAreaPaneController.setEventHandlers();
   }
 
   public static void main(String[] args) {

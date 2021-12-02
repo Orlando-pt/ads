@@ -25,7 +25,7 @@ public class SourceFacade {
     book.setPublisher(bookDTO.getPublisher());
     book.setDateOfPublication(bookDTO.getDateOfPublication());
     book.setAuthors(bookDTO.getAuthors());
-
+    Main.sourcesList.add(book);
     return book;
   }
 
@@ -33,7 +33,7 @@ public class SourceFacade {
     CustomSource customSource = new CustomSource(customSourceDTO.getName());
     customSource.setAuthors(customSourceDTO.getAuthors());
     customSource.setDateOfPublication(customSourceDTO.getDateOfPublication());
-
+    Main.sourcesList.add(customSource);
     return customSource;
   }
 
@@ -42,7 +42,7 @@ public class SourceFacade {
     historicalRecord.setAuthors(historicalRecordDTO.getAuthors());
     historicalRecord.setDateOfPublication(historicalRecordDTO.getDateOfPublication());
     historicalRecord.setNationalArchiveCountry(historicalRecordDTO.getNationalArchiveCountry());
-
+    Main.sourcesList.add(historicalRecord);
     return historicalRecord;
   }
 
@@ -51,7 +51,7 @@ public class SourceFacade {
     onlineResource.setAuthors(onlineResourceDTO.getAuthors());
     onlineResource.setDateOfPublication(onlineResourceDTO.getDateOfPublication());
     onlineResource.setLink(onlineResourceDTO.getLink());
-
+    Main.sourcesList.add(onlineResource);
     return onlineResource;
   }
 
@@ -61,7 +61,7 @@ public class SourceFacade {
     orallyTransmitted.setAuthors(orallyTransmittedDTO.getAuthors());
     orallyTransmitted.setDateOfPublication(orallyTransmittedDTO.getDateOfPublication());
     orallyTransmitted.setPlace(orallyTransmittedDTO.getPlace());
-
+    Main.sourcesList.add(orallyTransmitted);
     return orallyTransmitted;
   }
 

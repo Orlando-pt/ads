@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,14 +15,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.facades.PersonFacade;
+import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 
-public class ListPersonsPageController implements Initializable {
+public class ListPersonsPageController implements Initializable, IContentPageController {
 
   @FXML
   private Button selectButton;
@@ -76,21 +80,20 @@ public class ListPersonsPageController implements Initializable {
     children.setCellValueFactory(new PropertyValueFactory<>("children"));
     birthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
 
-    if (false) {
-      selectButton.setVisible(false);
-      selectButtonLabel.setVisible(false);
-      selectViewButton.setVisible(true);
-      selectViewButtonLabel.setVisible(true);
-
-    } else {
-      selectViewButton.setVisible(false);
-      selectViewButtonLabel.setVisible(false);
-      selectButton.setVisible(true);
-      selectButtonLabel.setVisible(true);
-    }
-
-    filterPersons();
+    this.changeButtonLayout(true);
+    this.clearPage();
     personsTable.setItems(list);
+  }
+
+  @Override
+  public void setEventHandlers() {
+    CustomSceneHelper.getNodeById("listPersonsPage").addEventFilter(
+        SelectModeCustomEvent.SELECT_MODE, new EventHandler<SelectModeCustomEvent>() {
+          @Override
+          public void handle(SelectModeCustomEvent selectModeCustomEvent) {
+            changeButtonLayout(selectModeCustomEvent.getSelectMode());
+          }
+        });
   }
 
   @FXML
@@ -121,6 +124,29 @@ public class ListPersonsPageController implements Initializable {
           person.getGender(), new SimpleDate(), person.getChildren().size(), person));
     });
 
+  }
+
+  @Override
+  public void clearPage() {
+    firstNameInput.clear();
+    middleNameInput.clear();
+    lastNameInput.clear();
+    this.filterPersons();
+    this.changeButtonLayout(false);
+  }
+
+  private void changeButtonLayout(Boolean selectMode) {
+    if (selectMode) {
+      selectViewButton.setVisible(false);
+      selectViewButtonLabel.setVisible(false);
+      selectButton.setVisible(true);
+      selectButtonLabel.setVisible(true);
+    } else {
+      selectButton.setVisible(false);
+      selectButtonLabel.setVisible(false);
+      selectViewButton.setVisible(true);
+      selectViewButtonLabel.setVisible(true);
+    }
   }
 
 
