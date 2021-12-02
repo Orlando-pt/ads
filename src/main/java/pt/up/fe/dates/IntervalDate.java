@@ -1,5 +1,7 @@
 package pt.up.fe.dates;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONObject;
 
 public class IntervalDate implements IDate {
@@ -68,4 +70,15 @@ public class IntervalDate implements IDate {
     return obj;
   }
 
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = new HashMap<>();
+    if (this.getStartDate() != null) {
+      obj.put("startDate", this.getStartDate().toYAMLObject());
+    }
+    if (this.getEndDate() != null) {
+      obj.put("endDate", this.getEndDate().toYAMLObject());
+    }
+    return obj;
+  }
 }

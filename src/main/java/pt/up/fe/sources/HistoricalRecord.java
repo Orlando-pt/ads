@@ -30,5 +30,14 @@ public class HistoricalRecord extends Source {
     return obj;
   }
 
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    obj.put("type", this.getClass().getSimpleName());
+    if (this.getNationalArchiveCountry() != null) {
+      obj.put("nationalArchiveCountry", this.getNationalArchiveCountry().getId().toString());
     }
+
+    return obj;
+  }
 }

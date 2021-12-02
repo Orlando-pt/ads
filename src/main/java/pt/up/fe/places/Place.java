@@ -1,5 +1,7 @@
 package pt.up.fe.places;
 
+import java.util.Map;
+import org.json.JSONObject;
 import pt.up.fe.BaseClass;
 
 public abstract class Place extends BaseClass {
@@ -41,4 +43,26 @@ public abstract class Place extends BaseClass {
 
   @Override
   public abstract String toString();
+
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+    obj.put("latitude", this.getLatitude());
+    obj.put("longitude", this.getLongitude());
+    obj.put("altitude", this.getLatitude());
+    obj.put("area", this.getArea());
+    obj.put("isComposite", this.isComposite());
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    obj.put("latitude", this.getLatitude());
+    obj.put("longitude", this.getLongitude());
+    obj.put("altitude", this.getLatitude());
+    obj.put("area", this.getArea());
+    obj.put("isComposite", this.isComposite());
+    return obj;
+  }
 }

@@ -1,5 +1,6 @@
 package pt.up.fe.sources;
 
+import java.util.Map;
 import org.json.JSONObject;
 import pt.up.fe.Source;
 import pt.up.fe.places.Place;
@@ -29,5 +30,14 @@ public class OrallyTransmitted extends Source {
     return obj;
   }
 
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    obj.put("type", this.getClass().getSimpleName());
+    if (this.getPlace() != null) {
+      obj.put("place", this.getPlace().getId());
     }
+
+    return obj;
+  }
 }

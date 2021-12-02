@@ -1,5 +1,8 @@
 package pt.up.fe;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import org.json.JSONObject;
 
@@ -50,5 +53,15 @@ public abstract class BaseClass implements IExportObject {
     return obj;
   }
 
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = new HashMap<>();
+    obj.put("id", this.id.toString());
+    obj.put("name", this.getName());
+    obj.put("description", this.getDescription());
+    if (this.getSource() != null) {
+      obj.put("source", this.getSource().getId().toString());
     }
+    return obj;
+  }
 }

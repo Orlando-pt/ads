@@ -131,12 +131,44 @@ public abstract class Event extends BaseClass {
     return obj;
   }
 
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    if (this.getPlace() != null) {
+      obj.put("place", this.getPlace().getId().toString());
+    }
+    if (this.getDate() != null) {
+      obj.put("date", this.getDate().toYAMLObject());
     }
 
+    Map<String, Object> peopleRelations = new HashMap<>();
+    for (Map.Entry<String, Person> entry : this.getPeopleRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      peopleRelations.put(entry.getKey(), entry.getValue().getId().toString());
     }
+    obj.put("peopleRelations", peopleRelations);
 
+    Map<String, Object> dateRelations = new HashMap<>();
+    for (Map.Entry<String, IDate> entry : this.getDateRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      dateRelations.put(entry.getKey(), entry.getValue().toYAMLObject());
     }
+    obj.put("dateRelations", dateRelations);
 
+    Map<String, Object> placeRelations = new HashMap<>();
+    for (Map.Entry<String, Place> entry : this.getPlaceRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      placeRelations.put(entry.getKey(), entry.getValue().getId().toString());
     }
+    obj.put("placeRelations", placeRelations);
 
+    obj.put("specialPurposeFields", this.getSpecialPurposeFields());
+    return obj;
+  }
 }

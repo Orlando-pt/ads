@@ -1,5 +1,6 @@
 package pt.up.fe.sources;
 
+import java.util.Map;
 import org.json.JSONObject;
 import pt.up.fe.Source;
 
@@ -33,6 +34,16 @@ public class Book extends Source {
     obj.put("type", this.getClass().getSimpleName());
     obj.put("pages", this.getPages());
     obj.put("publisher", this.getPublisher());
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    obj.put("type", this.getClass().getSimpleName());
+    obj.put("pages", this.getPages());
+    obj.put("publisher", this.getPublisher());
+
     return obj;
   }
 }

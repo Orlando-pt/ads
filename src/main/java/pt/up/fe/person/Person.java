@@ -110,29 +110,23 @@ public class Person extends BaseClass {
     return obj;
   }
 
-    @Override
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append("Name: " + super.getName());
-        sBuilder.append("\nGender: " + this.getGender());
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
 
-        sBuilder.append("\nEvents: ");
-        for (Event event : this.getEvents()) {
-            sBuilder.append("\n" + event);
-        }
-
-        sBuilder.append("\nParents: ");
-        Map<String, Person> parents = this.getParents();
-        for (String parent : parents.keySet()) {
-            sBuilder.append("\n" + parent + ": " + parents.get(parent));
-        }
-
-        sBuilder.append("\nChildren: ");
-        for (Person child : this.getChildren()) {
-            sBuilder.append("\n" + child.getName());
-        }
-
-        sBuilder.append("\nDescription: " + super.getDescription());
-        return sBuilder.toString();
+    if (this.getGender() != null) {
+      obj.put("gender", this.getGender().toString());
     }
+    List<String> events = new ArrayList<>();
+    for (Event event : this.getEvents()) {
+      events.add(event.getId().toString());
+    }
+    obj.put("events", events);
+    List<String> children = new ArrayList<>();
+    for (Person child : this.getChildren()) {
+      children.add(child.getId().toString());
+    }
+    obj.put("children", children);
+    return obj;
+  }
 }

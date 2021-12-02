@@ -1,5 +1,7 @@
 package pt.up.fe.dates;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONObject;
 
 public class SimpleDate implements IDate {
@@ -119,6 +121,18 @@ public class SimpleDate implements IDate {
   @Override
   public JSONObject toJSONObject() {
     JSONObject obj = new JSONObject();
+    obj.put("year", this.getYear());
+    obj.put("month", this.getMonth());
+    obj.put("day", this.getDay());
+    obj.put("hour", this.getHour());
+    obj.put("minute", this.getMinute());
+    obj.put("second", this.getSecond());
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = new HashMap<>();
     obj.put("year", this.getYear());
     obj.put("month", this.getMonth());
     obj.put("day", this.getDay());
