@@ -19,6 +19,7 @@ public class PlaceBreathIteratorTest {
         Place root = this.buildPlacesTree();
         iterator = new PlaceBreathIterator(root);
     }
+
     @Test
     void testHasNext() {
         // just advance one position
@@ -49,13 +50,6 @@ public class PlaceBreathIteratorTest {
             "Benfica",
             iterator.next().getName()
         );
-
-    }
-
-    @Test
-    void apagar() {
-        while(iterator.hasNext())
-            System.out.println(iterator.next().getName());
     }
 
     private Place buildPlacesTree() {
