@@ -7,7 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CompoundPlace extends Place {
-  private List<Place> children = new ArrayList<>();
+
+  private final List<Place> children = new ArrayList<>();
 
   public CompoundPlace(String name) {
     super(name);

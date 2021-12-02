@@ -1,60 +1,106 @@
 package pt.up.fe;
 
-import pt.up.fe.events.Event;
-import pt.up.fe.facades.*;
-import pt.up.fe.person.Person;
-import pt.up.fe.sources.*;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.person.Gender;
+import pt.up.fe.person.Person;
+import pt.up.fe.sources.Book;
+import pt.up.fe.sources.Source;
 
-public class Main {
-    public static List<Person> peopleList = new ArrayList<>();
-    public static List<Source> sourcesList = new ArrayList<>();
+public class Main extends Application {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        PlaceFacade placeFacade = new PlaceFacade(sc);
-        DateFacade dateFacade = new DateFacade(sc);
-        EventFacade eventFacade = new EventFacade(placeFacade, dateFacade, sc);
-        SourceFacade sourceFacade = new SourceFacade(sc);
-        PersonFacade personFacade = new PersonFacade(sc, sourceFacade);
-        while (true) {
-            System.out.println("What do you want to perform?\n 0 - Quit\n 1 - Create Person" +
-                    "\n 2 - List people\n 3 - Create Event\n 4 - Create Source\n 5 - List Sources");
+  public static List<Person> peopleList = new ArrayList<>();
+  public static List<Source> sourcesList = new ArrayList<>();
 
-            int selection = sc.nextInt();
-            sc.nextLine();
+  private static Scene scene;
+  private static Stage stage;
 
-            switch (selection) {
-                case 0:
-                    System.err.println("Bye bye, have a nice day.\n");
-                    System.exit(0);
-                    break;
-                case 1:
-                    Person newPerson = personFacade.createPerson();
-                    peopleList.add(newPerson);
-                    System.out.println("You've created a new Person:\n" + newPerson);
-                    break;
-                case 2:
-                    personFacade.displayPeople();
-                    break;
-                case 3:
-                    Event newEvent = eventFacade.createEvent();
-                    System.out.println(newEvent.toString());
-                    break;
-                case 4:
-                    Source newSource = sourceFacade.newSourceInstance();
-                    System.out.println(newSource.toString());
-                    sourcesList.add(newSource);
-                    break;
-                case 5:
-                    sourceFacade.displaySources();
-                    break;
-                default:
-                    System.err.println("Invalid input.\n");
-            }
-        }
-    }
+
+  public static Parent loadFXML(String fxml) throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
+    return fxmlLoader.load();
+  }
+
+
+  @Override
+  public void start(Stage stage) throws Exception {
+    Person breno = new Person();
+    Person catia = new Person();
+    breno.setName("Breno");
+    breno.setGender(Gender.MALE);
+    catia.setName("Catia");
+    catia.setGender(Gender.FEMALE);
+
+    Person diogo = new Person();
+    Person sofia = new Person();
+    diogo.setName("Diogo");
+    diogo.setMiddleName("Cão");
+    diogo.setLastName("Costa");
+    sofia.setName("Sofia");
+    diogo.setGender(Gender.MALE);
+    sofia.setGender(Gender.FEMALE);
+
+    Person hugo = new Person();
+    Person carolina = new Person();
+    hugo.setName("Hugo");
+    carolina.setName("Carolina");
+    hugo.setGender(Gender.MALE);
+    carolina.setGender(Gender.FEMALE);
+
+    diogo.addChild(hugo);
+    sofia.addChild(hugo);
+
+    breno.addChild(carolina);
+    catia.addChild(carolina);
+
+    Main.peopleList.add(breno);
+    Main.peopleList.add(catia);
+    Main.peopleList.add(hugo);
+    Main.peopleList.add(carolina);
+    Main.peopleList.add(diogo);
+    Main.peopleList.add(sofia);
+
+    Book book = new Book("nome");
+    book.setPages(2);
+    Main.sourcesList.add(book);
+
+    stage.initStyle(StageStyle.UNDECORATED);
+    setPrimaryStage(stage);
+    setPrimaryScene(scene);
+    Parent root = loadFXML("fxml/alwaysdisplayed/main");
+
+    scene = new Scene(root);
+
+    stage.setScene(scene);
+    stage.show();
+    CustomSceneHelper.contentAreaPaneController.setEventHandlers();
+  }
+
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+  private void setPrimaryStage(Stage stage) {
+    Main.stage = stage;
+  }
+
+  public static Stage getMainStage() {
+    return Main.stage;
+  }
+
+  private void setPrimaryScene(Scene scene) {
+    Main.scene = scene;
+  }
+
+  public static Scene getMainScene() {
+    return Main.scene;
+  }
 }

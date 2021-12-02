@@ -9,13 +9,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>ads-group2</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <javafx.version>17</javafx.version>
+        <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -60,6 +60,16 @@
             <version>2.14.1</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.29</version>
@@ -86,13 +96,15 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <release>11</release>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.1</version>
                 </plugin>
-
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <configuration>
@@ -123,6 +135,14 @@
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>${javafx.maven.plugin.version}</version>
+                    <configuration>
+                        <mainClass>pt.up.fe.Main</mainClass>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

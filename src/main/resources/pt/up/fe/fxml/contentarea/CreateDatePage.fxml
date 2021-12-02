@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="createDatePage" fx:id="createDatePage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.dates.CreateDateController">
+   <children>
+      <Text fill="WHITE" layoutX="225.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Date">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <RadioButton layoutX="157.0" layoutY="107.0" mnemonicParsing="false" selected="true" text="Simple Date" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="toogleGroupDate" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton layoutX="367.0" layoutY="107.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="148.0" text="Interval Date" textFill="WHITE" toggleGroup="$toogleGroupDate">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <Button layoutX="283.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleStartDate" prefHeight="37.0" prefWidth="84.0" text="Choose">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="yearInput" layoutX="98.0" layoutY="229.0" prefHeight="38.0" prefWidth="167.0" promptText="Year" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
+      <Text fx:id="toLabel" fill="WHITE" layoutX="460.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="fromLabel" fill="WHITE" layoutX="164.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Button fx:id="createBtn" layoutX="286.0" layoutY="534.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="25.0" prefWidth="78.0" text="Create" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="monthInput" layoutX="98.0" layoutY="279.0" prefHeight="38.0" prefWidth="167.0" promptText="Month" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="dayInput" layoutX="98.0" layoutY="329.0" prefHeight="38.0" prefWidth="167.0" promptText="Day" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="hourInput" layoutX="98.0" layoutY="389.0" prefHeight="38.0" prefWidth="167.0" promptText="Hour" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="minuteInput" layoutX="98.0" layoutY="438.0" prefHeight="38.0" prefWidth="167.0" promptText="Minute" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="secondsInput" layoutX="98.0" layoutY="488.0" prefHeight="38.0" prefWidth="167.0" promptText="Seconds" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="yearInput1" layoutX="385.0" layoutY="229.0" prefHeight="38.0" prefWidth="167.0" promptText="Year" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="monthInput1" layoutX="385.0" layoutY="279.0" prefHeight="38.0" prefWidth="167.0" promptText="Month" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="dayInput1" layoutX="385.0" layoutY="329.0" prefHeight="38.0" prefWidth="167.0" promptText="Day" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="hourInput1" layoutX="385.0" layoutY="389.0" prefHeight="38.0" prefWidth="167.0" promptText="Hour" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="minuteInput1" layoutX="385.0" layoutY="438.0" prefHeight="38.0" prefWidth="167.0" promptText="Minute" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="secondsInput1" layoutX="385.0" layoutY="488.0" prefHeight="38.0" prefWidth="167.0" promptText="Seconds" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>
