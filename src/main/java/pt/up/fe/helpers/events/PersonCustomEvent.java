@@ -1,12 +1,11 @@
 package pt.up.fe.helpers.events;
 
 import javafx.event.Event;
-import javafx.event.EventTarget;
 import javafx.event.EventType;
 import pt.up.fe.person.Person;
 
 public class PersonCustomEvent extends Event {
-    public static final EventType<PersonCustomEvent> PERSON = new EventType<>(Event.ANY, "ANY");
+    public static final EventType<PersonCustomEvent> PERSON = new EventType<>(Event.ANY, "PERSON");
 
     private Person person;
 

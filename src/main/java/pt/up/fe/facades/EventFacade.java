@@ -24,7 +24,7 @@ public class EventFacade {
   public EventFacade() {
     Scanner sc = new Scanner(System.in);
     this.placeFacade = new PlaceFacade(sc);
-    this.dateFacade = new DateFacade(sc);
+    this.dateFacade = new DateFacade();
   }
 
   public PlaceFacade getPlaceFacade() {
@@ -43,7 +43,7 @@ public class EventFacade {
     this.dateFacade = dateFacade;
   }
 
-  public Event createBirthEvent(String maternity, String placeOfBirth, String dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+  public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
     Event birthEvent = new Birth();
 
     if(!maternity.isEmpty()) {
@@ -54,8 +54,8 @@ public class EventFacade {
       birthEvent.addPlaceRelation("Place of Birth", this.getPlaceFacade().choosePlace());
     }
 
-    if(!dateOfBirth.isEmpty()) {
-      birthEvent.setDate(this.getDateFacade().createDate());
+    if(dateOfBirth != null) {
+      birthEvent.setDate(dateOfBirth);
     }
 
     persons.forEach((key, value) -> {

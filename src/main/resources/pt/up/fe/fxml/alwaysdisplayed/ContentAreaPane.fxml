@@ -23,6 +23,8 @@
       <fx:include source="../contentarea/events/CreateEventPage.fxml" />
       <fx:include source="../contentarea/events/BirthEventPage.fxml" />
 
+      <fx:include source="../contentarea/CreateDatePage.fxml" />
+
       <fx:include source="../contentarea/HomePage.fxml" />
    </children>
 </AnchorPane>

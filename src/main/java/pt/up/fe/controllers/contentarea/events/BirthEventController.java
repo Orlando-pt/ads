@@ -1,16 +1,19 @@
 package pt.up.fe.controllers.contentarea.events;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEventHandler;
 import pt.up.fe.person.Person;
@@ -22,7 +25,7 @@ import java.util.ResourceBundle;
 public class BirthEventController implements Initializable {
 
     @FXML
-    private DatePicker birthDate;
+    private TextField birthDate;
 
     @FXML
     private ScrollPane birthEventPage;
@@ -63,6 +66,32 @@ public class BirthEventController implements Initializable {
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
 
+    private IDate date;
+
+    @FXML
+    void createEvent(ActionEvent event) {
+        HashMap<String, Person> persons = new HashMap<>();
+        for (PersonEventDTO item : this.table_persons.getItems()) {
+            persons.put(item.getRelationship(), item.getPerson());
+        }
+
+        HashMap<String, String> specialPurposeFields = new HashMap<>();
+        for (FieldDTO item : this.table_fields.getItems()) {
+            specialPurposeFields.put(item.getField(), item.getName());
+        }
+
+        Event birthEvent = new EventFacade().createBirthEvent(
+                this.maternity.getText(),
+                this.placeBirth.getText(),
+                this.date,
+                persons,
+                specialPurposeFields,
+                this.description.getText()
+        );
+
+        System.out.println(birthEvent.toString());
+    }
+
     @FXML
     void addCustomField(ActionEvent event) {
         String field = fieldInput.getText();
@@ -94,27 +123,18 @@ public class BirthEventController implements Initializable {
     }
 
     @FXML
-    void createEvent(ActionEvent event) {
-        HashMap<String, Person> persons = new HashMap<>();
-        for (PersonEventDTO item : this.table_persons.getItems()) {
-            persons.put(item.getRelationship(), item.getPerson());
-        }
+    public void openDateBuilder(ActionEvent event) {
+        CustomSceneHelper.bringNodeToFront("CreateDate", "Page");
 
-        HashMap<String, String> specialPurposeFields = new HashMap<>();
-        for (FieldDTO item : this.table_fields.getItems()) {
-            specialPurposeFields.put(item.getField(), item.getName());
-        }
+        CustomSceneHelper.getNodeById("createDatePage").addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
+            @Override
+            public void handle(DateCustomEvent dateCustomEvent) {
+                date = dateCustomEvent.getDate();
+                birthDate.setText(date.toString());
 
-        Event birthEvent = new EventFacade().createBirthEvent(
-                this.maternity.getText(),
-                this.placeBirth.getText(),
-                this.birthDate.toString(),
-                persons,
-                specialPurposeFields,
-                this.description.getText()
-        );
-
-        System.out.println(birthEvent.toString());
+                CustomSceneHelper.getNodeById("createDatePage").removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
+            }
+        });
     }
 
     @FXML

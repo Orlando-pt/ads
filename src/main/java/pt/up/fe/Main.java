@@ -20,7 +20,7 @@ public class Main {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     PlaceFacade placeFacade = new PlaceFacade(sc);
-    DateFacade dateFacade = new DateFacade(sc);
+    DateFacade dateFacade = new DateFacade();
     SourceFacade sourceFacade = new SourceFacade(sc);
     PersonFacade personFacade = new PersonFacade(sc, sourceFacade);
     while (true) {
