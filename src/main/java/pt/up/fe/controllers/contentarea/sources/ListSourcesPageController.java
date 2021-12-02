@@ -22,6 +22,7 @@ import pt.up.fe.dtos.sources.FilterSourcesDTO;
 import pt.up.fe.dtos.sources.SourceTableDTO;
 import pt.up.fe.facades.SourceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.places.Place;
@@ -78,6 +79,10 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
   @FXML
   private TableView<SourceTableDTO> sourcesTable;
 
+  private Boolean selectMode = false;
+
+  private String pageToSend;
+
   ObservableList<SourceTableDTO> list = FXCollections.observableArrayList();
 
   @Override
@@ -93,7 +98,6 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
     link.setCellValueFactory(new PropertyValueFactory<>("link"));
     place.setCellValueFactory(new PropertyValueFactory<>("place"));
 
-    this.changeButtonLayout(true);
     this.clearPage();
     sourcesTable.setItems(list);
   }
@@ -104,7 +108,16 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
         SelectModeCustomEvent.SELECT_MODE, new EventHandler<SelectModeCustomEvent>() {
           @Override
           public void handle(SelectModeCustomEvent selectModeCustomEvent) {
-            changeButtonLayout(selectModeCustomEvent.getSelectMode());
+            selectMode = selectModeCustomEvent.getSelectMode();
+            changeButtonLayout();
+          }
+        });
+
+    CustomSceneHelper.getNodeById("listSourcesPage").addEventFilter(
+        PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
+          @Override
+          public void handle(PageToSendCustomEvent pageToSendCustomEvent) {
+            pageToSend = pageToSendCustomEvent.getPageToSend();
           }
         });
   }
@@ -117,11 +130,14 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
   @FXML
   private void selectSource(MouseEvent event) {
     Source source = sourcesTable.getSelectionModel().getSelectedItem().getSource();
-    CustomSceneHelper.getNodeById("createPersonPage")
-        .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, source));
-    CustomSceneHelper.bringNodeToFront("createPerson", "Page");
+    if (selectMode && pageToSend != null) {
+      CustomSceneHelper.getNodeById(pageToSend)
+          .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, source));
+      CustomSceneHelper.bringNodeToFront(pageToSend, "");
+    } else {
+      CustomSceneHelper.bringNodeToFront("viewEditSource", "Page");
+    }
     this.clearPage();
-    this.changeButtonLayout(false);
   }
 
   private void filterSources() {
@@ -162,11 +178,13 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
   public void clearPage() {
     nameInput.clear();
     this.filterSources();
-    this.changeButtonLayout(false);
+    this.selectMode = false;
+    pageToSend = null;
+    this.changeButtonLayout();
   }
 
-  private void changeButtonLayout(Boolean selectMode) {
-    if (selectMode) {
+  private void changeButtonLayout() {
+    if (this.selectMode) {
       selectViewButton.setVisible(false);
       selectViewButtonLabel.setVisible(false);
       selectButton.setVisible(true);

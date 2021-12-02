@@ -96,7 +96,9 @@ public class CreateOrallyTransmittedPageController implements Initializable,
       CustomSceneHelper.getNodeById(pageToSend)
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, orallyTransmitted));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
-      pageToSend = null;
+    } else {
+      CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
+    this.clearPage();
   }
 }

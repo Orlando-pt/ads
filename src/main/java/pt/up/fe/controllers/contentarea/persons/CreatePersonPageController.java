@@ -121,6 +121,7 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
   @FXML
   private void selectSource(MouseEvent event) {
     CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+    CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "createPersonPage"));
     CustomSceneHelper.bringNodeToFront("listSources", "Page");
   }
 

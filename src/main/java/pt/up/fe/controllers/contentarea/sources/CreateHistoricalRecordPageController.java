@@ -94,8 +94,10 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
       CustomSceneHelper.getNodeById(pageToSend)
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, historicalRecord));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
-      pageToSend = null;
+    } else {
+      CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
+    this.clearPage();
   }
 
 

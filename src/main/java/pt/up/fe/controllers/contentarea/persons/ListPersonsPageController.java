@@ -21,7 +21,10 @@ import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.facades.PersonFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.PageToSendCustomEvent;
+import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
+import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 
@@ -69,6 +72,10 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
   @FXML
   private TableView<PersonTableDTO> personsTable;
 
+  private Boolean selectMode = false;
+
+  private String pageToSend;
+
   ObservableList<PersonTableDTO> list = FXCollections.observableArrayList();
 
   @Override
@@ -80,7 +87,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     children.setCellValueFactory(new PropertyValueFactory<>("children"));
     birthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
 
-    this.changeButtonLayout(true);
     this.clearPage();
     personsTable.setItems(list);
   }
@@ -91,7 +97,16 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         SelectModeCustomEvent.SELECT_MODE, new EventHandler<SelectModeCustomEvent>() {
           @Override
           public void handle(SelectModeCustomEvent selectModeCustomEvent) {
-            changeButtonLayout(selectModeCustomEvent.getSelectMode());
+            selectMode = selectModeCustomEvent.getSelectMode();
+            changeButtonLayout();
+          }
+        });
+
+    CustomSceneHelper.getNodeById("listPersonsPage").addEventFilter(
+        PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
+          @Override
+          public void handle(PageToSendCustomEvent pageToSendCustomEvent) {
+            pageToSend = pageToSendCustomEvent.getPageToSend();
           }
         });
   }
@@ -104,6 +119,17 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
   @FXML
   private void selectPerson(MouseEvent event) {
     Person person = personsTable.getSelectionModel().getSelectedItem().getPerson();
+    if (selectMode && pageToSend != null) {
+      CustomSceneHelper.getNodeById(pageToSend)
+          .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
+      CustomSceneHelper.bringNodeToFront(pageToSend, "");
+    } else {
+      CustomSceneHelper.getNodeById("viewEditPersonPage")
+          .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
+      CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+    }
+
+
     System.out.println(person);
   }
 
@@ -132,11 +158,13 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     middleNameInput.clear();
     lastNameInput.clear();
     this.filterPersons();
-    this.changeButtonLayout(false);
+    this.selectMode = false;
+    pageToSend = null;
+    this.changeButtonLayout();
   }
 
-  private void changeButtonLayout(Boolean selectMode) {
-    if (selectMode) {
+  private void changeButtonLayout() {
+    if (this.selectMode) {
       selectViewButton.setVisible(false);
       selectViewButtonLabel.setVisible(false);
       selectButton.setVisible(true);

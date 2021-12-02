@@ -99,9 +99,10 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
       CustomSceneHelper.getNodeById(pageToSend)
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, onlineResource));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
-      pageToSend = null;
+    } else {
+      CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
-    ;
+    this.clearPage();
   }
 
 

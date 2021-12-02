@@ -109,8 +109,11 @@ public class CreateBookPageController implements Initializable, IContentPageCont
       CustomSceneHelper.getNodeById(pageToSend)
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, book));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
-      pageToSend = null;
+    } else {
+      CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
+
+    this.clearPage();
   }
 
 
