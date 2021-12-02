@@ -81,7 +81,7 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
   }
 
   @FXML
-  private void createHistoricalRecord(MouseEvent event) {
+  private void createHistoricalRecord(MouseEvent event) throws IllegalAccessException {
     HistoricalRecordDTO historicalRecordDTO = new HistoricalRecordDTO();
 
     historicalRecordDTO.setName(historicalRecordNameInput.getCharacters().toString());
@@ -95,6 +95,7 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, historicalRecord));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
     this.clearPage();

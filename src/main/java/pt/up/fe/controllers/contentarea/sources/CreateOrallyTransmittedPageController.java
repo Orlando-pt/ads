@@ -82,7 +82,7 @@ public class CreateOrallyTransmittedPageController implements Initializable,
   }
 
   @FXML
-  private void createOrallyTransmitted(MouseEvent event) {
+  private void createOrallyTransmitted(MouseEvent event) throws IllegalAccessException {
     OrallyTransmittedDTO orallyTransmittedDTO = new OrallyTransmittedDTO();
 
     orallyTransmittedDTO.setName(orallyTransmittedNameInput.getCharacters().toString());
@@ -97,6 +97,7 @@ public class CreateOrallyTransmittedPageController implements Initializable,
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, orallyTransmitted));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
     this.clearPage();

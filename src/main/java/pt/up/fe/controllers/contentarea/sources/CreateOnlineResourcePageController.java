@@ -85,7 +85,7 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
   }
 
   @FXML
-  private void createOnlineResource(MouseEvent event) {
+  private void createOnlineResource(MouseEvent event) throws IllegalAccessException {
     OnlineResourceDTO onlineResourceDTO = new OnlineResourceDTO();
 
     onlineResourceDTO.setName(onlineResourceNameInput.getCharacters().toString());
@@ -100,6 +100,7 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, onlineResource));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
     this.clearPage();

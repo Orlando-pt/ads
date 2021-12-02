@@ -81,7 +81,7 @@ public class CreateCustomSourcePageController implements Initializable, IContent
   }
 
   @FXML
-  private void createCustomSource(MouseEvent event) {
+  private void createCustomSource(MouseEvent event) throws IllegalAccessException {
     CustomSourceDTO customSourceDTO = new CustomSourceDTO();
 
     customSourceDTO.setName(customSourceNameInput.getCharacters().toString());
@@ -95,6 +95,7 @@ public class CreateCustomSourcePageController implements Initializable, IContent
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, customSource));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
     this.clearPage();

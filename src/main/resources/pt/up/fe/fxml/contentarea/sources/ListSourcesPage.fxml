@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="listSourcesPage" fx:id="listSourcesPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.ListSourcesPageController">
+<AnchorPane id="listSourcesPage" fx:id="listSourcesPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.ListSourcesPageController">
   <children>
     <Text fill="WHITE" layoutX="225.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Sources">
       <font>
@@ -31,7 +31,7 @@
       </columns>
     </TableView>
 
-    <Button layoutX="563.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#search" prefHeight="26.0" prefWidth="67.0" text="Search" />
+    <Button layoutX="554.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#search" prefHeight="26.0" prefWidth="67.0" text="Search" />
     <Label layoutX="24.0" layoutY="74.0" text="Name" textFill="WHITE">
       <font>
         <Font size="16.0" />

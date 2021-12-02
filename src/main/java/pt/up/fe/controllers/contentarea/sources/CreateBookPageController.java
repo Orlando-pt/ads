@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.controllers.alwaysdisplayed.ContentAreaPaneController;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.sources.BookDTO;
@@ -91,7 +92,7 @@ public class CreateBookPageController implements Initializable, IContentPageCont
   }
 
   @FXML
-  private void createBook(MouseEvent event) {
+  private void createBook(MouseEvent event) throws IllegalAccessException {
     BookDTO bookDTO = new BookDTO();
 
     bookDTO.setName(bookNameInput.getCharacters().toString());
@@ -110,6 +111,7 @@ public class CreateBookPageController implements Initializable, IContentPageCont
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, book));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listSources", "Page");
     }
 
