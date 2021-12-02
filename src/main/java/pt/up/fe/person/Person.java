@@ -12,8 +12,26 @@ import pt.up.fe.events.Event;
 
 public class Person extends BaseClass {
   private Gender gender;
+  private String middleName;
+  private String lastName;
   private List<Event> events = new ArrayList<>();
   private List<Person> children = new ArrayList<>();
+
+  public String getMiddleName() {
+    return middleName;
+  }
+
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
   public Gender getGender() {
     return gender;

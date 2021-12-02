@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import pt.up.fe.BaseClass;
 
 public abstract class Place extends BaseClass {
+
   private Double latitude;
   private Double longitude;
   private Double altitude;

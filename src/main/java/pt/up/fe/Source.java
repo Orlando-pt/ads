@@ -48,6 +48,10 @@ public abstract class Source implements IExportObject {
     this.authors.add(author);
   }
 
+  public void setAuthors(List<String> authors) {
+    this.authors = authors;
+  }
+
   @Override
   public String toString() {
     StringBuilder sBuilder = new StringBuilder();

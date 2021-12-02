@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="sourcesPage" fx:id="sourcesPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.SourcesPageController">
+   <children>
+      <Text fill="WHITE" layoutX="190.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Source Menu">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <Button layoutX="73.0" layoutY="185.0" id="createSource" fx:id="createSource" mnemonicParsing="false" onMouseClicked="#goToAnotherSourcePage" text="Create Source">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="411.0" layoutY="185.0" mnemonicParsing="false" fx:id="listSources" onMouseClicked="#goToAnotherSourcePage" text="List Sources">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
