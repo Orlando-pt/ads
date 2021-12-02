@@ -2,9 +2,13 @@ package pt.up.fe.places;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CompoundPlace extends Place {
-  private List<Place> children = new ArrayList<>();
+
+  private final List<Place> children = new ArrayList<>();
 
   public CompoundPlace(String name) {
     super(name);
@@ -51,5 +55,29 @@ public class CompoundPlace extends Place {
     sBuilder.append(")");
 
     return sBuilder.toString();
+  }
+
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+    JSONArray children = new JSONArray();
+    for (Place child : this.children) {
+      children.put(child.getId().toString());
+    }
+
+    obj.put("children", children);
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    List<String> children = new ArrayList<>();
+    for (Place child : this.children) {
+      children.add(child.getId().toString());
+    }
+
+    obj.put("children", children);
+    return obj;
   }
 }

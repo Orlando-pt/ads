@@ -3,7 +3,8 @@ package pt.up.fe.places;
 import java.util.Stack;
 
 public class PlaceBuilder implements IPlaceBuilder {
-  private Stack<CompoundPlace> stack = new Stack<>();
+
+  private final Stack<CompoundPlace> stack = new Stack<>();
   private CompoundPlace currentCompound;
   private Place currentPlace;
 
