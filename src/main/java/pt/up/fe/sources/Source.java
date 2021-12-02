@@ -8,7 +8,7 @@ public abstract class Source {
 
   private IDate dateOfPublication;
   private String name;
-  private final List<String> authors;
+  private List<String> authors;
 
   public Source(String name) {
     this.name = name;
@@ -37,6 +37,10 @@ public abstract class Source {
 
   public void addAuthor(String author) {
     this.authors.add(author);
+  }
+
+  public void setAuthors(List<String> authors) {
+    this.authors = authors;
   }
 
   @Override
