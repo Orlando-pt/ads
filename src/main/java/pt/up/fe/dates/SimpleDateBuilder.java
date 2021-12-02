@@ -15,43 +15,43 @@ public class SimpleDateBuilder implements IBuilder {
     }
 
     @Override
-    public IBuilder setYear(int year) {
+    public IBuilder setYear(Integer year) {
         this.date.setYear(year);
         return this;
     }
 
     @Override
-    public IBuilder setMonth(int month) {
+    public IBuilder setMonth(Integer month) {
         this.date.setMonth(month);
         return this;
     }
 
     @Override
-    public IBuilder setDay(int day) {
+    public IBuilder setDay(Integer day) {
         this.date.setDay(day);
         return this;
     }
 
     @Override
-    public IBuilder setHour(int hour) {
+    public IBuilder setHour(Integer hour) {
         this.date.setHour(hour);
         return this;
     }
 
     @Override
-    public IBuilder setMinute(int minute) {
+    public IBuilder setMinute(Integer minute) {
         this.date.setMinute(minute);
         return this;
     }
 
     @Override
-    public IBuilder setSecond(int second) {
+    public IBuilder setSecond(Integer second) {
         this.date.setSecond(second);
         return this;
     }
-    
+
     @Override
     public IDate build() {
         return this.date;
-    }   
+    }
 }

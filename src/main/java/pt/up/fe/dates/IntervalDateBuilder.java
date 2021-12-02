@@ -25,37 +25,37 @@ public class IntervalDateBuilder implements IBuilder {
     }
 
     @Override
-    public IBuilder setYear(int year) {
+    public IBuilder setYear(Integer year) {
         this.activeDate.setYear(year);
         return this;
     }
 
     @Override
-    public IBuilder setMonth(int month) {
+    public IBuilder setMonth(Integer month) {
         this.activeDate.setMonth(month);
         return this;
     }
 
     @Override
-    public IBuilder setDay(int day) {
+    public IBuilder setDay(Integer day) {
         this.activeDate.setDay(day);
         return this;
     }
 
     @Override
-    public IBuilder setHour(int hour) {
+    public IBuilder setHour(Integer hour) {
         this.activeDate.setHour(hour);
         return this;
     }
 
     @Override
-    public IBuilder setMinute(int minute) {
+    public IBuilder setMinute(Integer minute) {
         this.activeDate.setMinute(minute);
         return this;
     }
 
     @Override
-    public IBuilder setSecond(int second) {
+    public IBuilder setSecond(Integer second) {
         this.activeDate.setSecond(second);
         return this;
     }

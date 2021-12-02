@@ -6,7 +6,7 @@ import java.util.Scanner;
 import pt.up.fe.Main;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
-import pt.up.fe.sources.Source;
+import pt.up.fe.Source;
 
 public class PersonFacade {
     private Scanner scanner;

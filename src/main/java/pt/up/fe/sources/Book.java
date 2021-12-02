@@ -1,26 +1,38 @@
 package pt.up.fe.sources;
 
-public class Book extends Source{
-    private Integer pages;
-    private String publisher;
+import org.json.JSONObject;
+import pt.up.fe.Source;
 
-    public Book(String name) {
-        super(name);
-    }
+public class Book extends Source {
+  private Integer pages;
+  private String publisher;
 
-    public int getPages() {
-        return pages;
-    }
+  public Book(String name) {
+    super(name);
+  }
 
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
+  public Integer getPages() {
+    return pages;
+  }
 
-    public String getPublisher() {
-        return publisher;
-    }
+  public void setPages(Integer pages) {
+    this.pages = pages;
+  }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+  public String getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(String publisher) {
+    this.publisher = publisher;
+  }
+
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+    obj.put("type", this.getClass().getSimpleName());
+    obj.put("pages", this.getPages());
+    obj.put("publisher", this.getPublisher());
+    return obj;
+  }
 }

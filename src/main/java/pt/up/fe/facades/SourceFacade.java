@@ -2,6 +2,7 @@ package pt.up.fe.facades;
 
 import pt.up.fe.Main;
 import pt.up.fe.sources.*;
+import pt.up.fe.Source;
 
 import java.util.Arrays;
 import java.util.List;
