@@ -91,7 +91,9 @@ public class CreateCustomSourcePageController implements Initializable, IContent
     CustomSource customSource = SourceFacade.createCustomSource(customSourceDTO);
 
     if (pageToSend != null) {
-      CustomSceneHelper.getNodeById(pageToSend).fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, customSource));
+      CustomSceneHelper.getNodeById(pageToSend)
+          .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, customSource));
+      CustomSceneHelper.bringNodeToFront(pageToSend, "");
       pageToSend = null;
     }
   }

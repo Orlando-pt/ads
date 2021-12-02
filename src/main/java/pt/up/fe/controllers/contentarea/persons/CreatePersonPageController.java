@@ -69,7 +69,6 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
       @Override
       public void handle(SourceCustomEvent sourceCustomEvent) {
         selectedSource = sourceCustomEvent.getSource();
-        System.out.println(selectedSource);
       }
     });
   }
@@ -127,7 +126,7 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
 
   @FXML
   private void addSource(MouseEvent event) {
-    CustomSceneHelper.getNodeById("createPersonPage").fireEvent(new PageToSendCustomEvent(
+    CustomSceneHelper.getNodeById("createSourcePage").fireEvent(new PageToSendCustomEvent(
         PageToSendCustomEvent.PAGE_TO_SEND, "createPersonPage"));
     CustomSceneHelper.bringNodeToFront("createSource", "Page");
   }

@@ -106,7 +106,9 @@ public class CreateBookPageController implements Initializable, IContentPageCont
     Book book = SourceFacade.createBook(bookDTO);
 
     if (pageToSend != null) {
-      CustomSceneHelper.getNodeById(pageToSend).fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, book));
+      CustomSceneHelper.getNodeById(pageToSend)
+          .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, book));
+      CustomSceneHelper.bringNodeToFront(pageToSend, "");
       pageToSend = null;
     }
   }
