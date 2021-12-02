@@ -3,16 +3,15 @@ package pt.up.fe.controllers.contentarea.sources;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.helpers.CustomSceneHelper;
 
-public class SourcesPageController {
-
-  public SourcesPageController() {
-  }
+public class SourcesPageController implements Initializable, IContentPageController {
 
   @FXML
-  private void initialize(URL url, ResourceBundle resources) {
+  public void initialize(URL url, ResourceBundle resources) {
   }
 
   @FXML
@@ -22,4 +21,13 @@ public class SourcesPageController {
   }
 
 
+  @Override
+  public void setEventHandlers() {
+
+  }
+
+  @Override
+  public void clearPage() {
+
+  }
 }

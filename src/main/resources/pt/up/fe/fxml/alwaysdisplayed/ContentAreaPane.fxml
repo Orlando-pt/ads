@@ -2,29 +2,29 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="contentAreaPane" fx:id="contentAreaPane" layoutX="155.0" layoutY="27.0" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" styleClass="contentAreaPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.alwaysdisplayed.ContentAreaPaneController">
+<AnchorPane id="contentAreaPane" fx:id="contentAreaPane" layoutX="155.0" layoutY="27.0" prefHeight="575.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" styleClass="contentAreaPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.alwaysdisplayed.ContentAreaPaneController">
 
    <children>
-      <fx:include source="../contentarea/persons/PersonsPage.fxml" />
-      <fx:include source="../contentarea/persons/CreatePersonPage.fxml" />
-      <fx:include source="../contentarea/persons/ViewEditPersonPage.fxml" />
-      <fx:include source="../contentarea/persons/ListPersonsPage.fxml" />
+      <fx:include fx:id="personsPage" source="../contentarea/persons/PersonsPage.fxml" />
+      <fx:include fx:id="createPersonPage" source="../contentarea/persons/CreatePersonPage.fxml" />
+      <fx:include fx:id="viewEditPersonPage" source="../contentarea/persons/ViewEditPersonPage.fxml" />
+      <fx:include fx:id="listPersonsPage" source="../contentarea/persons/ListPersonsPage.fxml" />
 
-      <fx:include source="../contentarea/sources/SourcesPage.fxml" />
-      <fx:include source="../contentarea/sources/CreateSourcePage.fxml" />
-      <fx:include source="../contentarea/sources/CreateBookPage.fxml" />
-      <fx:include source="../contentarea/sources/CreateCustomSourcePage.fxml" />
-      <fx:include source="../contentarea/sources/CreateHistoricalRecordPage.fxml" />
-      <fx:include source="../contentarea/sources/CreateOnlineResourcePage.fxml" />
-      <fx:include source="../contentarea/sources/CreateOrallyTransmittedPage.fxml" />
-      <fx:include source="../contentarea/sources/ListSourcesPage.fxml" />
+      <fx:include fx:id="sourcesPage" source="../contentarea/sources/SourcesPage.fxml" />
+      <fx:include fx:id="createSourcePage" source="../contentarea/sources/CreateSourcePage.fxml" />
+      <fx:include fx:id="createBookPage" source="../contentarea/sources/CreateBookPage.fxml" />
+      <fx:include fx:id="createCustomSourcePage" source="../contentarea/sources/CreateCustomSourcePage.fxml" />
+      <fx:include fx:id="createHistoricalRecordPage" source="../contentarea/sources/CreateHistoricalRecordPage.fxml" />
+      <fx:include fx:id="createOnlineResourcePage" source="../contentarea/sources/CreateOnlineResourcePage.fxml" />
+      <fx:include fx:id="createOrallyTransmittedPage" source="../contentarea/sources/CreateOrallyTransmittedPage.fxml" />
+      <fx:include fx:id="listSourcesPage" source="../contentarea/sources/ListSourcesPage.fxml" />
 
-      <fx:include source="../contentarea/events/EventsPage.fxml" />
-      <fx:include source="../contentarea/events/CreateEventPage.fxml" />
-      <fx:include source="../contentarea/events/BirthEventPage.fxml" />
+      <fx:include fx:id="eventsPage" source="../contentarea/events/EventsPage.fxml" />
+      <fx:include fx:id="createEventPage" source="../contentarea/events/CreateEventPage.fxml" />
+      <fx:include fx:id="birthEventPage" source="../contentarea/events/BirthEventPage.fxml" />
 
-      <fx:include source="../contentarea/CreateDatePage.fxml" />
+      <fx:include fx:id="createDatePage" source="../contentarea/CreateDatePage.fxml" />
 
-      <fx:include source="../contentarea/HomePage.fxml" />
+      <fx:include fx:id="homePage" source="../contentarea/HomePage.fxml" />
    </children>
 </AnchorPane>

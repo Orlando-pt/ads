@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.facades.DateFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
@@ -14,7 +15,7 @@ import pt.up.fe.helpers.events.PersonCustomEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CreateDateController implements Initializable {
+public class CreateDateController implements Initializable, IContentPageController {
     @FXML
     private TextField dayInput;
 
@@ -149,5 +150,24 @@ public class CreateDateController implements Initializable {
                 this.minuteInput1.getText(),
                 this.secondsInput1.getText()
         );
+    }
+
+    @Override
+    public void setEventHandlers() {}
+
+    @Override
+    public void clearPage() {
+        this.yearInput.clear();
+        this.monthInput.clear();
+        this.dayInput.clear();
+        this.hourInput.clear();
+        this.minuteInput.clear();
+        this.secondsInput.clear();
+        this.yearInput1.clear();
+        this.monthInput1.clear();
+        this.dayInput1.clear();
+        this.hourInput1.clear();
+        this.minuteInput1.clear();
+        this.secondsInput1.clear();
     }
 }

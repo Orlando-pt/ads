@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="listPersonsPage" fx:id="listPersonsPage" prefHeight="575.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ListPersonsPageController">
+<AnchorPane id="listPersonsPage" fx:id="listPersonsPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ListPersonsPageController">
    <children>
       <Text fill="WHITE" layoutX="225.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Persons">
          <font>

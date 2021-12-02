@@ -1,25 +1,20 @@
 package pt.up.fe.helpers;
 
-import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-import pt.up.fe.App;
+import pt.up.fe.Main;
+import pt.up.fe.controllers.alwaysdisplayed.ContentAreaPaneController;
 
 
-/*
- * This class helps get FXML components from the main scene and can call functions from different controllers to change then.
- * Used to prevent controllers from calling each other directly.
- * For example, changing label text on the top menu pane when performing actions on a scene.
- */
 public class CustomSceneHelper {
 
   private static Scene scene;
 
+  public static ContentAreaPaneController contentAreaPaneController;
+
   public static void setMainScene() {
-    scene = App.getMainScene();
+    scene = Main.getMainScene();
   }
 
   //The source argument uses event.getSource(), which returns in the following format: Button[id=homeButton, styleClass=button leftPaneButton]'Home'
@@ -42,11 +37,6 @@ public class CustomSceneHelper {
     return (Label) scene.lookup("#" + labelName);
   }
 
-  public static TextArea getTextAreaById(String textAreaName) {
-    setMainScene();
-    return (TextArea) scene.lookup("#" + textAreaName);
-  }
-
   public static String getSourceName(Object source) {
     //Output of source is Button[id=logsButton, styleClass=button leftPaneButton]'Logs' so splitting by single quote gets the name of the object.
     return source.toString().split("'")[1];
@@ -57,13 +47,6 @@ public class CustomSceneHelper {
     setMainScene();
     Label label = getLabelById(labelName);
     label.setText(newText);
-  }
-
-  //Appends to textarea.
-  public static void setTextArea(String textAreaName, String text) {
-    setMainScene();
-    TextArea textArea = getTextAreaById(textAreaName);
-    textArea.setText(text);
   }
 
   /**
@@ -78,36 +61,6 @@ public class CustomSceneHelper {
     nodeName = convertNameToID(nodeName, appendingText);
     setMainScene();
     getNodeById(nodeName).toFront();
-  }
-
-  //Adds a white line at the bottom border of the tab to look like it is in front of the other tab.
-  public static void activateTab(MouseEvent event) {
-    //For tab part at the top.
-    String tabNodeID = getSourceID(event.getSource());
-    Node tabEventNode = getNodeById(tabNodeID);
-    tabEventNode.setStyle("-fx-border-width: 0 0 -1 0; "
-        + "-fx-border-color: white white white white;"
-        + "-fx-background-color: white; "
-        + "-fx-background-insets: 0 0 -1 0, 0, 1, 2;"
-        + "-fx-border-radius: 0px;"
-        + "-fx-background-radius: 0 0 0 0;");
-
-    //For tab content part. tabNodeID would be eventLogsButton or applicationLogsTabButton, the tab content area's ID would be eventLogsTabContentArea.
-    String textAreaID = tabNodeID.split("TabButton")[0];
-    bringNodeToFront(textAreaID, "TabContentArea");
-  }
-
-  //Adds a black line at the bottom border of the tab to look like it is behind of the other tab.
-  public static void deactivateTabs(ArrayList<String> tabNodeIDs) {
-    for (String tabNodeID : tabNodeIDs) {
-      Node tabEventNode = getNodeById(tabNodeID);
-      tabEventNode.setStyle("-fx-border-width: 0 0 1 0; "
-          + "-fx-border-color: white white black white;"
-          + " -fx-background-color: white; "
-          + "-fx-background-insets: 0 0 -1 0, 0, 1, 2;"
-          + " -fx-border-radius: 0px;"
-          + "-fx-background-radius: 0 0 0 0;");
-    }
   }
 
   public static String convertNameToID(String text, String appendingText) {

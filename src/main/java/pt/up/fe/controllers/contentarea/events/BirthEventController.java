@@ -7,28 +7,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
-import pt.up.fe.helpers.events.DateCustomEvent;
-import pt.up.fe.helpers.events.PersonCustomEvent;
-import pt.up.fe.helpers.events.PersonCustomEventHandler;
+import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class BirthEventController implements Initializable {
+public class BirthEventController implements Initializable, IContentPageController {
 
     @FXML
     private TextField birthDate;
-
-    @FXML
-    private ScrollPane birthEventPage;
 
     @FXML
     private TextArea description;
@@ -97,7 +93,7 @@ public class BirthEventController implements Initializable {
         String field = fieldInput.getText();
         String name = nameInput.getText();
 
-        if(field.isEmpty() || name.isEmpty()) {
+        if (field.isEmpty() || name.isEmpty()) {
             return;
         }
 
@@ -113,11 +109,14 @@ public class BirthEventController implements Initializable {
 
         String btnName = ((Button) event.getSource()).getText();
 
-        CustomSceneHelper.getNodeById("listPersonsPage").addEventFilter(PersonCustomEvent.PERSON, new PersonCustomEventHandler(this.handleRelation(btnName)) {
+        CustomSceneHelper.getNodeById("listPersonsPage").fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+        CustomSceneHelper.getNodeById("listPersonsPage").fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "birthEventPage"));
+
+        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(PersonCustomEvent.PERSON, new PersonCustomEventHandler(this.handleRelation(btnName)) {
             @Override
             public void handle(PersonCustomEvent personCustomEvent) {
                 table_persons.getItems().add(new PersonEventDTO(getRelation(), personCustomEvent.getPerson())); // Add person to table
-                CustomSceneHelper.getNodeById("listPersonsPage").removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
+                CustomSceneHelper.getNodeById("birthEventPage").removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
             }
         });
     }
@@ -140,6 +139,10 @@ public class BirthEventController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
         this.initTables();
+    }
+
+    @Override
+    public void setEventHandlers() {
     }
 
     private void initTables() {
@@ -176,16 +179,30 @@ public class BirthEventController implements Initializable {
     }
 
     private String handleRelation(String btnName) {
-        if(btnName.contains("Mother") || btnName.contains("Father")) {
+        if (btnName.contains("Mother") || btnName.contains("Father")) {
             return btnName.replaceAll("Add ", "");
         }
 
         String relation = relationshipInput.getText();
 
-        if(relation.isEmpty()) {
+        if (relation.isEmpty()) {
             return null;
         }
 
         return relation;
+    }
+
+    @Override
+    public void clearPage() {
+        birthDate.clear();
+        description.clear();
+        fieldInput.clear();
+        maternity.clear();
+        nameInput.clear();
+        placeBirth.clear();
+        relationshipInput.clear();
+        table_fields.getItems().clear();
+        table_persons.getItems().clear();
+        date = null;
     }
 }
