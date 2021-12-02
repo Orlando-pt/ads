@@ -22,7 +22,7 @@ import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
-import pt.up.fe.sources.Source;
+import pt.up.fe.Source;
 
 public class CreatePersonPageController implements Initializable, IContentPageController {
 

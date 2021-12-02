@@ -30,7 +30,7 @@ import pt.up.fe.sources.Book;
 import pt.up.fe.sources.HistoricalRecord;
 import pt.up.fe.sources.OnlineResource;
 import pt.up.fe.sources.OrallyTransmitted;
-import pt.up.fe.sources.Source;
+import pt.up.fe.Source;
 
 public class ListSourcesPageController implements Initializable, IContentPageController {
 

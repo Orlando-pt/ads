@@ -13,7 +13,7 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 import pt.up.fe.sources.Book;
-import pt.up.fe.sources.Source;
+import pt.up.fe.Source;
 
 public class Main extends Application {
 

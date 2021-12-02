@@ -2,7 +2,7 @@ package pt.up.fe.helpers.events;
 
 import javafx.event.Event;
 import javafx.event.EventType;
-import pt.up.fe.sources.Source;
+import pt.up.fe.Source;
 
 public class SourceCustomEvent extends Event {
 
