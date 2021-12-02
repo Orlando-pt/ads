@@ -19,6 +19,7 @@ public class PersonBreathIteratorWithDepthLimitTest {
     }
     @Test
     void testNext() {
+        // check that the iterator does not passed to level 3
         while (this.iterator.hasNext())
             assertNotEquals(
                 3,
