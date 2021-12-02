@@ -1,21 +1,15 @@
 package pt.up.fe.controllers.alwaysdisplayed;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.helpers.CustomSceneHelper;
 
 
 public class LeftMenuPaneController implements Initializable {
-
-    
-    @FXML
-    private Button homeButton, applicationButton, personsbutton, _generalButton, logsButton;
 
     @FXML
     private void highlightButton(MouseEvent event)
@@ -53,9 +47,8 @@ public class LeftMenuPaneController implements Initializable {
     }
     
     @FXML
-    private void menuButtonClicked(MouseEvent event) throws FileNotFoundException, InterruptedException
-    {
-        CustomSceneHelper.contentAreaPaneController.cleanAll();
+    private void menuButtonClicked(MouseEvent event)
+        throws IllegalAccessException {
         //Unhighlights the previous button that was clicked. 
         Node pageNameLabel = CustomSceneHelper.getNodeById("pageNameLabel");
         String previousPageName = CustomSceneHelper.getSourceName(pageNameLabel);
@@ -68,6 +61,7 @@ public class LeftMenuPaneController implements Initializable {
 
         //Brings the page clicked to the front. 
         CustomSceneHelper.bringNodeToFront(buttonName, "Page");
+        CustomSceneHelper.contentAreaPaneController.cleanAll();
     }
     
     @Override

@@ -69,6 +69,7 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
       @Override
       public void handle(SourceCustomEvent sourceCustomEvent) {
         selectedSource = sourceCustomEvent.getSource();
+        System.out.println(selectedSource);
       }
     });
   }
