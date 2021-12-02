@@ -1,7 +1,7 @@
 package pt.up.fe.dtos.persons;
 
 import pt.up.fe.person.Gender;
-import pt.up.fe.Source;
+import pt.up.fe.sources.Source;
 
 public class PersonDTO {
 

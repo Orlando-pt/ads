@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.json.JSONObject;
+import pt.up.fe.exports.IExportObject;
+import pt.up.fe.sources.Source;
 
 public abstract class BaseClass implements IExportObject {
   private final UUID id = UUID.randomUUID();

@@ -1,4 +1,4 @@
-package pt.up.fe;
+package pt.up.fe.sources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import pt.up.fe.exports.IExportObject;
 import pt.up.fe.dates.IDate;
 
 public abstract class Source implements IExportObject {

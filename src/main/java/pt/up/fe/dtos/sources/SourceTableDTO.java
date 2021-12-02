@@ -2,7 +2,7 @@ package pt.up.fe.dtos.sources;
 
 import pt.up.fe.dates.IDate;
 import pt.up.fe.places.Place;
-import pt.up.fe.Source;
+import pt.up.fe.sources.Source;
 
 public class SourceTableDTO {
 

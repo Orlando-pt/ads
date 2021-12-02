@@ -1,4 +1,4 @@
-package pt.up.fe;
+package pt.up.fe.exports;
 
 import java.util.Map;
 import org.json.JSONObject;

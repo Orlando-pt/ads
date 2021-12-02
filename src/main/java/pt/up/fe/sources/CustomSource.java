@@ -2,7 +2,6 @@ package pt.up.fe.sources;
 
 import java.util.Map;
 import org.json.JSONObject;
-import pt.up.fe.Source;
 
 public class CustomSource extends Source {
 

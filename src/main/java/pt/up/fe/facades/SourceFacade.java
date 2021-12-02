@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import pt.up.fe.Main;
-import pt.up.fe.Source;
+import pt.up.fe.sources.Source;
 import pt.up.fe.dtos.sources.BookDTO;
 import pt.up.fe.dtos.sources.CustomSourceDTO;
 import pt.up.fe.dtos.sources.FilterSourcesDTO;

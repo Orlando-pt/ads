@@ -2,7 +2,6 @@ package pt.up.fe.exports;
 
 import java.util.Iterator;
 import org.json.JSONArray;
-import pt.up.fe.IExportObject;
 
 public class JsonExporter<T extends IExportObject> extends Exporter<T> {
   public JsonExporter(String path) {

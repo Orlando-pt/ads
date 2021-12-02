@@ -7,7 +7,6 @@ import pt.up.fe.Main;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonDTO;
 import pt.up.fe.person.Person;
-import pt.up.fe.Source;
 
 public class PersonFacade {
 

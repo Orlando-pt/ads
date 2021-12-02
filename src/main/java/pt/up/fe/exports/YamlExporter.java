@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
-import pt.up.fe.IExportObject;
 
 public class YamlExporter<T extends IExportObject> extends Exporter<T> {
   public YamlExporter(String path) {
