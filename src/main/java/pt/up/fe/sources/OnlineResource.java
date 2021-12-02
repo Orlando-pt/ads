@@ -1,7 +1,9 @@
 package pt.up.fe.sources;
 
-public class OnlineResource extends Source {
+import java.util.Map;
+import org.json.JSONObject;
 
+public class OnlineResource extends Source {
   private String link;
 
   public OnlineResource(String name) {
@@ -23,5 +25,22 @@ public class OnlineResource extends Source {
     sBuilder.append(super.toString());
     sBuilder.append("\n Link: " + this.getLink());
     return sBuilder.toString();
+  }
+
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+    obj.put("type", this.getClass().getSimpleName());
+    obj.put("link", this.getLink());
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    obj.put("type", this.getClass().getSimpleName());
+    obj.put("link", this.getLink());
+
+    return obj;
   }
 }

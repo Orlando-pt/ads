@@ -1,44 +1,26 @@
 package pt.up.fe.events;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import pt.up.fe.BaseClass;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.person.Person;
 import pt.up.fe.places.Place;
 
 public abstract class Event extends BaseClass {
-
-  private static Logger logger;
   private Place place;
   private IDate date;
-  private final Map<String, Person> peopleRelations;
-  private final Map<String, IDate> dateRelations;
-  private final Map<String, Place> placeRelations;
-  private final Map<String, String> specialPurposeFields;
+  private Map<String, Person> peopleRelations = new HashMap<>();
+  private Map<String, IDate> dateRelations = new HashMap<>();
+  private Map<String, Place> placeRelations = new HashMap<>();
+  private Map<String, String> specialPurposeFields = new HashMap<>();
+
+  private static Logger logger;
 
   public Event() {
-    this.peopleRelations = new HashMap<>();
-    this.dateRelations = new HashMap<>();
-    this.placeRelations = new HashMap<>();
-    this.specialPurposeFields = new HashMap<>();
-
     logger = initializeLogger();
-  }
-
-  @Override
-  public String toString() {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-    try {
-      return mapper.writeValueAsString(this);
-    } catch (Exception e) {
-      logger.error("Error parsing Event.", e);
-      return "";
-    }
   }
 
   public abstract Logger initializeLogger();
@@ -107,4 +89,86 @@ public abstract class Event extends BaseClass {
     this.specialPurposeFields.remove(relation);
   }
 
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+
+    if (this.getPlace() != null) {
+      obj.put("place", this.getPlace().getId().toString());
+    }
+    if (this.getDate() != null) {
+      obj.put("date", this.getDate().toJSONObject());
+    }
+
+    JSONObject peopleRelations = new JSONObject();
+    for (Map.Entry<String, Person> entry : this.getPeopleRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      peopleRelations.put(entry.getKey(), entry.getValue().getId().toString());
+    }
+    obj.put("peopleRelations", peopleRelations);
+
+    JSONObject dateRelations = new JSONObject();
+    for (Map.Entry<String, IDate> entry : this.getDateRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      dateRelations.put(entry.getKey(), entry.getValue().toJSONObject());
+    }
+    obj.put("dateRelations", dateRelations);
+
+    JSONObject placeRelations = new JSONObject();
+    for (Map.Entry<String, Place> entry : this.getPlaceRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      placeRelations.put(entry.getKey(), entry.getValue().getId().toString());
+    }
+    obj.put("placeRelations", placeRelations);
+
+    obj.put("specialPurposeFields", new JSONObject(this.getSpecialPurposeFields()));
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+    if (this.getPlace() != null) {
+      obj.put("place", this.getPlace().getId().toString());
+    }
+    if (this.getDate() != null) {
+      obj.put("date", this.getDate().toYAMLObject());
+    }
+
+    Map<String, Object> peopleRelations = new HashMap<>();
+    for (Map.Entry<String, Person> entry : this.getPeopleRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      peopleRelations.put(entry.getKey(), entry.getValue().getId().toString());
+    }
+    obj.put("peopleRelations", peopleRelations);
+
+    Map<String, Object> dateRelations = new HashMap<>();
+    for (Map.Entry<String, IDate> entry : this.getDateRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      dateRelations.put(entry.getKey(), entry.getValue().toYAMLObject());
+    }
+    obj.put("dateRelations", dateRelations);
+
+    Map<String, Object> placeRelations = new HashMap<>();
+    for (Map.Entry<String, Place> entry : this.getPlaceRelations().entrySet()) {
+      if (entry.getValue() == null) {
+        continue;
+      }
+      placeRelations.put(entry.getKey(), entry.getValue().getId().toString());
+    }
+    obj.put("placeRelations", placeRelations);
+
+    obj.put("specialPurposeFields", this.getSpecialPurposeFields());
+    return obj;
+  }
 }

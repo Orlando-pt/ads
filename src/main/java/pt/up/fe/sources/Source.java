@@ -1,11 +1,17 @@
 package pt.up.fe.sources;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import pt.up.fe.exports.IExportObject;
 import pt.up.fe.dates.IDate;
 
-public abstract class Source {
-
+public abstract class Source implements IExportObject {
+  private final UUID id = UUID.randomUUID();
   private IDate dateOfPublication;
   private String name;
   private List<String> authors;
@@ -13,6 +19,10 @@ public abstract class Source {
   public Source(String name) {
     this.name = name;
     this.authors = new ArrayList<>();
+  }
+
+  public UUID getId() {
+    return this.id;
   }
 
   public IDate getDateOfPublication() {
@@ -55,5 +65,31 @@ public abstract class Source {
     }
 
     return sBuilder.toString();
+  }
+
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = new JSONObject();
+    obj.put("id", this.getId().toString());
+    obj.put("name", this.getName());
+    if (this.getDateOfPublication() != null) {
+      obj.put("dateOfPublication", this.getDateOfPublication().toJSONObject());
+    }
+    obj.put("authors", new JSONArray(this.getAuthors()));
+
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = new HashMap<>();
+    obj.put("id", this.getId().toString());
+    obj.put("name", this.getName());
+    if (this.getDateOfPublication() != null) {
+      obj.put("dateOfPublication", this.getDateOfPublication().toYAMLObject());
+    }
+    obj.put("authors", this.getAuthors());
+
+    return obj;
   }
 }

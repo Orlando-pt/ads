@@ -5,24 +5,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import pt.up.fe.BaseClass;
 import pt.up.fe.events.Event;
 
 public class Person extends BaseClass {
-
   private Gender gender;
   private String middleName;
   private String lastName;
-  private final List<Event> events = new ArrayList<>();
-  private final List<Person> children = new ArrayList<>();
+  private List<Event> events = new ArrayList<>();
+  private List<Person> children = new ArrayList<>();
 
-  public String getMiddleName() { return middleName; }
+  public String getMiddleName() {
+    return middleName;
+  }
 
-  public void setMiddleName(String middleName) { this.middleName = middleName; }
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
 
-  public String getLastName() { return lastName; }
+  public String getLastName() {
+    return lastName;
+  }
 
-  public void setLastName(String lastName) { this.lastName = lastName; }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
   public Gender getGender() {
     return gender;
@@ -97,5 +106,45 @@ public class Person extends BaseClass {
 
     sBuilder.append("\nDescription: " + super.getDescription());
     return sBuilder.toString();
+  }
+
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+    if (this.getGender() != null) {
+      obj.put("gender", this.getGender());
+    }
+    JSONArray events = new JSONArray();
+    for (Event event : this.getEvents()) {
+      events.put(event.getId().toString());
+    }
+    obj.put("events", events);
+    JSONArray children = new JSONArray();
+    for (Person child : this.getChildren()) {
+      children.put(child.getId().toString());
+    }
+    obj.put("children", children);
+
+    return obj;
+  }
+
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = super.toYAMLObject();
+
+    if (this.getGender() != null) {
+      obj.put("gender", this.getGender().toString());
+    }
+    List<String> events = new ArrayList<>();
+    for (Event event : this.getEvents()) {
+      events.add(event.getId().toString());
+    }
+    obj.put("events", events);
+    List<String> children = new ArrayList<>();
+    for (Person child : this.getChildren()) {
+      children.add(child.getId().toString());
+    }
+    obj.put("children", children);
+    return obj;
   }
 }
