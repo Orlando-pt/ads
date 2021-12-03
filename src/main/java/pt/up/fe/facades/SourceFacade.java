@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import pt.up.fe.Main;
+import pt.up.fe.sources.Source;
 import pt.up.fe.dtos.sources.BookDTO;
 import pt.up.fe.dtos.sources.CustomSourceDTO;
 import pt.up.fe.dtos.sources.FilterSourcesDTO;
@@ -15,7 +16,6 @@ import pt.up.fe.sources.CustomSource;
 import pt.up.fe.sources.HistoricalRecord;
 import pt.up.fe.sources.OnlineResource;
 import pt.up.fe.sources.OrallyTransmitted;
-import pt.up.fe.sources.Source;
 
 public class SourceFacade {
 
@@ -65,18 +65,19 @@ public class SourceFacade {
     return orallyTransmitted;
   }
 
-
   public static List<Source> filterSources(FilterSourcesDTO filterSourcesDTO) {
 
-    Predicate<Source> byName = source -> filterSourcesDTO.getName().isEmpty()
-        || source.getName() != null && source.getName().toLowerCase()
-        .contains(filterSourcesDTO.getName().toLowerCase());
+    Predicate<Source> byName =
+        source ->
+            filterSourcesDTO.getName().isEmpty()
+                || source.getName() != null
+                    && source
+                        .getName()
+                        .toLowerCase()
+                        .contains(filterSourcesDTO.getName().toLowerCase());
 
-    List<Source> result = Main.sourcesList.stream()
-        .filter(byName)
-        .collect(Collectors.toList());
+    List<Source> result = Main.sourcesList.stream().filter(byName).collect(Collectors.toList());
 
     return result;
-
   }
 }

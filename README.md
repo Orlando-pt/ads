@@ -11,3 +11,10 @@ mvn clean compile assembly:single
 ```
 
 After this command the jar executable is available at **target/**.
+
+## Running javafx
+
+Can be achieved with:
+``` bash
+mvn clean javafx:run
+```

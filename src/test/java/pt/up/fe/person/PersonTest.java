@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.up.fe.events.Birth;
 import pt.up.fe.events.Event;
+import pt.up.fe.events.Marriage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,22 @@ class PersonTest {
         assertThat(person.getParents().keySet(), hasSize(0));
         assertEquals(person.getParents().get("Father"), null);
         assertEquals(person.getParents().get("Mother"), null);
+    }
+
+    @Test
+    void numberOfMarriagesTest() {
+        Person breno = new Person();
+        Person catia = new Person();
+        breno.setName("Breno");
+        catia.setName("Catia");
+        Marriage brenoAndCatia = new Marriage(breno, catia);
+        breno.addEvent(brenoAndCatia);
+        catia.addEvent(brenoAndCatia);
+        
+        assertEquals(
+            1,
+            breno.getNumberOfMarriages()
+        );
     }
 
 }

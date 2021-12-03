@@ -20,8 +20,14 @@ public class PersonTableDTO {
 
   private Person person;
 
-  public PersonTableDTO(String firstName, String lastName, String middleName,
-      Gender gender, IDate birthDate, Integer children, Person person) {
+  public PersonTableDTO(
+      String firstName,
+      String lastName,
+      String middleName,
+      Gender gender,
+      IDate birthDate,
+      Integer children,
+      Person person) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.middleName = middleName;
