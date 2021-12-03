@@ -1,5 +1,37 @@
 # Report
 
+At this document it will be explained what was the process to develop this platform. This software system helps to support the work of historians and individual genealogy researchers by storing data related to individuals, their relations, and other important kinds of information.
+
+# Table of contents
+- [Report](#report)
+- [Table of contents](#table-of-contents)
+- [Functionalities Made So Far](#functionalities-made-so-far)
+- [The Design](#the-design)
+  - [Solving Simple Dates And Intervals](#solving-simple-dates-and-intervals)
+    - [Design Problem](#design-problem)
+    - [The Pattern](#the-pattern)
+    - [Implementation](#implementation)
+    - [Consequences](#consequences)
+  - [Solving The Location Structure](#solving-the-location-structure)
+    - [Design Problem](#design-problem-1)
+    - [The Pattern](#the-pattern-1)
+    - [Implementation](#implementation-1)
+    - [Consequences](#consequences-1)
+  - [Solving Exporting/Loading Data In Different Formats](#solving-exportingloading-data-in-different-formats)
+    - [Design Problem](#design-problem-2)
+    - [The Pattern](#the-pattern-2)
+    - [Implementation](#implementation-2)
+    - [Consequences](#consequences-2)
+  - [Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects](#solving-the-complexity-of-instantiatingeditingremoving-the-different-types-of-objects)
+    - [Design Problem](#design-problem-3)
+    - [The Pattern](#the-pattern-3)
+    - [Implementation](#implementation-3)
+    - [Consequences](#consequences-3)
+  - [Solving The Addition of Locations](#solving-the-addition-of-locations)
+    - [Design Problem](#design-problem-4)
+    - [The Pattern](#the-pattern-4)
+    - [Implementation](#implementation-4)
+    - [Consequences](#consequences-4)
 # Functionalities Made So Far
 
 The main functionalities of the program implemented already are:
@@ -16,10 +48,6 @@ The main functionalities already started:
 - Allow record of **places** (without GUI)
 - Allow export in JSON and YAML (without GUI)
 - Allow export the genealogy information to formats that allow a graphical visualization (without GUI) 
-
-# Introduction
-
-At this document it will be explained what was the process to develop this platform. This software system helps to support the work of historians and individual genealogy researchers by storing data related to individuals, their relations, and other important kinds of information.
 
 <!-- # Goals -->
 
