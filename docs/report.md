@@ -29,11 +29,9 @@ At this document it will be explained what was the process to develop this platf
 
 We'll start by explaining how we solved the problem of having uncertain dates.
 
-### Problem In Context
+### Design Problem
 
 We have to save two different dates, **Interval** and **Simple** dates. The difference between them is that one just has a simple date (10-11-2021 00:00:00) and the other is an interval date (10-11-2021 00:00:00 - 24-12-2021 23:20:00). And this is not all, we also have to pay attention that dates may be incomplete.
-
-### Design Problem To Solve
 
 The problem with dates was that they could be **incomplete**, which meant that we would need to have a lot of different constructors for the various possibilities or send params with null on the constructor.
 
@@ -57,11 +55,9 @@ One of the consequences of the builder is that it doesn’t allow other objects 
 
 Finding a structured way to store locations was also something we had to look into. We explain the process below.
 
-### Problem In Context
+### Design Problem
 
 The problem is finding a structured way to **save locations**. These locations have the particularity that they can be **contained** within other locations or themselves contain thirds. For example, the district Porto is a location. Porto contains countys like Porto itself, Amarante, Felgueiras, Vila Nova de Gaia, etc. This countys are also locations and they can have other locations inside them.
-
-### Design Problem To Solve
 
 Therefore, what needs to be resolved is this way of structuring locations so that districts can contain counties, counties can contain parishes, and in the end, everything that was listed above has to be called by location.
 
@@ -90,11 +86,9 @@ As far as implementation is concerned, we had to create a abstract class **Place
 
 And now, how do we export, for instance the locations, in different formats?
 
-### Problem In Context
+### Design Problem
 
-It was required to **load and save** data using **different formats** (e.g. CSV, XML, GEDCOM) and having in mind that new export formats should be easy to add.
-
-### Design Problem To Solve
+It was required to **load and save** data using **different formats** (e.g. YAML, XML, GEDCOM) and having in mind that new export formats should be easy to add.
 
 The problem here was that not only would we need to use **many strategies** at a time to load or save data, but also that **some of the steps** required to do this will be **shared among all strategies**.
 
@@ -122,11 +116,9 @@ Since most of the steps are located on the abstract class, this implementation i
 
 How can we **abstract the algorithmic complexity** of creating, editing or removing the different types of entities?
 
-### Problem In Context
+### Design Problem
 
 It is necessary to create objects representing the various types of entities using a simple interface. The simplicity of this interface should be an advantage at the time of GUI implementation.
-
-### Design Problem To Solve
 
 Assuming that we have to instantiate the various objects, such as instantiating events, people, locations, etc. The logic associated with these processes can become complex. Not only complex but extensive.
 
@@ -154,11 +146,9 @@ The implementation takes into consideration the various types of entities presen
 
 How can we add locations easily?
 
-### Problem In Context
+### Design Problem
 
 The application needs to create places and aggregate them following the concept of “Compound Place” and “Parish”. CompoundPlace is the aggregator of Parish at the most basic level, but in a composite pattern, we also need to take into consideration that the aggregator can also aggregate other aggregators.
-
-### Design Problem To Solve
 
 In a simple way, in the Composite Pattern, the composite provides utility methods (like addChild and removeChild) that allows us to start creating the tree, but it requires us to **instantiate the composite object**, then instantiate all its children to be added via those utility methods. This is an approach that works, but it’s not actually **user friendly**.
 
