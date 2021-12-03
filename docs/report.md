@@ -2,17 +2,20 @@
 
 # Functionalities Made So Far
 
-The main functionalities of the program implemented already without GUI are:
+The main functionalities of the program implemented already are:
 
 - Allow record of **dates** (simple and interval)
+- Allow record of **birth** event
+- Allow record of **person** (missing birth event)
+- Allow listing of **persons** 
+- Allow record **sources** (missing places and date)
+- Allow listing of **sources**
 
 The main functionalities already started:
 
-- Allow record of **places**
-- Allow record of **events**
-  - For this iteration it can only record 2 types of events (Birth and Custom)
-- Allow record, display and edit of **people**
-- Allow record of **sources**
+- Allow record of **places** (without GUI)
+- Allow export in JSON and YAML (without GUI)
+- Allow export the genealogy information to formats that allow a graphical visualization (without GUI) 
 
 # Introduction
 
@@ -42,7 +45,7 @@ For the problem that we are trying to solve, the **Builder Pattern** is the one 
 
 For the implementation of the builder pattern, we created an interface **IBuilder** that contains all the methods to be implemented by the concrete builders: **SimpleDateBuilder** and **IntervalDateBuilder**. We had to create two concrete classes for the dates being created by the builders: **SimpleDate** and **IntervalDate**.
 
-<img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px"/>
+<img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px;"/>
 
 ### Consequences
 
