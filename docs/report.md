@@ -146,24 +146,24 @@ How can we **abstract the algorithmic complexity** of creating, editing or remov
 
 ### Design Problem
 
-It is necessary to create objects representing the various types of entities using a simple interface. The simplicity of this interface should be an advantage at the time of GUI implementation.
+It is necessary to create objects representing the various types of entities using a simple interface. The simplicity of this interface is an advantage when implementing GUI.
 
 Assuming that we have to instantiate the various objects, such as instantiating events, people, locations, etc. The logic associated with these processes can become complex. Not only complex but extensive.
 
 ### The Pattern
 
-The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user (currently the Main.class class) but it is expected that this class becomes **very extensive**, which would worsen its understandability, as well as its maintainability.
+The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user but it is expected that this class becomes **very extensive**, which would worsen its understandability, as well as its maintainability.
 
 ### Implementation
 
-The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, **abstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used in the main program (Main.java) allowing to call the creation, editing, ... methods in a really simple way.
+The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, **abstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used by the UI controllers allowing to call the creation, editing, ... methods in a really simple way. With this implementation, if later on, other part of the programs needs to make a change on the entities, it only needs to use the DTOs in order to use the facades.
 
 <img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
 
 ### Consequences
 
 - Positive Consequences:
-  - It will provide a **simple interface** to be used not only by the GUI but also by the main program.
+  - It will provide a **simple interface** to be used not only by the GUI but also by the other parts of the program, if needed.
   - Creates an abstraction that abstracts potentially complex code.
 - Negative Consequences:
   - The various facades can very easily **become too general** and contain methods with very different scopes. The trend will be for these classes to become [God Object](https://en.wikipedia.org/wiki/God_object). Therefore, it will be necessary to have a doubled attention in the future so that this does not happen.
