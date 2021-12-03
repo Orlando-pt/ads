@@ -75,6 +75,8 @@ For the implementation of the builder pattern, we created an interface **IBuilde
   <img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px;"/>
 </p>
 
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/dates).
+
 ### Consequences
 
 One of the consequences of the builder is that it doesn’t allow other objects to access the date while it’s being built and for this use case it doesn’t matter so we didn’t identify any other problem.
@@ -102,6 +104,8 @@ As far as implementation is concerned, we had to create a abstract class **Place
 <p align="center">
   <img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
 </p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
 
 ### Consequences
 
@@ -136,6 +140,8 @@ To solve this problem, a mix of the **Strategy Pattern** and **Template Method P
 
 Since most of the steps are located on the abstract class, this implementation is more of a Template Method Pattern than a Strategy Pattern.
 
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
+
 ### Consequences
 
 - Positive consequences:
@@ -167,6 +173,8 @@ The implementation takes into consideration the various types of entities presen
 <p align="center">
   <img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
 </p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/facades).
 
 ### Consequences
 
@@ -208,6 +216,8 @@ In the context of this problem, the builder pattern will allow us to build the t
 <p align="center">
   <img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
 </p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
 
 ### Consequences
 
