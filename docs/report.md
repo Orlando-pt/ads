@@ -246,3 +246,81 @@ Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/
 - Negative Consequences:
   - A builder pattern introduces new classes, making it yet another piece of code to maintain.
   - Finding the common interface of a builder can be difficult if the object it’s trying to create is not the best one or it’s not final.
+
+---
+
+## Standardize Iteration Through Persons
+
+How are we going to be able to find a particular person's grandchildren?
+
+### Design Problem
+
+Iterating through the tree consisting of the nodes under a given person is a very important feature, particularly for cases like the example of wanting to know **how many grandchildren a particular person has**.
+
+The ideal would be to find a way to iterate that could be **reused** in other types of situations that might be needed. For example, the export of all people. Theoretically, if we had the parent of all (root node) we could go through all the nodes of the tree giving export to all.
+
+### The Pattern
+
+In order to eliminate the problem described above, the **Iterator pattern** was implemented, which allows iterating through all nodes that are below a specific parent node.
+In our particular case, it allows us to **go through a genealogy tree** using the "parent of all".
+
+### Implementation
+
+The implementation is based on the **Iterator interface**, from the java.util package, which is **extended** by another **PersonIteratorInterface interface**. In this interface we put all the methods that are necessary and specific to the data structure corresponding to persons.
+
+Next, we will present two **concrete iterators**, the first being **PersonBreathIterator**, which just walks the tree in breath. And a second one named **PersonBreathIteratorWithDepthLimit**, which, as the name implies, is an identical implementation to the previous one, having only one depth limit that it can reach. In concrete terms, in the next() method there is a verification of the level where the node is.
+
+Lastly, the iterators are **initialized** on the **Person object** itself, which will allow what was said earlier, to check all the children of a given person.
+
+<p align="center">
+  <img src="images/class-PersonIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
+
+### Consequences
+
+- Positive Consequences:
+  - There is a standard way of traversing an entire family tree.
+  - We may reuse this way of iterating through people on certain features, such as queries or export features. Thus, we reduce code repetition, which means less minor probability to introduce errors.
+- Negative Consequences:
+  - In certain cases it can cause the export or queries functionality to **adapt to the type of data that is returned from the iterator**, and not the other way around. If we think about the export and query functionality, we notice that they are two very different features. However the iterator will return the same object in both situations. Therefore, the iterator might have some trouble finding a returned object type that satisfies the needs of all its dependents. When talking about returned objects, we are also talking about adding methods like the one found to return the level where the iterator is or is going to find itself.
+
+---
+
+## Standardize Iteration Through Places
+
+How are we going to be able to find a particular person's grandchildren?
+
+### Design Problem
+
+Iterating through the tree consisting of the nodes under a given person is a very important feature, particularly for cases like the example of wanting to know **how many grandchildren a particular person has**.
+
+The ideal would be to find a way to iterate that could be **reused** in other types of situations that might be needed. For example, the export of all people. Theoretically, if we had the parent of all (root node) we could go through all the nodes of the tree giving export to all.
+
+### The Pattern
+
+In order to eliminate the problem described above, the **Iterator pattern** was implemented, which allows iterating through all nodes that are below a specific parent node.
+In our particular case, it allows us to **go through a genealogy tree** using the "parent of all".
+
+### Implementation
+
+The implementation is based on the **Iterator interface**, from the java.util package, which is **extended** by another **PersonIteratorInterface interface**. In this interface we put all the methods that are necessary and specific to the data structure corresponding to persons.
+
+Next, we will present two **concrete iterators**, the first being **PersonBreathIterator**, which just walks the tree in breath. And a second one named **PersonBreathIteratorWithDepthLimit**, which, as the name implies, is an identical implementation to the previous one, having only one depth limit that it can reach. In concrete terms, in the next() method there is a verification of the level where the node is.
+
+Lastly, the iterators are **initialized** on the **Person object** itself, which will allow what was said earlier, to check all the children of a given person.
+
+<p align="center">
+  <img src="images/class-PersonIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
+
+### Consequences
+
+- Positive Consequences:
+  - There is a standard way of traversing an entire family tree.
+  - We may reuse this way of iterating through people on certain features, such as queries or export features. Thus, we reduce code repetition, which means less minor probability to introduce errors.
+- Negative Consequences:
+  - In certain cases it can cause the export or queries functionality to **adapt to the type of data that is returned from the iterator**, and not the other way around. If we think about the export and query functionality, we notice that they are two very different features. However the iterator will return the same object in both situations. Therefore, the iterator might have some trouble finding a returned object type that satisfies the needs of all its dependents. When talking about returned objects, we are also talking about adding methods like the one found to return the level where the iterator is or is going to find itself.
