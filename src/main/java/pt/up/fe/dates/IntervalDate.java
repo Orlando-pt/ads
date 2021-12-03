@@ -1,28 +1,31 @@
 package pt.up.fe.dates;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.json.JSONObject;
+
 public class IntervalDate implements IDate {
+  private IDate startDate;
+  private IDate endDate;
 
-  private SimpleDate startDate;
-  private SimpleDate endDate;
-
-  public IntervalDate(SimpleDate start, SimpleDate end) {
+  public IntervalDate(IDate start, IDate end) {
     this.startDate = start;
     this.endDate = end;
   }
 
-  public SimpleDate getStartDate() {
+  public IDate getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(SimpleDate startDate) {
+  public void setStartDate(IDate startDate) {
     this.startDate = startDate;
   }
 
-  public SimpleDate getEndDate() {
+  public IDate getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(SimpleDate endDate) {
+  public void setEndDate(IDate endDate) {
     this.endDate = endDate;
   }
 
@@ -37,36 +40,45 @@ public class IntervalDate implements IDate {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     IntervalDate other = (IntervalDate) obj;
     if (endDate == null) {
-      if (other.endDate != null) {
-        return false;
-      }
-    } else if (!endDate.equals(other.endDate)) {
-      return false;
-    }
+      if (other.endDate != null) return false;
+    } else if (!endDate.equals(other.endDate)) return false;
     if (startDate == null) {
-      return other.startDate == null;
-    } else
-      return startDate.equals(other.startDate);
+      if (other.startDate != null) return false;
+    } else if (!startDate.equals(other.startDate)) return false;
+    return true;
   }
 
   @Override
   public String toString() {
-    return "IntervalDate{" +
-        "startDate=" + startDate +
-        ", endDate=" + endDate +
-        '}';
+    return "IntervalDate{" + "startDate=" + startDate + ", endDate=" + endDate + '}';
   }
 
+  @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = new JSONObject();
+    if (this.getStartDate() != null) {
+      obj.put("startDate", this.getStartDate().toJSONObject());
+    }
+    if (this.getEndDate() != null) {
+      obj.put("endDate", this.getEndDate().toJSONObject());
+    }
+    return obj;
+  }
 
+  @Override
+  public Map<String, Object> toYAMLObject() {
+    Map<String, Object> obj = new HashMap<>();
+    if (this.getStartDate() != null) {
+      obj.put("startDate", this.getStartDate().toYAMLObject());
+    }
+    if (this.getEndDate() != null) {
+      obj.put("endDate", this.getEndDate().toYAMLObject());
+    }
+    return obj;
+  }
 }

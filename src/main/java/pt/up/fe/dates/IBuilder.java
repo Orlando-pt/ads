@@ -6,17 +6,17 @@ public interface IBuilder {
 
   IBuilder switchDate();
 
-  IBuilder setYear(int year);
+  IBuilder setYear(Integer year);
 
-  IBuilder setMonth(int month);
+  IBuilder setMonth(Integer month);
 
-  IBuilder setDay(int day);
+  IBuilder setDay(Integer day);
 
-  IBuilder setHour(int hour);
+  IBuilder setHour(Integer hour);
 
-  IBuilder setMinute(int minute);
+  IBuilder setMinute(Integer minute);
 
-  IBuilder setSecond(int second);
+  IBuilder setSecond(Integer second);
 
   IDate build();
 }

@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.MainController">
    <children>
-      <Button layoutX="89.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Persons">
+      <Button fx:id="person" layoutX="89.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToScreen" text="Persons">
          <font>
             <Font size="16.0" />
          </font></Button>
@@ -16,7 +16,7 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <Button layoutX="210.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToPeopleScreen" text="Events">
+      <Button fx:id="event" layoutX="210.0" layoutY="135.0" mnemonicParsing="false" onAction="#goToScreen" text="Events">
          <font>
             <Font size="16.0" />
          </font>

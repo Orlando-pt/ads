@@ -4,9 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Gender {
-  MALE(1), FEMALE(2);
+  MALE(1),
+  FEMALE(2);
 
-  private static final Map map = new HashMap<>();
+  private Integer value;
+  private static Map<Integer, Gender> map = new HashMap<>();
+
+  Gender(Integer value) {
+    this.value = value;
+  }
 
   static {
     for (Gender gender : Gender.values()) {
@@ -14,14 +20,7 @@ public enum Gender {
     }
   }
 
-  private final int value;
-
-  Gender(int value) {
-    this.value = value;
-  }
-
-  public static Gender valueOf(int gender) {
+  public static Gender valueOf(Integer gender) {
     return (Gender) map.get(gender);
   }
 }
-
