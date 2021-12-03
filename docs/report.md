@@ -71,7 +71,11 @@ For the problem that we are trying to solve, the **Builder Pattern** is the one 
 
 For the implementation of the builder pattern, we created an interface **IBuilder** that contains all the methods to be implemented by the concrete builders: **SimpleDateBuilder** and **IntervalDateBuilder**. We had to create two concrete classes for the dates being created by the builders: **SimpleDate** and **IntervalDate**.
 
-<img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px;"/>
+<p align="center">
+  <img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px;"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/dates).
 
 ### Consequences
 
@@ -97,7 +101,11 @@ The problem that was described above can be visually transcribed to a **tree str
 
 As far as implementation is concerned, we had to create a abstract class **Place** that has similar attributes to the different types of locations (latitude, longitude, area). This class plays the role of **Component** within what is estipulated by the **Composite Pattern**. Next we created, the **CompoundPlace** class which **extends Place** and plays the role of **Composite**. This _Composite_ schematizes the case of locations such as Porto that contains other locations and therefore need some way to aggregate others. The composite will allow this. It will have a list with all the children locations, all of them of the **Place** type. Which means that we can either add final locations (Leafs) or a Composite itself. Lastly, the **Parish** class also **extends Place** and refers to a location that will not include other locations. So, the **Parish** class, as it was implicitly said before, maps directly to a **Leaf** on the _Composite Pattern_.
 
-<img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+<p align="center">
+  <img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
 
 ### Consequences
 
@@ -126,9 +134,13 @@ To solve this problem, a mix of the **Strategy Pattern** and **Template Method P
 
 ### Implementation
 
-<img src="images/class-Export.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+<p align="center">
+  <img src="images/class-Export.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+</p>
 
 Since most of the steps are located on the abstract class, this implementation is more of a Template Method Pattern than a Strategy Pattern.
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
 
 ### Consequences
 
@@ -158,7 +170,11 @@ The problem was solved by implementing a **Facade** for each of the entities. Th
 
 The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, **abstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used by the UI controllers allowing to call the creation, editing, ... methods in a really simple way. With this implementation, if later on, other part of the programs needs to make a change on the entities, it only needs to use the DTOs in order to use the facades.
 
-<img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+<p align="center">
+  <img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/facades).
 
 ### Consequences
 
@@ -197,7 +213,11 @@ The pattern **extracts the complex code of creating objects** and puts it in a c
 
 In the context of this problem, the builder pattern will allow us to build the tree of Places without knowing exactly what it does. Then the client just receives a Place and it doesn’t know if the object is a CompoundPlace or a Parish. The important, is that at the end the client receives a Place.
 
-<img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
+<p align="center">
+  <img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
 
 ### Consequences
 
