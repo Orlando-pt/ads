@@ -19,9 +19,11 @@ At this document it will be explained what was the process to develop this platf
     - [Consequences](#consequences-1)
   - [Solving Exporting/Loading Data In Different Formats](#solving-exportingloading-data-in-different-formats)
     - [Design Problem](#design-problem-2)
-    - [The Pattern](#the-pattern-2)
-    - [Implementation](#implementation-2)
-    - [Consequences](#consequences-2)
+    - [The Pattern v1](#the-pattern-v1)
+    - [Implementation v1](#implementation-v1)
+    - [Consequences v1](#consequences-v1)
+    - [The Pattern v2](#the-pattern-v2)
+    - [Implementation v2](#implementation-v2)
   - [Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects](#solving-the-complexity-of-instantiatingeditingremoving-the-different-types-of-objects)
     - [Design Problem](#design-problem-3)
     - [The Pattern](#the-pattern-3)
@@ -39,7 +41,7 @@ The main functionalities of the program implemented already are:
 - Allow record of **dates** (simple and interval)
 - Allow record of **birth** event
 - Allow record of **person** (missing birth event)
-- Allow listing of **persons** 
+- Allow listing of **persons**
 - Allow record **sources** (missing places and date)
 - Allow listing of **sources**
 
@@ -47,7 +49,7 @@ The main functionalities already started:
 
 - Allow record of **places** (without GUI)
 - Allow export in JSON and YAML (without GUI)
-- Allow export the genealogy information to formats that allow a graphical visualization (without GUI) 
+- Allow export the genealogy information to formats that allow a graphical visualization (without GUI)
 
 <!-- # Goals -->
 
@@ -128,11 +130,11 @@ It was required to **load and save** data using **different formats** (e.g. YAML
 
 The problem here was that not only would we need to use **many strategies** at a time to load or save data, but also that **some of the steps** required to do this will be **shared among all strategies**.
 
-### The Pattern
+### The Pattern v1
 
 To solve this problem, a mix of the **Strategy Pattern** and **Template Method Pattern** was used. It was used the **Strategy Pattern** in the sense that there are **various strategies** in place to load or save data in various formats which follow a **common interface**. With this, it is only necessary to **choose a strategy before using the same methods**, regardless of the strategy type. The Template Method Pattern was introduced to keep some of the data processing that all strategies follow in a common place. With this, these methods stay in the abstract class letting the specific work to be implemented by each strategy.
 
-### Implementation
+### Implementation v1
 
 <p align="center">
   <img src="images/class-Export.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
@@ -142,13 +144,29 @@ Since most of the steps are located on the abstract class, this implementation i
 
 Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
 
-### Consequences
+### Consequences v1
 
 - Positive consequences:
   - By using this approach, not only is it possible to **add new support** for new types of files but also gives the freedom to the program to **switch between different strategies** of exporting or loading, just like it is necessary.
   - We are effectively **deleting repeated code** by putting it in abstract class.
 - Negative consequences:
   - If the use of a specific type of file needs more steps than the general ones defined, it may need to join more than one step at the same method since we are limiting the structure of an algorithm.
+
+### The Pattern v2
+
+In our initial, we had a Strategy Pattern mixed in with a Template Method. Although this may work in the future, for now we applied only the *Template Method* part with a simplified approach.
+
+### Implementation v2
+
+<p align="center">
+  <img src="images/class-Export.drawio.png" alt="Exporter" style="height: 300px"/>
+</p>
+
+As we can see in the image, we require the classes that want to be exported to implement a *common interface* designated **IExportObject** that converts the entity to something the *Exporter* understands.
+
+In this implementation, the *Exporter* doesn't care about the object itself, it only requires an Iterator of the object.
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
 
 ---
 
