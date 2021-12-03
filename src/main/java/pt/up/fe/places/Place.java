@@ -3,6 +3,8 @@ package pt.up.fe.places;
 import java.util.Map;
 import org.json.JSONObject;
 import pt.up.fe.BaseClass;
+import pt.up.fe.iterators.PlaceBreathIterator;
+import pt.up.fe.iterators.PlaceIteratorInterface;
 
 public abstract class Place extends BaseClass {
 
@@ -41,6 +43,10 @@ public abstract class Place extends BaseClass {
   }
 
   public abstract Double getArea();
+
+  public PlaceBreathIterator createIterator() {
+		return new PlaceBreathIterator(this);
+	}
 
   @Override
   public abstract String toString();

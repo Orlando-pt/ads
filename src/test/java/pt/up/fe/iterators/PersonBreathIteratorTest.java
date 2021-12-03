@@ -16,7 +16,7 @@ public class PersonBreathIteratorTest {
     @BeforeEach
     void setUp() {
         Person root = this.buildGenealogyTree();
-        iterator = new PersonBreathIterator(root);
+        iterator = root.createIterator();
     }
 
     @Test

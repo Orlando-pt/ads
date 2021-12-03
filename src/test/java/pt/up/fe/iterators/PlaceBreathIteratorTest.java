@@ -17,7 +17,7 @@ public class PlaceBreathIteratorTest {
     @BeforeEach
     void setUp() {
         Place root = this.buildPlacesTree();
-        iterator = new PlaceBreathIterator(root);
+        iterator = root.createIterator();
     }
 
     @Test

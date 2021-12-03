@@ -15,7 +15,7 @@ public class PersonBreathIteratorWithDepthLimitTest {
         Person root = this.buildGenealogyTree();
 
         // ignore all the great grandsons of root
-        this.iterator = new PersonBreathIteratorWithDepthLimit(root, 2);
+        this.iterator = root.createIteratorWithDepthLimit(2);
     }
     @Test
     void testNext() {
