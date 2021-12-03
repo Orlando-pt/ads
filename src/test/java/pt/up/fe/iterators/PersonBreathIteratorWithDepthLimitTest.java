@@ -2,13 +2,14 @@ package pt.up.fe.iterators;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pt.up.fe.person.Person;
 
 public class PersonBreathIteratorWithDepthLimitTest {
-    private PersonBreathIteratorWithDepthLimit iterator;
+    private PersonIteratorInterface<ImmutablePair<Integer, Person>> iterator;
 
     @BeforeEach
     void setup() {

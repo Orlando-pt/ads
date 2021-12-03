@@ -11,7 +11,7 @@ import pt.up.fe.person.Person;
 
 public class PersonBreathIteratorTest {
 
-    private PersonBreathIterator iterator;
+    private PersonIteratorInterface<ImmutablePair<Integer, Person>> iterator;
 
     @BeforeEach
     void setUp() {

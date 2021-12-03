@@ -44,7 +44,7 @@ public abstract class Place extends BaseClass {
 
   public abstract Double getArea();
 
-  public PlaceBreathIterator createIterator() {
+  public PlaceIteratorInterface<Place> createIterator() {
 		return new PlaceBreathIterator(this);
 	}
 

@@ -12,7 +12,7 @@ import pt.up.fe.places.Place;
 
 public class PlaceBreathIteratorTest {
 
-    private PlaceBreathIterator iterator;
+    private PlaceIteratorInterface<Place> iterator;
 
     @BeforeEach
     void setUp() {
