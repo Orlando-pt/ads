@@ -34,6 +34,16 @@ At this document it will be explained what was the process to develop this platf
     - [The Pattern](#the-pattern-4)
     - [Implementation](#implementation-4)
     - [Consequences](#consequences-4)
+  - [Standardize Iteration Through Persons](#standardize-iteration-through-persons)
+    - [Design Problem](#design-problem-5)
+    - [The Pattern](#the-pattern-5)
+    - [Implementation](#implementation-5)
+    - [Consequences](#consequences-5)
+  - [Standardize Iteration Through Places](#standardize-iteration-through-places)
+    - [Design Problem](#design-problem-6)
+    - [The Pattern](#the-pattern-6)
+    - [Implementation](#implementation-6)
+    - [Consequences](#consequences-6)
 # Functionalities Made So Far
 
 The main functionalities of the program implemented already are:
@@ -276,7 +286,9 @@ Lastly, the iterators are **initialized** on the **Person object** itself, which
   <img src="images/class-PersonIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
 </p>
 
-Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/iterators).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/pt/up/fe/iterators).
 
 ### Consequences
 
@@ -290,37 +302,36 @@ Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/
 
 ## Standardize Iteration Through Places
 
-How are we going to be able to find a particular person's grandchildren?
+How are we going to iterate through the various places in order to export them or even as the result of a search?
 
 ### Design Problem
 
-Iterating through the tree consisting of the nodes under a given person is a very important feature, particularly for cases like the example of wanting to know **how many grandchildren a particular person has**.
-
-The ideal would be to find a way to iterate that could be **reused** in other types of situations that might be needed. For example, the export of all people. Theoretically, if we had the parent of all (root node) we could go through all the nodes of the tree giving export to all.
+There was the problem that there was no standard way to go through all the places. The implementation should be general so that it could be used by export or search functionality.
 
 ### The Pattern
 
-In order to eliminate the problem described above, the **Iterator pattern** was implemented, which allows iterating through all nodes that are below a specific parent node.
-In our particular case, it allows us to **go through a genealogy tree** using the "parent of all".
+In order to solve this problem, the **Iterator pattern** was implemented. This pattern allows us to find a uniform way of traversing locations. This will be useful for example in cases where we have to export all places or search for a specific location. In this case, having the Root place that can correspond, for example, to the country, we can iterate through the various districts until we find what we really wanted. And after we have the district, the user may want to specify which is the municipality, after specifying we can return a new iterator that iterates through all the counties in the specified district until finding the desired county.
 
 ### Implementation
 
-The implementation is based on the **Iterator interface**, from the java.util package, which is **extended** by another **PersonIteratorInterface interface**. In this interface we put all the methods that are necessary and specific to the data structure corresponding to persons.
+The implementation is based on the **Iterator interface**, from the java.util package, which is **extended** by another **PlaceIteratorInterface interface**. In this interface we put all the methods that are necessary and specific to the data structure corresponding to places.
 
-Next, we will present two **concrete iterators**, the first being **PersonBreathIterator**, which just walks the tree in breath. And a second one named **PersonBreathIteratorWithDepthLimit**, which, as the name implies, is an identical implementation to the previous one, having only one depth limit that it can reach. In concrete terms, in the next() method there is a verification of the level where the node is.
+Next, we will present one **concrete iterator**, named **PlaceBreathIterator**, which just runs through all the places in breath. This allows, for example, to export only districts or municipalities. Therefore giving us more flexibility to export only what we need.
 
-Lastly, the iterators are **initialized** on the **Person object** itself, which will allow what was said earlier, to check all the children of a given person.
+Lastly, the iterators are **initialized** on the **Place object** itself. This will allow each place to readily iterate through the places that are associated with it.
 
 <p align="center">
-  <img src="images/class-PersonIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
+  <img src="images/class-PlaceIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
 </p>
 
-Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/iterators).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/pt/up/fe/iterators).
 
 ### Consequences
 
 - Positive Consequences:
-  - There is a standard way of traversing an entire family tree.
-  - We may reuse this way of iterating through people on certain features, such as queries or export features. Thus, we reduce code repetition, which means less minor probability to introduce errors.
+  - Uniform way to traverse all the locations
+  - We can use this iterator both in the exporting of places and in search operations that will be needed eventually.
 - Negative Consequences:
-  - In certain cases it can cause the export or queries functionality to **adapt to the type of data that is returned from the iterator**, and not the other way around. If we think about the export and query functionality, we notice that they are two very different features. However the iterator will return the same object in both situations. Therefore, the iterator might have some trouble finding a returned object type that satisfies the needs of all its dependents. When talking about returned objects, we are also talking about adding methods like the one found to return the level where the iterator is or is going to find itself.
+  - We were able to promptly find a problem to using this pattern. If the search for a specific place ends up using this pattern, it is expected that the performance of using the pattern will be inferior, for example, when fetching the intended node directly by a method declared in the Place class that directly accesses the childs array.
