@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -12,6 +15,10 @@ import org.json.JSONObject;
 import pt.up.fe.BaseClass;
 import pt.up.fe.events.Birth;
 import pt.up.fe.events.Event;
+import pt.up.fe.iterators.PersonBreathIterator;
+import pt.up.fe.iterators.PersonBreathIteratorWithDepthLimit;
+import pt.up.fe.iterators.PersonIteratorInterface;
+
 import pt.up.fe.events.Marriage;
 
 public class Person extends BaseClass {
@@ -20,6 +27,14 @@ public class Person extends BaseClass {
 	private String lastName;
 	private List<Event> events = new ArrayList<>();
 	private List<Person> children = new ArrayList<>();
+
+	public PersonIteratorInterface<ImmutablePair<Integer, Person>> createIterator() {
+		return new PersonBreathIterator(this);
+	}
+
+	public PersonIteratorInterface<ImmutablePair<Integer, Person>> createIteratorWithDepthLimit(int limit) {
+		return new PersonBreathIteratorWithDepthLimit(this, limit);
+	}
 
 	public String getMiddleName() {
 		return middleName;
