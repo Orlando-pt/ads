@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,10 +15,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.controllers.contentarea.IContentPageController;
+import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.sources.CustomSourceDTO;
 import pt.up.fe.facades.SourceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.sources.CustomSource;
@@ -44,6 +47,11 @@ public class CreateCustomSourcePageController implements Initializable, IContent
 
   private String pageToSend;
 
+  @FXML
+  private TextField customSourceDate;
+
+  private IDate date;
+
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
   @FXML
@@ -62,6 +70,22 @@ public class CreateCustomSourcePageController implements Initializable, IContent
             pageToSend = pageToSendCustomEvent.getPageToSend();
           }
         });
+  }
+
+  @FXML
+  public void openDateBuilder(ActionEvent event) {
+    CustomSceneHelper.bringNodeToFront("CreateDate", "Page");
+
+    CustomSceneHelper.getNodeById("createDatePage").addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
+      @Override
+      public void handle(DateCustomEvent dateCustomEvent) {
+        date = dateCustomEvent.getDate();
+        customSourceDate.setText(date.toString());
+
+        CustomSceneHelper.getNodeById("createDatePage").removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
+        CustomSceneHelper.bringNodeToFront("createCustomSource", "Page");
+      }
+    });
   }
 
   @Override
@@ -86,7 +110,7 @@ public class CreateCustomSourcePageController implements Initializable, IContent
 
     customSourceDTO.setName(customSourceNameInput.getCharacters().toString());
     customSourceDTO.setAuthors(authorsList);
-    customSourceDTO.setDateOfPublication(new SimpleDate());
+    customSourceDTO.setDateOfPublication(date);
 
     CustomSource customSource = SourceFacade.createCustomSource(customSourceDTO);
 

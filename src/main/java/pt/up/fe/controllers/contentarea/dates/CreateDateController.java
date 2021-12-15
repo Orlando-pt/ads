@@ -79,7 +79,6 @@ public class CreateDateController implements Initializable, IContentPageControll
         }
 
         CustomSceneHelper.getNodeById("createDatePage").fireEvent(new DateCustomEvent(DateCustomEvent.DATE, date));
-        CustomSceneHelper.bringNodeToFront("BirthEvent", "Page");
     }
 
     @FXML

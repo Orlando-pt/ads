@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,10 +15,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.controllers.contentarea.IContentPageController;
+import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.sources.OnlineResourceDTO;
 import pt.up.fe.facades.SourceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.sources.OnlineResource;
@@ -46,6 +49,11 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
   private TableView<String> authorsTable;
 
   private String pageToSend;
+
+  @FXML
+  private TextField onlineResourceDate;
+
+  private IDate date;
 
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
@@ -85,12 +93,28 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
   }
 
   @FXML
+  public void openDateBuilder(ActionEvent event) {
+    CustomSceneHelper.bringNodeToFront("CreateDate", "Page");
+
+    CustomSceneHelper.getNodeById("createDatePage").addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
+      @Override
+      public void handle(DateCustomEvent dateCustomEvent) {
+        date = dateCustomEvent.getDate();
+        onlineResourceDate.setText(date.toString());
+
+        CustomSceneHelper.getNodeById("createDatePage").removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
+        CustomSceneHelper.bringNodeToFront("createOnlineResource", "Page");
+      }
+    });
+  }
+
+  @FXML
   private void createOnlineResource(MouseEvent event) throws IllegalAccessException {
     OnlineResourceDTO onlineResourceDTO = new OnlineResourceDTO();
 
     onlineResourceDTO.setName(onlineResourceNameInput.getCharacters().toString());
     onlineResourceDTO.setAuthors(authorsList);
-    onlineResourceDTO.setDateOfPublication(new SimpleDate());
+    onlineResourceDTO.setDateOfPublication(date);
     onlineResourceDTO.setLink(linkInput.getCharacters().toString());
 
     OnlineResource onlineResource = SourceFacade.createOnlineResource(onlineResourceDTO);
