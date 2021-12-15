@@ -62,20 +62,16 @@ public class SimpleDate implements IDate {
 
   @Override
   public String toString() {
-    return "SimpleDate{"
-        + "year="
-        + year
-        + ", month="
-        + month
-        + ", day="
-        + day
-        + ", hour="
-        + hour
-        + ", minute="
-        + minute
-        + ", second="
-        + second
-        + '}';
+    StringBuilder sBuilder = new StringBuilder();
+
+    sBuilder.append(this.checkDateOrDay(year, true) + "/");
+    sBuilder.append(this.checkDateOrDay(month, false) + "/");
+    sBuilder.append(this.checkDateOrDay(day, false) + " ");
+    sBuilder.append(this.checkDateOrDay(hour, false) + ":");
+    sBuilder.append(this.checkDateOrDay(minute, false) + ":");
+    sBuilder.append(this.checkDateOrDay(second, false));
+
+    return sBuilder.toString();
   }
 
   @Override
@@ -140,5 +136,17 @@ public class SimpleDate implements IDate {
     obj.put("minute", this.getMinute());
     obj.put("second", this.getSecond());
     return obj;
+  }
+
+  private String checkDateOrDay(Integer dateOrDay, Boolean isYear) {
+    if(dateOrDay != null) {
+      return dateOrDay.toString();
+    }
+
+    if(isYear == true) {
+      return "????";
+    }
+
+    return "??";
   }
 }

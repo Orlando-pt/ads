@@ -55,7 +55,7 @@ public class IntervalDate implements IDate {
 
   @Override
   public String toString() {
-    return "IntervalDate{" + "startDate=" + startDate + ", endDate=" + endDate + '}';
+    return startDate.toString() + " - " + endDate.toString();
   }
 
   @Override
