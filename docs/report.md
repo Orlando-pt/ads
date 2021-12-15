@@ -1,22 +1,65 @@
 # Report
 
+At this document it will be explained what was the process to develop this platform. This software system helps to support the work of historians and individual genealogy researchers by storing data related to individuals, their relations, and other important kinds of information.
+
+# Table of contents
+- [Report](#report)
+- [Table of contents](#table-of-contents)
+- [Functionalities Made So Far](#functionalities-made-so-far)
+- [The Design](#the-design)
+  - [Solving Simple Dates And Intervals](#solving-simple-dates-and-intervals)
+    - [Design Problem](#design-problem)
+    - [The Pattern](#the-pattern)
+    - [Implementation](#implementation)
+    - [Consequences](#consequences)
+  - [Solving The Location Structure](#solving-the-location-structure)
+    - [Design Problem](#design-problem-1)
+    - [The Pattern](#the-pattern-1)
+    - [Implementation](#implementation-1)
+    - [Consequences](#consequences-1)
+  - [Solving Exporting/Loading Data In Different Formats](#solving-exportingloading-data-in-different-formats)
+    - [Design Problem](#design-problem-2)
+    - [The Pattern v1](#the-pattern-v1)
+    - [Implementation v1](#implementation-v1)
+    - [Consequences v1](#consequences-v1)
+    - [The Pattern v2](#the-pattern-v2)
+    - [Implementation v2](#implementation-v2)
+  - [Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects](#solving-the-complexity-of-instantiatingeditingremoving-the-different-types-of-objects)
+    - [Design Problem](#design-problem-3)
+    - [The Pattern](#the-pattern-3)
+    - [Implementation](#implementation-3)
+    - [Consequences](#consequences-3)
+  - [Solving The Addition of Locations](#solving-the-addition-of-locations)
+    - [Design Problem](#design-problem-4)
+    - [The Pattern](#the-pattern-4)
+    - [Implementation](#implementation-4)
+    - [Consequences](#consequences-4)
+  - [Standardize Iteration Through Persons](#standardize-iteration-through-persons)
+    - [Design Problem](#design-problem-5)
+    - [The Pattern](#the-pattern-5)
+    - [Implementation](#implementation-5)
+    - [Consequences](#consequences-5)
+  - [Standardize Iteration Through Places](#standardize-iteration-through-places)
+    - [Design Problem](#design-problem-6)
+    - [The Pattern](#the-pattern-6)
+    - [Implementation](#implementation-6)
+    - [Consequences](#consequences-6)
 # Functionalities Made So Far
 
-The main functionalities of the program implemented already without GUI are:
+The main functionalities of the program implemented already are:
 
 - Allow record of **dates** (simple and interval)
+- Allow record of **birth** event
+- Allow record of **person** (missing birth event)
+- Allow listing of **persons**
+- Allow record **sources** (missing places and date)
+- Allow listing of **sources**
 
 The main functionalities already started:
 
-- Allow record of **places**
-- Allow record of **events**
-  - For this iteration it can only record 2 types of events (Birth and Custom)
-- Allow record, display and edit of **people**
-- Allow record of **sources**
-
-# Introduction
-
-At this document it will be explained what was the process to develop this platform. This software system helps to support the work of historians and individual genealogy researchers by storing data related to individuals, their relations, and other important kinds of information.
+- Allow record of **places** (without GUI)
+- Allow export in JSON and YAML (without GUI)
+- Allow export the genealogy information to formats that allow a graphical visualization (without GUI)
 
 <!-- # Goals -->
 
@@ -26,11 +69,9 @@ At this document it will be explained what was the process to develop this platf
 
 We'll start by explaining how we solved the problem of having uncertain dates.
 
-### Problem In Context
+### Design Problem
 
 We have to save two different dates, **Interval** and **Simple** dates. The difference between them is that one just has a simple date (10-11-2021 00:00:00) and the other is an interval date (10-11-2021 00:00:00 - 24-12-2021 23:20:00). And this is not all, we also have to pay attention that dates may be incomplete.
-
-### Design Problem To Solve
 
 The problem with dates was that they could be **incomplete**, which meant that we would need to have a lot of different constructors for the various possibilities or send params with null on the constructor.
 
@@ -42,7 +83,11 @@ For the problem that we are trying to solve, the **Builder Pattern** is the one 
 
 For the implementation of the builder pattern, we created an interface **IBuilder** that contains all the methods to be implemented by the concrete builders: **SimpleDateBuilder** and **IntervalDateBuilder**. We had to create two concrete classes for the dates being created by the builders: **SimpleDate** and **IntervalDate**.
 
-<img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px"/>
+<p align="center">
+  <img src="images/class-Date.png" alt="Builder Pattern at Date Problem" style="height: 700px;"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/dates).
 
 ### Consequences
 
@@ -54,11 +99,9 @@ One of the consequences of the builder is that it doesn’t allow other objects 
 
 Finding a structured way to store locations was also something we had to look into. We explain the process below.
 
-### Problem In Context
+### Design Problem
 
 The problem is finding a structured way to **save locations**. These locations have the particularity that they can be **contained** within other locations or themselves contain thirds. For example, the district Porto is a location. Porto contains countys like Porto itself, Amarante, Felgueiras, Vila Nova de Gaia, etc. This countys are also locations and they can have other locations inside them.
-
-### Design Problem To Solve
 
 Therefore, what needs to be resolved is this way of structuring locations so that districts can contain counties, counties can contain parishes, and in the end, everything that was listed above has to be called by location.
 
@@ -70,7 +113,11 @@ The problem that was described above can be visually transcribed to a **tree str
 
 As far as implementation is concerned, we had to create a abstract class **Place** that has similar attributes to the different types of locations (latitude, longitude, area). This class plays the role of **Component** within what is estipulated by the **Composite Pattern**. Next we created, the **CompoundPlace** class which **extends Place** and plays the role of **Composite**. This _Composite_ schematizes the case of locations such as Porto that contains other locations and therefore need some way to aggregate others. The composite will allow this. It will have a list with all the children locations, all of them of the **Place** type. Which means that we can either add final locations (Leafs) or a Composite itself. Lastly, the **Parish** class also **extends Place** and refers to a location that will not include other locations. So, the **Parish** class, as it was implicitly said before, maps directly to a **Leaf** on the _Composite Pattern_.
 
-<img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+<p align="center">
+  <img src="images/class-Places.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
 
 ### Consequences
 
@@ -87,25 +134,27 @@ As far as implementation is concerned, we had to create a abstract class **Place
 
 And now, how do we export, for instance the locations, in different formats?
 
-### Problem In Context
+### Design Problem
 
-It was required to **load and save** data using **different formats** (e.g. CSV, XML, GEDCOM) and having in mind that new export formats should be easy to add.
-
-### Design Problem To Solve
+It was required to **load and save** data using **different formats** (e.g. YAML, XML, GEDCOM) and having in mind that new export formats should be easy to add.
 
 The problem here was that not only would we need to use **many strategies** at a time to load or save data, but also that **some of the steps** required to do this will be **shared among all strategies**.
 
-### The Pattern
+### The Pattern v1
 
 To solve this problem, a mix of the **Strategy Pattern** and **Template Method Pattern** was used. It was used the **Strategy Pattern** in the sense that there are **various strategies** in place to load or save data in various formats which follow a **common interface**. With this, it is only necessary to **choose a strategy before using the same methods**, regardless of the strategy type. The Template Method Pattern was introduced to keep some of the data processing that all strategies follow in a common place. With this, these methods stay in the abstract class letting the specific work to be implemented by each strategy.
 
-### Implementation
+### Implementation v1
 
-<img src="images/class-Export.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+<p align="center">
+  <img src="images/class-Export.png" alt="Builder Pattern at Date Problem" style="height: 300px"/>
+</p>
 
 Since most of the steps are located on the abstract class, this implementation is more of a Template Method Pattern than a Strategy Pattern.
 
-### Consequences
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
+
+### Consequences v1
 
 - Positive consequences:
   - By using this approach, not only is it possible to **add new support** for new types of files but also gives the freedom to the program to **switch between different strategies** of exporting or loading, just like it is necessary.
@@ -113,34 +162,52 @@ Since most of the steps are located on the abstract class, this implementation i
 - Negative consequences:
   - If the use of a specific type of file needs more steps than the general ones defined, it may need to join more than one step at the same method since we are limiting the structure of an algorithm.
 
+### The Pattern v2
+
+In our initial, we had a Strategy Pattern mixed in with a Template Method. Although this may work in the future, for now we applied only the *Template Method* part with a simplified approach.
+
+### Implementation v2
+
+<p align="center">
+  <img src="images/class-Export.drawio.png" alt="Exporter" style="height: 300px"/>
+</p>
+
+As we can see in the image, we require the classes that want to be exported to implement a *common interface* designated **IExportObject** that converts the entity to something the *Exporter* understands.
+
+In this implementation, the *Exporter* doesn't care about the object itself, it only requires an Iterator of the object.
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
+
 ---
 
 ## Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects
 
 How can we **abstract the algorithmic complexity** of creating, editing or removing the different types of entities?
 
-### Problem In Context
+### Design Problem
 
-It is necessary to create objects representing the various types of entities using a simple interface. The simplicity of this interface should be an advantage at the time of GUI implementation.
-
-### Design Problem To Solve
+It is necessary to create objects representing the various types of entities using a simple interface. The simplicity of this interface is an advantage when implementing GUI.
 
 Assuming that we have to instantiate the various objects, such as instantiating events, people, locations, etc. The logic associated with these processes can become complex. Not only complex but extensive.
 
 ### The Pattern
 
-The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user (currently the Main.class class) but it is expected that this class becomes **very extensive**, which would worsen its understandability, as well as its maintainability.
+The problem was solved by implementing a **Facade** for each of the entities. These facades implement methods that allow the creation of entities, edit them and remove them. The alternative would be to place this logic in the class responsible for the interaction with the user but it is expected that this class becomes **very extensive**, which would worsen its understandability, as well as its maintainability.
 
 ### Implementation
 
-The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, **abstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used in the main program (Main.java) allowing to call the creation, editing, ... methods in a really simple way.
+The implementation takes into consideration the various types of entities present in the project, in which each one of these entities, through its Facade, **abstracts the implementations** related to the creation, editing, removal (and possibly other types of operations) of the objects themselves. Specifically, we have Facades referring to the following entities: Source, Place, Person, Event, Date. All this facades are later used by the UI controllers allowing to call the creation, editing, ... methods in a really simple way. With this implementation, if later on, other part of the programs needs to make a change on the entities, it only needs to use the DTOs in order to use the facades.
 
-<img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+<p align="center">
+  <img src="images/class-Facade.png" alt="Builder Pattern at Date Problem" style="height: 400px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/facades).
 
 ### Consequences
 
 - Positive Consequences:
-  - It will provide a **simple interface** to be used not only by the GUI but also by the main program.
+  - It will provide a **simple interface** to be used not only by the GUI but also by the other parts of the program, if needed.
   - Creates an abstraction that abstracts potentially complex code.
 - Negative Consequences:
   - The various facades can very easily **become too general** and contain methods with very different scopes. The trend will be for these classes to become [God Object](https://en.wikipedia.org/wiki/God_object). Therefore, it will be necessary to have a doubled attention in the future so that this does not happen.
@@ -151,11 +218,9 @@ The implementation takes into consideration the various types of entities presen
 
 How can we add locations easily?
 
-### Problem In Context
+### Design Problem
 
 The application needs to create places and aggregate them following the concept of “Compound Place” and “Parish”. CompoundPlace is the aggregator of Parish at the most basic level, but in a composite pattern, we also need to take into consideration that the aggregator can also aggregate other aggregators.
-
-### Design Problem To Solve
 
 In a simple way, in the Composite Pattern, the composite provides utility methods (like addChild and removeChild) that allows us to start creating the tree, but it requires us to **instantiate the composite object**, then instantiate all its children to be added via those utility methods. This is an approach that works, but it’s not actually **user friendly**.
 
@@ -176,7 +241,11 @@ The pattern **extracts the complex code of creating objects** and puts it in a c
 
 In the context of this problem, the builder pattern will allow us to build the tree of Places without knowing exactly what it does. Then the client just receives a Place and it doesn’t know if the object is a CompoundPlace or a Parish. The important, is that at the end the client receives a Place.
 
-<img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
+<p align="center">
+  <img src="images/class-Places-w-Builder.png" alt="Builder Pattern at Date Problem" style="height: 500px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/places).
 
 ### Consequences
 
@@ -187,3 +256,82 @@ In the context of this problem, the builder pattern will allow us to build the t
 - Negative Consequences:
   - A builder pattern introduces new classes, making it yet another piece of code to maintain.
   - Finding the common interface of a builder can be difficult if the object it’s trying to create is not the best one or it’s not final.
+
+---
+
+## Standardize Iteration Through Persons
+
+How are we going to be able to find a particular person's grandchildren?
+
+### Design Problem
+
+Iterating through the tree consisting of the nodes under a given person is a very important feature, particularly for cases like the example of wanting to know **how many grandchildren a particular person has**.
+
+The ideal would be to find a way to iterate that could be **reused** in other types of situations that might be needed. For example, the export of all people. Theoretically, if we had the parent of all (root node) we could go through all the nodes of the tree giving export to all.
+
+### The Pattern
+
+In order to eliminate the problem described above, the **Iterator pattern** was implemented, which allows iterating through all nodes that are below a specific parent node.
+In our particular case, it allows us to **go through a genealogy tree** using the "parent of all".
+
+### Implementation
+
+The implementation is based on the **Iterator interface**, from the java.util package, which is **extended** by another **PersonIteratorInterface interface**. In this interface we put all the methods that are necessary and specific to the data structure corresponding to persons.
+
+Next, we will present two **concrete iterators**, the first being **PersonBreathIterator**, which just walks the tree in breath. And a second one named **PersonBreathIteratorWithDepthLimit**, which, as the name implies, is an identical implementation to the previous one, having only one depth limit that it can reach. In concrete terms, in the next() method there is a verification of the level where the node is.
+
+Lastly, the iterators are **initialized** on the **Person object** itself, which will allow what was said earlier, to check all the children of a given person.
+
+<p align="center">
+  <img src="images/class-PersonIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/iterators).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/pt/up/fe/iterators).
+
+### Consequences
+
+- Positive Consequences:
+  - There is a standard way of traversing an entire family tree.
+  - We may reuse this way of iterating through people on certain features, such as queries or export features. Thus, we reduce code repetition, which means less minor probability to introduce errors.
+- Negative Consequences:
+  - In certain cases it can cause the export or queries functionality to **adapt to the type of data that is returned from the iterator**, and not the other way around. If we think about the export and query functionality, we notice that they are two very different features. However the iterator will return the same object in both situations. Therefore, the iterator might have some trouble finding a returned object type that satisfies the needs of all its dependents. When talking about returned objects, we are also talking about adding methods like the one found to return the level where the iterator is or is going to find itself.
+
+---
+
+## Standardize Iteration Through Places
+
+How are we going to iterate through the various places in order to export them or even as the result of a search?
+
+### Design Problem
+
+There was the problem that there was no standard way to go through all the places. The implementation should be general so that it could be used by export or search functionality.
+
+### The Pattern
+
+In order to solve this problem, the **Iterator pattern** was implemented. This pattern allows us to find a uniform way of traversing locations. This will be useful for example in cases where we have to export all places or search for a specific location. In this case, having the Root place that can correspond, for example, to the country, we can iterate through the various districts until we find what we really wanted. And after we have the district, the user may want to specify which is the municipality, after specifying we can return a new iterator that iterates through all the counties in the specified district until finding the desired county.
+
+### Implementation
+
+The implementation is based on the **Iterator interface**, from the java.util package, which is **extended** by another **PlaceIteratorInterface interface**. In this interface we put all the methods that are necessary and specific to the data structure corresponding to places.
+
+Next, we will present one **concrete iterator**, named **PlaceBreathIterator**, which just runs through all the places in breath. This allows, for example, to export only districts or municipalities. Therefore giving us more flexibility to export only what we need.
+
+Lastly, the iterators are **initialized** on the **Place object** itself. This will allow each place to readily iterate through the places that are associated with it.
+
+<p align="center">
+  <img src="images/class-PlaceIterator.png" alt="Iterator Pattern for Persons" style="height: 500px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/iterators).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/pt/up/fe/iterators).
+
+### Consequences
+
+- Positive Consequences:
+  - Uniform way to traverse all the locations
+  - We can use this iterator both in the exporting of places and in search operations that will be needed eventually.
+- Negative Consequences:
+  - We were able to promptly find a problem to using this pattern. If the search for a specific place ends up using this pattern, it is expected that the performance of using the pattern will be inferior, for example, when fetching the intended node directly by a method declared in the Place class that directly accesses the childs array.
