@@ -112,14 +112,15 @@ public class QueryTest {
         carolina.addChild(anaGrila);
 
         this.listOfPeople.add(diogo);
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
-        this.listOfPeople.add()
+        this.listOfPeople.add(breno);
+        this.listOfPeople.add(catia);
+        this.listOfPeople.add(sofia);
+        this.listOfPeople.add(hugo);
+        this.listOfPeople.add(carolina);
+        this.listOfPeople.add(orlando);
+        this.listOfPeople.add(joao);
+        this.listOfPeople.add(ana);
+        this.listOfPeople.add(joana);
+        this.listOfPeople.add(anaGrila);
     }
 }
