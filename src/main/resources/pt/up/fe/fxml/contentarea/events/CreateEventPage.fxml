@@ -13,7 +13,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBox" layoutX="226.0" layoutY="175.0" prefHeight="29.0" prefWidth="199.0" />
+      <ComboBox fx:id="comboBox" layoutX="226.0" layoutY="175.0" prefHeight="37.0" prefWidth="212.0" />
       <Label layoutX="226.0" layoutY="140.0" text="Event Type:" textFill="WHITE">
          <font>
             <Font size="19.0" />
