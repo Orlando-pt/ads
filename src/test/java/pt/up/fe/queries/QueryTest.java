@@ -1,5 +1,8 @@
 package pt.up.fe.queries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +14,14 @@ public class QueryTest {
     private Person root;
     private QueryResultPersonList queryReceiver;
     private QueryInvoker queryInvoker;
+    private List<Person> listOfPeople;
 
     @BeforeEach
     void setUp() {
         this.generatePersonData();
         this.queryReceiver = new QueryResultPersonList();
         this.queryInvoker = new QueryInvoker();
+        this.listOfPeople = new ArrayList<>();
     }
 
     @Test
@@ -84,6 +89,9 @@ public class QueryTest {
         Person ana = new Person();
         ana.setName("Ana");
 
+        Person anaGrila = new Person();
+        anaGrila.setName("Ana Grila");
+
         Person joana = new Person();
         joana.setName("Joana");
 
@@ -100,5 +108,18 @@ public class QueryTest {
         sofia.addChild(joao);
         hugo.addChild(ana);
         hugo.addChild(joana);
+
+        carolina.addChild(anaGrila);
+
+        this.listOfPeople.add(diogo);
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
+        this.listOfPeople.add()
     }
 }
