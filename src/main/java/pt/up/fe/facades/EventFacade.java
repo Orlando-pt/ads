@@ -72,4 +72,34 @@ public class EventFacade {
 
     return birthEvent;
   }
+
+  public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+    Event deathEvent = new Death();
+
+    if(!typeOfDeath.isEmpty()) {
+      deathEvent.addSpecialPurposeField("Type of Death", typeOfDeath);
+    }
+
+    if(!placeOfDeath.isEmpty()) {
+      deathEvent.addPlaceRelation("Place of Death", this.getPlaceFacade().choosePlace());
+    }
+
+    if(dateOfDeath != null) {
+      deathEvent.setDate(dateOfDeath);
+    }
+
+    persons.forEach((key, value) -> {
+      deathEvent.addPeopleRelation(key, value);
+    });
+
+    specialFields.forEach((key, value) -> {
+      deathEvent.addSpecialPurposeField(key, value);
+    });
+
+    if(!description.isEmpty()) {
+      deathEvent.setDescription(description);
+    }
+
+    return deathEvent;
+  }
 }

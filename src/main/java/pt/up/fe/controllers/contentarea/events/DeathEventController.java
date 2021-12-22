@@ -76,16 +76,16 @@ public class DeathEventController implements Initializable, IContentPageControll
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        /* Event birthEvent = new EventFacade().createBirthEvent(
-                this.maternity.getText(),
-                this.placeBirth.getText(),
+        Event deathEvent = new EventFacade().createDeathEvent(
+                this.typeOfDeath.getText(),
+                this.placeDeath.getText(),
                 this.date,
                 persons,
                 specialPurposeFields,
                 this.description.getText()
         );
 
-        System.out.println(birthEvent.toString());*/
+        System.out.println(deathEvent.toString());
     }
 
     @FXML
