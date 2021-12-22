@@ -42,6 +42,18 @@ public class QueryTest {
         ).hasSize(4).extracting(Person::getName)
             .containsOnly("Sofia", "Hugo", "Carolina", "Orlando");
     }
+
+    @Test
+    void testGrandGrandChildrenQuery() {
+        GrandGrandChildrenQuery query = new GrandGrandChildrenQuery(this.queryReceiver, this.root);
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        Assertions.assertThat(
+            this.queryReceiver.getPersonList()
+        ).hasSize(3).extracting(Person::getName)
+            .containsOnly("Joao", "Ana", "Joana");
+    }
     
 
     private void generatePersonData() {
@@ -69,6 +81,12 @@ public class QueryTest {
         Person joao = new Person();
         joao.setName("Joao");
 
+        Person ana = new Person();
+        ana.setName("Ana");
+
+        Person joana = new Person();
+        joana.setName("Joana");
+
         this.root = diogo;
         diogo.addChild(breno);
         diogo.addChild(catia);
@@ -80,5 +98,7 @@ public class QueryTest {
         catia.addChild(orlando);
 
         sofia.addChild(joao);
+        hugo.addChild(ana);
+        hugo.addChild(joana);
     }
 }
