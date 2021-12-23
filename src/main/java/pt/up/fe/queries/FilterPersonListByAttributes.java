@@ -19,20 +19,66 @@ public class FilterPersonListByAttributes implements QueryCommand{
     }
 
     public void execute() {
-        List<Person> tempPersonsList = new ArrayList<>();
+        List<Person> tempPersonsList = personList;
 
         // filter persons by name attribute
-        NameAttribute nameAttr = this.specifiedFields.getName();
-        tempPersonsList = this.personList.stream()
-        .filter(
-            person -> {
-                // if the user wants to search for one exact name
-                if (nameAttr.getExact()) return person.getName().equals(nameAttr.getName());
-                else return person.getName().contains(nameAttr.getName());
-            }
-        ).collect(Collectors.toList());
+        if (this.specifiedFields.getName() != null)
+            tempPersonsList = this.filterByFirstName(tempPersonsList, this.specifiedFields.getName());
 
+        if (this.specifiedFields.getMiddleName() != null)
+            tempPersonsList = this.filterByMiddleName(tempPersonsList, this.specifiedFields.getMiddleName());
+
+        if (this.specifiedFields.getLastName() != null)
+            tempPersonsList = this.filterByLastName(tempPersonsList, this.specifiedFields.getLastName());
 
         this.resultReceiver.addAllPersons(tempPersonsList);
+    }
+
+    private List<Person> filterByFirstName(
+        List<Person> currentPersonList,
+        NameAttribute nameAttr
+    ) {
+        return currentPersonList.stream().filter(
+            person -> {
+                if (person.getName() != null) {
+                    if (nameAttr.getExact()) return person.getName().equals(nameAttr.getName());
+                    else return person.getName().contains(nameAttr.getName());
+                } else {
+                    return false;
+                }
+            }
+        ).collect(Collectors.toList());
+    }
+
+    private List<Person> filterByMiddleName(
+        List<Person> currentPersonList,
+        NameAttribute nameAttr
+    ) {
+        return currentPersonList.stream().filter(
+            person -> {
+                if (person.getMiddleName() != null) {
+                    if (nameAttr.getExact()) return person.getMiddleName().equals(nameAttr.getName());
+                    else return person.getMiddleName().contains(nameAttr.getName());
+                } else {
+                    return false;
+                }
+            }
+        ).collect(Collectors.toList());
+    }
+
+    private List<Person> filterByLastName(
+        List<Person> currentPersonList,
+        NameAttribute nameAttr
+    ) {
+        return currentPersonList.stream().filter(
+            person -> {
+                if (person.getLastName() != null) {
+                    if (nameAttr.getExact()) return person.getLastName().equals(nameAttr.getName());
+                    else return person.getLastName().contains(nameAttr.getName());
+                } else {
+                    return false;
+                }
+            }
+        ).collect(Collectors.toList());
     }
 }

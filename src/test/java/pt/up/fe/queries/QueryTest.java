@@ -61,7 +61,7 @@ public class QueryTest {
     }
 
     @Test
-    void testSpecifiedPersonAttributesQuery_nameOnly() {
+    void testSpecifiedPersonAttributesQuery_firstNameOnly() {
         SpecifiedPersonAttributes personAttributes = new SpecifiedPersonAttributes();
 
         // test if the name is not exact
@@ -95,11 +95,49 @@ public class QueryTest {
         this.queryInvoker.setCommand(query);
         this.queryInvoker.executeCommand();
 
+        Assertions.assertThat(
+            this.queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Ana");
+    }
+
+    @Test
+    void testSpecifiedPersonAttributesQuery_allNameOnly() {
+        SpecifiedPersonAttributes personAttributes = new SpecifiedPersonAttributes();
+        personAttributes.setMiddleName(
+            new NameAttribute("Jorge")
+        );
+
+        FilterPersonListByAttributes query = new FilterPersonListByAttributes(
+            this.queryReceiver,
+            personAttributes,
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        Assertions.assertThat(
+            this.queryReceiver.getPersonList()
+        ).extracting(Person::getMiddleName).containsOnly("Jorge Magalhães", "Jorge Ribeiro");
+
+        personAttributes.setLastName(
+            new NameAttribute("Gonçalves", true)
+        );
+
+        query = new FilterPersonListByAttributes(
+            this.queryReceiver,
+            personAttributes,
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
         System.out.println(this.queryReceiver.getPersonList());
 
         Assertions.assertThat(
             this.queryReceiver.getPersonList()
-        ).extracting(Person::getName).containsOnly("Ana");
+        ).extracting(Person::getName).containsOnly("Orlando");
     }
     
 
@@ -112,6 +150,7 @@ public class QueryTest {
 
         Person diogo = new Person();
         diogo.setName("Diogo");
+        diogo.setMiddleName("Jorge Magalhães");
 
         Person sofia = new Person();
         sofia.setName("Sofia");
@@ -124,6 +163,8 @@ public class QueryTest {
 
         Person orlando = new Person();
         orlando.setName("Orlando");
+        orlando.setMiddleName("Jorge Ribeiro");
+        orlando.setLastName("Gonçalves");
 
         Person joao = new Person();
         joao.setName("Joao");
@@ -136,6 +177,10 @@ public class QueryTest {
 
         Person joana = new Person();
         joana.setName("Joana");
+        joana.setLastName("Gonçalves");
+
+        Person goncalves = new Person();
+        goncalves.setLastName("Gonçalves");
 
         this.root = diogo;
         diogo.addChild(breno);
@@ -164,5 +209,6 @@ public class QueryTest {
         this.listOfPeople.add(ana);
         this.listOfPeople.add(joana);
         this.listOfPeople.add(anaGrila);
+        this.listOfPeople.add(goncalves);
     }
 }
