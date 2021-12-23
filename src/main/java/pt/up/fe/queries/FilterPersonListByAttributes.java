@@ -19,7 +19,7 @@ public class FilterPersonListByAttributes implements QueryCommand{
     }
 
     public void execute() {
-        List<Person> tempPersonsList = personList;
+        List<Person> tempPersonsList = this.personList;
 
         // filter persons by name attribute
         if (this.specifiedFields.getName() != null)

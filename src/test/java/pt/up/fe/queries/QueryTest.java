@@ -12,13 +12,11 @@ import pt.up.fe.person.Person;
 public class QueryTest {
 
     private Person root;
-    private QueryResultPersonList queryReceiver;
     private QueryInvoker queryInvoker;
     private List<Person> listOfPeople;
 
     @BeforeEach
     void setUp() {
-        this.queryReceiver = new QueryResultPersonList();
         this.queryInvoker = new QueryInvoker();
         this.listOfPeople = new ArrayList<>();
         this.generatePersonData();
@@ -26,42 +24,46 @@ public class QueryTest {
 
     @Test
     void testChildrenQuery() {
-        ChildrenQuery query = new ChildrenQuery(this.queryReceiver, this.root);
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
+        ChildrenQuery query = new ChildrenQuery(queryReceiver, this.root);
         this.queryInvoker.setCommand(query);
         this.queryInvoker.executeCommand();
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).hasSize(2).extracting(Person::getName)
             .contains("Breno", "Catia");
     }
 
     @Test
     void testGrandChildrenQuery() {
-        GrandChildrenQuery query = new GrandChildrenQuery(this.queryReceiver, this.root);
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
+        GrandChildrenQuery query = new GrandChildrenQuery(queryReceiver, this.root);
         this.queryInvoker.setCommand(query);
         this.queryInvoker.executeCommand();
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).hasSize(4).extracting(Person::getName)
             .containsOnly("Sofia", "Hugo", "Carolina", "Orlando");
     }
 
     @Test
     void testGrandGrandChildrenQuery() {
-        GrandGrandChildrenQuery query = new GrandGrandChildrenQuery(this.queryReceiver, this.root);
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
+        GrandGrandChildrenQuery query = new GrandGrandChildrenQuery(queryReceiver, this.root);
         this.queryInvoker.setCommand(query);
         this.queryInvoker.executeCommand();
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).hasSize(4).extracting(Person::getName)
             .containsOnly("Joao", "Ana", "Joana", "Ana Grila");
     }
 
     @Test
     void testSpecifiedPersonAttributesQuery_firstNameOnly() {
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
         SpecifiedPersonAttributes personAttributes = new SpecifiedPersonAttributes();
 
         // test if the name is not exact
@@ -69,7 +71,7 @@ public class QueryTest {
             new NameAttribute("Ana")
         );
         FilterPersonListByAttributes query = new FilterPersonListByAttributes(
-            this.queryReceiver,
+            queryReceiver,
             personAttributes,
             this.listOfPeople
         );
@@ -77,7 +79,7 @@ public class QueryTest {
         this.queryInvoker.executeCommand();
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).extracting(Person::getName).containsOnly("Ana", "Ana Grila");
 
         // test exact name
@@ -85,9 +87,9 @@ public class QueryTest {
             new NameAttribute("Ana", true)
         );
 
-        this.queryReceiver.emptyList();
+        queryReceiver.emptyList();
         query = new FilterPersonListByAttributes(
-            this.queryReceiver,
+            queryReceiver,
             personAttributes,
             this.listOfPeople
         );
@@ -96,19 +98,20 @@ public class QueryTest {
         this.queryInvoker.executeCommand();
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).extracting(Person::getName).containsOnly("Ana");
     }
 
     @Test
     void testSpecifiedPersonAttributesQuery_allNameOnly() {
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
         SpecifiedPersonAttributes personAttributes = new SpecifiedPersonAttributes();
         personAttributes.setMiddleName(
             new NameAttribute("Jorge")
         );
 
         FilterPersonListByAttributes query = new FilterPersonListByAttributes(
-            this.queryReceiver,
+            queryReceiver,
             personAttributes,
             this.listOfPeople
         );
@@ -117,15 +120,16 @@ public class QueryTest {
         this.queryInvoker.executeCommand();
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).extracting(Person::getMiddleName).containsOnly("Jorge Magalhães", "Jorge Ribeiro");
 
+        queryReceiver.emptyList();
         personAttributes.setLastName(
             new NameAttribute("Gonçalves", true)
         );
-
+        
         query = new FilterPersonListByAttributes(
-            this.queryReceiver,
+            queryReceiver,
             personAttributes,
             this.listOfPeople
         );
@@ -133,10 +137,10 @@ public class QueryTest {
         this.queryInvoker.setCommand(query);
         this.queryInvoker.executeCommand();
 
-        System.out.println(this.queryReceiver.getPersonList());
+        // System.out.println(this.queryReceiver.getPersonList());
 
         Assertions.assertThat(
-            this.queryReceiver.getPersonList()
+            queryReceiver.getPersonList()
         ).extracting(Person::getName).containsOnly("Orlando");
     }
     
