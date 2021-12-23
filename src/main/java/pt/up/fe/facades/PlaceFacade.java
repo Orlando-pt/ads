@@ -1,39 +1,32 @@
 package pt.up.fe.facades;
 
-import java.util.Scanner;
+import pt.up.fe.Main;
+import pt.up.fe.dtos.places.PlaceDTO;
+import pt.up.fe.dtos.places.PlaceType;
+import pt.up.fe.places.CompoundPlace;
+import pt.up.fe.places.Parish;
 import pt.up.fe.places.Place;
-import pt.up.fe.places.PlaceBuilder;
 
 public class PlaceFacade {
 
-  private Scanner scanner;
+  public static Place createPlace(PlaceDTO placeDTO) {
+    Place place;
+    if (placeDTO.getType() == PlaceType.PARISH) {
+      place = new Parish(placeDTO.getName());
+      ((Parish) place).setArea(placeDTO.getArea());
+    } else {
+      place = new CompoundPlace(placeDTO.getName());
+    }
 
-  public PlaceFacade(Scanner scanner) {
-    this.scanner = scanner;
+    place.setDescription(placeDTO.getDescription());
+    place.setSource(placeDTO.getSource());
+    place.setAltitude(placeDTO.getAltitude());
+    place.setLongitude(placeDTO.getLongitude());
+    place.setLatitude(placeDTO.getLatitude());
+
+    Main.placesList.add(place);
+    return place;
   }
 
-  public Scanner getScanner() {
-    return scanner;
-  }
 
-  public void setScanner(Scanner scanner) {
-    this.scanner = scanner;
-  }
-
-  public Place choosePlace() {
-    PlaceBuilder builder = new PlaceBuilder("Portugal");
-
-    return builder
-        .startCompound("Lisboa")
-        .startCompound("Lisboa")
-        .addParish("Benfica")
-        .addParish("Parque das Nações")
-        .endCompound()
-        .startCompound("Sintra")
-        .addParish("Mem Martins")
-        .addParish("Mercês")
-        .endCompound()
-        .endCompound()
-        .getResult();
-  }
 }

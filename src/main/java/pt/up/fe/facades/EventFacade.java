@@ -1,19 +1,10 @@
 package pt.up.fe.facades;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dtos.events.FieldDTO;
-import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Birth;
-import pt.up.fe.events.CustomEvent;
-import pt.up.fe.events.Death;
-import pt.up.fe.events.Emigration;
 import pt.up.fe.events.Event;
-import pt.up.fe.events.Marriage;
-import pt.up.fe.events.Residence;
 import pt.up.fe.person.Person;
 
 public class EventFacade {
@@ -22,8 +13,7 @@ public class EventFacade {
   private DateFacade dateFacade;
 
   public EventFacade() {
-    Scanner sc = new Scanner(System.in);
-    this.placeFacade = new PlaceFacade(sc);
+    this.placeFacade = new PlaceFacade();
     this.dateFacade = new DateFacade();
   }
 
@@ -43,18 +33,21 @@ public class EventFacade {
     this.dateFacade = dateFacade;
   }
 
-  public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+  public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth,
+      HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
     Event birthEvent = new Birth();
 
-    if(!maternity.isEmpty()) {
+    if (!maternity.isEmpty()) {
       birthEvent.addSpecialPurposeField("Maternity", maternity);
     }
 
+    /*
     if(!placeOfBirth.isEmpty()) {
       birthEvent.addPlaceRelation("Place of Birth", this.getPlaceFacade().choosePlace());
     }
+     */
 
-    if(dateOfBirth != null) {
+    if (dateOfBirth != null) {
       birthEvent.setDate(dateOfBirth);
     }
 
@@ -66,7 +59,7 @@ public class EventFacade {
       birthEvent.addSpecialPurposeField(key, value);
     });
 
-    if(!description.isEmpty()) {
+    if (!description.isEmpty()) {
       birthEvent.setDescription(description);
     }
 

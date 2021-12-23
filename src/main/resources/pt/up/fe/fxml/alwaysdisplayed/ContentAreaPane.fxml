@@ -10,6 +10,10 @@
       <fx:include fx:id="viewEditPersonPage" source="../contentarea/persons/ViewEditPersonPage.fxml" />
       <fx:include fx:id="listPersonsPage" source="../contentarea/persons/ListPersonsPage.fxml" />
 
+      <fx:include fx:id="placesPage" source="../contentarea/places/PlacesPage.fxml" />
+      <fx:include fx:id="createPlacePage" source="../contentarea/places/CreatePlacePage.fxml" />
+
+
       <fx:include fx:id="sourcesPage" source="../contentarea/sources/SourcesPage.fxml" />
       <fx:include fx:id="createSourcePage" source="../contentarea/sources/CreateSourcePage.fxml" />
       <fx:include fx:id="createBookPage" source="../contentarea/sources/CreateBookPage.fxml" />

@@ -2,7 +2,7 @@ package pt.up.fe.places;
 
 public class Parish extends Place {
 
-  private Double area = 0d;
+  private Double area;
 
   public Parish(String name) {
     super(name);
