@@ -82,16 +82,18 @@ public class EmigrationEventController implements Initializable, IContentPageCon
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        /* Event deathEvent = new EventFacade().createDeathEvent(
-                this.typeOfDeath.getText(),
-                this.placeDeath.getText(),
+        Event emigrationEvent = new EventFacade().createEmigrationEvent(
+                this.typeOfEmigration.getText(),
+                this.placeEmigration.getText(),
                 this.date,
+                this.pushFactorsCombo.getValue(),
+                this.pullFactorsCombo.getValue(),
                 persons,
                 specialPurposeFields,
                 this.description.getText()
         );
 
-        System.out.println(deathEvent.toString()); */
+        System.out.println(emigrationEvent.toString());
     }
 
     @FXML

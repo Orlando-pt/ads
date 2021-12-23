@@ -102,4 +102,42 @@ public class EventFacade {
 
     return deathEvent;
   }
+
+  public Event createEmigrationEvent(String typeOfEmigration, String placeOfEmigration, IDate dateOfEmigration, String pushFactor, String pullFactor, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+    Event emigrationEvent = new Emigration();
+
+    if(!typeOfEmigration.isEmpty()) {
+      emigrationEvent.addSpecialPurposeField("Type of Emigration", typeOfEmigration);
+    }
+
+    if(!placeOfEmigration.isEmpty()) {
+      emigrationEvent.addPlaceRelation("Country of Emigration", this.getPlaceFacade().choosePlace());
+    }
+
+    if(dateOfEmigration != null) {
+      emigrationEvent.setDate(dateOfEmigration);
+    }
+
+    if(!pushFactor.isEmpty()) {
+      emigrationEvent.addSpecialPurposeField("Push factor", pushFactor);
+    }
+
+    if(!pullFactor.isEmpty()) {
+      emigrationEvent.addSpecialPurposeField("Pull factor", pullFactor);
+    }
+
+    persons.forEach((key, value) -> {
+      emigrationEvent.addPeopleRelation(key, value);
+    });
+
+    specialFields.forEach((key, value) -> {
+      emigrationEvent.addSpecialPurposeField(key, value);
+    });
+
+    if(!description.isEmpty()) {
+      emigrationEvent.setDescription(description);
+    }
+
+    return emigrationEvent;
+  }
 }
