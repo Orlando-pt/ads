@@ -18,10 +18,10 @@ public class QueryTest {
 
     @BeforeEach
     void setUp() {
-        this.generatePersonData();
         this.queryReceiver = new QueryResultPersonList();
         this.queryInvoker = new QueryInvoker();
         this.listOfPeople = new ArrayList<>();
+        this.generatePersonData();
     }
 
     @Test
@@ -56,8 +56,50 @@ public class QueryTest {
 
         Assertions.assertThat(
             this.queryReceiver.getPersonList()
-        ).hasSize(3).extracting(Person::getName)
-            .containsOnly("Joao", "Ana", "Joana");
+        ).hasSize(4).extracting(Person::getName)
+            .containsOnly("Joao", "Ana", "Joana", "Ana Grila");
+    }
+
+    @Test
+    void testSpecifiedPersonAttributesQuery_nameOnly() {
+        SpecifiedPersonAttributes personAttributes = new SpecifiedPersonAttributes();
+
+        // test if the name is not exact
+        personAttributes.setName(
+            new NameAttribute("Ana")
+        );
+        FilterPersonListByAttributes query = new FilterPersonListByAttributes(
+            this.queryReceiver,
+            personAttributes,
+            this.listOfPeople
+        );
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        Assertions.assertThat(
+            this.queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Ana", "Ana Grila");
+
+        // test exact name
+        personAttributes.setName(
+            new NameAttribute("Ana", true)
+        );
+
+        this.queryReceiver.emptyList();
+        query = new FilterPersonListByAttributes(
+            this.queryReceiver,
+            personAttributes,
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        System.out.println(this.queryReceiver.getPersonList());
+
+        Assertions.assertThat(
+            this.queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Ana");
     }
     
 
