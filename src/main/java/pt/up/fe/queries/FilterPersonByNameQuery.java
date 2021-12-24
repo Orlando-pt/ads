@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 import pt.up.fe.person.Person;
 
-public class FilterPersonListByAttributes implements QueryCommand{
+public class FilterPersonByNameQuery implements QueryCommand{
     
     private QueryResultPersonList resultReceiver;
     private SpecifiedPersonAttributes specifiedFields;
     private List<Person> personList;
 
-    public FilterPersonListByAttributes(QueryResultPersonList receiver, SpecifiedPersonAttributes specifiedFields, List<Person> personList) {
+    public FilterPersonByNameQuery(QueryResultPersonList receiver, SpecifiedPersonAttributes specifiedFields, List<Person> personList) {
         this.resultReceiver = receiver;
         this.specifiedFields = specifiedFields;
         this.personList = personList;

@@ -193,9 +193,11 @@ public class Person extends BaseClass {
 	
 	// birth methods
 	public Birth getBirth() {
-		return (Birth) this.events.stream().filter(
-		(event) -> event.getClass() == Birth.class
-		).collect(Collectors.toList()).get(0);
+		List<Event> birthList = this.events.stream().filter(
+			(event) -> event.getClass() == Birth.class
+		).collect(Collectors.toList());
+
+		return birthList.size() == 1 ? (Birth) birthList.get(0) : null;
 	}
 	
 	public Person getOppositeParent(Person parent) {

@@ -6,7 +6,6 @@ public class SpecifiedPersonAttributes {
     private NameAttribute name;
     private NameAttribute middleName;
     private NameAttribute lastName;
-    private DateAttribute birth;
 
     public SpecifiedPersonAttributes() {}
 
@@ -34,11 +33,4 @@ public class SpecifiedPersonAttributes {
         this.lastName = lastName;
     }
 
-    public void setBirth(DateAttribute date) {
-        this.birth = date;
-    }
-
-    public DateAttribute getBirth() {
-        return this.birth;
-    }
 }

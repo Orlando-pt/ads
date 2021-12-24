@@ -7,6 +7,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import pt.up.fe.dates.IntervalDate;
+import pt.up.fe.dates.SimpleDate;
+import pt.up.fe.events.Birth;
+import pt.up.fe.events.Event;
 import pt.up.fe.person.Person;
 
 public class QueryTest {
@@ -70,7 +74,7 @@ public class QueryTest {
         personAttributes.setName(
             new NameAttribute("Ana")
         );
-        FilterPersonListByAttributes query = new FilterPersonListByAttributes(
+        FilterPersonByNameQuery query = new FilterPersonByNameQuery(
             queryReceiver,
             personAttributes,
             this.listOfPeople
@@ -88,7 +92,7 @@ public class QueryTest {
         );
 
         queryReceiver.emptyList();
-        query = new FilterPersonListByAttributes(
+        query = new FilterPersonByNameQuery(
             queryReceiver,
             personAttributes,
             this.listOfPeople
@@ -110,7 +114,7 @@ public class QueryTest {
             new NameAttribute("Jorge")
         );
 
-        FilterPersonListByAttributes query = new FilterPersonListByAttributes(
+        FilterPersonByNameQuery query = new FilterPersonByNameQuery(
             queryReceiver,
             personAttributes,
             this.listOfPeople
@@ -128,7 +132,7 @@ public class QueryTest {
             new NameAttribute("Gonçalves", true)
         );
         
-        query = new FilterPersonListByAttributes(
+        query = new FilterPersonByNameQuery(
             queryReceiver,
             personAttributes,
             this.listOfPeople
@@ -143,18 +147,115 @@ public class QueryTest {
             queryReceiver.getPersonList()
         ).extracting(Person::getName).containsOnly("Orlando");
     }
+
+    @Test
+    void testFilterPersonsByBirth() {
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
+        FilterPersonByBirthQuery query = new FilterPersonByBirthQuery(
+            queryReceiver,
+            new DateAttribute(new SimpleDate(1700, 1, 1), DateQueryTypeEnum.BEFORE),
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        Assertions.assertThat(
+            queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Diogo");
+
+        queryReceiver.emptyList();
+
+        query = new FilterPersonByBirthQuery(
+            queryReceiver,
+            new DateAttribute(
+                new IntervalDate(
+                    new SimpleDate(1801, 1, 1),
+                    new SimpleDate(1802, 1, 4)
+                ),
+                DateQueryTypeEnum.EXACT
+            ),
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        Assertions.assertThat(
+            queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Breno");
+
+        queryReceiver.emptyList();
+
+        query = new FilterPersonByBirthQuery(
+            queryReceiver,
+            new DateAttribute(
+                new SimpleDate(1750, 5, 5),
+                DateQueryTypeEnum.AFTER
+            ),
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+        
+        Assertions.assertThat(
+            queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Breno", "Catia");
+
+        queryReceiver.emptyList();
+        query = new FilterPersonByBirthQuery(
+            queryReceiver,
+            new DateAttribute(
+                new IntervalDate(
+                    new SimpleDate(1500, 1, 1),
+                    new SimpleDate(1800, 1, 2)
+                ),
+                DateQueryTypeEnum.CONTAINS
+            ),
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        Assertions.assertThat(
+            queryReceiver.getPersonList()
+        ).extracting(Person::getName).containsOnly("Diogo", "Catia");
+    }
     
 
     private void generatePersonData() {
         Person breno = new Person();
         breno.setName("Breno");
+        Event brenoBirth = new Birth();
+        brenoBirth.setDate(
+            new IntervalDate(
+                new SimpleDate(1801, 1, 1),
+                new SimpleDate(1802, 1, 4)
+            )
+        );
+        breno.addEvent(brenoBirth);
 
         Person catia = new Person();
         catia.setName("Catia");
+        Event catiaBirth = new Birth();
+        catiaBirth.setDate(
+            new IntervalDate(
+                new SimpleDate(1800, 1, 1),
+                new SimpleDate(1800, 1, 3)
+            )
+        );
+        catia.addEvent(catiaBirth);
 
         Person diogo = new Person();
         diogo.setName("Diogo");
         diogo.setMiddleName("Jorge Magalhães");
+        Event diogoBirth = new Birth();
+        diogoBirth.setDate(
+            new SimpleDate(1603, 10, 1)
+        );
+        diogo.addEvent(diogoBirth);
 
         Person sofia = new Person();
         sofia.setName("Sofia");

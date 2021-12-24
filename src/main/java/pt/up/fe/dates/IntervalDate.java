@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
 
-public class IntervalDate implements IDate, Comparable<IDate> {
+public class IntervalDate implements IDate{
   private SimpleDate startDate;
   private SimpleDate endDate;
 
