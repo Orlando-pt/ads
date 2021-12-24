@@ -87,9 +87,7 @@ public class IntervalDate implements IDate, Comparable<IDate> {
     if (this.equals(date))
       return 0;
 
-    // if (date.getClass() == SimpleDate.class) {
-
-    // }
+    
     return 1;
   }
 

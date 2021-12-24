@@ -12,6 +12,14 @@ public class SimpleDate implements IDate, Comparable<IDate>{
   private Integer minute;
   private Integer second;
 
+  public SimpleDate() {}
+
+  public SimpleDate(int year, int month, int day) {
+    this.year = Integer.valueOf(year);
+    this.month = Integer.valueOf(month);
+    this.day = Integer.valueOf(day);
+  }
+
   public Integer getYear() {
     return year;
   }
@@ -156,10 +164,47 @@ public class SimpleDate implements IDate, Comparable<IDate>{
       return 0;
 
     if (date.getClass() == IntervalDate.class) {
-      IntervalDate interval = (IntervalDate) date;
-      return this.compareTo(interval.getEndDate());
+      return compareWithIntervalDate((IntervalDate) date);
     }
-      
-    return 1;
+
+    // compare simple date
+    SimpleDate simpleDate = (SimpleDate) date;
+    int comparationResult = this.getYear() == null || simpleDate.getYear() == null ? 0 : this.getYear().compareTo(simpleDate.getYear());
+    if (comparationResult != 0)
+      return comparationResult;
+
+    comparationResult = this.getMonth() == null || simpleDate.getMonth() == null ? 0 : this.getMonth().compareTo(simpleDate.getMonth());
+    if (comparationResult != 0)
+      return comparationResult;
+
+    comparationResult = this.getDay() == null || simpleDate.getDay() == null ? 0 : this.getDay().compareTo(simpleDate.getDay());
+    if (comparationResult != 0)
+      return comparationResult;
+
+    comparationResult = this.getHour() == null || simpleDate.getHour() == null ? 0 : this.getHour().compareTo(simpleDate.getHour());
+    if (comparationResult != 0)
+      return comparationResult;
+
+    comparationResult = this.getMinute() == null || simpleDate.getMinute() == null ? 0 : this.getMinute().compareTo(simpleDate.getMinute());
+    if (comparationResult != 0)
+      return comparationResult;
+
+    return this.getSecond() == null || simpleDate.getSecond() == null ? 0 : this.getSecond().compareTo(simpleDate.getSecond());
+  }
+
+  private int compareWithIntervalDate(IntervalDate date) {
+    int compareWithStartDate = this.compareTo(date.getStartDate());
+    int compareWithEndDate = this.compareTo(date.getEndDate());
+
+    // if the interval contains this date
+    if (compareWithStartDate == 1 && compareWithEndDate == -1)
+      return -10;
+
+    // if the interval is before this date
+    if (compareWithEndDate > 0)
+      return compareWithEndDate;
+
+    // the other possible scenario is if the interval is after this date
+    return compareWithStartDate;
   }
 }

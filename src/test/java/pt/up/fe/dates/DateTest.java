@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class DateTest {
@@ -65,11 +66,80 @@ public class DateTest {
 
   @Test
   void testCompareDates() {
-    IDate date1 = new SimpleDate();
-    IDate interval1 = new IntervalDate(null, null);
+    SimpleDate date1 = new SimpleDate();
+    date1.setYear(2021);
+    date1.setMonth(12);
+    date1.setDay(24);
+    
+    SimpleDate date2 = new SimpleDate();
+    date2.setYear(2021);
+    // date2.setMonth(12);
+    date2.setDay(25);
 
-    System.out.println(
-      interval1.getClass() == IntervalDate.class
+    assertEquals(
+      -1,
+      date1.compareTo(date2)
+    );
+
+    assertEquals(
+      1,
+      date2.compareTo(date1)
+    );
+
+    date2.setDay(null);
+    assertEquals(
+      0,
+      date1.compareTo(date2)
+    );
+
+    // compare date with interval
+    IntervalDate interval1 = new IntervalDate(
+      new SimpleDate(2021, 10, 1),
+      new SimpleDate(2021, 10, 10)
+    );
+
+    // date greater than the interval
+    assertEquals(
+      1,
+      date1.compareTo(interval1)
+    );
+
+    // date lower than the interval
+    IntervalDate interval2 = new IntervalDate(
+      new SimpleDate(2022, 10, 10),
+      new SimpleDate(2022, 10, 15)
+    );
+
+    assertEquals(
+      -1,
+      date1.compareTo(interval2)
+    );
+
+    // verify incomplete intervals
+    SimpleDate dateNull1 = new SimpleDate();
+    dateNull1.setYear(2022);
+    SimpleDate dateNull2 = new SimpleDate();
+    dateNull2.setYear(2023);
+
+    IntervalDate interval3 = new IntervalDate(
+      dateNull1,
+      dateNull2     
+    );
+
+    assertEquals(
+      -1,
+      date1.compareTo(interval3)
+    );
+
+    // check interval that contains date
+    IntervalDate interval4 = new IntervalDate(
+      new SimpleDate(2021, 11, 20),
+      new SimpleDate(2022, 1, 1)
+    );
+
+    assertEquals(
+      -10,
+      date1.compareTo(interval4)
     );
   }
 }
