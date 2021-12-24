@@ -5,27 +5,27 @@ import java.util.Map;
 import org.json.JSONObject;
 
 public class IntervalDate implements IDate, Comparable<IDate> {
-  private IDate startDate;
-  private IDate endDate;
+  private SimpleDate startDate;
+  private SimpleDate endDate;
 
-  public IntervalDate(IDate start, IDate end) {
+  public IntervalDate(SimpleDate start, SimpleDate end) {
     this.startDate = start;
     this.endDate = end;
   }
 
-  public IDate getStartDate() {
+  public SimpleDate getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(IDate startDate) {
+  public void setStartDate(SimpleDate startDate) {
     this.startDate = startDate;
   }
 
-  public IDate getEndDate() {
+  public SimpleDate getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(IDate endDate) {
+  public void setEndDate(SimpleDate endDate) {
     this.endDate = endDate;
   }
 
@@ -87,8 +87,30 @@ public class IntervalDate implements IDate, Comparable<IDate> {
     if (this.equals(date))
       return 0;
 
-    
-    return 1;
+    if (date.getClass() == SimpleDate.class)
+      return this.compareWithSimpleDate((SimpleDate) date);
+
+    IntervalDate intervalDate = (IntervalDate) date;
+    int compareWithStartDate = this.startDate.compareTo(intervalDate);
+    int compareWithEndDate = this.endDate.compareTo(intervalDate);
+
+    if (compareWithStartDate == -10 || compareWithEndDate == -10)
+      return -10;
+
+    if (compareWithStartDate == -1 && compareWithEndDate == 1)
+      return -10;
+
+    if (compareWithStartDate == 1)
+      return compareWithStartDate;
+
+    return compareWithEndDate;
+  }
+
+  private int compareWithSimpleDate(SimpleDate date) {
+    int comparationResult = date.compareTo(this);
+    if (comparationResult == -10) return comparationResult;
+
+    return -comparationResult;
   }
 
 }

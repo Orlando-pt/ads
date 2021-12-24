@@ -142,4 +142,64 @@ public class DateTest {
       date1.compareTo(interval4)
     );
   }
+
+  @Test
+  void testCompareIntervalDate() {
+    IntervalDate interval1 = new IntervalDate(
+      new SimpleDate(2021, 12, 24),
+      new SimpleDate(2021, 12, 29)
+    );
+
+    IntervalDate interval2 = new IntervalDate(
+      new SimpleDate(2021, 12, 20),
+      new SimpleDate(2021, 12, 21)
+    );
+
+    assertEquals(
+      1,
+      interval1.compareTo(interval2)
+    );
+
+    assertEquals(
+      -1,
+      interval2.compareTo(interval1)
+    );
+
+    IntervalDate interval3 = new IntervalDate(
+      new SimpleDate(2021, 12, 27),
+      new SimpleDate(2021, 12, 28)
+    );
+
+    assertEquals(
+      -10,
+      interval1.compareTo(interval3)
+    );
+
+    assertEquals(
+      -10,
+      interval1.compareTo(
+        new SimpleDate(2021, 12, 27)
+      )
+    );
+
+    assertEquals(
+      -10,
+      interval1.compareTo(
+        new IntervalDate(
+          new SimpleDate(2021, 12, 23),
+          new SimpleDate(2021, 12, 27)
+        )
+      )
+    );
+
+    assertEquals(
+      -10,
+      interval1.compareTo(
+        new IntervalDate(
+          new SimpleDate(2021, 12, 26),
+          new SimpleDate(2022, 1, 1)
+        )
+      )
+    );
+  }
 }
