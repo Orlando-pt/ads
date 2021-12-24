@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
 
-public class SimpleDate implements IDate {
+public class SimpleDate implements IDate, Comparable<IDate>{
   private Integer year;
   private Integer month;
   private Integer day;
@@ -148,5 +148,18 @@ public class SimpleDate implements IDate {
     }
 
     return "??";
+  }
+
+  @Override
+  public int compareTo(IDate date) {
+    if (this.equals(date))
+      return 0;
+
+    if (date.getClass() == IntervalDate.class) {
+      IntervalDate interval = (IntervalDate) date;
+      return this.compareTo(interval.getEndDate());
+    }
+      
+    return 1;
   }
 }
