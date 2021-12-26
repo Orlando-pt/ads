@@ -174,4 +174,38 @@ public class EventFacade {
 
     return marriageEvent;
   }
+
+  public Event createResidenceEvent(String residenceName, String placeOfResidence, IDate dateOfResidence, String typeOfPlace, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+    Event residenceEvent = new Residence();
+
+    if(!residenceName.isEmpty()) {
+      residenceEvent.addSpecialPurposeField("Residence Name", residenceName);
+    }
+
+    if(!placeOfResidence.isEmpty()) {
+      residenceEvent.addPlaceRelation("Country of Residence", this.getPlaceFacade().choosePlace());
+    }
+
+    if(dateOfResidence != null) {
+      residenceEvent.setDate(dateOfResidence);
+    }
+
+    if(!typeOfPlace.isEmpty()) {
+      residenceEvent.addSpecialPurposeField("Type Of Place", typeOfPlace);
+    }
+
+    persons.forEach((key, value) -> {
+      residenceEvent.addPeopleRelation(key, value);
+    });
+
+    specialFields.forEach((key, value) -> {
+      residenceEvent.addSpecialPurposeField(key, value);
+    });
+
+    if(!description.isEmpty()) {
+      residenceEvent.setDescription(description);
+    }
+
+    return residenceEvent;
+  }
 }
