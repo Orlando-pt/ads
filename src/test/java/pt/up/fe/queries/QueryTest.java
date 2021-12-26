@@ -1,5 +1,7 @@
 package pt.up.fe.queries;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +20,60 @@ public class QueryTest {
     private Person root;
     private QueryInvoker queryInvoker;
     private List<Person> listOfPeople;
+    private QueryMementoCaretaker queryCaretaker;
 
     @BeforeEach
     void setUp() {
-        this.queryInvoker = new QueryInvoker();
+        this.queryCaretaker = new QueryMementoCaretaker();
+        this.queryInvoker = new QueryInvoker(this.queryCaretaker);
+        this.queryCaretaker.setOriginator(this.queryInvoker);
+
         this.listOfPeople = new ArrayList<>();
         this.generatePersonData();
+    }
+
+    @Test
+    void testMemento() {
+        QueryResultPersonList queryReceiver = new QueryResultPersonList();
+        QueryCommand query = new ChildrenQuery(queryReceiver, this.root);
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        List<Person> firstChildQuery = new ArrayList<>(queryReceiver.getPersonList());
+        assertEquals(1, this.queryCaretaker.getCommandsHistory().size());
+
+        queryReceiver.emptyList();
+        query = new GrandGrandChildrenQuery(queryReceiver, this.root);
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        assertEquals(
+            2,
+            this.queryCaretaker.getCommandsHistory().size()
+        );
+
+        // repeat child query
+        queryReceiver.emptyList();
+        this.queryCaretaker.restoreCommand(1);
+        
+        query = this.queryInvoker.getCurrentCommand();
+
+        QueryResultPersonList localQueryReceiver = new QueryResultPersonList();
+        query.setReceiver(localQueryReceiver);
+
+        this.queryInvoker.executeCommand();
+
+        assertEquals(
+            3,
+            this.queryCaretaker.getCommandsHistory().size()
+        );
+
+        assertEquals(
+            firstChildQuery,
+            localQueryReceiver.getPersonList()
+        );
     }
 
     @Test

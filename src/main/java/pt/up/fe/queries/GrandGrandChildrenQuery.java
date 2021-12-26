@@ -1,5 +1,7 @@
 package pt.up.fe.queries;
 
+import java.util.List;
+
 import pt.up.fe.person.Person;
 
 public class GrandGrandChildrenQuery implements QueryCommand{
@@ -12,6 +14,15 @@ public class GrandGrandChildrenQuery implements QueryCommand{
         this.root = root;
     }
 
+    @Override
+    public void setReceiver(QueryResultPersonList receiver) {
+        this.resultReceiver = receiver;
+    }
+
+    @Override
+    public void setPersonList(List<Person> personList) {
+        
+    }
     public void execute() {
         this.root.getChildren().forEach(
             (children) -> children.getChildren().forEach(

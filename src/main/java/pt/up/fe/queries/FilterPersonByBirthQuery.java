@@ -12,12 +12,28 @@ public class FilterPersonByBirthQuery implements QueryCommand{
     private List<Person> personList;
 
     public FilterPersonByBirthQuery(
+        DateAttribute date
+    ) {
+        this.date = date;
+    }
+
+    public FilterPersonByBirthQuery(
         QueryResultPersonList receiver,
         DateAttribute date,
         List<Person> personList
     ) {
         this.resultReceiver = receiver;
         this.date = date;
+        this.personList = personList;
+    }
+
+    @Override
+    public void setReceiver(QueryResultPersonList receiver) {
+        this.resultReceiver = receiver;
+    }
+
+    @Override
+    public void setPersonList(List<Person> personList) {
         this.personList = personList;
     }
 

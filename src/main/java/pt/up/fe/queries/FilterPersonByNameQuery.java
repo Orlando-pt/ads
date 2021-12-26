@@ -17,6 +17,15 @@ public class FilterPersonByNameQuery implements QueryCommand{
         this.personList = personList;
     }
 
+    @Override
+    public void setReceiver(QueryResultPersonList receiver) {
+        this.resultReceiver = receiver;
+    }
+
+    @Override
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
     public void execute() {
         List<Person> tempPersonsList = this.personList;
 
