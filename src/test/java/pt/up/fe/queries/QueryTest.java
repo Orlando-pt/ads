@@ -74,6 +74,48 @@ public class QueryTest {
             firstChildQuery,
             localQueryReceiver.getPersonList()
         );
+
+        queryReceiver.emptyList();
+
+        query = new FilterPersonByBirthQuery(
+            queryReceiver,
+            new DateAttribute(
+                new SimpleDate(1750, 5, 5),
+                DateQueryTypeEnum.AFTER
+            ),
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        assertEquals(
+            4,
+            this.queryCaretaker.getCommandsHistory().size()
+        );
+
+        queryReceiver.emptyList();
+
+        SpecifiedPersonAttributes personAttributes = new SpecifiedPersonAttributes();
+        personAttributes.setName(
+            new NameAttribute("Ana")
+        );
+
+        query = new FilterPersonByNameQuery(
+            queryReceiver,
+            personAttributes,
+            this.listOfPeople
+        );
+
+        this.queryInvoker.setCommand(query);
+        this.queryInvoker.executeCommand();
+
+        assertEquals(
+            5,
+            this.queryCaretaker.getCommandsHistory().size()
+        );
+
+        this.queryCaretaker.exportCommands();
     }
 
     @Test

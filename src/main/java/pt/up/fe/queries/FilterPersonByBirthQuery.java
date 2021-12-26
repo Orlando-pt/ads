@@ -1,7 +1,10 @@
 package pt.up.fe.queries;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.json.JSONObject;
 
 import pt.up.fe.person.Person;
 
@@ -58,5 +61,23 @@ public class FilterPersonByBirthQuery implements QueryCommand{
             }
         ).collect(Collectors.toList()));
     }
+
+    @Override
+    public Map<String, Object> toYAMLObject() {
+        return null;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject json = new JSONObject();
+        json.put("query_command", this.getClass().getName());
+        json.put(
+            "date",
+            new JSONObject()
+                .put("date", this.date.getDate().toJSONObject())
+                .put("query_type", this.date.getDateQueryType())
+        );
+        return json;
+    };
     
 }

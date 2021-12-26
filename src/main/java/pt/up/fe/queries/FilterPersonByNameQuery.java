@@ -1,7 +1,10 @@
 package pt.up.fe.queries;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.json.JSONObject;
 
 import pt.up.fe.person.Person;
 
@@ -89,4 +92,35 @@ public class FilterPersonByNameQuery implements QueryCommand{
             }
         ).collect(Collectors.toList());
     }
+
+    @Override
+    public Map<String, Object> toYAMLObject() {
+        return null;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject json = new JSONObject();
+        json.put("query_command", this.getClass().getName());
+        json.put(
+            "name_fields",
+            new JSONObject()
+                .put(
+                    "name", this.specifiedFields.getName() == null ? JSONObject.NULL : new JSONObject()
+                        .put("name", this.specifiedFields.getName().getName())
+                        .put("exact", this.specifiedFields.getName().getExact())
+                )
+                .put(
+                    "middle_name", this.specifiedFields.getMiddleName() == null ? JSONObject.NULL : new JSONObject()
+                        .put("name", this.specifiedFields.getMiddleName().getName())
+                        .put("exact", this.specifiedFields.getMiddleName().getExact())
+                )
+                .put(
+                    "last_name", this.specifiedFields.getLastName() == null ? JSONObject.NULL : new JSONObject()
+                        .put("name", this.specifiedFields.getLastName().getName())
+                        .put("exact", this.specifiedFields.getLastName().getExact())
+                )
+        );
+        return json;
+    };
 }

@@ -29,7 +29,7 @@ public abstract class Exporter<T> {
 
   protected abstract String appendExtension(String path);
 
-  protected abstract String buildOutputString(Iterator<T> iterator);
+  public abstract String buildOutputString(Iterator<T> iterator);
 
   public Exporter<T> setObject(Iterator<T> object) {
     this.object = object;

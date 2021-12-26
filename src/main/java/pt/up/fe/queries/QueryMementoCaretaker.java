@@ -3,6 +3,8 @@ package pt.up.fe.queries;
 import java.util.LinkedList;
 import java.util.List;
 
+import pt.up.fe.exports.JsonExporter;
+
 public class QueryMementoCaretaker {
 
     private LinkedList<QueryMemento> commandHistory;
@@ -31,6 +33,11 @@ public class QueryMementoCaretaker {
     public List<QueryMemento> getCommandsHistory() {
         // TODO return a list
         return this.commandHistory;
+    }
+
+    public void exportCommands() {
+        JsonExporter<QueryMemento> jsonExporter = new JsonExporter<QueryMemento>("queries/query_history.json");
+        System.out.println(jsonExporter.buildOutputString(this.commandHistory.iterator()));
     }
     
 }
