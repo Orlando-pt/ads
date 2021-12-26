@@ -1,6 +1,10 @@
 package pt.up.fe.facades;
 
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import pt.up.fe.Main;
+import pt.up.fe.dtos.places.FilterPlacesDTO;
 import pt.up.fe.dtos.places.PlaceDTO;
 import pt.up.fe.dtos.places.PlaceType;
 import pt.up.fe.places.CompoundPlace;
@@ -26,6 +30,20 @@ public class PlaceFacade {
 
     Main.placesList.add(place);
     return place;
+  }
+
+  public static List<Place> filterPlaces(FilterPlacesDTO filterPlacesDTO) {
+
+    Predicate<Place> byName = place -> filterPlacesDTO.getName().isEmpty()
+        || place.getName() != null && place.getName().toLowerCase()
+        .contains(filterPlacesDTO.getName().toLowerCase());
+
+    List<Place> result = Main.placesList.stream()
+        .filter(byName)
+        .collect(Collectors.toList());
+
+    return result;
+
   }
 
 

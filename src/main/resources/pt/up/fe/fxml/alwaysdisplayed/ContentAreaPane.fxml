@@ -12,6 +12,7 @@
 
       <fx:include fx:id="placesPage" source="../contentarea/places/PlacesPage.fxml" />
       <fx:include fx:id="createPlacePage" source="../contentarea/places/CreatePlacePage.fxml" />
+      <fx:include fx:id="listPlacesPage" source="../contentarea/places/ListPlacesPage.fxml" />
 
 
       <fx:include fx:id="sourcesPage" source="../contentarea/sources/SourcesPage.fxml" />

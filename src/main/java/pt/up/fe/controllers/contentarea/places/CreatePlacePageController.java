@@ -105,7 +105,7 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
   }
 
   @FXML
-  private void createPlace(MouseEvent event) {
+  private void createPlace(MouseEvent event) throws IllegalAccessException {
     PlaceDTO placeDTO = new PlaceDTO();
     placeDTO.setName(nameInput.getText());
     placeDTO.setAltitude(Double.parseDouble(altitudeInput.getText()));
@@ -116,6 +116,10 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     placeDTO.setSource(selectedSource);
 
     Place place = PlaceFacade.createPlace(placeDTO);
+
+    CustomSceneHelper.contentAreaPaneController.cleanAll();
+    CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
+    this.clearPage();
   }
 
   @FXML
