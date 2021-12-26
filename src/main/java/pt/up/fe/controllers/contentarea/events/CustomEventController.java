@@ -21,10 +21,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class ResidenceEventController implements Initializable, IContentPageController {
+public class CustomEventController implements Initializable, IContentPageController {
 
     @FXML
-    private TextField residenceDate;
+    private TextField customDate;
 
     @FXML
     private TextArea description;
@@ -33,16 +33,16 @@ public class ResidenceEventController implements Initializable, IContentPageCont
     private TextField fieldInput;
 
     @FXML
-    private TextField residenceName;
+    private TextField customName;
 
     @FXML
     private TextField nameInput;
 
     @FXML
-    private TextField placeResidence;
+    private TextField placeCustom;
 
     @FXML
-    private ComboBox<String> typeOfPlace;
+    private TextField typeOfCustom;
 
     @FXML
     private TextField relationshipInput;
@@ -79,17 +79,17 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event residenceEvent = new EventFacade().createResidenceEvent(
-                this.residenceName.getText(),
-                this.placeResidence.getText(),
+        Event customEvent = new EventFacade().createCustomEvent(
+                this.customName.getText(),
+                this.placeCustom.getText(),
                 this.date,
-                this.typeOfPlace.getValue(),
+                this.typeOfCustom.getText(),
                 persons,
                 specialPurposeFields,
                 this.description.getText()
         );
 
-        System.out.println(residenceEvent.toString());
+        System.out.println(customEvent.toString());
     }
 
     @FXML
@@ -116,15 +116,15 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         CustomSceneHelper.getNodeById("listPersonsPage")
                 .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
         CustomSceneHelper.getNodeById("listPersonsPage")
-                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "residenceEventPage"));
+                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "customEventPage"));
 
-        CustomSceneHelper.getNodeById("residenceEventPage").addEventFilter(PersonCustomEvent.PERSON,
+        CustomSceneHelper.getNodeById("customEventPage").addEventFilter(PersonCustomEvent.PERSON,
                 new PersonCustomEventHandler(this.handleRelation(btnName)) {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
-                        CustomSceneHelper.getNodeById("residenceEventPage")
+                        CustomSceneHelper.getNodeById("customEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
                 });
@@ -139,29 +139,17 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                     @Override
                     public void handle(DateCustomEvent dateCustomEvent) {
                         date = dateCustomEvent.getDate();
-                        residenceDate.setText(date.toString());
+                        customDate.setText(date.toString());
 
                         CustomSceneHelper.getNodeById("createDatePage")
                                 .removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
-                        CustomSceneHelper.bringNodeToFront("ResidenceEvent", "Page");
+                        CustomSceneHelper.bringNodeToFront("CustomEvent", "Page");
                     }
                 });
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
-        // Initialize Type of Marriage combo
-        typeOfPlace.getItems().clear();
-        typeOfPlace.getItems().addAll(
-                "Single Family Home",
-                "Duplex",
-                "Apartments",
-                "Town Home",
-                "Villa",
-                "Others",
-                "Unknown"
-        );
-
         this.initTables();
     }
 
@@ -218,16 +206,16 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
     @Override
     public void clearPage() {
-        residenceDate.clear();
+        customDate.clear();
         description.clear();
         fieldInput.clear();
-        residenceName.clear();
+        customName.clear();
         nameInput.clear();
-        placeResidence.clear();
+        placeCustom.clear();
+        typeOfCustom.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
-        typeOfPlace.getItems().clear();
         date = null;
     }
 }

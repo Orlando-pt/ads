@@ -208,4 +208,34 @@ public class EventFacade {
 
     return residenceEvent;
   }
+
+  public Event createCustomEvent(String customName, String placeOfCustom, IDate dateOfCustom, String typeOfCustom, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+    Event customEvent = new CustomEvent(customName);
+
+    if(!typeOfCustom.isEmpty()) {
+      customEvent.addSpecialPurposeField("Type of Custom Event", customName);
+    }
+
+    if(!placeOfCustom.isEmpty()) {
+      customEvent.addPlaceRelation("Country of Custom Event", this.getPlaceFacade().choosePlace());
+    }
+
+    if(dateOfCustom != null) {
+      customEvent.setDate(dateOfCustom);
+    }
+
+    persons.forEach((key, value) -> {
+      customEvent.addPeopleRelation(key, value);
+    });
+
+    specialFields.forEach((key, value) -> {
+      customEvent.addSpecialPurposeField(key, value);
+    });
+
+    if(!description.isEmpty()) {
+      customEvent.setDescription(description);
+    }
+
+    return customEvent;
+  }
 }
