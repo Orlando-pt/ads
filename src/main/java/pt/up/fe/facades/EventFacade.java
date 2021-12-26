@@ -140,4 +140,38 @@ public class EventFacade {
 
     return emigrationEvent;
   }
+
+  public Event createMarriageEvent(String marriageName, String placeOfMarriage, IDate dateOfMarriage, String typeOfMarriage, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+    Event marriageEvent = new Marriage();
+
+    if(!marriageName.isEmpty()) {
+      marriageEvent.addSpecialPurposeField("Marriage Name", marriageName);
+    }
+
+    if(!placeOfMarriage.isEmpty()) {
+      marriageEvent.addPlaceRelation("Country of Marriage", this.getPlaceFacade().choosePlace());
+    }
+
+    if(dateOfMarriage != null) {
+      marriageEvent.setDate(dateOfMarriage);
+    }
+
+    if(!typeOfMarriage.isEmpty()) {
+      marriageEvent.addSpecialPurposeField("Type Of Marriage", typeOfMarriage);
+    }
+
+    persons.forEach((key, value) -> {
+      marriageEvent.addPeopleRelation(key, value);
+    });
+
+    specialFields.forEach((key, value) -> {
+      marriageEvent.addSpecialPurposeField(key, value);
+    });
+
+    if(!description.isEmpty()) {
+      marriageEvent.setDescription(description);
+    }
+
+    return marriageEvent;
+  }
 }
