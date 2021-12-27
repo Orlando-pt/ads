@@ -19,7 +19,7 @@ import pt.up.fe.dtos.places.PlaceDTO;
 import pt.up.fe.dtos.places.PlaceType;
 import pt.up.fe.facades.PlaceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
-import pt.up.fe.helpers.NumberTextField;
+import pt.up.fe.helpers.DecimalNumberTextField;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PlaceCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
@@ -34,6 +34,9 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
 
   @FXML
   private Button newSourceButton;
+
+  @FXML
+  private Button selectParent;
 
   @FXML
   private TextField nameInput;
@@ -51,24 +54,26 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
   private Button createButton;
 
   @FXML
-  private NumberTextField latitudeInput;
+  private DecimalNumberTextField latitudeInput;
 
   @FXML
-  private NumberTextField longitudeInput;
+  private DecimalNumberTextField longitudeInput;
 
   @FXML
-  private NumberTextField altitudeInput;
+  private DecimalNumberTextField altitudeInput;
 
   @FXML
   private Label areaLabel;
 
   @FXML
-  private NumberTextField areaInput;
+  private DecimalNumberTextField areaInput;
 
   @FXML
   private RadioButton noSource;
 
   private Source selectedSource;
+
+  private Place parentPlace;
 
   private String pageToSend;
 
@@ -94,6 +99,15 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
             pageToSend = pageToSendCustomEvent.getPageToSend();
           }
         });
+
+    CustomSceneHelper.getNodeById("createPlacePage")
+        .addEventFilter(PlaceCustomEvent.PLACE, new EventHandler<PlaceCustomEvent>() {
+          @Override
+          public void handle(PlaceCustomEvent placeCustomEvent) {
+            parentPlace = placeCustomEvent.getPlace();
+            selectParent.setText(parentPlace.getName());
+          }
+        });
   }
 
   @Override
@@ -108,12 +122,24 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     source_radio.selectToggle(noSource);
     selectedSource = null;
     pageToSend = null;
+    parentPlace = null;
+    selectParent.setText("Select Parent");
   }
 
 
   private void setButtonsInvisible() {
     newSourceButton.setVisible(false);
     selectSourceButton.setVisible(false);
+  }
+
+  @FXML
+  private void selectPlace(MouseEvent event) {
+    CustomSceneHelper.getNodeById("listPlacesPage")
+        .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+    CustomSceneHelper.getNodeById("listPlacesPage").fireEvent(
+        new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND,
+            "createPlacePage"));
+    CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
   }
 
   @FXML
@@ -129,10 +155,13 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     if (!latitudeInput.getText().isEmpty()) {
       placeDTO.setLatitude(Double.parseDouble(latitudeInput.getText()));
     }
-    if (!areaInput.getText().isEmpty()) {
+
+    placeDTO.setType(PlaceType.valueOf(typeInput.getValue().toString().split(" ")[0].toUpperCase()));
+
+    if (!areaInput.getText().isEmpty() && placeDTO.getType() != PlaceType.COMPOUND) {
       placeDTO.setArea(Double.parseDouble(areaInput.getText()));
     }
-    placeDTO.setType(PlaceType.valueOf(typeInput.getValue().toString().toUpperCase()));
+
     placeDTO.setSource(selectedSource);
 
     Place place = PlaceFacade.createPlace(placeDTO);

@@ -18,11 +18,11 @@
       </Text>
       <TableView fx:id="placesTable" layoutX="24.0" layoutY="165.0" prefHeight="355.0" prefWidth="606.0">
         <columns>
-          <TableColumn fx:id="name" prefWidth="91.0" text="Name" />
-          <TableColumn fx:id="type" prefWidth="103.0" text="Type" />
-            <TableColumn fx:id="latitude" prefWidth="94.0" text="Latitude" />
-            <TableColumn fx:id="longitude" prefWidth="71.0" text="Longitude" />
-            <TableColumn fx:id="altitude" prefWidth="186.0" text="Altitude" />
+          <TableColumn fx:id="name" prefWidth="120" text="Name" />
+          <TableColumn fx:id="type" prefWidth="90" text="Type" />
+            <TableColumn fx:id="latitude" prefWidth="120" text="Latitude" />
+            <TableColumn fx:id="longitude" prefWidth="120" text="Longitude" />
+            <TableColumn fx:id="altitude" prefWidth="120" text="Altitude" />
         </columns>
       </TableView>
       <Button layoutX="563.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#search" prefHeight="26.0" prefWidth="67.0" text="Search" />

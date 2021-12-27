@@ -118,7 +118,6 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
       CustomSceneHelper.bringNodeToFront("viewEditPlace", "Page");
     }
 
-
     System.out.println(place);
   }
 
@@ -127,12 +126,16 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
 
     filters.setName(nameInput.getCharacters().toString());
 
-
     list.clear();
     List<Place> placesFiltered = PlaceFacade.filterPlaces(filters);
 
     placesFiltered.forEach(place -> {
-      list.add(new PlaceTableDTO(place.getName(), PlaceType.valueOf(place.getClass().getSimpleName().toUpperCase()), place.getAltitude(),
+      String type = place.getClass().getSimpleName();
+      if (type.length() > 6) {
+        type = type.substring(0,8);
+      }
+      list.add(new PlaceTableDTO(place.getName(),
+          PlaceType.valueOf(type.toUpperCase()), place.getAltitude(),
           place.getLongitude(), place.getAltitude(), place));
     });
   }

@@ -14,28 +14,28 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import pt.up.fe.helpers.NumberTextField?>
+<?import pt.up.fe.helpers.DecimalNumberTextField?>
 <ScrollPane id="createPlacePage" fx:id="createPlacePage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.places.CreatePlacePageController">
   <content>
     <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
       <children>
-        <Text fill="WHITE" layoutX="206.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Place">
+        <Text fill="WHITE" layoutX="206.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Place">
           <font>
             <Font size="40.0" />
           </font>
         </Text>
-        <TextField fx:id="nameInput" layoutX="72.0" layoutY="134.0" prefHeight="35.0" prefWidth="200.0" promptText="Insert place's name" />
-        <Label layoutX="72.0" layoutY="108.0" text="Name" textFill="WHITE">
+        <TextField fx:id="nameInput" layoutX="72.0" layoutY="116.0" prefHeight="35.0" prefWidth="200.0" promptText="Insert place's name" />
+        <Label layoutX="72.0" layoutY="90.0" text="Name" textFill="WHITE">
           <font>
             <Font size="20.0" />
           </font>
         </Label>
-        <Label layoutX="361.0" layoutY="104.0" text="Type" textFill="WHITE">
+        <Label layoutX="361.0" layoutY="86.0" text="Type" textFill="WHITE">
           <font>
             <Font size="20.0" />
           </font>
         </Label>
-      <ComboBox onAction="#onChangeType" fx:id="typeInput" layoutX="361.0" layoutY="130.0" prefHeight="35.0" prefWidth="200.0" value="Parish">
+      <ComboBox fx:id="typeInput" layoutX="361.0" layoutY="112.0" onAction="#onChangeType" prefHeight="35.0" prefWidth="200.0" value="Parish">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Parish" />
@@ -79,15 +79,16 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <NumberTextField fx:id="latitudeInput" layoutX="66.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-            <NumberTextField fx:id="longitudeInput" layoutX="209.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-            <NumberTextField fx:id="altitudeInput" layoutX="354.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-            <NumberTextField fx:id="areaInput" layoutX="495.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-            <Label layoutX="495.0" fx:id="areaLabel" layoutY="362.0" text="Area" textFill="WHITE">
+            <DecimalNumberTextField fx:id="latitudeInput" layoutX="66.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
+            <DecimalNumberTextField fx:id="longitudeInput" layoutX="209.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
+            <DecimalNumberTextField fx:id="altitudeInput" layoutX="354.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
+            <DecimalNumberTextField fx:id="areaInput" layoutX="495.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
+            <Label fx:id="areaLabel" layoutX="495.0" layoutY="362.0" text="Area" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
+            <Button fx:id="selectParent" layoutX="410.0" layoutY="158.0" mnemonicParsing="false" onMouseClicked="#selectPlace" text="Select Parent" />
       </children>
     </AnchorPane>
   </content>

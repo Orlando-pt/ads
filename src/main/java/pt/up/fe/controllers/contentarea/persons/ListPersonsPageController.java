@@ -24,7 +24,6 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
-import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 
