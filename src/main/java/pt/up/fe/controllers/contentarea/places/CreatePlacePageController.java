@@ -21,6 +21,7 @@ import pt.up.fe.facades.PlaceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.NumberTextField;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
+import pt.up.fe.helpers.events.PlaceCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.places.Place;
@@ -69,6 +70,8 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
 
   private Source selectedSource;
 
+  private String pageToSend;
+
   @Override
   public void initialize(URL url, ResourceBundle resources) {
     setButtonsInvisible();
@@ -81,6 +84,14 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
           @Override
           public void handle(SourceCustomEvent sourceCustomEvent) {
             selectedSource = sourceCustomEvent.getSource();
+          }
+        });
+
+    CustomSceneHelper.getNodeById("createPlacePage").addEventFilter(
+        PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
+          @Override
+          public void handle(PageToSendCustomEvent pageToSendCustomEvent) {
+            pageToSend = pageToSendCustomEvent.getPageToSend();
           }
         });
   }
@@ -96,6 +107,7 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     descriptionInput.clear();
     source_radio.selectToggle(noSource);
     selectedSource = null;
+    pageToSend = null;
   }
 
 
@@ -108,17 +120,31 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
   private void createPlace(MouseEvent event) throws IllegalAccessException {
     PlaceDTO placeDTO = new PlaceDTO();
     placeDTO.setName(nameInput.getText());
-    placeDTO.setAltitude(Double.parseDouble(altitudeInput.getText()));
-    placeDTO.setLongitude(Double.parseDouble(longitudeInput.getText()));
-    placeDTO.setLatitude(Double.parseDouble(latitudeInput.getText()));
-    placeDTO.setArea(Double.parseDouble(areaInput.getText()));
+    if (!altitudeInput.getText().isEmpty()) {
+      placeDTO.setAltitude(Double.parseDouble(altitudeInput.getText()));
+    }
+    if (!longitudeInput.getText().isEmpty()) {
+      placeDTO.setLongitude(Double.parseDouble(longitudeInput.getText()));
+    }
+    if (!latitudeInput.getText().isEmpty()) {
+      placeDTO.setLatitude(Double.parseDouble(latitudeInput.getText()));
+    }
+    if (!areaInput.getText().isEmpty()) {
+      placeDTO.setArea(Double.parseDouble(areaInput.getText()));
+    }
     placeDTO.setType(PlaceType.valueOf(typeInput.getValue().toString().toUpperCase()));
     placeDTO.setSource(selectedSource);
 
     Place place = PlaceFacade.createPlace(placeDTO);
 
-    CustomSceneHelper.contentAreaPaneController.cleanAll();
-    CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
+    if (pageToSend != null) {
+      CustomSceneHelper.getNodeById(pageToSend)
+          .fireEvent(new PlaceCustomEvent(PlaceCustomEvent.PLACE, place));
+      CustomSceneHelper.bringNodeToFront(pageToSend, "");
+    } else {
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
+      CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
+    }
     this.clearPage();
   }
 
