@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pt.up.fe.events.Event;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
@@ -19,6 +20,7 @@ public class Main extends Application {
 
   public static List<Person> peopleList = new ArrayList<>();
   public static List<Source> sourcesList = new ArrayList<>();
+  public static List<Event> eventsList = new ArrayList<>();
 
   private static Scene scene;
   private static Stage stage;

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+
+import pt.up.fe.Main;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
@@ -70,6 +72,7 @@ public class EventFacade {
       birthEvent.setDescription(description);
     }
 
+    Main.eventsList.add(birthEvent);
     return birthEvent;
   }
 
@@ -100,6 +103,7 @@ public class EventFacade {
       deathEvent.setDescription(description);
     }
 
+    Main.eventsList.add(deathEvent);
     return deathEvent;
   }
 
@@ -138,6 +142,7 @@ public class EventFacade {
       emigrationEvent.setDescription(description);
     }
 
+    Main.eventsList.add(emigrationEvent);
     return emigrationEvent;
   }
 
@@ -172,6 +177,7 @@ public class EventFacade {
       marriageEvent.setDescription(description);
     }
 
+    Main.eventsList.add(marriageEvent);
     return marriageEvent;
   }
 
@@ -206,6 +212,7 @@ public class EventFacade {
       residenceEvent.setDescription(description);
     }
 
+    Main.eventsList.add(residenceEvent);
     return residenceEvent;
   }
 
@@ -236,6 +243,7 @@ public class EventFacade {
       customEvent.setDescription(description);
     }
 
+    Main.eventsList.add(customEvent);
     return customEvent;
   }
 }
