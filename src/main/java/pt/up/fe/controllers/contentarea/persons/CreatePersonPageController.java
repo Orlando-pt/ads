@@ -81,6 +81,7 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
     genderInput.getSelectionModel().select(0);
     descriptionInput.clear();
     source_radio.selectToggle(noSource);
+    setButtonsInvisible();
     selectedSource = null;
   }
 
