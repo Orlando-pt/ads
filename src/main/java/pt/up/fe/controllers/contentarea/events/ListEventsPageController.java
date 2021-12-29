@@ -15,6 +15,7 @@ import pt.up.fe.dtos.events.FilterEventsDTO;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.EventCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.places.Place;
@@ -80,7 +81,7 @@ public class ListEventsPageController implements Initializable, IContentPageCont
 
     @Override
     public void setEventHandlers() {
-        CustomSceneHelper.getNodeById("listEventsPage").addEventFilter(
+        /* CustomSceneHelper.getNodeById("listEventsPage").addEventFilter(
                 SelectModeCustomEvent.SELECT_MODE, new EventHandler<SelectModeCustomEvent>() {
                     @Override
                     public void handle(SelectModeCustomEvent selectModeCustomEvent) {
@@ -95,7 +96,7 @@ public class ListEventsPageController implements Initializable, IContentPageCont
                     public void handle(PageToSendCustomEvent pageToSendCustomEvent) {
                         pageToSend = pageToSendCustomEvent.getPageToSend();
                     }
-                });
+                }); */
     }
 
     @FXML
@@ -116,7 +117,10 @@ public class ListEventsPageController implements Initializable, IContentPageCont
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         } */
 
-        System.out.println(curEvent);
+        System.out.println(curEvent.getDescription());
+
+        CustomSceneHelper.getNodeById("birthEventPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
+        CustomSceneHelper.bringNodeToFront("birthEvent", "Page");
     }
 
     private void filterEvents() {

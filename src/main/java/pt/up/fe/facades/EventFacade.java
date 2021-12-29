@@ -1,8 +1,6 @@
 package pt.up.fe.facades;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -45,7 +43,7 @@ public class EventFacade {
     this.dateFacade = dateFacade;
   }
 
-  public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+  public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
     Event birthEvent = new Birth();
 
     if(!maternity.isEmpty()) {
@@ -72,7 +70,7 @@ public class EventFacade {
       birthEvent.setDescription(description);
     }
 
-    Main.eventsList.add(birthEvent);
+    handleEditOrCreate(birthEvent, editId);
     return birthEvent;
   }
 
@@ -266,5 +264,21 @@ public class EventFacade {
             .collect(Collectors.toList());
 
     return result;
+  }
+
+  private void handleEditOrCreate(Event event, UUID id) {
+    if(id != null) {
+      ListIterator<Event> iterator = Main.eventsList.listIterator();
+      while (iterator.hasNext()) {
+        Event next = iterator.next();
+        if (next.getId().equals(id)) {
+          System.out.println("Entrou");
+          iterator.set(event);
+        }
+      }
+    }
+    else {
+      Main.eventsList.add(event);
+    }
   }
 }
