@@ -21,7 +21,9 @@ import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.places.Place;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ListEventsPageController implements Initializable, IContentPageController {
@@ -119,8 +121,17 @@ public class ListEventsPageController implements Initializable, IContentPageCont
 
         System.out.println(curEvent.getDescription());
 
-        CustomSceneHelper.getNodeById("birthEventPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
-        CustomSceneHelper.bringNodeToFront("birthEvent", "Page");
+        String pageToSend = curEvent.getName();
+
+        if(Arrays.asList("Birth", "Death", "Emigration", "Marriage", "Residence").contains(pageToSend)) {
+            pageToSend = curEvent.getName().toLowerCase() + "Event";
+        }
+        else {
+            pageToSend = "customEvent";
+        }
+
+        CustomSceneHelper.getNodeById(pageToSend + "Page").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
+        CustomSceneHelper.bringNodeToFront(pageToSend, "Page");
     }
 
     private void filterEvents() {

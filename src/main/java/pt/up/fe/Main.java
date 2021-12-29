@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pt.up.fe.events.Birth;
 import pt.up.fe.events.CustomEvent;
+import pt.up.fe.events.Death;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.DateFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
@@ -89,6 +90,13 @@ public class Main extends Application {
     customEvent.addPeopleRelation("Personal Trainer", breno);
     customEvent.setDescription("Entrada no ginásio");
     Main.eventsList.add(customEvent);
+
+    Event deathEvent = new Death();
+    deathEvent.addSpecialPurposeField("Type of Death", "Death by Age");
+    deathEvent.setDate(new DateFacade().createSimpleDate("2103", "09", "25", "", "",""));
+    deathEvent.addPeopleRelation("Coveiro", hugo);
+    deathEvent.setDescription("Morte do Diogo");
+    Main.eventsList.add(deathEvent);
 
     stage.initStyle(StageStyle.UNDECORATED);
     setPrimaryStage(stage);

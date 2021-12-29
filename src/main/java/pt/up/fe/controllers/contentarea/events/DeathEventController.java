@@ -20,6 +20,7 @@ import pt.up.fe.person.Person;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class DeathEventController implements Initializable, IContentPageController {
 
@@ -62,7 +63,14 @@ public class DeathEventController implements Initializable, IContentPageControll
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
 
+    @FXML
+    private Button mainButton;
+
     private IDate date;
+
+    private Boolean inCreateMode = true;
+
+    private UUID editId = null;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -82,7 +90,8 @@ public class DeathEventController implements Initializable, IContentPageControll
                 this.date,
                 persons,
                 specialPurposeFields,
-                this.description.getText()
+                this.description.getText(),
+                editId
         );
 
         System.out.println(deathEvent.toString());
@@ -151,6 +160,37 @@ public class DeathEventController implements Initializable, IContentPageControll
 
     @Override
     public void setEventHandlers() {
+        CustomSceneHelper.getNodeById("deathEventPage").addEventFilter(
+                EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
+                    @Override
+                    public void handle(EventCustomEvent eventCustomEvent) {
+                        Event ev = eventCustomEvent.getEvent();
+
+                        inCreateMode = false;
+                        editId = ev.getId();
+
+                        deathDate.setText(ev.getDate().toString());
+                        description.setText(ev.getDescription());
+
+                        for (var entry : ev.getPeopleRelations().entrySet()) {
+                            table_persons.getItems().add(new PersonEventDTO(entry.getKey(), entry.getValue()));
+                        }
+
+                        for (var entry : ev.getSpecialPurposeFields().entrySet()) {
+                            if (entry.getKey() == "Type of Death") {
+                                typeOfDeath.setText(entry.getValue());
+                            }
+                            else {
+                                table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
+                            }
+                        }
+
+                        // placeBirth.setText(ev.getPlace().toString());
+                        date = ev.getDate();
+
+                        mainButton.setText("Edit");
+                    }
+                });
     }
 
     private void initTables() {
@@ -200,6 +240,14 @@ public class DeathEventController implements Initializable, IContentPageControll
         return relation;
     }
 
+    private void handleButtonChange() {
+        if (inCreateMode == true) {
+            mainButton.setText("Create");
+        } else {
+            mainButton.setText("Edit");
+        }
+    }
+
     @Override
     public void clearPage() {
         deathDate.clear();
@@ -212,5 +260,8 @@ public class DeathEventController implements Initializable, IContentPageControll
         table_fields.getItems().clear();
         table_persons.getItems().clear();
         date = null;
+        inCreateMode = true;
+        editId = null;
+        handleButtonChange();
     }
 }

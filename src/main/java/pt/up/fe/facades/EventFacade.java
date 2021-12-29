@@ -74,7 +74,7 @@ public class EventFacade {
     return birthEvent;
   }
 
-  public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+  public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
     Event deathEvent = new Death();
 
     if(!typeOfDeath.isEmpty()) {
@@ -101,7 +101,7 @@ public class EventFacade {
       deathEvent.setDescription(description);
     }
 
-    Main.eventsList.add(deathEvent);
+    handleEditOrCreate(deathEvent, editId);
     return deathEvent;
   }
 
