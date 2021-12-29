@@ -9,7 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pt.up.fe.events.Birth;
+import pt.up.fe.events.CustomEvent;
 import pt.up.fe.events.Event;
+import pt.up.fe.facades.DateFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
@@ -73,6 +76,19 @@ public class Main extends Application {
     Book book = new Book("nome");
     book.setPages(2);
     Main.sourcesList.add(book);
+
+    Event birthEvent = new Birth();
+    birthEvent.addSpecialPurposeField("Maternity", "Bissaya Barreto");
+    birthEvent.setDate(new DateFacade().createSimpleDate("2021", "", "", "", "",""));
+    birthEvent.addPeopleRelation("Mother", catia);
+    birthEvent.setDescription("Nascimento do Diogo");
+    Main.eventsList.add(birthEvent);
+
+    Event customEvent = new CustomEvent("Ginásio");
+    customEvent.setDate(new DateFacade().createSimpleDate("2019", "09", "12", "", "",""));
+    customEvent.addPeopleRelation("Personal Trainer", breno);
+    customEvent.setDescription("Entrada no ginásio");
+    Main.eventsList.add(customEvent);
 
     stage.initStyle(StageStyle.UNDECORATED);
     setPrimaryStage(stage);

@@ -129,7 +129,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
       CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
     }
 
-
     System.out.println(person);
   }
 

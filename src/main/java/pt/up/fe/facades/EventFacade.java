@@ -1,14 +1,14 @@
 package pt.up.fe.facades;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import pt.up.fe.Main;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dtos.events.FieldDTO;
-import pt.up.fe.dtos.events.PersonEventDTO;
+import pt.up.fe.dtos.events.FilterEventsDTO;
 import pt.up.fe.events.Birth;
 import pt.up.fe.events.CustomEvent;
 import pt.up.fe.events.Death;
@@ -245,5 +245,26 @@ public class EventFacade {
 
     Main.eventsList.add(customEvent);
     return customEvent;
+  }
+
+  public static List<Event> filterEvents(FilterEventsDTO filters) {
+
+    Predicate<Event> byEvent = event -> filters.getEvent().isEmpty()
+            || event.getName() != null && event.getName().toLowerCase()
+            .contains(filters.getEvent().toLowerCase());
+
+    Predicate<Event> byDate = event -> filters.getDate().isEmpty()
+            || event.getDate() != null && event.getDate().toString()
+            .contains(filters.getDate());
+
+    Predicate<Event> byDescription = event -> filters.getDescription().isEmpty()
+            || event.getDescription() != null && event.getDescription().toLowerCase().contains(
+            filters.getDescription().toLowerCase());
+
+    List<Event> result = Main.eventsList.stream()
+            .filter(byEvent.and(byDate.and(byDescription)))
+            .collect(Collectors.toList());
+
+    return result;
   }
 }

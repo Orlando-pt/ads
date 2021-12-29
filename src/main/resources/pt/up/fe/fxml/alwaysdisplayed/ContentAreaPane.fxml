@@ -27,6 +27,7 @@
       <fx:include fx:id="marriageEventPage" source="../contentarea/events/MarriageEventPage.fxml" />
       <fx:include fx:id="residenceEventPage" source="../contentarea/events/ResidenceEventPage.fxml" />
       <fx:include fx:id="customEventPage" source="../contentarea/events/CustomEventPage.fxml" />
+      <fx:include fx:id="listEventsPage" source="../contentarea/events/ListEventsPage.fxml" />
 
       <fx:include fx:id="createDatePage" source="../contentarea/CreateDatePage.fxml" />
 

@@ -22,7 +22,7 @@
             <Font size="19.0" />
          </font>
       </Button>
-      <Button layoutX="450.0" layoutY="178.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="109.0" text="List">
+      <Button layoutX="450.0" fx:id="listEvents" onMouseClicked="#goToAnotherPage" layoutY="178.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="109.0" text="List">
          <font>
             <Font size="19.0" />
          </font>
