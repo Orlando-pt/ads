@@ -20,6 +20,7 @@ import pt.up.fe.person.Person;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class MarriageEventController implements Initializable, IContentPageController {
 
@@ -65,7 +66,14 @@ public class MarriageEventController implements Initializable, IContentPageContr
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
 
+    @FXML
+    private Button mainButton;
+
     private IDate date;
+
+    private Boolean inCreateMode = true;
+
+    private UUID editId = null;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -86,7 +94,8 @@ public class MarriageEventController implements Initializable, IContentPageContr
                 this.typeOfMarriage.getValue(),
                 persons,
                 specialPurposeFields,
-                this.description.getText()
+                this.description.getText(),
+                editId
         );
 
         System.out.println(marriageEvent.toString());
@@ -193,6 +202,38 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     @Override
     public void setEventHandlers() {
+        CustomSceneHelper.getNodeById("marriageEventPage").addEventFilter(
+                EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
+                    @Override
+                    public void handle(EventCustomEvent eventCustomEvent) {
+                        Event ev = eventCustomEvent.getEvent();
+
+                        inCreateMode = false;
+                        editId = ev.getId();
+
+                        marriageDate.setText(ev.getDate().toString());
+                        description.setText(ev.getDescription());
+
+                        for (var entry : ev.getPeopleRelations().entrySet()) {
+                            table_persons.getItems().add(new PersonEventDTO(entry.getKey(), entry.getValue()));
+                        }
+
+                        for (var entry : ev.getSpecialPurposeFields().entrySet()) {
+                            if (entry.getKey() == "Marriage Name") {
+                                marriageName.setText(entry.getValue());
+                            } else if (entry.getKey() == "Type Of Marriage") {
+                                typeOfMarriage.getSelectionModel().select(entry.getValue());
+                            } else {
+                                table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
+                            }
+                        }
+
+                        // placeBirth.setText(ev.getPlace().toString());
+                        date = ev.getDate();
+
+                        mainButton.setText("Edit");
+                    }
+                });
     }
 
     private void initTables() {
@@ -242,6 +283,14 @@ public class MarriageEventController implements Initializable, IContentPageContr
         return relation;
     }
 
+    private void handleButtonChange() {
+        if (inCreateMode == true) {
+            mainButton.setText("Create");
+        } else {
+            mainButton.setText("Edit");
+        }
+    }
+
     @Override
     public void clearPage() {
         marriageDate.clear();
@@ -255,5 +304,8 @@ public class MarriageEventController implements Initializable, IContentPageContr
         table_persons.getItems().clear();
         typeOfMarriage.getItems().clear();
         date = null;
+        inCreateMode = true;
+        editId = null;
+        handleButtonChange();
     }
 }

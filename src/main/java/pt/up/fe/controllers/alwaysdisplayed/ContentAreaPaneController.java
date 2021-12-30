@@ -82,6 +82,9 @@ public class ContentAreaPaneController implements Initializable {
   private ResidenceEventController residenceEventPageController;
 
   @FXML
+  private CustomEventController customEventPageController;
+
+  @FXML
   private CreateDateController createDatePageController;
 
   @Override

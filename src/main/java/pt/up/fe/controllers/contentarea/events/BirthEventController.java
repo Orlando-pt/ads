@@ -183,9 +183,9 @@ public class BirthEventController implements Initializable, IContentPageControll
                         for (var entry : ev.getSpecialPurposeFields().entrySet()) {
                             if (entry.getKey() == "Maternity") {
                                 maternity.setText(entry.getValue());
+                            } else {
+                                table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                             }
-
-                            table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                         }
 
                         // placeBirth.setText(ev.getPlace().toString());

@@ -56,7 +56,7 @@
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Button layoutX="285.0" layoutY="1322.0" mnemonicParsing="false" onAction="#createEvent" text="Create">
+                <Button fx:id="mainButton" layoutX="285.0" layoutY="1322.0" mnemonicParsing="false" onAction="#createEvent" text="Create">
                     <font>
                         <Font size="20.0" />
                     </font>

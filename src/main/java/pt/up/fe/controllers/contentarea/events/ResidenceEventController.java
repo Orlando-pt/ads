@@ -20,6 +20,7 @@ import pt.up.fe.person.Person;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class ResidenceEventController implements Initializable, IContentPageController {
 
@@ -65,7 +66,14 @@ public class ResidenceEventController implements Initializable, IContentPageCont
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
 
+    @FXML
+    private Button mainButton;
+
     private IDate date;
+
+    private Boolean inCreateMode = true;
+
+    private UUID editId = null;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -86,7 +94,8 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                 this.typeOfPlace.getValue(),
                 persons,
                 specialPurposeFields,
-                this.description.getText()
+                this.description.getText(),
+                editId
         );
 
         System.out.println(residenceEvent.toString());
@@ -167,6 +176,38 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
     @Override
     public void setEventHandlers() {
+        CustomSceneHelper.getNodeById("residenceEventPage").addEventFilter(
+                EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
+                    @Override
+                    public void handle(EventCustomEvent eventCustomEvent) {
+                        Event ev = eventCustomEvent.getEvent();
+
+                        inCreateMode = false;
+                        editId = ev.getId();
+
+                        residenceDate.setText(ev.getDate().toString());
+                        description.setText(ev.getDescription());
+
+                        for (var entry : ev.getPeopleRelations().entrySet()) {
+                            table_persons.getItems().add(new PersonEventDTO(entry.getKey(), entry.getValue()));
+                        }
+
+                        for (var entry : ev.getSpecialPurposeFields().entrySet()) {
+                            if (entry.getKey() == "Residence Name") {
+                                residenceName.setText(entry.getValue());
+                            } else if (entry.getKey() == "Type Of Place") {
+                                typeOfPlace.getSelectionModel().select(entry.getValue());
+                            } else {
+                                table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
+                            }
+                        }
+
+                        // placeBirth.setText(ev.getPlace().toString());
+                        date = ev.getDate();
+
+                        mainButton.setText("Edit");
+                    }
+                });
     }
 
     private void initTables() {
@@ -216,6 +257,14 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         return relation;
     }
 
+    private void handleButtonChange() {
+        if (inCreateMode == true) {
+            mainButton.setText("Create");
+        } else {
+            mainButton.setText("Edit");
+        }
+    }
+
     @Override
     public void clearPage() {
         residenceDate.clear();
@@ -229,5 +278,8 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         table_persons.getItems().clear();
         typeOfPlace.getItems().clear();
         date = null;
+        inCreateMode = true;
+        editId = null;
+        handleButtonChange();
     }
 }

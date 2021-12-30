@@ -20,6 +20,7 @@ import pt.up.fe.person.Person;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class EmigrationEventController implements Initializable, IContentPageController {
 
@@ -68,7 +69,14 @@ public class EmigrationEventController implements Initializable, IContentPageCon
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
 
+    @FXML
+    private Button mainButton;
+
     private IDate date;
+
+    private Boolean inCreateMode = true;
+
+    private UUID editId = null;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -90,7 +98,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
                 this.pullFactorsCombo.getValue(),
                 persons,
                 specialPurposeFields,
-                this.description.getText()
+                this.description.getText(),
+                editId
         );
 
         System.out.println(emigrationEvent.toString());
@@ -206,6 +215,40 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
     @Override
     public void setEventHandlers() {
+        CustomSceneHelper.getNodeById("emigrationEventPage").addEventFilter(
+                EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
+                    @Override
+                    public void handle(EventCustomEvent eventCustomEvent) {
+                        Event ev = eventCustomEvent.getEvent();
+
+                        inCreateMode = false;
+                        editId = ev.getId();
+
+                        emigrationDate.setText(ev.getDate().toString());
+                        description.setText(ev.getDescription());
+
+                        for (var entry : ev.getPeopleRelations().entrySet()) {
+                            table_persons.getItems().add(new PersonEventDTO(entry.getKey(), entry.getValue()));
+                        }
+
+                        for (var entry : ev.getSpecialPurposeFields().entrySet()) {
+                            if (entry.getKey() == "Type of Emigration") {
+                                typeOfEmigration.setText(entry.getValue());
+                            } else if (entry.getKey() == "Push factor") {
+                                pushFactorsCombo.getSelectionModel().select(entry.getValue());
+                            } else if (entry.getKey() == "Pull factor") {
+                                pullFactorsCombo.getSelectionModel().select(entry.getValue());
+                            } else {
+                                table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
+                            }
+                        }
+
+                        // placeBirth.setText(ev.getPlace().toString());
+                        date = ev.getDate();
+
+                        mainButton.setText("Edit");
+                    }
+                });
     }
 
     private void initTables() {
@@ -255,6 +298,18 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         return relation;
     }
 
+    private void handleButtonChange() {
+        if (inCreateMode == true) {
+            mainButton.setText("Create");
+        } else {
+            mainButton.setText("Edit");
+        }
+    }
+
+    private void initalizeCombos() {
+
+    }
+
     @Override
     public void clearPage() {
         emigrationDate.clear();
@@ -269,5 +324,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         pushFactorsCombo.getItems().clear();
         pullFactorsCombo.getItems().clear();
         date = null;
+        inCreateMode = true;
+        editId = null;
+        handleButtonChange();
     }
 }
