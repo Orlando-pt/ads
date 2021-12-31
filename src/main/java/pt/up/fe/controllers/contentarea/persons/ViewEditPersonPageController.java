@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,16 +13,22 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.controllers.contentarea.IContentPageController;
+import pt.up.fe.dates.SimpleDate;
+import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
+import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
 import pt.up.fe.sources.Source;
 
@@ -65,6 +73,27 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   @FXML
   private RadioButton noSource;
 
+  @FXML
+  private TableColumn<PersonTableDTO, String> childrenColumnBirthDate;
+
+  @FXML
+  private TableColumn<PersonTableDTO, Integer> childrenColumnChildren;
+
+  @FXML
+  private TableColumn<PersonTableDTO, String> childrenColumnFirstName;
+
+  @FXML
+  private TableColumn<PersonTableDTO, Gender> childrenColumnGender;
+
+  @FXML
+  private TableColumn<PersonTableDTO, String> childrenColumnLastName;
+
+  @FXML
+  private TableColumn<PersonTableDTO, String> childrenColumnMiddleName;
+
+  @FXML
+  private TableView<PersonTableDTO> childrenTable;
+
   private Source selectedSource;
 
   private Person selectedPerson;
@@ -73,10 +102,19 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   private boolean editMode = true;
 
+  ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
+
 
   @FXML
   public void initialize(URL url, ResourceBundle resources) {
     changePageMode();
+    childrenColumnFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+    childrenColumnMiddleName.setCellValueFactory(new PropertyValueFactory<>("middleName"));
+    childrenColumnLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    childrenColumnGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+    childrenColumnChildren.setCellValueFactory(new PropertyValueFactory<>("children"));
+    childrenColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+    childrenTable.setItems(childrenTableList);
   }
 
 
@@ -125,17 +163,24 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
     parents = selectedPerson.getParents();
 
-    if (parents.containsKey("Mother")){
+    if (parents.containsKey("Mother")) {
       motherButton.setText(parents.get("Mother").getName());
     } else {
       motherButton.setText("No Mother");
     }
 
-    if (parents.containsKey("Father")){
+    if (parents.containsKey("Father")) {
       fatherButton.setText(parents.get("Father").getName());
     } else {
       fatherButton.setText("No Father");
     }
+
+    childrenTableList.clear();
+    selectedPerson.getChildren().forEach(person -> {
+      childrenTableList.add(
+          new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
+              person.getGender(), new SimpleDate(), person.getChildren().size(), person));
+    });
 
     changePageMode();
   }
@@ -174,12 +219,22 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   @FXML
   private void seeParent(MouseEvent event) {
     Button button = (Button) event.getSource();
-    String parentText = button.getId().substring(0,6);
+    String parentText = button.getId().substring(0, 6);
     parentText = parentText.substring(0, 1).toUpperCase() + parentText.substring(1);
     if (parents.containsKey(parentText)) {
       Person parent = parents.get(parentText);
       clearPage();
       this.selectedPerson = parent;
+      setInfo();
+    }
+  }
+
+  @FXML
+  private void selectChild(MouseEvent event) {
+    if (event.getClickCount() == 2) {
+      Person selection = childrenTable.getSelectionModel().getSelectedItem().getPerson();
+      clearPage();
+      this.selectedPerson = selection;
       setInfo();
     }
   }
@@ -193,7 +248,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       lastNameInput.setEditable(true);
       genderInput.setDisable(false);
       source_radio.getToggles().forEach(toggle -> {
-        Node node = (Node) toggle ;
+        Node node = (Node) toggle;
         node.setDisable(false);
       });
       saveButton.setText("Save");
@@ -204,7 +259,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       lastNameInput.setEditable(false);
       genderInput.setDisable(true);
       source_radio.getToggles().forEach(toggle -> {
-        Node node = (Node) toggle ;
+        Node node = (Node) toggle;
         node.setDisable(true);
       });
       saveButton.setText("OK");
@@ -232,9 +287,9 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   }
 
   public void save() throws IllegalAccessException {
-    if(editMode) {
+    if (editMode) {
 
-    }else{
+    } else {
       this.clearPage();
       CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listPersons", "Page");
