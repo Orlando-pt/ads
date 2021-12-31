@@ -2,10 +2,12 @@ package pt.up.fe.controllers.contentarea.persons;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -20,6 +22,7 @@ import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.person.Person;
+import pt.up.fe.sources.Source;
 
 public class ViewEditPersonPageController implements Initializable, IContentPageController {
 
@@ -28,6 +31,18 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   @FXML
   private Button newSourceButton;
+
+  @FXML
+  private RadioButton selectSource;
+
+  @FXML
+  private Button saveButton;
+
+  @FXML
+  private Button motherButton;
+
+  @FXML
+  private Button fatherButton;
 
   @FXML
   private TextField firstNameInput;
@@ -50,9 +65,13 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   @FXML
   private RadioButton noSource;
 
+  private Source selectedSource;
+
   private Person selectedPerson;
 
-  private boolean editMode = false;
+  private Map<String, Person> parents;
+
+  private boolean editMode = true;
 
 
   @FXML
@@ -76,7 +95,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
         .addEventFilter(SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
           @Override
           public void handle(SourceCustomEvent sourceCustomEvent) {
-            selectedPerson.setSource(sourceCustomEvent.getSource());
+            selectedSource = sourceCustomEvent.getSource();
             setInfo();
           }
         });
@@ -91,14 +110,34 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
         selectedPerson.getGender().toString().substring(0, 1) + selectedPerson.getGender()
             .toString().substring(1).toLowerCase());
 
-    if (selectedPerson.getSource() != null) {
-      newSourceButton.setVisible(false);
-      newSourceButton.setText(selectedPerson.getSource().getName());
+    setButtonsInvisible();
+    if (selectedSource != null) {
+      source_radio.selectToggle(selectSource);
+      selectSourceButton.setVisible(true);
+      selectSourceButton.setText(selectedSource.getName());
     } else {
-      setButtonsInvisible();
+      if (selectedPerson.getSource() != null) {
+        source_radio.selectToggle(selectSource);
+        selectSourceButton.setVisible(true);
+        selectSourceButton.setText(selectedPerson.getSource().getName());
+      }
     }
-    changePageMode();
 
+    parents = selectedPerson.getParents();
+
+    if (parents.containsKey("Mother")){
+      motherButton.setText(parents.get("Mother").getName());
+    } else {
+      motherButton.setText("No Mother");
+    }
+
+    if (parents.containsKey("Father")){
+      fatherButton.setText(parents.get("Father").getName());
+    } else {
+      fatherButton.setText("No Father");
+    }
+
+    changePageMode();
   }
 
   @FXML
@@ -121,16 +160,30 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     CustomSceneHelper.getNodeById("listSourcesPage")
         .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
     CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(
-        new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "ViewEditPersonPage"));
+        new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "viewEditPersonPage"));
     CustomSceneHelper.bringNodeToFront("listSources", "Page");
   }
 
   @FXML
   private void addSource(MouseEvent event) {
     CustomSceneHelper.getNodeById("createSourcePage").fireEvent(new PageToSendCustomEvent(
-        PageToSendCustomEvent.PAGE_TO_SEND, "ViewEditPersonPage"));
+        PageToSendCustomEvent.PAGE_TO_SEND, "viewEditPersonPage"));
     CustomSceneHelper.bringNodeToFront("createSource", "Page");
   }
+
+  @FXML
+  private void seeParent(MouseEvent event) {
+    Button button = (Button) event.getSource();
+    String parentText = button.getId().substring(0,6);
+    parentText = parentText.substring(0, 1).toUpperCase() + parentText.substring(1);
+    if (parents.containsKey(parentText)) {
+      Person parent = parents.get(parentText);
+      clearPage();
+      this.selectedPerson = parent;
+      setInfo();
+    }
+  }
+
 
   private void changePageMode() {
     if (editMode) {
@@ -138,14 +191,23 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       firstNameInput.setEditable(true);
       middleNameInput.setEditable(true);
       lastNameInput.setEditable(true);
-      genderInput.setEditable(true);
+      genderInput.setDisable(false);
+      source_radio.getToggles().forEach(toggle -> {
+        Node node = (Node) toggle ;
+        node.setDisable(false);
+      });
+      saveButton.setText("Save");
     } else {
       descriptionInput.setEditable(false);
       firstNameInput.setEditable(false);
       middleNameInput.setEditable(false);
       lastNameInput.setEditable(false);
-      genderInput.setEditable(false);
-
+      genderInput.setDisable(true);
+      source_radio.getToggles().forEach(toggle -> {
+        Node node = (Node) toggle ;
+        node.setDisable(true);
+      });
+      saveButton.setText("OK");
     }
   }
 
@@ -157,6 +219,8 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   @Override
   public void clearPage() {
     this.selectedPerson = null;
+    this.selectedSource = null;
+    this.parents = null;
     descriptionInput.clear();
     firstNameInput.clear();
     middleNameInput.clear();
@@ -165,5 +229,15 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     source_radio.selectToggle(noSource);
     setButtonsInvisible();
     descriptionInput.clear();
+  }
+
+  public void save() throws IllegalAccessException {
+    if(editMode) {
+
+    }else{
+      this.clearPage();
+      CustomSceneHelper.contentAreaPaneController.cleanAll();
+      CustomSceneHelper.bringNodeToFront("listPersons", "Page");
+    }
   }
 }

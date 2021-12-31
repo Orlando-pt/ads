@@ -51,6 +51,9 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
   private ToggleGroup source_radio;
 
   @FXML
+  private RadioButton selectSource;
+
+  @FXML
   private Button birthButton;
 
   @FXML
@@ -69,6 +72,10 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
       @Override
       public void handle(SourceCustomEvent sourceCustomEvent) {
         selectedSource = sourceCustomEvent.getSource();
+        setButtonsInvisible();
+        source_radio.selectToggle(selectSource);
+        selectSourceButton.setVisible(true);
+        selectSourceButton.setText(selectedSource.getName());
       }
     });
   }
