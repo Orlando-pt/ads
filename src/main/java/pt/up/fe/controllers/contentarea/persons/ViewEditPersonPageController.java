@@ -108,6 +108,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   @FXML
   public void initialize(URL url, ResourceBundle resources) {
     changePageMode();
+    setButtonsInvisible();
     childrenColumnFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
     childrenColumnMiddleName.setCellValueFactory(new PropertyValueFactory<>("middleName"));
     childrenColumnLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -187,7 +188,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   @FXML
   private void selectSourceType(MouseEvent event) throws NoSuchFieldException {
-
     RadioButton selectedRadioButton = (RadioButton) source_radio.getSelectedToggle();
     String toogleGroupSelectedValueID = selectedRadioButton.getId();
     setButtonsInvisible();

@@ -15,16 +15,16 @@
 <?import javafx.scene.text.Text?>
 
 <?import pt.up.fe.helpers.DecimalNumberTextField?>
-<ScrollPane id="createPlacePage" fx:id="createPlacePage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.places.CreatePlacePageController">
+<ScrollPane id="viewEditPlacePage" fx:id="viewEditPlacePage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.places.ViewEditPlacePageController">
   <content>
     <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
       <children>
-        <Text fill="WHITE" layoutX="206.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Place">
+        <Text fill="WHITE" layoutX="195.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View/Edit Place">
           <font>
             <Font size="40.0" />
           </font>
         </Text>
-        <TextField fx:id="nameInput" layoutX="72.0" layoutY="116.0" prefHeight="35.0" prefWidth="142.0" promptText="Insert place's name" />
+        <TextField fx:id="nameInput" layoutX="72.0" layoutY="116.0" prefHeight="35.0" prefWidth="142.0" />
         <Label layoutX="72.0" layoutY="90.0" text="Name" textFill="WHITE">
           <font>
             <Font size="20.0" />
@@ -48,7 +48,7 @@
             <Font size="20.0" />
           </font>
         </Label>
-        <TextArea fx:id="descriptionInput" layoutX="72.0" layoutY="204.0" prefHeight="123.0" prefWidth="492.0" promptText="Insert place's description" />
+        <TextArea fx:id="descriptionInput" layoutX="72.0" layoutY="204.0" prefHeight="123.0" prefWidth="492.0" />
         <Label layoutX="66.0" layoutY="437.0" text="Source" textFill="WHITE">
           <font>
             <Font size="20.0" />
@@ -63,7 +63,7 @@
         <RadioButton fx:id="newSource" layoutX="460.0" layoutY="473.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" text="New Source" textFill="WHITE" toggleGroup="$source_radio" />
         <Button fx:id="selectSourceButton" layoutX="278.0" layoutY="503.0" mnemonicParsing="false" onMouseClicked="#selectSource" text="Select Source" />
         <Button fx:id="newSourceButton" layoutX="451.0" layoutY="503.0" mnemonicParsing="false" onMouseClicked="#addSource" text="Create New Source" />
-        <Button fx:id="createButton" layoutX="281.0" layoutY="547.0" mnemonicParsing="false" onMouseClicked="#createPlace" text="Create Place" />
+        <Button fx:id="saveButton" layoutX="281.0" layoutY="547.0" mnemonicParsing="false" onMouseClicked="#savePlace" text="Create Place" />
             <Label layoutX="67.0" layoutY="362.0" text="Latitude" textFill="WHITE">
                <font>
                   <Font size="20.0" />
@@ -91,10 +91,14 @@
                   <Font size="20.0" />
                </font>
             </Label>
-        <DecimalNumberTextField fx:id="latitudeInput" layoutX="66.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-        <DecimalNumberTextField fx:id="longitudeInput" layoutX="209.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-        <DecimalNumberTextField fx:id="altitudeInput" layoutX="354.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
-        <DecimalNumberTextField fx:id="areaInput" layoutX="495.0" layoutY="388.0" prefHeight="35.0" prefWidth="110.0" />
+        <DecimalNumberTextField fx:id="latitudeInput" layoutX="66.0" layoutY="388.0"
+          prefHeight="35.0" prefWidth="110.0"/>
+        <DecimalNumberTextField fx:id="longitudeInput" layoutX="209.0" layoutY="388.0"
+          prefHeight="35.0" prefWidth="110.0"/>
+        <DecimalNumberTextField fx:id="altitudeInput" layoutX="354.0" layoutY="388.0"
+          prefHeight="35.0" prefWidth="110.0"/>
+        <DecimalNumberTextField fx:id="areaInput" layoutX="495.0" layoutY="388.0" prefHeight="35.0"
+          prefWidth="110.0"/>
       </children>
     </AnchorPane>
   </content>

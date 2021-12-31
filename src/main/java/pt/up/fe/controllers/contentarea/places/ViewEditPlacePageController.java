@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,9 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.controllers.contentarea.IContentPageController;
-import pt.up.fe.dtos.places.PlaceDTO;
 import pt.up.fe.dtos.places.PlaceType;
-import pt.up.fe.facades.PlaceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.DecimalNumberTextField;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
@@ -25,10 +24,11 @@ import pt.up.fe.helpers.events.PlaceCustomEvent;
 import pt.up.fe.helpers.events.PlaceFilterModeCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
+import pt.up.fe.places.Parish;
 import pt.up.fe.places.Place;
 import pt.up.fe.sources.Source;
 
-public class CreatePlacePageController implements Initializable, IContentPageController {
+public class ViewEditPlacePageController implements Initializable, IContentPageController {
 
   @FXML
   private Button selectSourceButton;
@@ -52,7 +52,7 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
   private ToggleGroup source_radio;
 
   @FXML
-  private Button createButton;
+  private Button saveButton;
 
   @FXML
   private DecimalNumberTextField latitudeInput;
@@ -67,53 +67,44 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
   private Label areaLabel;
 
   @FXML
+  private RadioButton selectSource;
+
+  @FXML
   private DecimalNumberTextField areaInput;
 
   @FXML
   private RadioButton noSource;
 
-  @FXML
-  private RadioButton selectSource;
-
   private Source selectedSource;
 
   private Place parentPlace;
 
-  private String pageToSend;
+  private Place selectedPlace;
+
+  private boolean editMode = false;
 
   @Override
   public void initialize(URL url, ResourceBundle resources) {
+    changePageMode();
     setButtonsInvisible();
   }
 
   @Override
   public void setEventHandlers() {
-    CustomSceneHelper.getNodeById("createPlacePage")
+    CustomSceneHelper.getNodeById("viewEditPlacePage").addEventFilter(
+        PlaceCustomEvent.PLACE, new EventHandler<PlaceCustomEvent>() {
+          @Override
+          public void handle(PlaceCustomEvent placeCustomEvent) {
+            selectedPlace = placeCustomEvent.getPlace();
+            setInfo();
+          }
+        });
+
+    CustomSceneHelper.getNodeById("viewEditPlacePage")
         .addEventFilter(SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
           @Override
           public void handle(SourceCustomEvent sourceCustomEvent) {
             selectedSource = sourceCustomEvent.getSource();
-            setButtonsInvisible();
-            source_radio.selectToggle(selectSource);
-            selectSourceButton.setVisible(true);
-            selectSourceButton.setText(selectedSource.getName());
-          }
-        });
-
-    CustomSceneHelper.getNodeById("createPlacePage").addEventFilter(
-        PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
-          @Override
-          public void handle(PageToSendCustomEvent pageToSendCustomEvent) {
-            pageToSend = pageToSendCustomEvent.getPageToSend();
-          }
-        });
-
-    CustomSceneHelper.getNodeById("createPlacePage")
-        .addEventFilter(PlaceCustomEvent.PLACE, new EventHandler<PlaceCustomEvent>() {
-          @Override
-          public void handle(PlaceCustomEvent placeCustomEvent) {
-            parentPlace = placeCustomEvent.getPlace();
-            selectParent.setText(parentPlace.getName());
           }
         });
   }
@@ -128,8 +119,8 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     typeInput.getSelectionModel().select(0);
     descriptionInput.clear();
     source_radio.selectToggle(noSource);
+    setButtonsInvisible();
     selectedSource = null;
-    pageToSend = null;
     parentPlace = null;
     selectParent.setText("Select Parent");
   }
@@ -145,47 +136,22 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     CustomSceneHelper.getNodeById("listPlacesPage")
         .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
     CustomSceneHelper.getNodeById("listPlacesPage")
-        .fireEvent(new PlaceFilterModeCustomEvent(PlaceFilterModeCustomEvent.FILTER_MODE, PlaceType.COMPOUND));
+        .fireEvent(new PlaceFilterModeCustomEvent(PlaceFilterModeCustomEvent.FILTER_MODE,
+            PlaceType.COMPOUND));
     CustomSceneHelper.getNodeById("listPlacesPage").fireEvent(
         new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND,
             "createPlacePage"));
     CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
   }
 
-  @FXML
-  private void createPlace(MouseEvent event) throws IllegalAccessException {
-    PlaceDTO placeDTO = new PlaceDTO();
-    placeDTO.setName(nameInput.getText());
-    placeDTO.setDescription(descriptionInput.getText());
-    if (!altitudeInput.getText().isEmpty()) {
-      placeDTO.setAltitude(Double.parseDouble(altitudeInput.getText()));
-    }
-    if (!longitudeInput.getText().isEmpty()) {
-      placeDTO.setLongitude(Double.parseDouble(longitudeInput.getText()));
-    }
-    if (!latitudeInput.getText().isEmpty()) {
-      placeDTO.setLatitude(Double.parseDouble(latitudeInput.getText()));
-    }
+  public void savePlace() throws IllegalAccessException {
+    if (editMode) {
 
-    placeDTO.setType(PlaceType.valueOf(typeInput.getValue().toString().split(" ")[0].toUpperCase()));
-
-    if (!areaInput.getText().isEmpty() && placeDTO.getType() != PlaceType.COMPOUND) {
-      placeDTO.setArea(Double.parseDouble(areaInput.getText()));
-    }
-
-    placeDTO.setSource(selectedSource);
-
-    Place place = PlaceFacade.createPlace(placeDTO);
-
-    if (pageToSend != null) {
-      CustomSceneHelper.getNodeById(pageToSend)
-          .fireEvent(new PlaceCustomEvent(PlaceCustomEvent.PLACE, place));
-      CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
+      this.clearPage();
       CustomSceneHelper.contentAreaPaneController.cleanAll();
       CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
     }
-    this.clearPage();
   }
 
   @FXML
@@ -229,6 +195,66 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     CustomSceneHelper.getNodeById("createSourcePage").fireEvent(new PageToSendCustomEvent(
         PageToSendCustomEvent.PAGE_TO_SEND, "createPlacePage"));
     CustomSceneHelper.bringNodeToFront("createSource", "Page");
+  }
+
+  private void changePageMode() {
+    if (editMode) {
+      descriptionInput.setEditable(true);
+      nameInput.setEditable(true);
+      latitudeInput.setEditable(true);
+      longitudeInput.setEditable(true);
+      altitudeInput.setEditable(true);
+      areaInput.setEditable(true);
+      typeInput.setDisable(false);
+      source_radio.getToggles().forEach(toggle -> {
+        Node node = (Node) toggle;
+        node.setDisable(false);
+      });
+      saveButton.setText("Save");
+    } else {
+      descriptionInput.setEditable(false);
+      nameInput.setEditable(false);
+      latitudeInput.setEditable(false);
+      longitudeInput.setEditable(false);
+      altitudeInput.setEditable(false);
+      areaInput.setEditable(false);
+      typeInput.setDisable(true);
+      source_radio.getToggles().forEach(toggle -> {
+        Node node = (Node) toggle;
+        node.setDisable(true);
+      });
+      saveButton.setText("OK");
+    }
+  }
+
+  private void setInfo() {
+    descriptionInput.setText(selectedPlace.getDescription());
+    nameInput.setText(selectedPlace.getName());
+    altitudeInput.setText(selectedPlace.getAltitude().toString());
+    latitudeInput.setText(selectedPlace.getLatitude().toString());
+    longitudeInput.setText(selectedPlace.getLongitude().toString());
+    if (selectedPlace.getClass().getSimpleName().equals("Parish")) {
+      areaInput.setText(((Parish) selectedPlace).getArea().toString());
+      typeInput.setValue("Parish");
+    } else {
+      typeInput.setValue("Compound");
+    }
+
+    setButtonsInvisible();
+    if (selectedSource != null) {
+      source_radio.selectToggle(selectSource);
+      selectSourceButton.setVisible(true);
+      selectSourceButton.setText(selectedSource.getName());
+    } else {
+      if (selectedPlace.getSource() != null) {
+        source_radio.selectToggle(selectSource);
+        selectSourceButton.setVisible(true);
+        selectSourceButton.setText(selectedPlace.getSource().getName());
+      }
+    }
+
+
+    changePageMode();
   }
 
 

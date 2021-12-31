@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,6 +25,7 @@ import pt.up.fe.facades.PlaceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PlaceCustomEvent;
+import pt.up.fe.helpers.events.PlaceFilterModeCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.places.Place;
 
@@ -43,6 +45,9 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
 
   @FXML
   private TextField nameInput;
+
+  @FXML
+  private ComboBox placeType;
 
   @FXML
   private TableColumn<PersonTableDTO, String> name;
@@ -98,6 +103,17 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
             pageToSend = pageToSendCustomEvent.getPageToSend();
           }
         });
+
+    CustomSceneHelper.getNodeById("listPlacesPage").addEventFilter(
+        PlaceFilterModeCustomEvent.FILTER_MODE, new EventHandler<PlaceFilterModeCustomEvent>() {
+          @Override
+          public void handle(PlaceFilterModeCustomEvent filterModeCustomEvent) {
+            if (filterModeCustomEvent.getFilterMode() == PlaceType.COMPOUND) {
+              placeType.setDisable(true);
+              placeType.getSelectionModel().select(2);
+            }
+          }
+        });
   }
 
   @FXML
@@ -113,12 +129,10 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
           .fireEvent(new PlaceCustomEvent(PlaceCustomEvent.PLACE, place));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
-      CustomSceneHelper.getNodeById("viewEditPLacePage")
+      CustomSceneHelper.getNodeById("viewEditPlacePage")
           .fireEvent(new PlaceCustomEvent(PlaceCustomEvent.PLACE, place));
       CustomSceneHelper.bringNodeToFront("viewEditPlace", "Page");
     }
-
-    System.out.println(place);
   }
 
   private void filterPlaces() {
@@ -126,13 +140,19 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
 
     filters.setName(nameInput.getCharacters().toString());
 
+    if (placeType.getSelectionModel().isSelected(1)) {
+      filters.setType(PlaceType.PARISH);
+    } else if (placeType.getSelectionModel().isSelected(2)) {
+      filters.setType(PlaceType.COMPOUND);
+    }
+
     list.clear();
     List<Place> placesFiltered = PlaceFacade.filterPlaces(filters);
 
     placesFiltered.forEach(place -> {
       String type = place.getClass().getSimpleName();
       if (type.length() > 6) {
-        type = type.substring(0,8);
+        type = type.substring(0, 8);
       }
       list.add(new PlaceTableDTO(place.getName(),
           PlaceType.valueOf(type.toUpperCase()), place.getAltitude(),
@@ -146,6 +166,7 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
     this.filterPlaces();
     this.selectMode = false;
     pageToSend = null;
+    placeType.setDisable(false);
     this.changeButtonLayout();
   }
 

@@ -38,8 +38,12 @@ public class PlaceFacade {
         || place.getName() != null && place.getName().toLowerCase()
         .contains(filterPlacesDTO.getName().toLowerCase());
 
+    Predicate<Place> byType = place -> filterPlacesDTO.getType() == null
+        || place.getClass().getSimpleName().toLowerCase()
+        .contains(filterPlacesDTO.getType().toString().toLowerCase());
+
     List<Place> result = Main.placesList.stream()
-        .filter(byName)
+        .filter(byName.and(byType))
         .collect(Collectors.toList());
 
     return result;
