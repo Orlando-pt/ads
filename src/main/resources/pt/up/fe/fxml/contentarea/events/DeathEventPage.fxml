@@ -13,7 +13,7 @@
 
 <ScrollPane id="deathEventPage" fx:id="deathEventPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.DeathEventController">
     <content>
-        <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
+        <AnchorPane fx:id="anchorPane" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
             <children>
                 <Label layoutX="261.0" layoutY="14.0" prefHeight="20.0" prefWidth="85.0" text="Death Event" textAlignment="CENTER" textFill="WHITE">
                     <font>

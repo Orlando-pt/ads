@@ -14,7 +14,7 @@
 
 <ScrollPane id="residenceEventPage" fx:id="residenceEventPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.ResidenceEventController">
     <content>
-        <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
+        <AnchorPane fx:id="anchorPane" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
             <children>
                 <Label layoutX="264.0" layoutY="14.0" prefHeight="20.0" prefWidth="121.0" text="Residence Event" textAlignment="CENTER" textFill="WHITE">
                     <font>

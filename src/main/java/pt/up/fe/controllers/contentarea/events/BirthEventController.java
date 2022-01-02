@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
@@ -27,6 +29,9 @@ import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
 
 public class BirthEventController implements Initializable, IContentPageController {
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private TextField birthDate;
@@ -75,6 +80,8 @@ public class BirthEventController implements Initializable, IContentPageControll
     private Boolean inCreateMode = true;
 
     private UUID editId = null;
+
+    private boolean editMode = true;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -160,6 +167,10 @@ public class BirthEventController implements Initializable, IContentPageControll
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
         this.initTables();
+
+        if(this.editMode == false) {
+            this.toggleViewMode();
+        }
     }
 
     @Override
@@ -249,6 +260,22 @@ public class BirthEventController implements Initializable, IContentPageControll
         } else {
             mainButton.setText("Edit");
         }
+    }
+
+    private void toggleViewMode() {
+        for (Node node : anchorPane.getChildren()) {
+            if (node instanceof TextField) {
+                ((TextField)node).setEditable(false);
+            }
+            if(node instanceof Button) {
+                node.setDisable(true);
+            }
+            if (node instanceof TextArea) {
+                ((TextArea)node).setEditable(false);
+            }
+        }
+
+        mainButton.setVisible(false);
     }
 
     @Override

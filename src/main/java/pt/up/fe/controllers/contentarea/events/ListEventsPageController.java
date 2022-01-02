@@ -119,11 +119,9 @@ public class ListEventsPageController implements Initializable, IContentPageCont
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         } */
 
-        System.out.println(curEvent.getDescription());
-
         String pageToSend = "customEvent";
 
-        if(Arrays.asList("Birth", "Death", "Emigration", "Marriage", "Residence").contains(pageToSend)) {
+        if(Arrays.asList("Birth", "Death", "Emigration", "Marriage", "Residence").contains(curEvent.getName())) {
             pageToSend = curEvent.getName().toLowerCase() + "Event";
         }
 

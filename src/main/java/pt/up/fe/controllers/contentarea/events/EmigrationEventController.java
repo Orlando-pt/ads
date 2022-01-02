@@ -4,9 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
@@ -23,6 +25,9 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class EmigrationEventController implements Initializable, IContentPageController {
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private TextField emigrationDate;
@@ -77,6 +82,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
     private Boolean inCreateMode = true;
 
     private UUID editId = null;
+
+    private boolean editMode = true;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -211,6 +218,10 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         );
 
         this.initTables();
+
+        if(this.editMode == false) {
+            this.toggleViewMode();
+        }
     }
 
     @Override
@@ -306,8 +317,23 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         }
     }
 
-    private void initalizeCombos() {
+    private void toggleViewMode() {
+        for (Node node : anchorPane.getChildren()) {
+            if (node instanceof TextField) {
+                ((TextField)node).setEditable(false);
+            }
+            if(node instanceof Button) {
+                node.setDisable(true);
+            }
+            if (node instanceof TextArea) {
+                ((TextArea)node).setEditable(false);
+            }
+            if(node instanceof ComboBox) {
+                ((ComboBox)node).setOnShown(event -> ((ComboBox)node).hide());
+            }
+        }
 
+        mainButton.setVisible(false);
     }
 
     @Override
