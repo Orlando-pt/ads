@@ -111,6 +111,7 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
             if (filterModeCustomEvent.getFilterMode() == PlaceType.COMPOUND) {
               placeType.setDisable(true);
               placeType.getSelectionModel().select(2);
+              filterPlaces();
             }
           }
         });
@@ -155,7 +156,7 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
         type = type.substring(0, 8);
       }
       list.add(new PlaceTableDTO(place.getName(),
-          PlaceType.valueOf(type.toUpperCase()), place.getAltitude(),
+          PlaceType.valueOf(type.toUpperCase()), place.getLatitude(),
           place.getLongitude(), place.getAltitude(), place));
     });
   }
@@ -163,6 +164,7 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
   @Override
   public void clearPage() {
     nameInput.clear();
+    placeType.getSelectionModel().select(0);
     this.filterPlaces();
     this.selectMode = false;
     pageToSend = null;

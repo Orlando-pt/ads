@@ -25,6 +25,7 @@ import pt.up.fe.helpers.events.PlaceCustomEvent;
 import pt.up.fe.helpers.events.PlaceFilterModeCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
+import pt.up.fe.places.CompoundPlace;
 import pt.up.fe.places.Place;
 import pt.up.fe.sources.Source;
 
@@ -77,7 +78,7 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
 
   private Source selectedSource;
 
-  private Place parentPlace;
+  private CompoundPlace parentPlace;
 
   private String pageToSend;
 
@@ -112,7 +113,7 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
         .addEventFilter(PlaceCustomEvent.PLACE, new EventHandler<PlaceCustomEvent>() {
           @Override
           public void handle(PlaceCustomEvent placeCustomEvent) {
-            parentPlace = placeCustomEvent.getPlace();
+            parentPlace = (CompoundPlace) placeCustomEvent.getPlace();
             selectParent.setText(parentPlace.getName());
           }
         });
@@ -176,6 +177,10 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
     placeDTO.setSource(selectedSource);
 
     Place place = PlaceFacade.createPlace(placeDTO);
+
+    if (parentPlace != null){
+      PlaceFacade.addChildToCompound(parentPlace, place);
+    }
 
     if (pageToSend != null) {
       CustomSceneHelper.getNodeById(pageToSend)

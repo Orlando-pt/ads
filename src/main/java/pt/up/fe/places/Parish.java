@@ -8,6 +8,17 @@ public class Parish extends Place {
     super(name);
   }
 
+  public CompoundPlace toCompound(){
+    CompoundPlace copy = new CompoundPlace(this.getName());
+    copy.setSource(this.getSource());
+    copy.setAltitude(this.getAltitude());
+    copy.setLatitude(this.getLatitude());
+    copy.setLongitude(this.getLongitude());
+    copy.setDescription(this.getDescription());
+
+    return copy;
+  }
+
   @Override
   public Boolean isComposite() {
     return false;

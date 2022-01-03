@@ -17,18 +17,28 @@ public class PlaceFacade {
     Place place;
     if (placeDTO.getType() == PlaceType.PARISH) {
       place = new Parish(placeDTO.getName());
-      ((Parish) place).setArea(placeDTO.getArea());
+
     } else {
       place = new CompoundPlace(placeDTO.getName());
     }
 
+    place = setPlaceProperties(place, placeDTO);
+    Main.placesList.add(place);
+    return place;
+  }
+
+  private static Place setPlaceProperties(Place place, PlaceDTO placeDTO) {
+    if (!place.isComposite()) {
+      ((Parish) place).setArea(placeDTO.getArea());
+    }
+
+    place.setName(placeDTO.getName());
     place.setDescription(placeDTO.getDescription());
     place.setSource(placeDTO.getSource());
     place.setAltitude(placeDTO.getAltitude());
     place.setLongitude(placeDTO.getLongitude());
     place.setLatitude(placeDTO.getLatitude());
 
-    Main.placesList.add(place);
     return place;
   }
 
@@ -48,6 +58,32 @@ public class PlaceFacade {
 
     return result;
 
+  }
+
+  public static CompoundPlace transformParishToCompound(Parish parish) {
+    CompoundPlace compoundPlace = parish.toCompound();
+    Main.placesList.remove(parish);
+    Main.placesList.forEach(place -> {
+      if (place.isComposite()) {
+        if (((CompoundPlace) place).getChildren().contains(parish)) {
+          ((CompoundPlace) place).removeChild(parish);
+          ((CompoundPlace) place).addChild(compoundPlace);
+        }
+      }
+    });
+    Main.placesList.add(compoundPlace);
+    return compoundPlace;
+  }
+
+  public static CompoundPlace addChildToCompound(CompoundPlace compoundPlace, Place child) {
+    compoundPlace.addChild(child);
+    return compoundPlace;
+  }
+
+  public static Place editPlace(Place place, PlaceDTO placeDTO) {
+    Place placeEdited = setPlaceProperties(place, placeDTO);
+
+    return placeEdited;
   }
 
 
