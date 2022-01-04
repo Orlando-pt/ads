@@ -1,20 +1,11 @@
 package pt.up.fe.controllers.contentarea.events;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.UUID;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
@@ -28,13 +19,17 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
 
-public class BirthEventController implements Initializable, IContentPageController {
+import java.net.URL;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
+public class CustomEventController implements Initializable, IContentPageController {
     @FXML
     private AnchorPane anchorPane;
 
     @FXML
-    private TextField birthDate;
+    private TextField customDate;
 
     @FXML
     private TextArea description;
@@ -43,13 +38,16 @@ public class BirthEventController implements Initializable, IContentPageControll
     private TextField fieldInput;
 
     @FXML
-    private TextField maternity;
+    private TextField customName;
 
     @FXML
     private TextField nameInput;
 
     @FXML
-    private TextField placeBirth;
+    private TextField placeCustom;
+
+    @FXML
+    private TextField typeOfCustom;
 
     @FXML
     private TextField relationshipInput;
@@ -95,17 +93,18 @@ public class BirthEventController implements Initializable, IContentPageControll
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event birthEvent = new EventFacade().createBirthEvent(
-                this.maternity.getText(),
-                this.placeBirth.getText(),
+        Event customEvent = new EventFacade().createCustomEvent(
+                this.customName.getText(),
+                this.placeCustom.getText(),
                 this.date,
+                this.typeOfCustom.getText(),
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
                 editId
         );
 
-        System.out.println(birthEvent.toString());
+        System.out.println(customEvent.toString());
     }
 
     @FXML
@@ -132,15 +131,15 @@ public class BirthEventController implements Initializable, IContentPageControll
         CustomSceneHelper.getNodeById("listPersonsPage")
                 .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
         CustomSceneHelper.getNodeById("listPersonsPage")
-                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "birthEventPage"));
+                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "customEventPage"));
 
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(PersonCustomEvent.PERSON,
+        CustomSceneHelper.getNodeById("customEventPage").addEventFilter(PersonCustomEvent.PERSON,
                 new PersonCustomEventHandler(this.handleRelation(btnName)) {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
-                        CustomSceneHelper.getNodeById("birthEventPage")
+                        CustomSceneHelper.getNodeById("customEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
                 });
@@ -155,11 +154,11 @@ public class BirthEventController implements Initializable, IContentPageControll
                     @Override
                     public void handle(DateCustomEvent dateCustomEvent) {
                         date = dateCustomEvent.getDate();
-                        birthDate.setText(date.toString());
+                        customDate.setText(date.toString());
 
                         CustomSceneHelper.getNodeById("createDatePage")
                                 .removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
-                        CustomSceneHelper.bringNodeToFront("BirthEvent", "Page");
+                        CustomSceneHelper.bringNodeToFront("CustomEvent", "Page");
                     }
                 });
     }
@@ -175,7 +174,7 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void setEventHandlers() {
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(
+        CustomSceneHelper.getNodeById("customEventPage").addEventFilter(
                 EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
                     @Override
                     public void handle(EventCustomEvent eventCustomEvent) {
@@ -184,7 +183,8 @@ public class BirthEventController implements Initializable, IContentPageControll
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        birthDate.setText(ev.getDate().toString());
+                        customName.setText(ev.getName());
+                        customDate.setText(ev.getDate().toString());
                         description.setText(ev.getDescription());
 
                         for (var entry : ev.getPeopleRelations().entrySet()) {
@@ -192,8 +192,8 @@ public class BirthEventController implements Initializable, IContentPageControll
                         }
 
                         for (var entry : ev.getSpecialPurposeFields().entrySet()) {
-                            if (entry.getKey() == "Maternity") {
-                                maternity.setText(entry.getValue());
+                            if (entry.getKey() == "Type of Custom Event") {
+                                typeOfCustom.setText(entry.getValue());
                             } else {
                                 table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                             }
@@ -280,12 +280,13 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
-        birthDate.clear();
+        customDate.clear();
         description.clear();
         fieldInput.clear();
-        maternity.clear();
+        customName.clear();
         nameInput.clear();
-        placeBirth.clear();
+        placeCustom.clear();
+        typeOfCustom.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();

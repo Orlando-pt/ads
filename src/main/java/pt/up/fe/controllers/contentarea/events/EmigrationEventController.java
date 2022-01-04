@@ -1,20 +1,11 @@
 package pt.up.fe.controllers.contentarea.events;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.UUID;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
@@ -28,13 +19,18 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
 
-public class BirthEventController implements Initializable, IContentPageController {
+import java.net.URL;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import java.util.UUID;
+
+public class EmigrationEventController implements Initializable, IContentPageController {
 
     @FXML
     private AnchorPane anchorPane;
 
     @FXML
-    private TextField birthDate;
+    private TextField emigrationDate;
 
     @FXML
     private TextArea description;
@@ -43,13 +39,19 @@ public class BirthEventController implements Initializable, IContentPageControll
     private TextField fieldInput;
 
     @FXML
-    private TextField maternity;
+    private TextField typeOfEmigration;
 
     @FXML
     private TextField nameInput;
 
     @FXML
-    private TextField placeBirth;
+    private TextField placeEmigration;
+
+    @FXML
+    private ComboBox<String> pushFactorsCombo;
+
+    @FXML
+    private ComboBox<String> pullFactorsCombo;
 
     @FXML
     private TextField relationshipInput;
@@ -95,17 +97,19 @@ public class BirthEventController implements Initializable, IContentPageControll
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event birthEvent = new EventFacade().createBirthEvent(
-                this.maternity.getText(),
-                this.placeBirth.getText(),
+        Event emigrationEvent = new EventFacade().createEmigrationEvent(
+                this.typeOfEmigration.getText(),
+                this.placeEmigration.getText(),
                 this.date,
+                this.pushFactorsCombo.getValue(),
+                this.pullFactorsCombo.getValue(),
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
                 editId
         );
 
-        System.out.println(birthEvent.toString());
+        System.out.println(emigrationEvent.toString());
     }
 
     @FXML
@@ -132,15 +136,15 @@ public class BirthEventController implements Initializable, IContentPageControll
         CustomSceneHelper.getNodeById("listPersonsPage")
                 .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
         CustomSceneHelper.getNodeById("listPersonsPage")
-                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "birthEventPage"));
+                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "emigrationEventPage"));
 
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(PersonCustomEvent.PERSON,
+        CustomSceneHelper.getNodeById("emigrationEventPage").addEventFilter(PersonCustomEvent.PERSON,
                 new PersonCustomEventHandler(this.handleRelation(btnName)) {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
-                        CustomSceneHelper.getNodeById("birthEventPage")
+                        CustomSceneHelper.getNodeById("emigrationEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
                 });
@@ -155,17 +159,64 @@ public class BirthEventController implements Initializable, IContentPageControll
                     @Override
                     public void handle(DateCustomEvent dateCustomEvent) {
                         date = dateCustomEvent.getDate();
-                        birthDate.setText(date.toString());
+                        emigrationDate.setText(date.toString());
 
                         CustomSceneHelper.getNodeById("createDatePage")
                                 .removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
-                        CustomSceneHelper.bringNodeToFront("BirthEvent", "Page");
+                        CustomSceneHelper.bringNodeToFront("EmigrationEvent", "Page");
                     }
                 });
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
+        // Initialize Push Factors combo
+        pushFactorsCombo.getItems().clear();
+        pushFactorsCombo.getItems().addAll(
+                "Poor living conditions",
+                "Lack of employment or entrepreneurial opportunities",
+                "Lack of educational opportunities",
+                "Lack of political or religious rights",
+                "Threat of arrest or punishment",
+                "Persecution or intolerance based on race, religion, gender or sexual orientation",
+                "Inability to find a spouse for marriage",
+                "Lack of freedom to choose religion, or to choose no religion",
+                "Shortage of farmland; hard to start new farms (historically)",
+                "Oppressive legal or political conditions",
+                "Struggling or Failing economy",
+                "Military draft, warfare or terrorism",
+                "Famine or drought",
+                "Cultural fights with other cultural groups",
+                "Expulsion by armed force or coercion",
+                "Overcrowding",
+                "Unknown"
+        );
+
+        // Initialize Push Factors combo
+        pullFactorsCombo.getItems().clear();
+        pullFactorsCombo.getItems().addAll(
+                "Better living conditions",
+                "Favourable letters relatives or informants who have already moved; chain migration",
+                "Better opportunities for acquiring farms for self and children",
+                "Cheap purchase of farmland",
+                "Quick wealth (as in a gold rush)",
+                "More job opportunities",
+                "Promise of higher pay",
+                "Prepaid travel (as from relatives)",
+                "Better welfare programmes",
+                "Better schools",
+                "Join relatives who have already moved; chain migration",
+                "Building a new nation (historically)",
+                "Building specific cultural or religious communities",
+                "Political freedom",
+                "Cultural opportunities",
+                "Greater opportunity to find a spouse",
+                "Favorable climate",
+                "Easygoing to across the boundaries",
+                "Reduced tariff",
+                "Unknown"
+        );
+
         this.initTables();
 
         if(this.editMode == false) {
@@ -175,7 +226,7 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void setEventHandlers() {
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(
+        CustomSceneHelper.getNodeById("emigrationEventPage").addEventFilter(
                 EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
                     @Override
                     public void handle(EventCustomEvent eventCustomEvent) {
@@ -184,7 +235,7 @@ public class BirthEventController implements Initializable, IContentPageControll
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        birthDate.setText(ev.getDate().toString());
+                        emigrationDate.setText(ev.getDate().toString());
                         description.setText(ev.getDescription());
 
                         for (var entry : ev.getPeopleRelations().entrySet()) {
@@ -192,8 +243,12 @@ public class BirthEventController implements Initializable, IContentPageControll
                         }
 
                         for (var entry : ev.getSpecialPurposeFields().entrySet()) {
-                            if (entry.getKey() == "Maternity") {
-                                maternity.setText(entry.getValue());
+                            if (entry.getKey() == "Type of Emigration") {
+                                typeOfEmigration.setText(entry.getValue());
+                            } else if (entry.getKey() == "Push factor") {
+                                pushFactorsCombo.getSelectionModel().select(entry.getValue());
+                            } else if (entry.getKey() == "Pull factor") {
+                                pullFactorsCombo.getSelectionModel().select(entry.getValue());
                             } else {
                                 table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                             }
@@ -273,6 +328,9 @@ public class BirthEventController implements Initializable, IContentPageControll
             if (node instanceof TextArea) {
                 ((TextArea)node).setEditable(false);
             }
+            if(node instanceof ComboBox) {
+                ((ComboBox)node).setOnShown(event -> ((ComboBox)node).hide());
+            }
         }
 
         mainButton.setVisible(false);
@@ -280,15 +338,17 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
-        birthDate.clear();
+        emigrationDate.clear();
         description.clear();
         fieldInput.clear();
-        maternity.clear();
+        typeOfEmigration.clear();
         nameInput.clear();
-        placeBirth.clear();
+        placeEmigration.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
+        pushFactorsCombo.getItems().clear();
+        pullFactorsCombo.getItems().clear();
         date = null;
         inCreateMode = true;
         editId = null;

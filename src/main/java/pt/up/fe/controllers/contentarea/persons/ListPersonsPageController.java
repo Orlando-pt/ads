@@ -127,6 +127,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
           .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
       CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
     }
+
   }
 
   private void filterPersons() {

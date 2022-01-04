@@ -28,6 +28,12 @@
       <fx:include fx:id="eventsPage" source="../contentarea/events/EventsPage.fxml" />
       <fx:include fx:id="createEventPage" source="../contentarea/events/CreateEventPage.fxml" />
       <fx:include fx:id="birthEventPage" source="../contentarea/events/BirthEventPage.fxml" />
+      <fx:include fx:id="deathEventPage" source="../contentarea/events/DeathEventPage.fxml" />
+      <fx:include fx:id="emigrationEventPage" source="../contentarea/events/EmigrationEventPage.fxml" />
+      <fx:include fx:id="marriageEventPage" source="../contentarea/events/MarriageEventPage.fxml" />
+      <fx:include fx:id="residenceEventPage" source="../contentarea/events/ResidenceEventPage.fxml" />
+      <fx:include fx:id="customEventPage" source="../contentarea/events/CustomEventPage.fxml" />
+      <fx:include fx:id="listEventsPage" source="../contentarea/events/ListEventsPage.fxml" />
 
       <fx:include fx:id="createDatePage" source="../contentarea/CreateDatePage.fxml" />
 

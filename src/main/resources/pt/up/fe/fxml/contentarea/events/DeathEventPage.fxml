@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane id="deathEventPage" fx:id="deathEventPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.DeathEventController">
+    <content>
+        <AnchorPane fx:id="anchorPane" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
+            <children>
+                <Label layoutX="261.0" layoutY="14.0" prefHeight="20.0" prefWidth="85.0" text="Death Event" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Separator layoutY="44.0" prefHeight="2.0" prefWidth="650.0" />
+                <TextField fx:id="typeOfDeath" layoutX="57.0" layoutY="111.0" prefHeight="25.0" prefWidth="538.0" />
+                <Label layoutX="57.0" layoutY="85.0" text="Type of Death" textFill="WHITE" />
+                <TextField fx:id="placeDeath" layoutX="57.0" layoutY="180.0" prefHeight="25.0" prefWidth="538.0" />
+                <Label layoutX="57.0" layoutY="154.0" text="Place of Death" textFill="WHITE" />
+                <Label layoutX="57.0" layoutY="219.0" text="Date of Death" textFill="WHITE" />
+                <Label layoutX="57.0" layoutY="312.0" text="Persons" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Button layoutX="467.0" layoutY="368.0" mnemonicParsing="false" onAction="#addPerson" text="Add Custom Person" />
+                <TableView fx:id="table_persons" layoutX="57.0" layoutY="420.0" prefHeight="200.0" prefWidth="538.0">
+                    <columns>
+                        <TableColumn fx:id="col_relationship" prefWidth="271.0" text="Relationship" />
+                        <TableColumn fx:id="col_person_name" prefWidth="266.0" text="Name" />
+                    </columns>
+                </TableView>
+                <TextArea fx:id="description" layoutX="57.0" layoutY="1015.0" prefHeight="139.0" prefWidth="538.0" />
+                <Label layoutX="57.0" layoutY="667.0" text="Fields" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="table_fields" layoutX="55.0" layoutY="764.0" prefHeight="200.0" prefWidth="538.0">
+                    <columns>
+                        <TableColumn fx:id="col_field" prefWidth="271.0" text="Field" />
+                        <TableColumn fx:id="col_name" prefWidth="266.0" text="Name" />
+                    </columns>
+                </TableView>
+                <Label layoutX="57.0" layoutY="986.0" text="Description" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Button fx:id="mainButton" layoutX="285.0" layoutY="1190.0" mnemonicParsing="false" onAction="#createEvent" text="Create">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <TextField fx:id="relationshipInput" layoutX="57.0" layoutY="368.0" prefHeight="25.0" prefWidth="399.0" promptText="Relationship" />
+                <Button layoutX="467.0" layoutY="713.0" mnemonicParsing="false" onAction="#addCustomField" prefHeight="25.0" prefWidth="123.0" text="Add Custom Field" />
+                <TextField fx:id="fieldInput" layoutX="55.0" layoutY="713.0" prefHeight="25.0" prefWidth="200.0" promptText="Field" />
+                <TextField fx:id="nameInput" layoutX="261.0" layoutY="713.0" prefHeight="25.0" prefWidth="200.0" promptText="Name" />
+                <Button layoutX="504.0" layoutY="244.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+                <TextField fx:id="deathDate" disable="true" layoutX="55.0" layoutY="244.0" opacity="0.81" prefHeight="26.0" prefWidth="436.0" />
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>
