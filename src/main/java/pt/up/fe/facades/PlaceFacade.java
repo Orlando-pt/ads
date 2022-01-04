@@ -34,7 +34,9 @@ public class PlaceFacade {
 
     place.setName(placeDTO.getName());
     place.setDescription(placeDTO.getDescription());
-    place.setSource(placeDTO.getSource());
+    if (placeDTO.getSource() != null) {
+      place.setSource(placeDTO.getSource());
+    }
     place.setAltitude(placeDTO.getAltitude());
     place.setLongitude(placeDTO.getLongitude());
     place.setLatitude(placeDTO.getLatitude());
@@ -82,7 +84,6 @@ public class PlaceFacade {
 
   public static Place editPlace(Place place, PlaceDTO placeDTO) {
     Place placeEdited = setPlaceProperties(place, placeDTO);
-
     return placeEdited;
   }
 

@@ -2,7 +2,6 @@ package pt.up.fe.controllers.contentarea.persons;
 
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,8 +23,10 @@ import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.events.EventTableDTO;
+import pt.up.fe.dtos.persons.PersonDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.events.Event;
+import pt.up.fe.facades.PersonFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.EventCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
@@ -112,9 +113,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   private Person selectedPerson;
 
-  private Map<String, Person> parents;
-
-  private boolean editMode = false;
+  private boolean editMode = true;
 
   ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
 
@@ -191,7 +190,8 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
     eventsTableList.clear();
     selectedPerson.getEvents().forEach(event -> {
-      eventsTableList.add(new EventTableDTO(event.getName(), event.getPlace(), event.getDate(), event.getDescription(), event));
+      eventsTableList.add(new EventTableDTO(event.getName(), event.getPlace(), event.getDate(),
+          event.getDescription(), event));
     });
 
     changePageMode();
@@ -228,19 +228,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   }
 
   @FXML
-  private void seeParent(MouseEvent event) {
-    Button button = (Button) event.getSource();
-    String parentText = button.getId().substring(0, 6);
-    parentText = parentText.substring(0, 1).toUpperCase() + parentText.substring(1);
-    if (parents.containsKey(parentText)) {
-      Person parent = parents.get(parentText);
-      clearPage();
-      this.selectedPerson = parent;
-      setInfo();
-    }
-  }
-
-  @FXML
   private void selectChild(MouseEvent event) {
     if (event.getClickCount() == 2) {
       Person selection = childrenTable.getSelectionModel().getSelectedItem().getPerson();
@@ -256,11 +243,11 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       Event curEvent = eventsTable.getSelectionModel().getSelectedItem().getCurEvent();
       String eventName = curEvent.getClass().getSimpleName();
       eventName = eventName.substring(0, 1).toLowerCase() + eventName.substring(1);
-    if (!curEvent.getClass().getSimpleName().contains("Event")){
-        eventName+="Event";
+      if (!curEvent.getClass().getSimpleName().contains("Event")) {
+        eventName += "Event";
       }
       CustomSceneHelper.getNodeById(eventName + "Page")
-          .fireEvent(new EventCustomEvent(EventCustomEvent.EVENT,curEvent));
+          .fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
       CustomSceneHelper.bringNodeToFront(eventName + "Page", "Page");
       clearPage();
 
@@ -303,7 +290,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   public void clearPage() {
     this.selectedPerson = null;
     this.selectedSource = null;
-    this.parents = null;
     descriptionInput.clear();
     firstNameInput.clear();
     middleNameInput.clear();
@@ -318,11 +304,24 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   public void save() throws IllegalAccessException {
     if (editMode) {
+      PersonDTO personDTO = new PersonDTO();
+      personDTO.setFirstName(firstNameInput.getText());
+      personDTO.setMiddleName(middleNameInput.getText());
+      personDTO.setLastName(lastNameInput.getText());
+      personDTO.setDescription(descriptionInput.getText());
 
-    } else {
-      this.clearPage();
-      CustomSceneHelper.contentAreaPaneController.cleanAll();
-      CustomSceneHelper.bringNodeToFront("listPersons", "Page");
+      personDTO.setGender(Gender.valueOf(genderInput.getSelectionModel().getSelectedIndex() + 1));
+
+      if (selectedSource != null) {
+        personDTO.setSource(selectedSource);
+      }
+
+      PersonFacade.editPerson(selectedPerson, personDTO);
+
     }
+    this.clearPage();
+    CustomSceneHelper.contentAreaPaneController.cleanAll();
+    CustomSceneHelper.bringNodeToFront("listPersons", "Page");
+
   }
 }

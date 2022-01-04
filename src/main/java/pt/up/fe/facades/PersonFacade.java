@@ -8,17 +8,25 @@ import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonDTO;
 import pt.up.fe.person.Person;
 
+
 public class PersonFacade {
 
   public static Person createPerson(PersonDTO personDTO) {
     Person person = new Person();
+    person = setPersonProperties(person, personDTO);
+    Main.peopleList.add(person);
+    return person;
+  }
+
+  private static Person setPersonProperties(Person person, PersonDTO personDTO) {
     person.setName(personDTO.getFirstName());
     person.setMiddleName(personDTO.getMiddleName());
     person.setLastName(personDTO.getLastName());
     person.setGender(personDTO.getGender());
-    person.setSource(personDTO.getSource());
+    if (personDTO.getSource() != null) {
+      person.setSource(personDTO.getSource());
+    }
     person.setDescription((personDTO.getDescription()));
-    Main.peopleList.add(person);
     return person;
   }
 
@@ -42,6 +50,11 @@ public class PersonFacade {
 
     return result;
 
+  }
+
+  public static Person editPerson(Person person, PersonDTO personDTO) {
+    Person personEdited = setPersonProperties(person, personDTO);
+    return personEdited;
   }
 
 }
