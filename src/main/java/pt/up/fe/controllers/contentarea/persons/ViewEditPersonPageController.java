@@ -21,15 +21,20 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.controllers.contentarea.IContentPageController;
+import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
+import pt.up.fe.dtos.events.EventTableDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
+import pt.up.fe.events.Event;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.events.EventCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.person.Gender;
 import pt.up.fe.person.Person;
+import pt.up.fe.places.Place;
 import pt.up.fe.sources.Source;
 
 public class ViewEditPersonPageController implements Initializable, IContentPageController {
@@ -45,12 +50,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   @FXML
   private Button saveButton;
-
-  @FXML
-  private Button motherButton;
-
-  @FXML
-  private Button fatherButton;
 
   @FXML
   private TextField firstNameInput;
@@ -94,16 +93,32 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   @FXML
   private TableView<PersonTableDTO> childrenTable;
 
+  @FXML
+  private TableColumn<EventTableDTO, String> eventColumnEvent;
+
+  @FXML
+  private TableColumn<EventTableDTO, Place> eventColumnPlace;
+
+  @FXML
+  private TableColumn<EventTableDTO, IDate> eventColumnDate;
+
+  @FXML
+  private TableColumn<EventTableDTO, String> eventColumnDescription;
+
+  @FXML
+  private TableView<EventTableDTO> eventsTable;
+
   private Source selectedSource;
 
   private Person selectedPerson;
 
   private Map<String, Person> parents;
 
-  private boolean editMode = true;
+  private boolean editMode = false;
 
   ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
 
+  ObservableList<EventTableDTO> eventsTableList = FXCollections.observableArrayList();
 
   @FXML
   public void initialize(URL url, ResourceBundle resources) {
@@ -116,6 +131,11 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     childrenColumnChildren.setCellValueFactory(new PropertyValueFactory<>("children"));
     childrenColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
     childrenTable.setItems(childrenTableList);
+    eventColumnEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
+    eventColumnPlace.setCellValueFactory(new PropertyValueFactory<>("place"));
+    eventColumnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+    eventColumnDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+    eventsTable.setItems(eventsTableList);
   }
 
 
@@ -162,25 +182,16 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       }
     }
 
-    parents = selectedPerson.getParents();
-
-    if (parents.containsKey("Mother")) {
-      motherButton.setText(parents.get("Mother").getName());
-    } else {
-      motherButton.setText("No Mother");
-    }
-
-    if (parents.containsKey("Father")) {
-      fatherButton.setText(parents.get("Father").getName());
-    } else {
-      fatherButton.setText("No Father");
-    }
-
     childrenTableList.clear();
     selectedPerson.getChildren().forEach(person -> {
       childrenTableList.add(
           new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
               person.getGender(), new SimpleDate(), person.getChildren().size(), person));
+    });
+
+    eventsTableList.clear();
+    selectedPerson.getEvents().forEach(event -> {
+      eventsTableList.add(new EventTableDTO(event.getName(), event.getPlace(), event.getDate(), event.getDescription(), event));
     });
 
     changePageMode();
@@ -239,6 +250,23 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     }
   }
 
+  @FXML
+  private void selectEvent(MouseEvent event) {
+    if (event.getClickCount() == 2) {
+      Event curEvent = eventsTable.getSelectionModel().getSelectedItem().getCurEvent();
+      String eventName = curEvent.getClass().getSimpleName();
+      eventName = eventName.substring(0, 1).toLowerCase() + eventName.substring(1);
+    if (!curEvent.getClass().getSimpleName().contains("Event")){
+        eventName+="Event";
+      }
+      CustomSceneHelper.getNodeById(eventName + "Page")
+          .fireEvent(new EventCustomEvent(EventCustomEvent.EVENT,curEvent));
+      CustomSceneHelper.bringNodeToFront(eventName + "Page", "Page");
+      clearPage();
+
+    }
+  }
+
 
   private void changePageMode() {
     if (editMode) {
@@ -284,6 +312,8 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     source_radio.selectToggle(noSource);
     setButtonsInvisible();
     descriptionInput.clear();
+    childrenTableList.clear();
+    eventsTableList.clear();
   }
 
   public void save() throws IllegalAccessException {

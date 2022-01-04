@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -17,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="viewEditPersonPage" fx:id="viewEditPersonPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController">
+<ScrollPane id="viewEditPersonPage" fx:id="viewEditPersonPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" vvalue="1.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController">
   <content>
     <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
       <children>
@@ -65,19 +64,18 @@
         <RadioButton fx:id="newSource" layoutX="465.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" text="New Source" textFill="WHITE" toggleGroup="$source_radio" />
         <Button fx:id="selectSourceButton" layoutX="283.0" layoutY="398.0" mnemonicParsing="false" onMouseClicked="#selectSource" text="Select Source" />
         <Button fx:id="newSourceButton" layoutX="456.0" layoutY="398.0" mnemonicParsing="false" onMouseClicked="#addSource" text="Create New Source" />
-        <Button fx:id="saveButton" layoutX="296.0" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
-        <Label layoutX="290.0" layoutY="720.0" text="Events" textFill="WHITE">
+        <Button fx:id="saveButton" layoutX="296.0" layoutY="814.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
+        <Label layoutX="290.0" layoutY="628.0" text="Events" textFill="WHITE">
           <font>
             <Font size="20.0" />
           </font>
         </Label>
-        <ListView layoutX="61.0" layoutY="749.0" prefHeight="137.0" prefWidth="514.0" />
-        <Label layoutX="283.0" layoutY="541.0" text="Children" textFill="WHITE">
+        <Label layoutX="283.0" layoutY="449.0" text="Children" textFill="WHITE">
           <font>
             <Font size="20.0" />
           </font>
         </Label>
-        <TableView onMouseClicked="#selectChild" fx:id="childrenTable" layoutX="65.0" layoutY="577.0" prefHeight="138.0" prefWidth="510.0">
+        <TableView fx:id="childrenTable" layoutX="65.0" layoutY="485.0" onMouseClicked="#selectChild" prefHeight="138.0" prefWidth="510.0">
           <columns>
             <TableColumn fx:id="childrenColumnFirstName" prefWidth="91.0" text="First Name" />
             <TableColumn fx:id="childrenColumnMiddleName" prefWidth="91" text="Middle Name" />
@@ -87,23 +85,14 @@
             <TableColumn fx:id="childrenColumnChildren" prefWidth="55.0" text="Children" />
           </columns>
         </TableView>
-        <Button fx:id="fatherButton" layoutX="152.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#seeParent" prefHeight="26.0" prefWidth="100.0" text="Father" />
-        <Button fx:id="motherButton" layoutX="396.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#seeParent" prefHeight="26.0" prefWidth="106.0" text="Mother" />
-            <Label layoutX="286.0" layoutY="440.0" text="Parents" textFill="WHITE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="182.0" layoutY="474.0" text="Father" textFill="WHITE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label layoutX="426.0" layoutY="474.0" text="Mother" textFill="WHITE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
+        <TableView fx:id="eventsTable" layoutX="61.0" layoutY="657.0" onMouseClicked="#selectEvent" prefHeight="138.0" prefWidth="510.0">
+          <columns>
+            <TableColumn fx:id="eventColumnEvent" prefWidth="114.0" text="Event" />
+            <TableColumn fx:id="eventColumnPlace" prefWidth="110.0" text="Place" />
+            <TableColumn fx:id="eventColumnDate" prefWidth="125.0" text="Date" />
+            <TableColumn fx:id="eventColumnDescription" prefWidth="256.0" text="Description" />
+          </columns>
+        </TableView>
             <TextField fx:id="middleNameInput" layoutX="70.0" layoutY="187.0" prefHeight="35.0" prefWidth="200.0" />
             <Label layoutX="68.0" layoutY="161.0" text="Middle Name" textFill="WHITE">
                <font>
