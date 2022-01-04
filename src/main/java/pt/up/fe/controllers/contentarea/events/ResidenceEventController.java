@@ -1,20 +1,11 @@
 package pt.up.fe.controllers.contentarea.events;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.UUID;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
@@ -28,13 +19,18 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
 
-public class BirthEventController implements Initializable, IContentPageController {
+import java.net.URL;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import java.util.UUID;
+
+public class ResidenceEventController implements Initializable, IContentPageController {
 
     @FXML
     private AnchorPane anchorPane;
 
     @FXML
-    private TextField birthDate;
+    private TextField residenceDate;
 
     @FXML
     private TextArea description;
@@ -43,13 +39,16 @@ public class BirthEventController implements Initializable, IContentPageControll
     private TextField fieldInput;
 
     @FXML
-    private TextField maternity;
+    private TextField residenceName;
 
     @FXML
     private TextField nameInput;
 
     @FXML
-    private TextField placeBirth;
+    private TextField placeResidence;
+
+    @FXML
+    private ComboBox<String> typeOfPlace;
 
     @FXML
     private TextField relationshipInput;
@@ -95,17 +94,18 @@ public class BirthEventController implements Initializable, IContentPageControll
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event birthEvent = new EventFacade().createBirthEvent(
-                this.maternity.getText(),
-                this.placeBirth.getText(),
+        Event residenceEvent = new EventFacade().createResidenceEvent(
+                this.residenceName.getText(),
+                this.placeResidence.getText(),
                 this.date,
+                this.typeOfPlace.getValue(),
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
                 editId
         );
 
-        System.out.println(birthEvent.toString());
+        System.out.println(residenceEvent.toString());
     }
 
     @FXML
@@ -132,15 +132,15 @@ public class BirthEventController implements Initializable, IContentPageControll
         CustomSceneHelper.getNodeById("listPersonsPage")
                 .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
         CustomSceneHelper.getNodeById("listPersonsPage")
-                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "birthEventPage"));
+                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "residenceEventPage"));
 
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(PersonCustomEvent.PERSON,
+        CustomSceneHelper.getNodeById("residenceEventPage").addEventFilter(PersonCustomEvent.PERSON,
                 new PersonCustomEventHandler(this.handleRelation(btnName)) {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
-                        CustomSceneHelper.getNodeById("birthEventPage")
+                        CustomSceneHelper.getNodeById("residenceEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
                 });
@@ -155,17 +155,29 @@ public class BirthEventController implements Initializable, IContentPageControll
                     @Override
                     public void handle(DateCustomEvent dateCustomEvent) {
                         date = dateCustomEvent.getDate();
-                        birthDate.setText(date.toString());
+                        residenceDate.setText(date.toString());
 
                         CustomSceneHelper.getNodeById("createDatePage")
                                 .removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
-                        CustomSceneHelper.bringNodeToFront("BirthEvent", "Page");
+                        CustomSceneHelper.bringNodeToFront("ResidenceEvent", "Page");
                     }
                 });
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
+        // Initialize Type of Marriage combo
+        typeOfPlace.getItems().clear();
+        typeOfPlace.getItems().addAll(
+                "Single Family Home",
+                "Duplex",
+                "Apartments",
+                "Town Home",
+                "Villa",
+                "Others",
+                "Unknown"
+        );
+
         this.initTables();
 
         if(this.editMode == false) {
@@ -175,7 +187,7 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void setEventHandlers() {
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(
+        CustomSceneHelper.getNodeById("residenceEventPage").addEventFilter(
                 EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
                     @Override
                     public void handle(EventCustomEvent eventCustomEvent) {
@@ -184,7 +196,7 @@ public class BirthEventController implements Initializable, IContentPageControll
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        birthDate.setText(ev.getDate().toString());
+                        residenceDate.setText(ev.getDate().toString());
                         description.setText(ev.getDescription());
 
                         for (var entry : ev.getPeopleRelations().entrySet()) {
@@ -192,8 +204,10 @@ public class BirthEventController implements Initializable, IContentPageControll
                         }
 
                         for (var entry : ev.getSpecialPurposeFields().entrySet()) {
-                            if (entry.getKey() == "Maternity") {
-                                maternity.setText(entry.getValue());
+                            if (entry.getKey() == "Residence Name") {
+                                residenceName.setText(entry.getValue());
+                            } else if (entry.getKey() == "Type Of Place") {
+                                typeOfPlace.getSelectionModel().select(entry.getValue());
                             } else {
                                 table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                             }
@@ -273,6 +287,9 @@ public class BirthEventController implements Initializable, IContentPageControll
             if (node instanceof TextArea) {
                 ((TextArea)node).setEditable(false);
             }
+            if(node instanceof ComboBox) {
+                ((ComboBox)node).setOnShown(event -> ((ComboBox)node).hide());
+            }
         }
 
         mainButton.setVisible(false);
@@ -280,15 +297,16 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
-        birthDate.clear();
+        residenceDate.clear();
         description.clear();
         fieldInput.clear();
-        maternity.clear();
+        residenceName.clear();
         nameInput.clear();
-        placeBirth.clear();
+        placeResidence.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
+        typeOfPlace.getItems().clear();
         date = null;
         inCreateMode = true;
         editId = null;
