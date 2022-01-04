@@ -2,6 +2,7 @@ package pt.up.fe.queries;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.json.JSONObject;
@@ -9,15 +10,23 @@ import org.json.JSONObject;
 import pt.up.fe.person.Person;
 
 public class FilterPersonByNameQuery implements QueryCommand{
-    
+
     private QueryResultPersonList resultReceiver;
     private SpecifiedPersonAttributes specifiedFields;
     private List<Person> personList;
+
+    private Predicate<Person> firstNameFilter;
+    private Predicate<Person> middleNameFilter;
+    private Predicate<Person> lastNameFilter;
 
     public FilterPersonByNameQuery(QueryResultPersonList receiver, SpecifiedPersonAttributes specifiedFields, List<Person> personList) {
         this.resultReceiver = receiver;
         this.specifiedFields = specifiedFields;
         this.personList = personList;
+
+        this.firstNameFilter = this.createFirstNameFilter();
+        this.middleNameFilter = this.createMiddleNameFilter();
+        this.lastNameFilter = this.createLastNameFilter();
     }
 
     @Override
@@ -29,68 +38,70 @@ public class FilterPersonByNameQuery implements QueryCommand{
     public void setPersonList(List<Person> personList) {
         this.personList = personList;
     }
+
+    @Override
     public void execute() {
-        List<Person> tempPersonsList = this.personList;
 
-        // filter persons by name attribute
-        if (this.specifiedFields.getName() != null)
-            tempPersonsList = this.filterByFirstName(tempPersonsList, this.specifiedFields.getName());
-
-        if (this.specifiedFields.getMiddleName() != null)
-            tempPersonsList = this.filterByMiddleName(tempPersonsList, this.specifiedFields.getMiddleName());
-
-        if (this.specifiedFields.getLastName() != null)
-            tempPersonsList = this.filterByLastName(tempPersonsList, this.specifiedFields.getLastName());
-
-        this.resultReceiver.addAllPersons(tempPersonsList);
+        this.resultReceiver.addAllPersons(
+            this.personList.stream().filter(
+                this.firstNameFilter.and(this.middleNameFilter.and(this.lastNameFilter))
+            ).collect(Collectors.toList())
+        );
     }
 
-    private List<Person> filterByFirstName(
-        List<Person> currentPersonList,
-        NameAttribute nameAttr
-    ) {
-        return currentPersonList.stream().filter(
-            person -> {
+    private Predicate<Person> createFirstNameFilter() {
+        return new Predicate<Person>() {
+
+            @Override
+            public boolean test(Person person) {
+                if (specifiedFields.getName() == null || specifiedFields.getName().getName().isBlank())
+                    return true;
+
                 if (person.getName() != null) {
-                    if (nameAttr.getExact()) return person.getName().equals(nameAttr.getName());
-                    else return person.getName().contains(nameAttr.getName());
-                } else {
-                    return false;
+                    if (specifiedFields.getName().getExact()) return person.getName().equals(specifiedFields.getName().getName());
+                    else return person.getName().toLowerCase().contains(specifiedFields.getName().getName().toLowerCase());
                 }
+
+                return false;
             }
-        ).collect(Collectors.toList());
+
+        };
     }
 
-    private List<Person> filterByMiddleName(
-        List<Person> currentPersonList,
-        NameAttribute nameAttr
-    ) {
-        return currentPersonList.stream().filter(
-            person -> {
+    private Predicate<Person> createMiddleNameFilter() {
+        return new Predicate<Person>() {
+
+            @Override
+            public boolean test(Person person) {
+                if(specifiedFields.getMiddleName() == null || specifiedFields.getMiddleName().getName().isBlank())
+                    return true;
+
                 if (person.getMiddleName() != null) {
-                    if (nameAttr.getExact()) return person.getMiddleName().equals(nameAttr.getName());
-                    else return person.getMiddleName().contains(nameAttr.getName());
-                } else {
-                    return false;
+                    if (specifiedFields.getMiddleName().getExact()) return person.getMiddleName().equals(specifiedFields.getMiddleName().getName());
+                    else return person.getMiddleName().toLowerCase().contains(specifiedFields.getMiddleName().getName().toLowerCase());
                 }
+
+                return false;
             }
-        ).collect(Collectors.toList());
+        };
     }
 
-    private List<Person> filterByLastName(
-        List<Person> currentPersonList,
-        NameAttribute nameAttr
-    ) {
-        return currentPersonList.stream().filter(
-            person -> {
+    private Predicate<Person> createLastNameFilter() {
+        return new Predicate<Person>() {
+
+            @Override
+            public boolean test(Person person) {
+                if (specifiedFields.getLastName() == null || specifiedFields.getLastName().getName().isBlank())
+                    return true;
+
                 if (person.getLastName() != null) {
-                    if (nameAttr.getExact()) return person.getLastName().equals(nameAttr.getName());
-                    else return person.getLastName().contains(nameAttr.getName());
-                } else {
-                    return false;
+                    if (specifiedFields.getLastName().getExact()) return person.getLastName().equals(specifiedFields.getLastName().getName());
+                    else return person.getLastName().toLowerCase().contains(specifiedFields.getLastName().getName().toLowerCase());
                 }
+
+                return false;
             }
-        ).collect(Collectors.toList());
+        };
     }
 
     @Override
