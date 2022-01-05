@@ -31,11 +31,6 @@ public class PersonFacade {
     return person;
   }
 
-  public static Person addEventToPerson(Person person, Event event) {
-    person.addEvent(event);
-    return person;
-  }
-
   public static List<Person> filterPersons(FilterPersonsDTO filterPersonsDTO) {
 
     Predicate<Person> byFirstName = person -> filterPersonsDTO.getFirstName().isEmpty()
