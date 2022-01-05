@@ -44,6 +44,9 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   private Button selectSourceButton;
 
   @FXML
+  private Button addEvent;
+
+  @FXML
   private Button newSourceButton;
 
   @FXML
@@ -113,7 +116,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   private Person selectedPerson;
 
-  private boolean editMode = true;
+  private boolean editMode = false;
 
   ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
 
@@ -146,6 +149,20 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
           public void handle(PersonCustomEvent personCustomEvent) {
             selectedPerson = personCustomEvent.getPerson();
             setInfo();
+          }
+        });
+
+    CustomSceneHelper.getNodeById("viewEditPersonPage").addEventFilter(
+        EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
+          @Override
+          public void handle(EventCustomEvent eventCustomEvent) {
+            Event event = eventCustomEvent.getEvent();
+            PersonFacade.addEventToPerson(selectedPerson, event);
+
+            eventsTableList.add(
+                new EventTableDTO(event.getName(), event.getPlace(), event.getDate(),
+                    event.getDescription(), event));
+
           }
         });
 
@@ -254,6 +271,14 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     }
   }
 
+  @FXML
+  private void addEvent(MouseEvent event) {
+    if (editMode) {
+      CustomSceneHelper.getNodeById("createEventPage")
+          .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, selectedPerson));
+    }
+  }
+
 
   private void changePageMode() {
     if (editMode) {
@@ -267,12 +292,14 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
         node.setDisable(false);
       });
       saveButton.setText("Save");
+      addEvent.setVisible(true);
     } else {
       descriptionInput.setEditable(false);
       firstNameInput.setEditable(false);
       middleNameInput.setEditable(false);
       lastNameInput.setEditable(false);
       genderInput.setDisable(true);
+      addEvent.setVisible(false);
       source_radio.getToggles().forEach(toggle -> {
         Node node = (Node) toggle;
         node.setDisable(true);

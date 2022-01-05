@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import pt.up.fe.Main;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonDTO;
+import pt.up.fe.events.Event;
 import pt.up.fe.person.Person;
 
 
@@ -27,6 +28,11 @@ public class PersonFacade {
       person.setSource(personDTO.getSource());
     }
     person.setDescription((personDTO.getDescription()));
+    return person;
+  }
+
+  public static Person addEventToPerson(Person person, Event event) {
+    person.addEvent(event);
     return person;
   }
 

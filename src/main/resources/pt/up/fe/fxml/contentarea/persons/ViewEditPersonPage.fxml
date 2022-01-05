@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="viewEditPersonPage" fx:id="viewEditPersonPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" vvalue="1.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController">
+<ScrollPane id="viewEditPersonPage" fx:id="viewEditPersonPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController">
   <content>
     <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
       <children>
@@ -65,17 +65,17 @@
         <Button fx:id="selectSourceButton" layoutX="283.0" layoutY="398.0" mnemonicParsing="false" onMouseClicked="#selectSource" text="Select Source" />
         <Button fx:id="newSourceButton" layoutX="456.0" layoutY="398.0" mnemonicParsing="false" onMouseClicked="#addSource" text="Create New Source" />
         <Button fx:id="saveButton" layoutX="296.0" layoutY="814.0" mnemonicParsing="false" onMouseClicked="#save" text="Save" />
-        <Label layoutX="290.0" layoutY="628.0" text="Events" textFill="WHITE">
+        <Label layoutX="290.0" layoutY="638.0" text="Events" textFill="WHITE">
           <font>
             <Font size="20.0" />
           </font>
         </Label>
-        <Label layoutX="283.0" layoutY="449.0" text="Children" textFill="WHITE">
+        <Label layoutX="283.0" layoutY="429.0" text="Children" textFill="WHITE">
           <font>
             <Font size="20.0" />
           </font>
         </Label>
-        <TableView fx:id="childrenTable" layoutX="65.0" layoutY="485.0" onMouseClicked="#selectChild" prefHeight="138.0" prefWidth="510.0">
+        <TableView fx:id="childrenTable" layoutX="65.0" layoutY="465.0" onMouseClicked="#selectChild" prefHeight="138.0" prefWidth="510.0">
           <columns>
             <TableColumn fx:id="childrenColumnFirstName" prefWidth="91.0" text="First Name" />
             <TableColumn fx:id="childrenColumnMiddleName" prefWidth="91" text="Middle Name" />
@@ -85,7 +85,7 @@
             <TableColumn fx:id="childrenColumnChildren" prefWidth="55.0" text="Children" />
           </columns>
         </TableView>
-        <TableView fx:id="eventsTable" layoutX="61.0" layoutY="657.0" onMouseClicked="#selectEvent" prefHeight="138.0" prefWidth="510.0">
+        <TableView fx:id="eventsTable" layoutX="61.0" layoutY="667.0" onMouseClicked="#selectEvent" prefHeight="138.0" prefWidth="510.0">
           <columns>
             <TableColumn fx:id="eventColumnEvent" prefWidth="114.0" text="Event" />
             <TableColumn fx:id="eventColumnPlace" prefWidth="110.0" text="Place" />
@@ -105,6 +105,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <Button fx:id="addEvent" layoutX="65.0" layoutY="632.0" mnemonicParsing="false" onMouseClicked="#addEvent" text="Add Event" />
       </children>
     </AnchorPane>
   </content>
