@@ -89,6 +89,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         );
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
+        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         System.out.println(residenceEvent.toString());
     }
 

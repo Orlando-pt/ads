@@ -159,6 +159,8 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
             Event event = eventCustomEvent.getEvent();
             PersonFacade.addEventToPerson(selectedPerson, event);
 
+            System.out.println(event.toString());
+
             eventsTableList.add(
                 new EventTableDTO(event.getName(), event.getPlace(), event.getDate(),
                     event.getDescription(), event));

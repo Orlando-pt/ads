@@ -105,6 +105,7 @@ public class DeathEventController implements Initializable, IContentPageControll
         );
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, deathEvent));
+        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         System.out.println(deathEvent.toString());
     }
 

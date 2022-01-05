@@ -113,6 +113,7 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         );
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
+        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         System.out.println(emigrationEvent.toString());
     }
 

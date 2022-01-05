@@ -109,6 +109,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
         );
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
+        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         System.out.println(marriageEvent.toString());
     }
 
