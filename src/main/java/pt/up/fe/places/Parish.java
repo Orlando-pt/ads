@@ -2,10 +2,21 @@ package pt.up.fe.places;
 
 public class Parish extends Place {
 
-  private Double area = 0d;
+  private Double area;
 
   public Parish(String name) {
     super(name);
+  }
+
+  public CompoundPlace toCompound(){
+    CompoundPlace copy = new CompoundPlace(this.getName());
+    copy.setSource(this.getSource());
+    copy.setAltitude(this.getAltitude());
+    copy.setLatitude(this.getLatitude());
+    copy.setLongitude(this.getLongitude());
+    copy.setDescription(this.getDescription());
+
+    return copy;
   }
 
   @Override

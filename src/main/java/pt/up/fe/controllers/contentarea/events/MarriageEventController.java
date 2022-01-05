@@ -80,7 +80,9 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     private UUID editId = null;
 
-    private boolean editMode = true;
+    private final boolean editMode = true;
+
+    private Person selectedPerson;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -102,9 +104,12 @@ public class MarriageEventController implements Initializable, IContentPageContr
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
-                editId
+                editId,
+                this.selectedPerson
         );
 
+        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
+        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         System.out.println(marriageEvent.toString());
     }
 
@@ -206,7 +211,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
         this.initTables();
 
-        if(this.editMode == false) {
+        if (this.editMode == false) {
             this.toggleViewMode();
         }
     }
@@ -243,6 +248,14 @@ public class MarriageEventController implements Initializable, IContentPageContr
                         date = ev.getDate();
 
                         mainButton.setText("Edit");
+                    }
+                });
+
+        CustomSceneHelper.getNodeById("marriageEventPage").addEventFilter(
+                PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
+                    @Override
+                    public void handle(PersonCustomEvent personCustomEvent) {
+                        selectedPerson = personCustomEvent.getPerson();
                     }
                 });
     }
@@ -305,16 +318,16 @@ public class MarriageEventController implements Initializable, IContentPageContr
     private void toggleViewMode() {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField)node).setEditable(false);
+                ((TextField) node).setEditable(false);
             }
-            if(node instanceof Button) {
+            if (node instanceof Button) {
                 node.setDisable(true);
             }
             if (node instanceof TextArea) {
-                ((TextArea)node).setEditable(false);
+                ((TextArea) node).setEditable(false);
             }
-            if(node instanceof ComboBox) {
-                ((ComboBox)node).setOnShown(event -> ((ComboBox)node).hide());
+            if (node instanceof ComboBox) {
+                ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
             }
         }
 

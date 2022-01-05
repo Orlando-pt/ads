@@ -12,6 +12,9 @@ import pt.up.fe.controllers.contentarea.persons.CreatePersonPageController;
 import pt.up.fe.controllers.contentarea.persons.ListPersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.PersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController;
+import pt.up.fe.controllers.contentarea.places.CreatePlacePageController;
+import pt.up.fe.controllers.contentarea.places.ListPlacesPageController;
+import pt.up.fe.controllers.contentarea.places.ViewEditPlacePageController;
 import pt.up.fe.controllers.contentarea.sources.CreateBookPageController;
 import pt.up.fe.controllers.contentarea.sources.CreateCustomSourcePageController;
 import pt.up.fe.controllers.contentarea.sources.CreateHistoricalRecordPageController;
@@ -86,6 +89,15 @@ public class ContentAreaPaneController implements Initializable {
 
   @FXML
   private CreateDateController createDatePageController;
+
+  @FXML
+  private CreatePlacePageController createPlacePageController;
+
+  @FXML
+  private ListPlacesPageController listPlacesPageController;
+
+  @FXML
+  private ViewEditPlacePageController viewEditPlacePageController;
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {

@@ -9,6 +9,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <AnchorPane id="createOrallyTransmittedPage" fx:id="createOrallyTransmittedPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.sources.CreateOrallyTransmittedPageController">
   <children>
     <Text fill="WHITE" layoutX="110.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Orally Transmitted">
@@ -52,5 +54,14 @@
     </Label>
     <Button layoutX="423.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
     <TextField fx:id="orallyTransmittedDate" disable="true" layoutX="347.0" layoutY="164.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
+    <RadioButton fx:id="noPlace" layoutX="66.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" selected="true" text="No Place" textFill="WHITE">
+      <toggleGroup>
+        <ToggleGroup fx:id="place_radio" />
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="selectPlace" layoutX="264.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="Existing Place" textFill="WHITE" toggleGroup="$place_radio" />
+    <RadioButton fx:id="newPlace" layoutX="460.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="New Place" textFill="WHITE" toggleGroup="$place_radio" />
+    <Button fx:id="selectPlaceButton" layoutX="278.0" layoutY="451.0" mnemonicParsing="false" onMouseClicked="#selectPlace" text="Select Place" />
+    <Button fx:id="newPlaceButton" layoutX="451.0" layoutY="451.0" mnemonicParsing="false" onMouseClicked="#addPlace" text="Create New Place" />
   </children>
 </AnchorPane>

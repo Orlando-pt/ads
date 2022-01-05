@@ -26,61 +26,43 @@ import java.util.UUID;
 
 public class ResidenceEventController implements Initializable, IContentPageController {
 
+    private final boolean editMode = true;
     @FXML
     private AnchorPane anchorPane;
-
     @FXML
     private TextField residenceDate;
-
     @FXML
     private TextArea description;
-
     @FXML
     private TextField fieldInput;
-
     @FXML
     private TextField residenceName;
-
     @FXML
     private TextField nameInput;
-
     @FXML
     private TextField placeResidence;
-
     @FXML
     private ComboBox<String> typeOfPlace;
-
     @FXML
     private TextField relationshipInput;
-
     @FXML
     private TableView<FieldDTO> table_fields;
-
     @FXML
     private TableColumn<FieldDTO, String> col_field;
-
     @FXML
     private TableColumn<FieldDTO, String> col_name;
-
     @FXML
     private TableView<PersonEventDTO> table_persons;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_relationship;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
-
     @FXML
     private Button mainButton;
-
     private IDate date;
-
     private Boolean inCreateMode = true;
-
     private UUID editId = null;
-
-    private boolean editMode = true;
+    private Person selectedPerson;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -102,9 +84,12 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
-                editId
+                editId,
+                this.selectedPerson
         );
 
+        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
+        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         System.out.println(residenceEvent.toString());
     }
 
@@ -180,7 +165,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
         this.initTables();
 
-        if(this.editMode == false) {
+        if (this.editMode == false) {
             this.toggleViewMode();
         }
     }
@@ -217,6 +202,14 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                         date = ev.getDate();
 
                         mainButton.setText("Edit");
+                    }
+                });
+
+        CustomSceneHelper.getNodeById("residenceEventPage").addEventFilter(
+                PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
+                    @Override
+                    public void handle(PersonCustomEvent personCustomEvent) {
+                        selectedPerson = personCustomEvent.getPerson();
                     }
                 });
     }
@@ -279,16 +272,16 @@ public class ResidenceEventController implements Initializable, IContentPageCont
     private void toggleViewMode() {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField)node).setEditable(false);
+                ((TextField) node).setEditable(false);
             }
-            if(node instanceof Button) {
+            if (node instanceof Button) {
                 node.setDisable(true);
             }
             if (node instanceof TextArea) {
-                ((TextArea)node).setEditable(false);
+                ((TextArea) node).setEditable(false);
             }
-            if(node instanceof ComboBox) {
-                ((ComboBox)node).setOnShown(event -> ((ComboBox)node).hide());
+            if (node instanceof ComboBox) {
+                ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
             }
         }
 
