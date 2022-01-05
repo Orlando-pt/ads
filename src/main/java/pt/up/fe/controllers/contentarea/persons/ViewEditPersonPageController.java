@@ -157,7 +157,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
           @Override
           public void handle(EventCustomEvent eventCustomEvent) {
             Event event = eventCustomEvent.getEvent();
-            PersonFacade.addEventToPerson(selectedPerson, event);
 
             eventsTableList.add(
                 new EventTableDTO(event.getName(), event.getPlace(), event.getDate(),
