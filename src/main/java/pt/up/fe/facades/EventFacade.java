@@ -57,7 +57,7 @@ public class EventFacade {
         this.dateFacade = dateFacade;
     }
 
-    public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
+    public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
         Event birthEvent = new Birth();
 
         if (!maternity.isEmpty()) {
@@ -85,11 +85,11 @@ public class EventFacade {
             birthEvent.setDescription(description);
         }
 
-        handleEditOrCreate(birthEvent, editId);
+        handleEditOrCreate(birthEvent, editId, person);
         return birthEvent;
     }
 
-    public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
+    public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
         Event deathEvent = new Death();
 
         if (!typeOfDeath.isEmpty()) {
@@ -117,11 +117,11 @@ public class EventFacade {
             deathEvent.setDescription(description);
         }
 
-        handleEditOrCreate(deathEvent, editId);
+        handleEditOrCreate(deathEvent, editId, person);
         return deathEvent;
     }
 
-    public Event createEmigrationEvent(String typeOfEmigration, String placeOfEmigration, IDate dateOfEmigration, String pushFactor, String pullFactor, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
+    public Event createEmigrationEvent(String typeOfEmigration, String placeOfEmigration, IDate dateOfEmigration, String pushFactor, String pullFactor, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
         Event emigrationEvent = new Emigration();
 
         if (!typeOfEmigration.isEmpty()) {
@@ -157,11 +157,11 @@ public class EventFacade {
             emigrationEvent.setDescription(description);
         }
 
-        handleEditOrCreate(emigrationEvent, editId);
+        handleEditOrCreate(emigrationEvent, editId, person);
         return emigrationEvent;
     }
 
-    public Event createMarriageEvent(String marriageName, String placeOfMarriage, IDate dateOfMarriage, String typeOfMarriage, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
+    public Event createMarriageEvent(String marriageName, String placeOfMarriage, IDate dateOfMarriage, String typeOfMarriage, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
         Event marriageEvent = new Marriage();
 
         if (!marriageName.isEmpty()) {
@@ -193,11 +193,11 @@ public class EventFacade {
             marriageEvent.setDescription(description);
         }
 
-        handleEditOrCreate(marriageEvent, editId);
+        handleEditOrCreate(marriageEvent, editId, person);
         return marriageEvent;
     }
 
-    public Event createResidenceEvent(String residenceName, String placeOfResidence, IDate dateOfResidence, String typeOfPlace, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
+    public Event createResidenceEvent(String residenceName, String placeOfResidence, IDate dateOfResidence, String typeOfPlace, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
         Event residenceEvent = new Residence();
 
         if (!residenceName.isEmpty()) {
@@ -229,11 +229,11 @@ public class EventFacade {
             residenceEvent.setDescription(description);
         }
 
-        handleEditOrCreate(residenceEvent, editId);
+        handleEditOrCreate(residenceEvent, editId, person);
         return residenceEvent;
     }
 
-    public Event createCustomEvent(String customName, String placeOfCustom, IDate dateOfCustom, String typeOfCustom, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId) {
+    public Event createCustomEvent(String customName, String placeOfCustom, IDate dateOfCustom, String typeOfCustom, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
         Event customEvent = new CustomEvent(customName);
 
         if (!typeOfCustom.isEmpty()) {
@@ -261,21 +261,29 @@ public class EventFacade {
             customEvent.setDescription(description);
         }
 
-        handleEditOrCreate(customEvent, editId);
+        handleEditOrCreate(customEvent, editId, person);
         return customEvent;
     }
 
-    private void handleEditOrCreate(Event event, UUID id) {
+    private void handleEditOrCreate(Event event, UUID id, Person person) {
         if (id != null) {
             ListIterator<Event> iterator = Main.eventsList.listIterator();
             while (iterator.hasNext()) {
                 Event next = iterator.next();
                 if (next.getId().equals(id)) {
-                    System.out.println("Entrou");
+                    iterator.set(event);
+                }
+            }
+
+            ListIterator<Event> iterator1 = person.getEvents().listIterator();
+            while (iterator.hasNext()) {
+                Event next = iterator.next();
+                if (next.getId().equals(id)) {
                     iterator.set(event);
                 }
             }
         } else {
+            person.addEvent(event);
             Main.eventsList.add(event);
         }
     }

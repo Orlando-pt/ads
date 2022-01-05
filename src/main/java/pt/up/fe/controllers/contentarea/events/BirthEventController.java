@@ -1,20 +1,11 @@
 package pt.up.fe.controllers.contentarea.events;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.UUID;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
@@ -27,6 +18,11 @@ import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class BirthEventController implements Initializable, IContentPageController {
 
@@ -81,7 +77,9 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     private UUID editId = null;
 
-    private boolean editMode = true;
+    private Person selectedPerson;
+
+    private final boolean editMode = true;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -102,9 +100,11 @@ public class BirthEventController implements Initializable, IContentPageControll
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
-                editId
+                editId,
+                this.selectedPerson
         );
 
+        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, birthEvent));
         System.out.println(birthEvent.toString());
     }
 
@@ -168,7 +168,7 @@ public class BirthEventController implements Initializable, IContentPageControll
     public void initialize(URL url, ResourceBundle resources) {
         this.initTables();
 
-        if(this.editMode == false) {
+        if (this.editMode == false) {
             this.toggleViewMode();
         }
     }
@@ -203,6 +203,14 @@ public class BirthEventController implements Initializable, IContentPageControll
                         date = ev.getDate();
 
                         mainButton.setText("Edit");
+                    }
+                });
+
+        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(
+                PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
+                    @Override
+                    public void handle(PersonCustomEvent personCustomEvent) {
+                        selectedPerson = personCustomEvent.getPerson();
                     }
                 });
     }
@@ -265,13 +273,13 @@ public class BirthEventController implements Initializable, IContentPageControll
     private void toggleViewMode() {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField)node).setEditable(false);
+                ((TextField) node).setEditable(false);
             }
-            if(node instanceof Button) {
+            if (node instanceof Button) {
                 node.setDisable(true);
             }
             if (node instanceof TextArea) {
-                ((TextArea)node).setEditable(false);
+                ((TextArea) node).setEditable(false);
             }
         }
 
