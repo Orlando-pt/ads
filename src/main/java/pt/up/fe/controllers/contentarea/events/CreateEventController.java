@@ -33,7 +33,7 @@ public class CreateEventController implements Initializable, IContentPageControl
     }
 
     public void createNewEvent(ActionEvent event) throws IOException {
-        String name = comboBox.getValue() + "Event";
+        String name = comboBox.getValue().toLowerCase() + "Event";
 
         CustomSceneHelper.getNodeById(name + "Page").fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, this.selectedPerson));
         CustomSceneHelper.bringNodeToFront(name, "Page");

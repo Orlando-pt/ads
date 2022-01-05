@@ -116,7 +116,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   private Person selectedPerson;
 
-  private boolean editMode = false;
+  private boolean editMode = true;
 
   ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
 
@@ -276,6 +276,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
     if (editMode) {
       CustomSceneHelper.getNodeById("createEventPage")
           .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, selectedPerson));
+      CustomSceneHelper.bringNodeToFront("createEvent", "Page");
     }
   }
 
