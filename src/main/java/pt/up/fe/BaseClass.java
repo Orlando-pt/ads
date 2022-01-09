@@ -9,10 +9,18 @@ import pt.up.fe.exports.IExportObject;
 import pt.up.fe.sources.Source;
 
 public abstract class BaseClass implements IExportObject {
-  private final UUID id = UUID.randomUUID();
+  private final UUID id;
   private String name;
   private String description;
   private Source source;
+
+  public BaseClass() {
+    this.id = UUID.randomUUID();
+  }
+
+  public BaseClass(String id) {
+    this.id = UUID.fromString(id);
+  }
 
   public UUID getId() {
     return id;

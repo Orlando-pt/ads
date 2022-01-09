@@ -23,6 +23,10 @@ public abstract class Event extends BaseClass {
     logger = initializeLogger();
   }
 
+  public Event(String id) {
+    super(id);
+  }
+
   public abstract Logger initializeLogger();
 
   public Place getPlace() {
@@ -170,5 +174,24 @@ public abstract class Event extends BaseClass {
 
     obj.put("specialPurposeFields", this.getSpecialPurposeFields());
     return obj;
+  }
+
+  public static Event importJSONObject(JSONObject obj) throws ClassNotFoundException {
+    switch ((String) obj.get("type")) {
+      case "Birth":
+        return Birth.importJSONObject(obj);
+      case "CustomEvent":
+        return CustomEvent.importJSONObject(obj);
+      case "Death":
+        return Death.importJSONObject(obj);
+      case "Emigration":
+        return Emigration.importJSONObject(obj);
+      case "Marriage":
+        return Marriage.importJSONObject(obj);
+      case "Residence":
+        return Residence.importJSONObject(obj);
+      default:
+        throw new NoClassDefFoundError();
+    }
   }
 }

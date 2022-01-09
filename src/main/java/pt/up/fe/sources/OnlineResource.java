@@ -1,6 +1,9 @@
 package pt.up.fe.sources;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class OnlineResource extends Source {
@@ -8,6 +11,10 @@ public class OnlineResource extends Source {
 
   public OnlineResource(String name) {
     super(name);
+  }
+
+  public OnlineResource(String name, String id) {
+    super(name, id);
   }
 
   public String getLink() {
@@ -42,5 +49,22 @@ public class OnlineResource extends Source {
     obj.put("link", this.getLink());
 
     return obj;
+  }
+
+  public static OnlineResource importJSONObject(JSONObject obj) {
+    OnlineResource res = new OnlineResource((String) obj.get("name"), (String) obj.get("id"));
+
+    // TODO: Date of Publication
+
+    JSONArray authors = obj.getJSONArray("authors");
+    List<String> a = new ArrayList<>();
+    for (Object auth : authors.toList()) {
+      a.add((String) auth);
+    }
+    res.setAuthors(a);
+
+    res.setLink((String) obj.get("link"));
+
+    return res;
   }
 }

@@ -9,6 +9,10 @@ public class Residence extends Event {
   public Residence() {
     this.setName(this.getClass().getSimpleName());
   }
+  public Residence(String id) {
+    super(id);
+    this.setName(this.getClass().getSimpleName());
+  }
 
   public Logger initializeLogger() {
     return LogManager.getLogger(Residence.class);
@@ -26,5 +30,10 @@ public class Residence extends Event {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
     return obj;
+  }
+  public static Residence importJSONObject(JSONObject obj) {
+    Residence b = new Residence((String) obj.get("id"));
+
+    return b;
   }
 }

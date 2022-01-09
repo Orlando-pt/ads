@@ -7,18 +7,23 @@ import java.util.Map;
 import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import pt.up.fe.exports.IExportObject;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.exports.IExportObject;
 
 public abstract class Source implements IExportObject {
-  private final UUID id = UUID.randomUUID();
+  private final UUID id;
   private IDate dateOfPublication;
   private String name;
-  private List<String> authors;
+  private List<String> authors = new ArrayList<>();
 
   public Source(String name) {
+    this.id = UUID.randomUUID();
     this.name = name;
-    this.authors = new ArrayList<>();
+  }
+
+  public Source(String name, String id) {
+    this.id = UUID.fromString(id);
+    this.name = name;
   }
 
   public UUID getId() {
@@ -91,5 +96,22 @@ public abstract class Source implements IExportObject {
     obj.put("authors", this.getAuthors());
 
     return obj;
+  }
+
+  public static Source importJSONObject(JSONObject obj) {
+    switch ((String) obj.get("type")) {
+      case "Book":
+        return Book.importJSONObject(obj);
+      case "CustomSource":
+        return CustomSource.importJSONObject(obj);
+      case "HistoricalRecord":
+        return HistoricalRecord.importJSONObject(obj);
+      case "OnlineResource":
+        return OnlineResource.importJSONObject(obj);
+      case "OrallyTransmitted":
+        return OrallyTransmitted.importJSONObject(obj);
+      default:
+        throw new NoClassDefFoundError();
+    }
   }
 }

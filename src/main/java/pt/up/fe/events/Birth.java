@@ -26,6 +26,11 @@ public class Birth extends Event {
         this.setName(this.getClass().getSimpleName());
     }
 
+    public Birth(String id) {
+        super(id);
+        this.setName(this.getClass().getSimpleName());
+    }
+
     public Logger initializeLogger() {
         return LogManager.getLogger(Birth.class);
     }
@@ -65,5 +70,11 @@ public class Birth extends Event {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
     return obj;
+  }
+
+  public static Birth importJSONObject(JSONObject obj) {
+    Birth b = new Birth((String) obj.get("id"));
+
+    return b;
   }
 }

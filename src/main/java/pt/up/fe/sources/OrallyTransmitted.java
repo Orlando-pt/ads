@@ -1,6 +1,9 @@
 package pt.up.fe.sources;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
@@ -9,6 +12,10 @@ public class OrallyTransmitted extends Source {
 
   public OrallyTransmitted(String name) {
     super(name);
+  }
+
+  public OrallyTransmitted(String name, String id) {
+    super(name, id);
   }
 
   public Place getPlace() {
@@ -38,5 +45,23 @@ public class OrallyTransmitted extends Source {
     }
 
     return obj;
+  }
+
+  public static OrallyTransmitted importJSONObject(JSONObject obj) {
+    OrallyTransmitted book =
+        new OrallyTransmitted((String) obj.get("name"), (String) obj.get("id"));
+
+    // TODO: Date of Publication
+
+    JSONArray authors = obj.getJSONArray("authors");
+    List<String> a = new ArrayList<>();
+    for (Object auth : authors.toList()) {
+      a.add((String) auth);
+    }
+    book.setAuthors(a);
+
+    // TODO: Place
+
+    return book;
   }
 }

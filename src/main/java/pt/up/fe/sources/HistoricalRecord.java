@@ -1,6 +1,10 @@
 package pt.up.fe.sources;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
@@ -9,6 +13,10 @@ public class HistoricalRecord extends Source {
 
   public HistoricalRecord(String name) {
     super(name);
+  }
+
+  public HistoricalRecord(String name, String id) {
+    super(name, id);
   }
 
   public Place getNationalArchiveCountry() {
@@ -38,5 +46,23 @@ public class HistoricalRecord extends Source {
     }
 
     return obj;
+  }
+
+  public static HistoricalRecord importJSONObject(JSONObject obj) {
+    HistoricalRecord book = new HistoricalRecord((String) obj.get("name"), (String) obj.get("id"));
+
+    // TODO: Date of Publication
+
+    JSONArray authors = obj.getJSONArray("authors");
+    List<String> a = new ArrayList<>();
+    for (Object auth : authors.toList()) {
+      a.add((String) auth);
+    }
+    book.setAuthors(a);
+
+    // TODO: Place
+
+
+    return book;
   }
 }
