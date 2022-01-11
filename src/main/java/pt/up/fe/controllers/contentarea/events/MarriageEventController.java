@@ -24,13 +24,13 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class BirthEventController implements Initializable, IContentPageController {
+public class MarriageEventController implements Initializable, IContentPageController {
 
     @FXML
     private AnchorPane anchorPane;
 
     @FXML
-    private TextField birthDate;
+    private TextField marriageDate;
 
     @FXML
     private TextArea description;
@@ -39,13 +39,16 @@ public class BirthEventController implements Initializable, IContentPageControll
     private TextField fieldInput;
 
     @FXML
-    private TextField maternity;
+    private TextField marriageName;
 
     @FXML
     private TextField nameInput;
 
     @FXML
-    private TextField placeBirth;
+    private TextField placeMarriage;
+
+    @FXML
+    private ComboBox<String> typeOfMarriage;
 
     @FXML
     private TextField relationshipInput;
@@ -77,9 +80,9 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     private UUID editId = null;
 
-    private Person selectedPerson;
-
     private final boolean editMode = true;
+
+    private Person selectedPerson;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -93,10 +96,11 @@ public class BirthEventController implements Initializable, IContentPageControll
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event birthEvent = new EventFacade().createBirthEvent(
-                this.maternity.getText(),
-                this.placeBirth.getText(),
+        Event marriageEvent = new EventFacade().createMarriageEvent(
+                this.marriageName.getText(),
+                this.placeMarriage.getText(),
                 this.date,
+                this.typeOfMarriage.getValue(),
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
@@ -104,9 +108,9 @@ public class BirthEventController implements Initializable, IContentPageControll
                 this.selectedPerson
         );
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, birthEvent));
+        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
-        System.out.println(birthEvent.toString());
+        System.out.println(marriageEvent.toString());
     }
 
     @FXML
@@ -133,15 +137,15 @@ public class BirthEventController implements Initializable, IContentPageControll
         CustomSceneHelper.getNodeById("listPersonsPage")
                 .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
         CustomSceneHelper.getNodeById("listPersonsPage")
-                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "birthEventPage"));
+                .fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "marriageEventPage"));
 
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(PersonCustomEvent.PERSON,
+        CustomSceneHelper.getNodeById("marriageEventPage").addEventFilter(PersonCustomEvent.PERSON,
                 new PersonCustomEventHandler(this.handleRelation(btnName)) {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
-                        CustomSceneHelper.getNodeById("birthEventPage")
+                        CustomSceneHelper.getNodeById("marriageEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
                 });
@@ -156,17 +160,55 @@ public class BirthEventController implements Initializable, IContentPageControll
                     @Override
                     public void handle(DateCustomEvent dateCustomEvent) {
                         date = dateCustomEvent.getDate();
-                        birthDate.setText(date.toString());
+                        marriageDate.setText(date.toString());
 
                         CustomSceneHelper.getNodeById("createDatePage")
                                 .removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
-                        CustomSceneHelper.bringNodeToFront("BirthEvent", "Page");
+                        CustomSceneHelper.bringNodeToFront("MarriageEvent", "Page");
                     }
                 });
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
+        // Initialize Type of Marriage combo
+        typeOfMarriage.getItems().clear();
+        typeOfMarriage.getItems().addAll(
+                "Arranged marriage",
+                "Berdache marriage",
+                "Boston marriage",
+                "Civil marriage",
+                "Common law marriage",
+                "Companionate marriage",
+                "Cousin marriage",
+                "Covenant marriage",
+                "Cyber marriage aka E-marriage",
+                "Endogamy",
+                "Eternal marriage",
+                "Exogamy",
+                "Forced marriage",
+                "Incestual marriage",
+                "Interfaith marriage",
+                "Interracial marriage",
+                "Intra-faith marriage",
+                "Marriage of Convenience",
+                "Misyar marriage",
+                "Mixed marriage",
+                "Morganatic marriage",
+                "Monogamy",
+                "Open marriage",
+                "Polygamy",
+                "Polygyny",
+                "Polyandry",
+                "Pragmatic",
+                "Proxy marriage",
+                "Romantic marriage",
+                "Same-sex marriage",
+                "Sealed marriage",
+                "Secret marriage",
+                "Unknown"
+        );
+
         this.initTables();
 
         if (this.editMode == false) {
@@ -176,7 +218,7 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void setEventHandlers() {
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(
+        CustomSceneHelper.getNodeById("marriageEventPage").addEventFilter(
                 EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
                     @Override
                     public void handle(EventCustomEvent eventCustomEvent) {
@@ -185,7 +227,7 @@ public class BirthEventController implements Initializable, IContentPageControll
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        birthDate.setText(ev.getDate().toString());
+                        marriageDate.setText(ev.getDate().toString());
                         description.setText(ev.getDescription());
 
                         for (var entry : ev.getPeopleRelations().entrySet()) {
@@ -193,8 +235,10 @@ public class BirthEventController implements Initializable, IContentPageControll
                         }
 
                         for (var entry : ev.getSpecialPurposeFields().entrySet()) {
-                            if (entry.getKey() == "Maternity") {
-                                maternity.setText(entry.getValue());
+                            if (entry.getKey() == "Marriage Name") {
+                                marriageName.setText(entry.getValue());
+                            } else if (entry.getKey() == "Type Of Marriage") {
+                                typeOfMarriage.getSelectionModel().select(entry.getValue());
                             } else {
                                 table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                             }
@@ -207,7 +251,7 @@ public class BirthEventController implements Initializable, IContentPageControll
                     }
                 });
 
-        CustomSceneHelper.getNodeById("birthEventPage").addEventFilter(
+        CustomSceneHelper.getNodeById("marriageEventPage").addEventFilter(
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
@@ -282,6 +326,9 @@ public class BirthEventController implements Initializable, IContentPageControll
             if (node instanceof TextArea) {
                 ((TextArea) node).setEditable(false);
             }
+            if (node instanceof ComboBox) {
+                ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+            }
         }
 
         mainButton.setVisible(false);
@@ -289,15 +336,16 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
-        birthDate.clear();
+        marriageDate.clear();
         description.clear();
         fieldInput.clear();
-        maternity.clear();
+        marriageName.clear();
         nameInput.clear();
-        placeBirth.clear();
+        placeMarriage.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
+        typeOfMarriage.getItems().clear();
         date = null;
         inCreateMode = true;
         editId = null;

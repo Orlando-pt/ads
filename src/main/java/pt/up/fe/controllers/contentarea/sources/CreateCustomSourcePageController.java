@@ -23,6 +23,7 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
+import pt.up.fe.sources.Book;
 import pt.up.fe.sources.CustomSource;
 
 public class CreateCustomSourcePageController implements Initializable, IContentPageController {
@@ -32,6 +33,9 @@ public class CreateCustomSourcePageController implements Initializable, IContent
 
   @FXML
   private Button addAuthorButton;
+
+  @FXML
+  private Button addDateButton;
 
   @FXML
   private TextField customSourceNameInput;
@@ -52,6 +56,10 @@ public class CreateCustomSourcePageController implements Initializable, IContent
 
   private IDate date;
 
+  private CustomSource selectedCustomSource;
+
+  private boolean editMode = true;
+
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
   @FXML
@@ -63,6 +71,15 @@ public class CreateCustomSourcePageController implements Initializable, IContent
 
   @Override
   public void setEventHandlers() {
+    CustomSceneHelper.getNodeById("createCustomSourcePage").addEventFilter(
+        SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
+          @Override
+          public void handle(SourceCustomEvent sourceCustomEvent) {
+            selectedCustomSource = (CustomSource) sourceCustomEvent.getSource();
+            setInfo();
+          }
+        });
+
     CustomSceneHelper.getNodeById("createSourcePage").addEventFilter(
         PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
           @Override
@@ -94,6 +111,36 @@ public class CreateCustomSourcePageController implements Initializable, IContent
     authorNameInput.clear();
     authorsList.clear();
     pageToSend = null;
+    selectedCustomSource = null;
+    date = null;
+    createCustomSourceButton.setText("Create Custom Source");
+    editMode = true;
+    changePageMode();
+  }
+
+  public void setInfo() {
+    customSourceNameInput.setText(selectedCustomSource.getName());
+    if (selectedCustomSource.getDateOfPublication() != null) {
+      date = selectedCustomSource.getDateOfPublication();
+      customSourceDate.setText(selectedCustomSource.getDateOfPublication().toString());
+    }
+    authorsList.addAll(selectedCustomSource.getAuthors());
+    createCustomSourceButton.setText("Save Custom Source");
+    changePageMode();
+  }
+
+  private void changePageMode() {
+    if (editMode) {
+      customSourceNameInput.setEditable(true);
+      addAuthorButton.setVisible(true);
+      authorNameInput.setVisible(true);
+      addDateButton.setVisible(true);
+    } else {
+      customSourceNameInput.setEditable(false);
+      addAuthorButton.setVisible(false);
+      authorNameInput.setVisible(false);
+      addDateButton.setVisible(false);
+    }
   }
 
   @FXML
@@ -112,7 +159,13 @@ public class CreateCustomSourcePageController implements Initializable, IContent
     customSourceDTO.setAuthors(authorsList);
     customSourceDTO.setDateOfPublication(date);
 
-    CustomSource customSource = SourceFacade.createCustomSource(customSourceDTO);
+    CustomSource customSource;
+
+    if (selectedCustomSource == null) {
+      customSource = SourceFacade.createCustomSource(customSourceDTO);
+    } else {
+      customSource = SourceFacade.editCustomSource(selectedCustomSource, customSourceDTO);
+    }
 
     if (pageToSend != null) {
       CustomSceneHelper.getNodeById(pageToSend)

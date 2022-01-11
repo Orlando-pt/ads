@@ -23,15 +23,20 @@ import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
+import pt.up.fe.sources.Book;
+import pt.up.fe.sources.CustomSource;
 import pt.up.fe.sources.OnlineResource;
 
 public class CreateOnlineResourcePageController implements Initializable, IContentPageController {
 
   @FXML
-  private Button createOnlineResourceRecordButton;
+  private Button createOnlineResourceButton;
 
   @FXML
   private Button addAuthorButton;
+
+  @FXML
+  private Button addDateButton;
 
   @FXML
   private TextField onlineResourceNameInput;
@@ -55,6 +60,10 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
 
   private IDate date;
 
+  private OnlineResource selectedOnlineResource;
+
+  private boolean editMode = true;
+
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
   @FXML
@@ -66,6 +75,15 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
 
   @Override
   public void setEventHandlers() {
+    CustomSceneHelper.getNodeById("createOnlineResourcePage").addEventFilter(
+        SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
+          @Override
+          public void handle(SourceCustomEvent sourceCustomEvent) {
+            selectedOnlineResource = (OnlineResource) sourceCustomEvent.getSource();
+            setInfo();
+          }
+        });
+
     CustomSceneHelper.getNodeById("createSourcePage").addEventFilter(
         PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
           @Override
@@ -82,6 +100,39 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
     authorsList.clear();
     linkInput.clear();
     pageToSend = null;
+    selectedOnlineResource = null;
+    date = null;
+    createOnlineResourceButton.setText("Create Online Resource");
+    editMode = true;
+    changePageMode();
+  }
+
+  public void setInfo() {
+    onlineResourceNameInput.setText(selectedOnlineResource.getName());
+    if (selectedOnlineResource.getDateOfPublication() != null) {
+      date = selectedOnlineResource.getDateOfPublication();
+      onlineResourceDate.setText(selectedOnlineResource.getDateOfPublication().toString());
+    }
+    authorsList.addAll(selectedOnlineResource.getAuthors());
+    linkInput.setText(selectedOnlineResource.getLink());
+    createOnlineResourceButton.setText("Save Online Resource");
+    changePageMode();
+  }
+
+  private void changePageMode() {
+    if (editMode) {
+      onlineResourceNameInput.setEditable(true);
+      addAuthorButton.setVisible(true);
+      authorNameInput.setVisible(true);
+      addDateButton.setVisible(true);
+      linkInput.setEditable(true);
+    } else {
+      onlineResourceNameInput.setEditable(false);
+      addAuthorButton.setVisible(false);
+      authorNameInput.setVisible(false);
+      addDateButton.setVisible(false);
+      linkInput.setEditable(false);
+    }
   }
 
   @FXML
@@ -117,7 +168,13 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
     onlineResourceDTO.setDateOfPublication(date);
     onlineResourceDTO.setLink(linkInput.getCharacters().toString());
 
-    OnlineResource onlineResource = SourceFacade.createOnlineResource(onlineResourceDTO);
+    OnlineResource onlineResource;
+
+    if (selectedOnlineResource == null) {
+      onlineResource = SourceFacade.createOnlineResource(onlineResourceDTO);
+    } else {
+      onlineResource = SourceFacade.editOnlineResource(selectedOnlineResource, onlineResourceDTO);
+    }
 
     if (pageToSend != null) {
       CustomSceneHelper.getNodeById(pageToSend)

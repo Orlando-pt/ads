@@ -2,9 +2,11 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -27,7 +29,7 @@
         <Font size="20.0" />
       </font>
     </Label>
-    <Button fx:id="createHistoricalRecordButton" layoutX="244.0" layoutY="504.0" mnemonicParsing="false" onMouseClicked="#createHistoricalRecord" text="Create Historical Record">
+    <Button fx:id="createHistoricalRecordButton" layoutX="245.0" layoutY="509.0" mnemonicParsing="false" onMouseClicked="#createHistoricalRecord" text="Create Historical Record">
       <font>
         <Font size="14.0" />
       </font>
@@ -54,7 +56,16 @@
         <Font size="20.0" />
       </font>
     </Label>
-    <Button layoutX="430.0" layoutY="197.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+    <Button fx:id="addDateButton" layoutX="430.0" layoutY="197.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
     <TextField fx:id="historicalRecordDate" disable="true" layoutX="347.0" layoutY="162.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
+    <RadioButton fx:id="noPlace" layoutX="66.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" selected="true" text="No Place" textFill="WHITE">
+      <toggleGroup>
+        <ToggleGroup fx:id="place_radio" />
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="selectPlace" layoutX="264.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="Existing Place" textFill="WHITE" toggleGroup="$place_radio" />
+    <RadioButton fx:id="newPlace" layoutX="460.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="New Place" textFill="WHITE" toggleGroup="$place_radio" />
+    <Button fx:id="selectPlaceButton" layoutX="278.0" layoutY="451.0" mnemonicParsing="false" onMouseClicked="#selectPlace" text="Select Place" />
+    <Button fx:id="newPlaceButton" layoutX="451.0" layoutY="451.0" mnemonicParsing="false" onMouseClicked="#addPlace" text="Create New Place" />
   </children>
 </AnchorPane>

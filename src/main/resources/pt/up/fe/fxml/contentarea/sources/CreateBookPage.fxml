@@ -62,7 +62,7 @@
       </font>
     </Label>
     <TextField fx:id="publisherNameInput" layoutX="354.0" layoutY="424.0" prefHeight="35.0" prefWidth="250.0" promptText="Insert new publisher's name" />
-      <Button layoutX="423.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+      <Button layoutX="423.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" fx:id="addDateButton" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
       <TextField fx:id="bookDate" disable="true" layoutX="347.0" layoutY="167.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
     <NumberTextField fx:id="pagesInput" layoutX="71.0" layoutY="424.0" prefHeight="35.0"
       prefWidth="123.0"/>
