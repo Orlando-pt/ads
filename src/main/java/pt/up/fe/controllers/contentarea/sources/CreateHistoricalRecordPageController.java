@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -39,6 +40,9 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
   private Button addAuthorButton;
 
   @FXML
+  private Button addDateButton;
+
+  @FXML
   private TextField historicalRecordNameInput;
 
   @FXML
@@ -62,6 +66,9 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
   @FXML
   private RadioButton noPlace;
 
+  @FXML
+  private RadioButton selectPlace;
+
   private String pageToSend;
 
   @FXML
@@ -70,6 +77,10 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
   private IDate date;
 
   private Place selectedPlace;
+
+  private HistoricalRecord selectedHistoricalRecord;
+
+  private boolean editMode = true;
 
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
@@ -83,6 +94,15 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
 
   @Override
   public void setEventHandlers() {
+    CustomSceneHelper.getNodeById("createHistoricalRecordPage").addEventFilter(
+        SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
+          @Override
+          public void handle(SourceCustomEvent sourceCustomEvent) {
+            selectedHistoricalRecord = (HistoricalRecord) sourceCustomEvent.getSource();
+            setInfo();
+          }
+        });
+
     CustomSceneHelper.getNodeById("createSourcePage").addEventFilter(
         PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
           @Override
@@ -96,6 +116,9 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
           @Override
           public void handle(PlaceCustomEvent placeCustomEvent) {
             selectedPlace = placeCustomEvent.getPlace();
+            place_radio.selectToggle(selectPlace);
+            selectPlaceButton.setVisible(true);
+            selectPlaceButton.setText(selectedPlace.getName());
           }
         });
   }
@@ -126,8 +149,54 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
     pageToSend = null;
     place_radio.selectToggle(noPlace);
     selectedPlace = null;
+    selectedHistoricalRecord = null;
+    date = null;
+    createHistoricalRecordButton.setText("Create Historical Record");
+    editMode = true;
+    changePageMode();
   }
 
+  public void setInfo() {
+    changePageMode();
+    historicalRecordNameInput.setText(selectedHistoricalRecord.getName());
+    if (selectedHistoricalRecord.getDateOfPublication() != null) {
+      date = selectedHistoricalRecord.getDateOfPublication();
+      historicalRecordDate.setText(selectedHistoricalRecord.getDateOfPublication().toString());
+    }
+    authorsList.addAll(selectedHistoricalRecord.getAuthors());
+    createHistoricalRecordButton.setText("Save Historical Record");
+    if (selectedHistoricalRecord.getNationalArchiveCountry() != null) {
+      place_radio.selectToggle(selectPlace);
+      selectedPlace = selectedHistoricalRecord.getNationalArchiveCountry();
+      selectPlaceButton.setVisible(true);
+      selectPlaceButton.setText(selectedHistoricalRecord.getNationalArchiveCountry().getName());
+    }
+
+
+  }
+
+  private void changePageMode() {
+    if (editMode) {
+      historicalRecordNameInput.setEditable(true);
+      addAuthorButton.setVisible(true);
+      authorNameInput.setVisible(true);
+      addDateButton.setVisible(true);
+      place_radio.getToggles().forEach(toggle -> {
+        Node node = (Node) toggle;
+        node.setDisable(false);
+      });
+    } else {
+      historicalRecordNameInput.setEditable(false);
+      addAuthorButton.setVisible(false);
+      authorNameInput.setVisible(false);
+      addDateButton.setVisible(false);
+      place_radio.getToggles().forEach(toggle -> {
+        Node node = (Node) toggle;
+        node.setDisable(true);
+      });
+    }
+    setPlaceButtonsInvisible();
+  }
   // Place
 
   private void setPlaceButtonsInvisible() {
@@ -184,7 +253,14 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
     historicalRecordDTO.setDateOfPublication(date);
     historicalRecordDTO.setNationalArchiveCountry(selectedPlace);
 
-    HistoricalRecord historicalRecord = SourceFacade.createHistoricalRecord(historicalRecordDTO);
+    HistoricalRecord historicalRecord;
+
+    if (selectedHistoricalRecord == null) {
+      historicalRecord = SourceFacade.createHistoricalRecord(historicalRecordDTO);
+    } else {
+      historicalRecord = SourceFacade.editHistoricalRecord(selectedHistoricalRecord,
+          historicalRecordDTO);
+    }
 
     if (pageToSend != null) {
       CustomSceneHelper.getNodeById(pageToSend)

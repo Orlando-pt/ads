@@ -29,7 +29,7 @@
         <Font size="20.0" />
       </font>
     </Label>
-    <Button fx:id="orallyTransmittedButton" layoutX="247.0" layoutY="508.0" mnemonicParsing="false" onMouseClicked="#createOrallyTransmitted" text="Create Orally Transmitted" />
+    <Button fx:id="createOrallyTransmittedButton" layoutX="247.0" layoutY="508.0" mnemonicParsing="false" onMouseClicked="#createOrallyTransmitted" text="Create Orally Transmitted" />
     <Label layoutX="347.0" layoutY="132.0" text="Date of Publication" textFill="WHITE">
       <font>
         <Font size="20.0" />
@@ -52,7 +52,7 @@
         <Font size="20.0" />
       </font>
     </Label>
-    <Button layoutX="423.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+    <Button fx:id="addDateButton" layoutX="423.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
     <TextField fx:id="orallyTransmittedDate" disable="true" layoutX="347.0" layoutY="164.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
     <RadioButton fx:id="noPlace" layoutX="66.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" selected="true" text="No Place" textFill="WHITE">
       <toggleGroup>

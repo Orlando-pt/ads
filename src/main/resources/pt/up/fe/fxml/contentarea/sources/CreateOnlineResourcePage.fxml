@@ -27,7 +27,7 @@
         <Font size="20.0" />
       </font>
     </Label>
-    <Button fx:id="onlineResourceButton" layoutX="246.0" layoutY="490.0" mnemonicParsing="false" onMouseClicked="#createOnlineResource" text="Create Online Resource">
+    <Button fx:id="createOnlineResourceButton" layoutX="246.0" layoutY="490.0" mnemonicParsing="false" onMouseClicked="#createOnlineResource" text="Create Online Resource">
       <font>
         <Font size="14.0" />
       </font>
@@ -55,7 +55,7 @@
       </font>
     </Label>
     <TextField fx:id="linkInput" layoutX="200.0" layoutY="405.0" prefHeight="35.0" prefWidth="250.0" promptText="Insert resource link" />
-    <Button layoutX="430.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+    <Button fx:id="addDateButton" layoutX="430.0" layoutY="199.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
     <TextField fx:id="onlineResourceDate" disable="true" layoutX="347.0" layoutY="164.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
   </children>
 </AnchorPane>

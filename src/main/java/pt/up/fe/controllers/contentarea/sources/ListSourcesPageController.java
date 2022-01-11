@@ -135,7 +135,9 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
           .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, source));
       CustomSceneHelper.bringNodeToFront(pageToSend, "");
     } else {
-      CustomSceneHelper.bringNodeToFront("viewEditSource", "Page");
+      CustomSceneHelper.getNodeById("create" + source.getClass().getSimpleName() + "Page")
+          .fireEvent(new SourceCustomEvent(SourceCustomEvent.SOURCE, source));
+      CustomSceneHelper.bringNodeToFront("create" + source.getClass().getSimpleName(), "Page");
     }
     this.clearPage();
   }
