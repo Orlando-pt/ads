@@ -15,7 +15,7 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <RadioButton layoutX="157.0" layoutY="107.0" mnemonicParsing="false" selected="true" text="Simple Date" textFill="WHITE">
+      <RadioButton fx:id="simpleDateRadio" layoutX="157.0" layoutY="107.0" mnemonicParsing="false" selected="true" text="Simple Date" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -23,12 +23,12 @@
             <ToggleGroup fx:id="toogleGroupDate" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="367.0" layoutY="107.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="148.0" text="Interval Date" textFill="WHITE" toggleGroup="$toogleGroupDate">
+      <RadioButton fx:id="intervalDateRadio" layoutX="367.0" layoutY="107.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="148.0" text="Interval Date" textFill="WHITE" toggleGroup="$toogleGroupDate">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Button layoutX="283.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleStartDate" prefHeight="37.0" prefWidth="84.0" text="Choose">
+      <Button fx:id="chooseButton" layoutX="283.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleStartDate" prefHeight="37.0" prefWidth="84.0" text="Choose">
          <font>
             <Font size="18.0" />
          </font>

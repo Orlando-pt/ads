@@ -158,8 +158,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
           public void handle(EventCustomEvent eventCustomEvent) {
             Event event = eventCustomEvent.getEvent();
 
-            System.out.println(event.toString());
-
             eventsTableList.add(
                 new EventTableDTO(event.getName(), event.getPlace(), event.getDate(),
                     event.getDescription(), event));
@@ -266,7 +264,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       }
       CustomSceneHelper.getNodeById(eventName + "Page")
           .fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
-      CustomSceneHelper.bringNodeToFront(eventName + "Page", "Page");
+      CustomSceneHelper.bringNodeToFront(eventName, "Page");
       clearPage();
 
     }
