@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.sources.BookDTO;
 import pt.up.fe.facades.SourceFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
@@ -34,6 +33,9 @@ public class CreateBookPageController implements Initializable, IContentPageCont
 
   @FXML
   private Button addAuthorButton;
+
+  @FXML
+  private Button addDateButton;
 
   @FXML
   private TextField publisherNameInput;
@@ -60,6 +62,10 @@ public class CreateBookPageController implements Initializable, IContentPageCont
 
   private IDate date;
 
+  private Book selectedBook;
+
+  private boolean editMode = true;
+
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
   @FXML
@@ -71,6 +77,15 @@ public class CreateBookPageController implements Initializable, IContentPageCont
 
   @Override
   public void setEventHandlers() {
+    CustomSceneHelper.getNodeById("createBookPage").addEventFilter(
+        SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
+          @Override
+          public void handle(SourceCustomEvent sourceCustomEvent) {
+            selectedBook = (Book) sourceCustomEvent.getSource();
+            setInfo();
+          }
+        });
+
     CustomSceneHelper.getNodeById("createSourcePage").addEventFilter(
         PageToSendCustomEvent.PAGE_TO_SEND, new EventHandler<PageToSendCustomEvent>() {
           @Override
@@ -84,16 +99,18 @@ public class CreateBookPageController implements Initializable, IContentPageCont
   public void openDateBuilder(ActionEvent event) {
     CustomSceneHelper.bringNodeToFront("CreateDate", "Page");
 
-    CustomSceneHelper.getNodeById("createDatePage").addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
-      @Override
-      public void handle(DateCustomEvent dateCustomEvent) {
-        date = dateCustomEvent.getDate();
-        bookDate.setText(date.toString());
+    CustomSceneHelper.getNodeById("createDatePage")
+        .addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
+          @Override
+          public void handle(DateCustomEvent dateCustomEvent) {
+            date = dateCustomEvent.getDate();
+            bookDate.setText(date.toString());
 
-        CustomSceneHelper.getNodeById("createDatePage").removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
-        CustomSceneHelper.bringNodeToFront("createBook", "Page");
-      }
-    });
+            CustomSceneHelper.getNodeById("createDatePage")
+                .removeEventFilter(DateCustomEvent.DATE, this); // Remove event handler
+            CustomSceneHelper.bringNodeToFront("createBook", "Page");
+          }
+        });
   }
 
   @Override
@@ -103,7 +120,45 @@ public class CreateBookPageController implements Initializable, IContentPageCont
     authorNameInput.clear();
     pagesInput.clear();
     authorsList.clear();
+    selectedBook = null;
+    date = null;
     pageToSend = null;
+    createBookButton.setText("Create Book");
+    editMode = true;
+    changePageMode();
+  }
+
+  public void setInfo() {
+    publisherNameInput.setText(selectedBook.getPublisher());
+    bookNameInput.setText(selectedBook.getName());
+    if (selectedBook.getPages() != null) {
+      pagesInput.setText(selectedBook.getPages().toString());
+    }
+    if (selectedBook.getDateOfPublication() != null) {
+      date = selectedBook.getDateOfPublication();
+      bookDate.setText(selectedBook.getDateOfPublication().toString());
+    }
+    authorsList.addAll(selectedBook.getAuthors());
+    createBookButton.setText("Save Book");
+    changePageMode();
+  }
+
+  private void changePageMode() {
+    if (editMode) {
+      publisherNameInput.setEditable(true);
+      bookNameInput.setEditable(true);
+      pagesInput.setEditable(true);
+      addAuthorButton.setVisible(true);
+      authorNameInput.setVisible(true);
+      addDateButton.setVisible(true);
+    } else {
+      publisherNameInput.setEditable(false);
+      bookNameInput.setEditable(false);
+      pagesInput.setEditable(false);
+      addAuthorButton.setVisible(false);
+      authorNameInput.setVisible(false);
+      addDateButton.setVisible(false);
+    }
   }
 
   @FXML
@@ -127,7 +182,13 @@ public class CreateBookPageController implements Initializable, IContentPageCont
     bookDTO.setPublisher(publisherNameInput.getCharacters().toString());
     bookDTO.setDateOfPublication(date);
 
-    Book book = SourceFacade.createBook(bookDTO);
+    Book book;
+
+    if (selectedBook == null) {
+      book = SourceFacade.createBook(bookDTO);
+    } else {
+      book = SourceFacade.editBook(selectedBook, bookDTO);
+    }
 
     if (pageToSend != null) {
       CustomSceneHelper.getNodeById(pageToSend)

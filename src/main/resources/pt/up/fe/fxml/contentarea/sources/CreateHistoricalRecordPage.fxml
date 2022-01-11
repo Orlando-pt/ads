@@ -56,7 +56,7 @@
         <Font size="20.0" />
       </font>
     </Label>
-    <Button layoutX="430.0" layoutY="197.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+    <Button fx:id="addDateButton" layoutX="430.0" layoutY="197.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
     <TextField fx:id="historicalRecordDate" disable="true" layoutX="347.0" layoutY="162.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
     <RadioButton fx:id="noPlace" layoutX="66.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" selected="true" text="No Place" textFill="WHITE">
       <toggleGroup>

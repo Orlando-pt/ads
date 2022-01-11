@@ -49,7 +49,7 @@
       </font>
     </Label>
     <Button fx:id="addAuthorButton" layoutX="436.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#addAuthor" text="Add Author" />
-    <Button layoutX="423.0" layoutY="193.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+    <Button layoutX="423.0" fx:id="addDateButton" layoutY="193.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
     <TextField fx:id="customSourceDate" disable="true" layoutX="347.0" layoutY="160.0" opacity="0.81" prefHeight="26.0" prefWidth="243.0" />
   </children>
 </AnchorPane>
