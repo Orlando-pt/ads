@@ -5,6 +5,8 @@ import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FilterEventsDTO;
 import pt.up.fe.events.*;
 import pt.up.fe.person.Person;
+import pt.up.fe.places.Place;
+import pt.up.fe.sources.Source;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -57,20 +59,23 @@ public class EventFacade {
         this.dateFacade = dateFacade;
     }
 
-    public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public Event createBirthEvent(String maternity, Place placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, Source source, UUID editId, Person person) {
         Event birthEvent = new Birth();
 
         if (!maternity.isEmpty()) {
             birthEvent.addSpecialPurposeField("Maternity", maternity);
         }
 
-        if (!placeOfBirth.isEmpty()) {
-            // TODO Fix this
-            //birthEvent.addPlaceRelation("Place of Birth", this.getPlaceFacade().choosePlace());
+        if (placeOfBirth != null) {
+            birthEvent.setPlace(placeOfBirth);
         }
 
         if (dateOfBirth != null) {
             birthEvent.setDate(dateOfBirth);
+        }
+
+        if(source != null) {
+            birthEvent.setSource(source);
         }
 
         persons.forEach((key, value) -> {
@@ -233,16 +238,19 @@ public class EventFacade {
         return residenceEvent;
     }
 
-    public Event createCustomEvent(String customName, String placeOfCustom, IDate dateOfCustom, String typeOfCustom, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public Event createCustomEvent(String customName, Place placeOfCustom, IDate dateOfCustom, String typeOfCustom, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, Source source, UUID editId, Person person) {
         Event customEvent = new CustomEvent(customName);
 
         if (!typeOfCustom.isEmpty()) {
             customEvent.addSpecialPurposeField("Type of Custom Event", typeOfCustom);
         }
 
-        if (!placeOfCustom.isEmpty()) {
-            // TODO Fix this
-            // customEvent.addPlaceRelation("Country of Custom Event", this.getPlaceFacade().choosePlace());
+        if (placeOfCustom != null) {
+            customEvent.setPlace(placeOfCustom);
+        }
+
+        if(source != null) {
+            customEvent.setSource(source);
         }
 
         if (dateOfCustom != null) {
