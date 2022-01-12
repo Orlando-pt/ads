@@ -532,8 +532,6 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
-        pushFactorsCombo.getItems().clear();
-        pullFactorsCombo.getItems().clear();
         date = null;
         inCreateMode = true;
         editId = null;

@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
@@ -18,7 +19,10 @@ import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
+import pt.up.fe.places.Place;
+import pt.up.fe.sources.Source;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -43,9 +47,6 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     @FXML
     private TextField nameInput;
-
-    @FXML
-    private TextField placeMarriage;
 
     @FXML
     private ComboBox<String> typeOfMarriage;
@@ -84,6 +85,44 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     private Person selectedPerson;
 
+    // Source
+
+    @FXML
+    private Button selectSourceButton;
+
+    @FXML
+    private RadioButton selectSource;
+
+    @FXML
+    private Button newSourceButton;
+
+    @FXML
+    private RadioButton noSource;
+
+    @FXML
+    private ToggleGroup source_radio;
+
+    private Source selectedSource;
+
+    // Place
+
+    @FXML
+    private Button selectPlaceButton;
+
+    @FXML
+    private Button newPlaceButton;
+
+    @FXML
+    private ToggleGroup place_radio;
+
+    @FXML
+    private RadioButton noPlace;
+
+    @FXML
+    private RadioButton selectPlace;
+
+    private Place selectedPlace;
+
     @FXML
     void createEvent(ActionEvent event) {
         HashMap<String, Person> persons = new HashMap<>();
@@ -98,12 +137,13 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
         Event marriageEvent = new EventFacade().createMarriageEvent(
                 this.marriageName.getText(),
-                this.placeMarriage.getText(),
+                this.selectedPlace,
                 this.date,
                 this.typeOfMarriage.getValue(),
                 persons,
                 specialPurposeFields,
                 this.description.getText(),
+                selectedSource,
                 editId,
                 this.selectedPerson
         );
@@ -214,6 +254,9 @@ public class MarriageEventController implements Initializable, IContentPageContr
         if (this.editMode == false) {
             this.toggleViewMode();
         }
+
+        setButtonsInvisible();
+        setPlaceButtonsInvisible();
     }
 
     @Override
@@ -227,8 +270,20 @@ public class MarriageEventController implements Initializable, IContentPageContr
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        marriageDate.setText(ev.getDate().toString());
-                        description.setText(ev.getDescription());
+                        if(ev.getDate() != null) {
+                            marriageDate.setText(ev.getDate().toString());
+                            date = ev.getDate();
+                        }
+
+                        if(ev.getDescription() != null) {
+                            description.setText(ev.getDescription());
+                        }
+
+                        selectedSource = ev.getSource();
+                        setSourceInfo();
+
+                        selectedPlace = ev.getPlace();
+                        setPlaceInfo();
 
                         for (var entry : ev.getPeopleRelations().entrySet()) {
                             table_persons.getItems().add(new PersonEventDTO(entry.getKey(), entry.getValue()));
@@ -244,9 +299,6 @@ public class MarriageEventController implements Initializable, IContentPageContr
                             }
                         }
 
-                        // placeBirth.setText(ev.getPlace().toString());
-                        date = ev.getDate();
-
                         mainButton.setText("Edit");
                     }
                 });
@@ -256,6 +308,28 @@ public class MarriageEventController implements Initializable, IContentPageContr
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         selectedPerson = personCustomEvent.getPerson();
+                    }
+                });
+
+        CustomSceneHelper.getNodeById("marriageEventPage").addEventFilter(SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
+            @Override
+            public void handle(SourceCustomEvent sourceCustomEvent) {
+                selectedSource = sourceCustomEvent.getSource();
+                setButtonsInvisible();
+                source_radio.selectToggle(selectSource);
+                selectSourceButton.setVisible(true);
+                selectSourceButton.setText(selectedSource.getName());
+            }
+        });
+
+        CustomSceneHelper.getNodeById("marriageEventPage")
+                .addEventFilter(PlaceCustomEvent.PLACE, new EventHandler<PlaceCustomEvent>() {
+                    @Override
+                    public void handle(PlaceCustomEvent placeCustomEvent) {
+                        selectedPlace = placeCustomEvent.getPlace();
+                        place_radio.selectToggle(selectPlace);
+                        selectPlaceButton.setVisible(true);
+                        selectPlaceButton.setText(selectedPlace.getName());
                     }
                 });
     }
@@ -334,6 +408,100 @@ public class MarriageEventController implements Initializable, IContentPageContr
         mainButton.setVisible(false);
     }
 
+    // Source
+
+    @FXML
+    private void selectSourceType(MouseEvent event) throws NoSuchFieldException {
+
+        RadioButton selectedRadioButton = (RadioButton) source_radio.getSelectedToggle();
+        String toogleGroupSelectedValueID = selectedRadioButton.getId();
+        setButtonsInvisible();
+        try {
+            Field field = this.getClass().getDeclaredField(toogleGroupSelectedValueID + "Button");
+            Button b = (Button) field.get(this);
+            b.setVisible(true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            // No need to do anything, button invalid.
+        }
+    }
+
+    @FXML
+    private void selectSource(MouseEvent event) {
+        CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+        CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "marriageEventPage"));
+        CustomSceneHelper.bringNodeToFront("listSources", "Page");
+    }
+
+    @FXML
+    private void addSource(MouseEvent event) {
+        CustomSceneHelper.getNodeById("createSourcePage").fireEvent(new PageToSendCustomEvent(
+                PageToSendCustomEvent.PAGE_TO_SEND, "marriageEventPage"));
+        CustomSceneHelper.bringNodeToFront("createSource", "Page");
+    }
+
+    private void setSourceInfo() {
+        setButtonsInvisible();
+        if (selectedSource != null) {
+            source_radio.selectToggle(selectSource);
+            selectSourceButton.setVisible(true);
+            selectSourceButton.setText(selectedSource.getName());
+        }
+    }
+
+    private void setButtonsInvisible() {
+        newSourceButton.setVisible(false);
+        selectSourceButton.setVisible(false);
+    }
+
+    // Place
+
+    private void setPlaceButtonsInvisible() {
+        newPlaceButton.setVisible(false);
+        selectPlaceButton.setVisible(false);
+    }
+
+    @FXML
+    private void selectPlaceType(MouseEvent event) throws NoSuchFieldException {
+
+        RadioButton selectedRadioButton = (RadioButton) place_radio.getSelectedToggle();
+        String toogleGroupSelectedValueID = selectedRadioButton.getId();
+        setPlaceButtonsInvisible();
+        try {
+            Field field = this.getClass().getDeclaredField(toogleGroupSelectedValueID + "Button");
+            Button b = (Button) field.get(this);
+            b.setVisible(true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            // No need to do anything, button invalid.
+        }
+    }
+
+    @FXML
+    private void selectPlace(MouseEvent event) {
+        CustomSceneHelper.getNodeById("listPlacesPage")
+                .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+        CustomSceneHelper.getNodeById("listPlacesPage").fireEvent(
+                new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND,
+                        "marriageEventPage"));
+        CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
+    }
+
+    @FXML
+    private void addPlace(MouseEvent event) {
+        CustomSceneHelper.getNodeById("createPlacePage").fireEvent(new PageToSendCustomEvent(
+                PageToSendCustomEvent.PAGE_TO_SEND, "marriageEventPage"));
+        CustomSceneHelper.bringNodeToFront("createPlace", "Page");
+    }
+
+    private void setPlaceInfo() {
+        setPlaceButtonsInvisible();
+
+        if (selectedPlace != null) {
+            place_radio.selectToggle(selectPlace);
+            selectPlaceButton.setVisible(true);
+            selectPlaceButton.setText(selectedPlace.getName());
+        }
+    }
+
     @Override
     public void clearPage() {
         marriageDate.clear();
@@ -341,14 +509,19 @@ public class MarriageEventController implements Initializable, IContentPageContr
         fieldInput.clear();
         marriageName.clear();
         nameInput.clear();
-        placeMarriage.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
-        typeOfMarriage.getItems().clear();
         date = null;
         inCreateMode = true;
         editId = null;
         handleButtonChange();
+        // Source
+        source_radio.selectToggle(noSource);
+        setButtonsInvisible();
+        selectedSource = null;
+        // Place
+        place_radio.selectToggle(noPlace);
+        selectedPlace = null;
     }
 }

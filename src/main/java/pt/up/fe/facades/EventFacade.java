@@ -172,23 +172,26 @@ public class EventFacade {
         return emigrationEvent;
     }
 
-    public Event createMarriageEvent(String marriageName, String placeOfMarriage, IDate dateOfMarriage, String typeOfMarriage, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public Event createMarriageEvent(String marriageName, Place placeOfMarriage, IDate dateOfMarriage, String typeOfMarriage, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, Source source, UUID editId, Person person) {
         Event marriageEvent = new Marriage();
 
         if (!marriageName.isEmpty()) {
             marriageEvent.addSpecialPurposeField("Marriage Name", marriageName);
         }
 
-        if (!placeOfMarriage.isEmpty()) {
-            // TODO Fix this
-            // marriageEvent.addPlaceRelation("Country of Marriage", this.getPlaceFacade().choosePlace());
+        if (placeOfMarriage != null) {
+            marriageEvent.setPlace(placeOfMarriage);
+        }
+
+        if(source != null) {
+            marriageEvent.setSource(source);
         }
 
         if (dateOfMarriage != null) {
             marriageEvent.setDate(dateOfMarriage);
         }
 
-        if (!typeOfMarriage.isEmpty()) {
+        if (typeOfMarriage != null) {
             marriageEvent.addSpecialPurposeField("Type Of Marriage", typeOfMarriage);
         }
 
@@ -208,23 +211,26 @@ public class EventFacade {
         return marriageEvent;
     }
 
-    public Event createResidenceEvent(String residenceName, String placeOfResidence, IDate dateOfResidence, String typeOfPlace, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public Event createResidenceEvent(String residenceName, Place placeOfResidence, IDate dateOfResidence, String typeOfPlace, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, Source source, UUID editId, Person person) {
         Event residenceEvent = new Residence();
 
         if (!residenceName.isEmpty()) {
             residenceEvent.addSpecialPurposeField("Residence Name", residenceName);
         }
 
-        if (!placeOfResidence.isEmpty()) {
-            // TODO Fix this
-            // residenceEvent.addPlaceRelation("Country of Residence", this.getPlaceFacade().choosePlace());
+        if (placeOfResidence != null) {
+            residenceEvent.setPlace(placeOfResidence);
         }
 
         if (dateOfResidence != null) {
             residenceEvent.setDate(dateOfResidence);
         }
 
-        if (!typeOfPlace.isEmpty()) {
+        if(source != null) {
+            residenceEvent.setSource(source);
+        }
+
+        if (typeOfPlace == null) {
             residenceEvent.addSpecialPurposeField("Type Of Place", typeOfPlace);
         }
 
