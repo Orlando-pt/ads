@@ -237,6 +237,7 @@ public class CustomEventController implements Initializable, IContentPageControl
 
                         if(ev.getDate() != null) {
                             customDate.setText(ev.getDate().toString());
+                            date = ev.getDate();
                         }
 
                         if(ev.getDescription() != null) {
@@ -260,9 +261,6 @@ public class CustomEventController implements Initializable, IContentPageControl
                                 table_fields.getItems().add(new FieldDTO(entry.getKey(), entry.getValue()));
                             }
                         }
-
-                        // placeBirth.setText(ev.getPlace().toString());
-                        date = ev.getDate();
 
                         mainButton.setText("Edit");
                     }

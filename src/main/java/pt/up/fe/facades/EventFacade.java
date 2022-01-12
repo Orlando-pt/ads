@@ -94,20 +94,23 @@ public class EventFacade {
         return birthEvent;
     }
 
-    public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public Event createDeathEvent(String typeOfDeath, Place placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, Source source, UUID editId, Person person) {
         Event deathEvent = new Death();
 
         if (!typeOfDeath.isEmpty()) {
             deathEvent.addSpecialPurposeField("Type of Death", typeOfDeath);
         }
 
-        if (!placeOfDeath.isEmpty()) {
-            // TODO Fix this
-            //deathEvent.addPlaceRelation("Place of Death", this.getPlaceFacade().choosePlace());
+        if (placeOfDeath != null) {
+            deathEvent.setPlace(placeOfDeath);
         }
 
         if (dateOfDeath != null) {
             deathEvent.setDate(dateOfDeath);
+        }
+
+        if(source != null) {
+            deathEvent.setSource(source);
         }
 
         persons.forEach((key, value) -> {
@@ -126,27 +129,30 @@ public class EventFacade {
         return deathEvent;
     }
 
-    public Event createEmigrationEvent(String typeOfEmigration, String placeOfEmigration, IDate dateOfEmigration, String pushFactor, String pullFactor, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public Event createEmigrationEvent(String typeOfEmigration, Place placeOfEmigration, IDate dateOfEmigration, String pushFactor, String pullFactor, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, Source source, UUID editId, Person person) {
         Event emigrationEvent = new Emigration();
 
         if (!typeOfEmigration.isEmpty()) {
             emigrationEvent.addSpecialPurposeField("Type of Emigration", typeOfEmigration);
         }
 
-        if (!placeOfEmigration.isEmpty()) {
-            // TODO Fix this
-            // emigrationEvent.addPlaceRelation("Country of Emigration", this.getPlaceFacade().choosePlace());
+        if (placeOfEmigration != null) {
+            emigrationEvent.setPlace(placeOfEmigration);
         }
 
         if (dateOfEmigration != null) {
             emigrationEvent.setDate(dateOfEmigration);
         }
 
-        if (!pushFactor.isEmpty()) {
+        if(source != null) {
+            emigrationEvent.setSource(source);
+        }
+
+        if (pushFactor != null) {
             emigrationEvent.addSpecialPurposeField("Push factor", pushFactor);
         }
 
-        if (!pullFactor.isEmpty()) {
+        if (pullFactor != null) {
             emigrationEvent.addSpecialPurposeField("Pull factor", pullFactor);
         }
 
