@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
@@ -62,8 +63,6 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
 
   private OnlineResource selectedOnlineResource;
 
-  private boolean editMode = true;
-
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
   @FXML
@@ -103,7 +102,6 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
     selectedOnlineResource = null;
     date = null;
     createOnlineResourceButton.setText("Create Online Resource");
-    editMode = true;
     changePageMode();
   }
 
@@ -120,7 +118,7 @@ public class CreateOnlineResourcePageController implements Initializable, IConte
   }
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       onlineResourceNameInput.setEditable(true);
       addAuthorButton.setVisible(true);
       authorNameInput.setVisible(true);

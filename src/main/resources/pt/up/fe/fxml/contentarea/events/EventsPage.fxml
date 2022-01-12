@@ -12,12 +12,7 @@
             <Font size="31.0" />
          </font>
       </Label>
-      <Button id="createEvent" fx:id="createEvent" layoutX="172.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#goToAnotherPage" prefHeight="44.0" prefWidth="109.0" text="Create">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Button>
-      <Button fx:id="listEvents" layoutX="370.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#goToAnotherPage" prefHeight="44.0" prefWidth="109.0" text="List">
+      <Button fx:id="listEvents" layoutX="271.0" layoutY="179.0" mnemonicParsing="false" onMouseClicked="#goToAnotherPage" prefHeight="44.0" prefWidth="109.0" text="List">
          <font>
             <Font size="19.0" />
          </font>

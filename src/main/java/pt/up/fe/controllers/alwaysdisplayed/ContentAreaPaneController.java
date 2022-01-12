@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import pt.up.fe.controllers.contentarea.HomePageController;
 import pt.up.fe.controllers.contentarea.events.*;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.controllers.contentarea.dates.CreateDateController;
@@ -98,6 +99,9 @@ public class ContentAreaPaneController implements Initializable {
 
   @FXML
   private ViewEditPlacePageController viewEditPlacePageController;
+
+  @FXML
+  private HomePageController homePageController;
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {

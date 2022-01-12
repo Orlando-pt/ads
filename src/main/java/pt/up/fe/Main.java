@@ -24,6 +24,7 @@ public class Main extends Application {
   public static List<Source> sourcesList = new ArrayList<>();
   public static List<Place> placesList = new ArrayList<>();
   public static List<Event> eventsList = new ArrayList<>();
+  public static boolean editMode = false;
 
 
   private static Scene scene;

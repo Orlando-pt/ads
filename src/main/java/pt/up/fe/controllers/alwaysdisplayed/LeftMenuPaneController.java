@@ -59,7 +59,7 @@ public class LeftMenuPaneController implements Initializable {
         String buttonName = CustomSceneHelper.getSourceName(event.getSource());
         CustomSceneHelper.changeLabelName("pageNameLabel", buttonName);
 
-        //Brings the page clicked to the front. 
+        //Brings the page clicked to the front.
         CustomSceneHelper.bringNodeToFront(buttonName, "Page");
         CustomSceneHelper.contentAreaPaneController.cleanAll();
     }

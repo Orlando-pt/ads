@@ -251,7 +251,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
 
 
-    if (personTable != null) {
+    if (personTable != null && typeDTO != FilterPersonType.NAMES && typeDTO != FilterPersonType.DATE) {
       firstNameLabel.setText(
           "Showing information of " + personTable.getFirstName() + " " + personTable.getLastName());
       firstNameLabel.setVisible(true);

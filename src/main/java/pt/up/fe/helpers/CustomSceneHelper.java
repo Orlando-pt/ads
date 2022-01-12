@@ -49,12 +49,6 @@ public class CustomSceneHelper {
     label.setText(newText);
   }
 
-  /**
-   * Example use case for this function, when a button is clicked, you can do this: String
-   * buttonName = sceneHelper.getSourceName(event.getSource()); //buttonName could be "Home" (the
-   * value it shows to use in application). sceneHelper.bringNodeToFront(buttonName, "Page"); This
-   * will bring up the page with a name that has the same prefixed name as the button clicked.
-   **/
   public static void bringNodeToFront(String nodeName,
       String appendingText)//Appending text is the suffix of node name, such as "Page" or "Button" (first letter capiatlized).
   {

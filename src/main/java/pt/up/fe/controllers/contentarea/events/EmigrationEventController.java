@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
@@ -82,8 +83,6 @@ public class EmigrationEventController implements Initializable, IContentPageCon
     private Boolean inCreateMode = true;
 
     private UUID editId = null;
-
-    private final boolean editMode = true;
 
     private Person selectedPerson;
 
@@ -224,7 +223,7 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
         this.initTables();
 
-        if (this.editMode == false) {
+        if (!Main.editMode) {
             this.toggleViewMode();
         }
     }

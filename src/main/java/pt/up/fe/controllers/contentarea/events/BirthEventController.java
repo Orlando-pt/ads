@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
@@ -78,8 +79,6 @@ public class BirthEventController implements Initializable, IContentPageControll
     private UUID editId = null;
 
     private Person selectedPerson;
-
-    private final boolean editMode = true;
 
     @FXML
     void createEvent(ActionEvent event) {
@@ -169,7 +168,7 @@ public class BirthEventController implements Initializable, IContentPageControll
     public void initialize(URL url, ResourceBundle resources) {
         this.initTables();
 
-        if (this.editMode == false) {
+        if (!Main.editMode) {
             this.toggleViewMode();
         }
     }

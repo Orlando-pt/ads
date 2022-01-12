@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
@@ -115,8 +116,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   private Source selectedSource;
 
   private Person selectedPerson;
-
-  private boolean editMode = true;
 
   ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
 
@@ -272,7 +271,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   @FXML
   private void addEvent(MouseEvent event) {
-    if (editMode) {
+    if (Main.editMode) {
       CustomSceneHelper.getNodeById("createEventPage")
           .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, selectedPerson));
       CustomSceneHelper.bringNodeToFront("createEvent", "Page");
@@ -281,7 +280,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       descriptionInput.setEditable(true);
       firstNameInput.setEditable(true);
       middleNameInput.setEditable(true);
@@ -330,7 +329,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   }
 
   public void save() throws IllegalAccessException {
-    if (editMode) {
+    if (Main.editMode) {
       PersonDTO personDTO = new PersonDTO();
       personDTO.setFirstName(firstNameInput.getText());
       personDTO.setMiddleName(middleNameInput.getText());

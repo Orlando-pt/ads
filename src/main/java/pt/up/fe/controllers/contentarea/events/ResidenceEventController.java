@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.events.FieldDTO;
@@ -26,7 +27,6 @@ import java.util.UUID;
 
 public class ResidenceEventController implements Initializable, IContentPageController {
 
-    private final boolean editMode = true;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -165,7 +165,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
         this.initTables();
 
-        if (this.editMode == false) {
+        if (!Main.editMode) {
             this.toggleViewMode();
         }
     }
