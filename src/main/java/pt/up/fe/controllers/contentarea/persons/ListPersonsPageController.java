@@ -1,6 +1,7 @@
 package pt.up.fe.controllers.contentarea.persons;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -17,8 +18,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import pt.up.fe.controllers.contentarea.IContentPageController;
-import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.IntervalDate;
 import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.dtos.persons.FilterPersonType;
@@ -46,7 +47,22 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
   private Button addDate1Button;
 
   @FXML
+  private Label typeOfSearchLabel;
+
+  @FXML
   private ComboBox typeSearchComboBox;
+
+  @FXML
+  private ComboBox modeComboBox;
+
+  @FXML
+  private ComboBox queryHistoryComboBox;
+
+  @FXML
+  private Label queryHistoryLabel;
+
+  @FXML
+  private Button searchHistoryButton;
 
   @FXML
   private Label selectButtonLabel;
@@ -100,9 +116,11 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
   private String pageToSend;
 
-  private IDate date;
+  private IntervalDate date;
 
   private FilterPersonType typeDTO;
+
+  private List<ImmutablePair<String, Integer>> queryHistory;
 
   ObservableList<PersonTableDTO> list = FXCollections.observableArrayList();
 
@@ -117,17 +135,24 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
     typeSearchComboBox.getItems().clear();
     typeSearchComboBox.getItems()
-        .addAll("Names", "Children", "GrandChildren", "GrandGrandChildren", "Interval of Dates",
-            "Date");
+        .addAll("Names", "Children", "GrandChildren", "GrandGrandChildren",
+            "Interval of Birth Dates");
     typeSearchComboBox.getSelectionModel().select("Names");
+
+    modeComboBox.getItems().clear();
+    modeComboBox.getItems()
+        .addAll("Query", "Query History");
+    modeComboBox.getSelectionModel().select("Query");
+    changeMode(new ActionEvent());
+
+    getQueryHistory();
 
     this.clearPage();
     personsTable.setItems(list);
   }
 
   @FXML
-  private void changeFilterType(ActionEvent event) throws NoSuchFieldException {
-
+  private void changeFilterType(ActionEvent event) {
     String selectedType = (String) typeSearchComboBox.getSelectionModel().getSelectedItem();
     hideFilters();
     switch (selectedType) {
@@ -152,7 +177,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         typeDTO = FilterPersonType.GRANDGRANDCHILDREN;
         searchButton.setText("Select a person to search");
         break;
-      case "Interval of Dates":
+      case "Interval of Birth Dates":
         typeDTO = FilterPersonType.DATE;
         firstNameLabel.setText("Start Date");
         middleNameLabel.setText("End Date");
@@ -165,16 +190,33 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         addDate1Button.setVisible(true);
         addDate1Button.setText("Add Dates");
         break;
-      case "Date":
-        typeDTO = FilterPersonType.DATE;
-        firstNameLabel.setText("Date");
-        firstNameLabel.setVisible(true);
-        firstNameInput.setVisible(true);
-        firstNameInput.setDisable(true);
-        addDate1Button.setVisible(true);
-        addDate1Button.setText("Add Date");
+    }
+  }
+
+  @FXML
+  private void changeMode(ActionEvent event) {
+    String selectedType = (String) modeComboBox.getSelectionModel().getSelectedItem();
+    hideFilters();
+    switch (selectedType) {
+      case "Query":
+        searchButton.setVisible(true);
+        queryHistoryLabel.setVisible(false);
+        queryHistoryComboBox.setVisible(false);
+        searchHistoryButton.setVisible(false);
+        typeSearchComboBox.setVisible(true);
+        typeOfSearchLabel.setVisible(true);
+        changeFilterType(new ActionEvent());
+        break;
+      case "Query History":
+        typeOfSearchLabel.setVisible(false);
+        searchButton.setVisible(false);
+        searchHistoryButton.setVisible(true);
+        queryHistoryLabel.setVisible(true);
+        queryHistoryComboBox.setVisible(true);
+        typeSearchComboBox.setVisible(false);
         break;
     }
+
   }
 
   private void hideFilters() {
@@ -249,9 +291,8 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
     PersonTableDTO personTable = personsTable.getSelectionModel().getSelectedItem();
 
-
-
-    if (personTable != null && typeDTO != FilterPersonType.NAMES && typeDTO != FilterPersonType.DATE) {
+    if (personTable != null && typeDTO != FilterPersonType.NAMES
+        && typeDTO != FilterPersonType.DATE) {
       firstNameLabel.setText(
           "Showing information of " + personTable.getFirstName() + " " + personTable.getLastName());
       firstNameLabel.setVisible(true);
@@ -259,12 +300,11 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     }
 
     if (date != null) {
-      if (date.getClass().getSimpleName().equals("IntervalDate")) {
-        filters.setStartDate((SimpleDate) date);
-      } else {
-        filters.setStartDate(((IntervalDate) date).getStartDate());
-        filters.setEndDate(((IntervalDate) date).getEndDate());
-      }
+      System.out.println(date);
+      System.out.println(date.getStartDate());
+      System.out.println(date.getEndDate());
+      filters.setStartDate(date.getStartDate());
+      filters.setEndDate(date.getEndDate());
     }
 
     list.clear();
@@ -272,8 +312,35 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
     personsFiltered.forEach(person -> {
       list.add(new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
-          person.getGender(), new SimpleDate(), person.getChildren().size(), person));
+          person.getGender(), (person.getBirth() != null ? person.getBirth().getDate() : new SimpleDate()),
+          person.getChildren().size(), person));
     });
+
+    getQueryHistory();
+  }
+
+  private void getQueryHistory() {
+    queryHistory = PersonFacade.queryHistoryMemento();
+    queryHistoryComboBox.getItems().clear();
+    List<String> stringQueries = new ArrayList<>();
+    queryHistory.forEach(query -> {
+      stringQueries.add(query.left);
+    });
+    queryHistoryComboBox.getItems().addAll(stringQueries);
+    queryHistoryComboBox.getSelectionModel().select(0);
+  }
+
+  @FXML
+  private void searchSelectedQueryHistory(MouseEvent event) {
+    list.clear();
+    List<Person> personsFiltered = PersonFacade.executeQueryHistory(
+        queryHistoryComboBox.getSelectionModel().getSelectedIndex());
+
+    personsFiltered.forEach(person -> {
+      list.add(new PersonTableDTO(person.getName(), person.getMiddleName(), person.getLastName(),
+          person.getGender(), (person.getBirth() != null ? person.getBirth().getDate() : new SimpleDate()), person.getChildren().size(), person));
+    });
+    getQueryHistory();
   }
 
   @Override
@@ -301,8 +368,8 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
   public void openDate1Builder(MouseEvent event) {
     CustomSceneHelper.getNodeById("createDatePage")
         .fireEvent(new TypeSelectionDateCustomEvent(TypeSelectionDateCustomEvent.INTERVALSELECTION,
-            ((String) typeSearchComboBox.getSelectionModel().getSelectedItem()).equals(
-                "Interval of Dates")));
+            (typeSearchComboBox.getSelectionModel().getSelectedItem()).equals(
+                "Interval of Birth Dates")));
 
     CustomSceneHelper.bringNodeToFront("createDate", "Page");
 
@@ -310,7 +377,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         .addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
           @Override
           public void handle(DateCustomEvent dateCustomEvent) {
-            date = dateCustomEvent.getDate();
+            date = (IntervalDate) dateCustomEvent.getDate();
 
             if (date.getClass().getSimpleName().equals("SimpleDate")) {
               firstNameInput.setText(date.toString());

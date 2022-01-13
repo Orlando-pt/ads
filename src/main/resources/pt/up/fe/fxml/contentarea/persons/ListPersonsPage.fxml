@@ -62,11 +62,28 @@
          </font>
       </Label>
       <ComboBox fx:id="typeSearchComboBox" layoutX="468.0" layoutY="94.0" onAction="#changeFilterType" prefWidth="150.0" />
-      <Label layoutX="468.0" layoutY="74.0" text="Type of Search" textFill="WHITE">
+      <Label fx:id="typeOfSearchLabel" layoutX="468.0" layoutY="74.0" text="Type of Search" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Button fx:id="addDate1Button" layoutX="24.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#openDate1Builder" prefHeight="26.0" prefWidth="90.0" text="Add Date" />
+      <Label layoutX="24.0" layoutY="14.0" text="Mode" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="modeComboBox"  layoutX="22.0" layoutY="34.0" onAction="#changeMode" prefWidth="150.0" />
+      <ComboBox fx:id="queryHistoryComboBox" layoutX="24.0" layoutY="104.0" prefHeight="33.0" prefWidth="416.0" />
+      <Label fx:id="queryHistoryLabel" layoutX="27.0" layoutY="74.0" text="Query History" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="searchHistoryButton" layoutX="468.0" layoutY="107.0" mnemonicParsing="false" onMouseClicked="#searchSelectedQueryHistory" prefHeight="26.0" prefWidth="139.0" text="Search">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
