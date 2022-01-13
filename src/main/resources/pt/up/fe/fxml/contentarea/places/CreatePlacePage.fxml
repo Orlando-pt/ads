@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import pt.up.fe.helpers.DecimalNumberTextField?>
+<?import pt.up.fe.helpers.AutoCompleteTextField?>
 <ScrollPane id="createPlacePage" fx:id="createPlacePage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.places.CreatePlacePageController">
   <content>
     <AnchorPane prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
@@ -24,7 +25,7 @@
             <Font size="40.0" />
           </font>
         </Text>
-        <TextField fx:id="nameInput" layoutX="72.0" layoutY="116.0" prefHeight="35.0" prefWidth="142.0" promptText="Insert place's name" />
+        <AutoCompleteTextField fx:id="nameInput" layoutX="72.0" layoutY="116.0" prefHeight="35.0" prefWidth="142.0" promptText="Insert place's name" />
         <Label layoutX="72.0" layoutY="90.0" text="Name" textFill="WHITE">
           <font>
             <Font size="20.0" />

@@ -16,46 +16,47 @@ import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.facades.DateFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
+import pt.up.fe.helpers.NumberTextField;
 import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.TypeSelectionDateCustomEvent;
 
 public class CreateDateController implements Initializable, IContentPageController {
 
   @FXML
-  private TextField dayInput;
+  private NumberTextField dayInput;
 
   @FXML
   private Button chooseButton;
 
   @FXML
-  private TextField dayInput1;
+  private NumberTextField dayInput1;
 
   @FXML
   private Text fromLabel;
 
   @FXML
-  private TextField hourInput;
+  private NumberTextField hourInput;
 
   @FXML
-  private TextField hourInput1;
+  private NumberTextField hourInput1;
 
   @FXML
-  private TextField minuteInput;
+  private NumberTextField minuteInput;
 
   @FXML
-  private TextField minuteInput1;
+  private NumberTextField minuteInput1;
 
   @FXML
-  private TextField monthInput;
+  private NumberTextField monthInput;
 
   @FXML
-  private TextField monthInput1;
+  private NumberTextField monthInput1;
 
   @FXML
-  private TextField secondsInput;
+  private NumberTextField secondsInput;
 
   @FXML
-  private TextField secondsInput1;
+  private NumberTextField secondsInput1;
 
   @FXML
   private Text toLabel;
@@ -70,10 +71,10 @@ public class CreateDateController implements Initializable, IContentPageControll
   private RadioButton intervalDateRadio;
 
   @FXML
-  private TextField yearInput;
+  private NumberTextField yearInput;
 
   @FXML
-  private TextField yearInput1;
+  private NumberTextField yearInput1;
 
   @FXML
   private Button createBtn;

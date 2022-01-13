@@ -130,8 +130,15 @@ public class CustomEventController implements Initializable, IContentPageControl
 
         Event customEvent = EventFacade.createCustomEvent(eventDTO);
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, customEvent));
-        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        if(this.selectedPerson == null) {
+            CustomSceneHelper.getNodeById("listEventsPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, customEvent));
+            CustomSceneHelper.bringNodeToFront("listEvents", "Page");
+        }
+        else {
+            CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, customEvent));
+            CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        }
+
         System.out.println(customEvent);
     }
 

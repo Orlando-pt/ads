@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IntervalDate;
 import pt.up.fe.dates.SimpleDate;
@@ -26,6 +27,7 @@ import pt.up.fe.dtos.persons.FilterPersonType;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.facades.PersonFacade;
+import pt.up.fe.helpers.AutoCompleteTextField;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.DateCustomEvent;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
@@ -74,13 +76,13 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
   private Label selectViewButtonLabel;
 
   @FXML
-  private TextField firstNameInput;
+  private AutoCompleteTextField firstNameInput;
 
   @FXML
-  private TextField middleNameInput;
+  private AutoCompleteTextField middleNameInput;
 
   @FXML
-  private TextField lastNameInput;
+  private AutoCompleteTextField lastNameInput;
 
   @FXML
   private Label firstNameLabel;
@@ -126,6 +128,18 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
   @Override
   public void initialize(URL url, ResourceBundle resources) {
+    Main.peopleList.forEach(people -> {
+      if(people.getName() != null) {
+        firstNameInput.getEntries().add(people.getName());
+      }
+      if(people.getMiddleName() != null) {
+        middleNameInput.getEntries().add(people.getMiddleName());
+      }
+      if(people.getLastName() != null) {
+        lastNameInput.getEntries().add(people.getLastName());
+      }
+    });
+
     firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
     middleName.setCellValueFactory(new PropertyValueFactory<>("middleName"));
     lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));

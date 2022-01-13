@@ -2,6 +2,7 @@ package pt.up.fe.controllers.contentarea.persons;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,9 +14,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dtos.persons.PersonDTO;
 import pt.up.fe.facades.PersonFacade;
+import pt.up.fe.helpers.AutoCompleteTextField;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PersonCustomEvent;
@@ -34,13 +37,13 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
   private Button newSourceButton;
 
   @FXML
-  private TextField firstNameInput;
+  private AutoCompleteTextField firstNameInput;
 
   @FXML
-  private TextField middleNameInput;
+  private AutoCompleteTextField middleNameInput;
 
   @FXML
-  private TextField lastNameInput;
+  private AutoCompleteTextField lastNameInput;
 
   @FXML
   private ComboBox genderInput;
@@ -64,6 +67,19 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
 
   @Override
   public void initialize(URL url, ResourceBundle resources) {
+
+    Main.peopleList.forEach(people -> {
+      if(people.getName() != null) {
+        firstNameInput.getEntries().add(people.getName());
+      }
+      if(people.getMiddleName() != null) {
+        middleNameInput.getEntries().add(people.getMiddleName());
+      }
+      if(people.getLastName() != null) {
+        lastNameInput.getEntries().add(people.getLastName());
+      }
+    });
+
     setButtonsInvisible();
   }
 

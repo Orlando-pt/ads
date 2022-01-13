@@ -126,8 +126,15 @@ public class BirthEventController implements Initializable, IContentPageControll
 
         Event birthEvent = EventFacade.createBirthEvent(eventDTO);
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, birthEvent));
-        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        if(this.selectedPerson == null) {
+            CustomSceneHelper.getNodeById("listEventsPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, birthEvent));
+            CustomSceneHelper.bringNodeToFront("listEvents", "Page");
+        }
+        else {
+            CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, birthEvent));
+            CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        }
+
         System.out.println(birthEvent);
     }
 
@@ -241,6 +248,7 @@ public class BirthEventController implements Initializable, IContentPageControll
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
+                        System.out.println(personCustomEvent.getPerson().getName());
                         selectedPerson = personCustomEvent.getPerson();
                     }
                 });

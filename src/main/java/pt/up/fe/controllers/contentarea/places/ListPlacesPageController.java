@@ -16,12 +16,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.dtos.places.FilterPlacesDTO;
 import pt.up.fe.dtos.places.PlaceTableDTO;
 import pt.up.fe.dtos.places.PlaceType;
 import pt.up.fe.facades.PlaceFacade;
+import pt.up.fe.helpers.AutoCompleteTextField;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.PlaceCustomEvent;
@@ -44,7 +46,7 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
   private Label selectViewButtonLabel;
 
   @FXML
-  private TextField nameInput;
+  private AutoCompleteTextField nameInput;
 
   @FXML
   private ComboBox placeType;
@@ -75,6 +77,12 @@ public class ListPlacesPageController implements Initializable, IContentPageCont
 
   @Override
   public void initialize(URL url, ResourceBundle resources) {
+    Main.placesList.forEach(place -> {
+      if(place.getName() != null) {
+        nameInput.getEntries().add(place.getName());
+      }
+    });
+
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     latitude.setCellValueFactory(new PropertyValueFactory<>("latitude"));
     longitude.setCellValueFactory(new PropertyValueFactory<>("longitude"));

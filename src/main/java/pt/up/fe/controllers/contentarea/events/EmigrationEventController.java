@@ -133,8 +133,14 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
         Event emigrationEvent = EventFacade.createEmigrationEvent(eventDTO);
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
-        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        if(this.selectedPerson == null) {
+            CustomSceneHelper.getNodeById("listEventsPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
+            CustomSceneHelper.bringNodeToFront("listEvents", "Page");
+        }
+        else {
+            CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
+            CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        }
         System.out.println(emigrationEvent);
     }
 
