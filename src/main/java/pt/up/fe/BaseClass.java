@@ -13,6 +13,7 @@ public abstract class BaseClass implements IExportObject {
   private String name;
   private String description;
   private Source source;
+  private UUID auxSource;
 
   public BaseClass() {
     this.id = UUID.randomUUID();
@@ -24,6 +25,15 @@ public abstract class BaseClass implements IExportObject {
 
   public BaseClass(JSONObject obj) {
     this.id = UUID.fromString((String) (obj.has("id") ? obj.get("id") : null));
+    if (obj.has("name")) {
+      this.name = (String) obj.get("name");
+    }
+    if (obj.has("description")) {
+      this.description = (String) obj.get("description");
+    }
+    if (obj.has("source")) {
+      this.auxSource = UUID.fromString((String) obj.get("source"));
+    }
   }
 
   public UUID getId() {
@@ -52,6 +62,10 @@ public abstract class BaseClass implements IExportObject {
 
   public void setSource(Source source) {
     this.source = source;
+  }
+
+  public UUID getAuxSource() {
+    return this.auxSource;
   }
 
   @Override

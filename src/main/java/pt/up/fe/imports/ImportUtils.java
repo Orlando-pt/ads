@@ -12,16 +12,18 @@ import pt.up.fe.sources.Source;
 
 public abstract class ImportUtils {
   public static ImportUtilsOutputDto link(ImportUtilsInputDto obj) {
-    Map<UUID, Place> places = ImportUtils.populatePlaces(obj.getPlaces());
+    Map<UUID, Place> places = obj.getPlaces();
     Map<UUID, Source> sources = ImportUtils.populateSources(obj.getSources(), places);
+    places = ImportUtils.populatePlaces(obj.getPlaces(), sources);
     Map<UUID, Person> people = obj.getPeople();
-    Map<UUID, Event> events = ImportUtils.populateEvents(obj.getEvents(), places, people);
-    people = ImportUtils.populatePeople(people, events);
+    Map<UUID, Event> events = ImportUtils.populateEvents(obj.getEvents(), places, people, sources);
+    people = ImportUtils.populatePeople(people, events, sources);
 
     return new ImportUtilsOutputDto(people, sources, places, events);
   }
 
-  public static Map<UUID, Place> populatePlaces(Map<UUID, Place> places) {
+  public static Map<UUID, Place> populatePlaces(
+      Map<UUID, Place> places, Map<UUID, Source> sources) {
     for (Place p : places.values()) {
       if (p.isComposite() == false) {
         continue;
@@ -29,6 +31,7 @@ public abstract class ImportUtils {
       for (UUID childId : ((CompoundPlace) p).getAuxChildren()) {
         ((CompoundPlace) p).addChild(places.get(childId));
       }
+      p.setSource(sources.get(p.getAuxSource()));
     }
     return places;
   }
@@ -51,7 +54,10 @@ public abstract class ImportUtils {
   }
 
   public static Map<UUID, Event> populateEvents(
-      Map<UUID, Event> events, Map<UUID, Place> places, Map<UUID, Person> people) {
+      Map<UUID, Event> events,
+      Map<UUID, Place> places,
+      Map<UUID, Person> people,
+      Map<UUID, Source> sources) {
 
     for (Event e : events.values()) {
       // Place
@@ -66,12 +72,14 @@ public abstract class ImportUtils {
       for (Map.Entry<String, UUID> entry : e.getAuxPeopleRelations().entrySet()) {
         e.addPeopleRelation(entry.getKey(), people.get(entry.getValue()));
       }
+
+      e.setSource(sources.get(e.getAuxSource()));
     }
     return events;
   }
 
   public static Map<UUID, Person> populatePeople(
-      Map<UUID, Person> people, Map<UUID, Event> events) {
+      Map<UUID, Person> people, Map<UUID, Event> events, Map<UUID, Source> sources) {
     for (Person p : people.values()) {
       for (UUID childId : p.getAuxChildren()) {
         p.addChild(people.get(childId));
@@ -79,6 +87,7 @@ public abstract class ImportUtils {
       for (UUID childId : p.getAuxEvents()) {
         p.addEvent(events.get(childId));
       }
+      p.setSource(sources.get(p.getAuxSource()));
     }
 
     return people;

@@ -40,6 +40,14 @@ public class Person extends BaseClass {
     super(obj);
     this.setGender((obj.has("gender") ? Gender.valueOf((String) obj.get("gender")) : null));
 
+    if (obj.has("middleName")) {
+      this.middleName = (String)obj.get("middleName");
+    }
+
+    if (obj.has("lastName")) {
+      this.lastName = (String)obj.get("lastName");
+    }
+
     if (obj.has("children")) {
       for (Object o : obj.getJSONArray("children")) {
         String id = (String) o;
@@ -163,24 +171,6 @@ public class Person extends BaseClass {
     return sBuilder.toString();
   }
 
-  @Override
-  public JSONObject toJSONObject() {
-    JSONObject obj = super.toJSONObject();
-    if (this.getGender() != null) {
-      obj.put("gender", this.getGender());
-    }
-    JSONArray events = new JSONArray();
-    for (Event event : this.getEvents()) {
-      events.put(event.getId().toString());
-    }
-    obj.put("events", events);
-    JSONArray children = new JSONArray();
-    for (Person child : this.getChildren()) {
-      children.put(child.getId().toString());
-    }
-    obj.put("children", children);
-    return obj;
-  }
   // marriage methods
 
   public List<Event> getMarriages() {
@@ -241,9 +231,32 @@ public class Person extends BaseClass {
   }
 
   @Override
+  public JSONObject toJSONObject() {
+    JSONObject obj = super.toJSONObject();
+    obj.put("middleName", this.getMiddleName());
+    obj.put("lastName", this.getLastName());
+    if (this.getGender() != null) {
+      obj.put("gender", this.getGender());
+    }
+    JSONArray events = new JSONArray();
+    for (Event event : this.getEvents()) {
+      events.put(event.getId().toString());
+    }
+    obj.put("events", events);
+    JSONArray children = new JSONArray();
+    for (Person child : this.getChildren()) {
+      children.put(child.getId().toString());
+    }
+    obj.put("children", children);
+    return obj;
+  }
+
+  @Override
   public Map<String, Object> toYAMLObject() {
     Map<String, Object> obj = super.toYAMLObject();
 
+    obj.put("middleName", this.getMiddleName());
+    obj.put("lastName", this.getLastName());
     if (this.getGender() != null) {
       obj.put("gender", this.getGender().toString());
     }
