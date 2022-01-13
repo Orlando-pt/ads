@@ -15,6 +15,7 @@ import pt.up.fe.controllers.contentarea.persons.PersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController;
 import pt.up.fe.controllers.contentarea.places.CreatePlacePageController;
 import pt.up.fe.controllers.contentarea.places.ListPlacesPageController;
+import pt.up.fe.controllers.contentarea.places.PlacesPageController;
 import pt.up.fe.controllers.contentarea.places.ViewEditPlacePageController;
 import pt.up.fe.controllers.contentarea.sources.CreateBookPageController;
 import pt.up.fe.controllers.contentarea.sources.CreateCustomSourcePageController;
@@ -93,6 +94,9 @@ public class ContentAreaPaneController implements Initializable {
 
   @FXML
   private CreatePlacePageController createPlacePageController;
+
+  @FXML
+  private PlacesPageController placesPageController;
 
   @FXML
   private ListPlacesPageController listPlacesPageController;

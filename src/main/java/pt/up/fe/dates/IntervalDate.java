@@ -94,7 +94,7 @@ public class IntervalDate implements IDate{
     int compareWithStartDate = this.startDate.compareTo(intervalDate);
     int compareWithEndDate = this.endDate.compareTo(intervalDate);
 
-    if (compareWithStartDate == -10 || compareWithEndDate == -10)
+    if ((compareWithStartDate == 1 || compareWithStartDate == 0) && (compareWithEndDate == -1 || compareWithEndDate == 0))
       return -10;
 
     if (compareWithStartDate == -1 && compareWithEndDate == 1)
