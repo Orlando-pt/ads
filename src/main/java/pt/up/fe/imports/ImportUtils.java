@@ -21,7 +21,7 @@ public abstract class ImportUtils {
     return new ImportUtilsOutputDto(people, sources, places, events);
   }
 
-  private static Map<UUID, Place> populatePlaces(Map<UUID, Place> places) {
+  public static Map<UUID, Place> populatePlaces(Map<UUID, Place> places) {
     for (Place p : places.values()) {
       if (p.isComposite() == false) {
         continue;
@@ -33,7 +33,7 @@ public abstract class ImportUtils {
     return places;
   }
 
-  private static Map<UUID, Source> populateSources(
+  public static Map<UUID, Source> populateSources(
       Map<UUID, Source> sources, Map<UUID, Place> places) {
     for (Source s : sources.values()) {
       if (s instanceof HistoricalRecord) {
@@ -50,7 +50,7 @@ public abstract class ImportUtils {
     return sources;
   }
 
-  private static Map<UUID, Event> populateEvents(
+  public static Map<UUID, Event> populateEvents(
       Map<UUID, Event> events, Map<UUID, Place> places, Map<UUID, Person> people) {
 
     for (Event e : events.values()) {
@@ -70,7 +70,7 @@ public abstract class ImportUtils {
     return events;
   }
 
-  private static Map<UUID, Person> populatePeople(
+  public static Map<UUID, Person> populatePeople(
       Map<UUID, Person> people, Map<UUID, Event> events) {
     for (Person p : people.values()) {
       for (UUID childId : p.getAuxChildren()) {
