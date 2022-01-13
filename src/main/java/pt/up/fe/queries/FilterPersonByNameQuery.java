@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import org.json.JSONObject;
 
 import pt.up.fe.person.Person;
@@ -47,6 +48,31 @@ public class FilterPersonByNameQuery implements QueryCommand{
                 this.firstNameFilter.and(this.middleNameFilter.and(this.lastNameFilter))
             ).collect(Collectors.toList())
         );
+    }
+
+    @Override
+    public String toString() {
+        // when it makes a search for all the people
+
+        // without specifying fields, then return the following string
+        boolean nameValidation = this.specifiedFields.getName() != null && !this.specifiedFields.getName().getName().isEmpty();
+        boolean middleNameValidation = this.specifiedFields.getMiddleName() != null && !this.specifiedFields.getMiddleName().getName().isEmpty();
+        boolean lastNameValidation = this.specifiedFields.getLastName() != null && !this.specifiedFields.getLastName().getName().isEmpty();
+        if (!nameValidation && !middleNameValidation && !lastNameValidation)
+            return "Searched for all Persons";
+
+        StringBuilder sb = new StringBuilder("Searched by Person using [");
+
+        if (nameValidation)
+            sb.append("First Name = " + this.specifiedFields.getName().getName() + ", ");
+
+        if (middleNameValidation)
+            sb.append("Middle Name = " + this.specifiedFields.getMiddleName().getName() + ", ");
+
+        if (lastNameValidation)
+            sb.append("Last Name = " + this.specifiedFields.getLastName().getName() + ", ");
+
+        return sb.substring(0, sb.length() - 2) + "]";
     }
 
     private Predicate<Person> createFirstNameFilter() {

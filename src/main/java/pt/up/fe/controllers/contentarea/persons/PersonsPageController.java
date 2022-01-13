@@ -1,14 +1,19 @@
 package pt.up.fe.controllers.contentarea.persons;
 
+import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.helpers.CustomSceneHelper;
 
 public class PersonsPageController implements Initializable, IContentPageController {
+
+  @FXML
+  private Button createPerson;
 
   @FXML
   public void initialize(URL url, ResourceBundle resources) {
@@ -28,6 +33,11 @@ public class PersonsPageController implements Initializable, IContentPageControl
 
   @Override
   public void clearPage() {
+    if (Main.editMode) {
+      createPerson.setVisible(true);
+    } else {
+      createPerson.setVisible(false);
+    }
 
   }
 }

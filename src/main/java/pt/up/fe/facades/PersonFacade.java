@@ -1,8 +1,11 @@
 package pt.up.fe.facades;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import pt.up.fe.Main;
 import pt.up.fe.dates.IntervalDate;
+import pt.up.fe.dtos.persons.FilterPersonType;
 import pt.up.fe.dtos.persons.FilterPersonsDTO;
 import pt.up.fe.dtos.persons.PersonDTO;
 import pt.up.fe.exports.DotExport;
@@ -15,11 +18,12 @@ import pt.up.fe.queries.FilterPersonByNameQuery;
 import pt.up.fe.queries.GrandChildrenQuery;
 import pt.up.fe.queries.GrandGrandChildrenQuery;
 import pt.up.fe.queries.NameAttribute;
+import pt.up.fe.queries.QueryCommand;
 import pt.up.fe.queries.QueryInvoker;
+import pt.up.fe.queries.QueryMemento;
 import pt.up.fe.queries.QueryMementoCaretaker;
 import pt.up.fe.queries.QueryResultPersonList;
 import pt.up.fe.queries.SpecifiedPersonAttributes;
-
 
 
 public class PersonFacade {
@@ -56,7 +60,7 @@ public class PersonFacade {
 
     QueryResultPersonList resultReceiver = new QueryResultPersonList();
 
-    switch (filterPersonsDTO.getFilterPersonType()){
+    switch (filterPersonsDTO.getFilterPersonType()) {
       case DATE:
         filterByDate(filterPersonsDTO, resultReceiver);
         break;
@@ -83,9 +87,32 @@ public class PersonFacade {
     return personEdited;
   }
 
-  // TODO pensar que fazer com memento
+  public static List<ImmutablePair<String, Integer>> queryHistoryMemento() {
+    List<ImmutablePair<String, Integer>> queryHistory = new ArrayList<>();
 
-  public static QueryResultPersonList filterByNames(FilterPersonsDTO filterPersonDto, QueryResultPersonList receiver) {
+    List<QueryMemento> list = caretaker.getCommandsHistory();
+
+    for (int i = 0; i < list.size(); i++) {
+      queryHistory.add(
+          new ImmutablePair<String, Integer>(list.get(i).getQuery().toString(), i));
+    }
+
+    return queryHistory;
+  }
+
+  public static List<Person> executeQueryHistory(int index) {
+    QueryResultPersonList resultReceiver = new QueryResultPersonList();
+
+    caretaker.restoreCommand(index);
+    QueryCommand command = invoker.getCurrentCommand();
+    command.setReceiver(resultReceiver);
+
+    invoker.executeCommand();
+    return resultReceiver.getPersonList();
+  }
+
+  public static QueryResultPersonList filterByNames(FilterPersonsDTO filterPersonDto,
+      QueryResultPersonList receiver) {
 
     SpecifiedPersonAttributes attributes = new SpecifiedPersonAttributes();
 
@@ -114,29 +141,39 @@ public class PersonFacade {
     return receiver;
   }
 
-  public static QueryResultPersonList filterByDate(FilterPersonsDTO filterPersonsDTO, QueryResultPersonList receiver) {
+  public static QueryResultPersonList filterByDate(FilterPersonsDTO filterPersonsDTO,
+      QueryResultPersonList receiver) {
     DateAttribute date;
-    if (filterPersonsDTO.getStartDate().isEmpty() && filterPersonsDTO.getEndDate().isEmpty())
-      // it means it was requested a interval
+
+    if (filterPersonsDTO.getStartDate() == null && filterPersonsDTO.getEndDate() == null) {
+      filterPersonsDTO.setFilterPersonType(FilterPersonType.NAMES);
+      return filterByNames(filterPersonsDTO, receiver);
+    }
+
+    if (!filterPersonsDTO.getStartDate().isEmpty() && !filterPersonsDTO.getEndDate().isEmpty())
+    // it means it was requested a interval
+    {
       date = new DateAttribute(
           new IntervalDate(
               filterPersonsDTO.getStartDate(),
               filterPersonsDTO.getEndDate()
           ), DateQueryTypeEnum.CONTAINS
       );
-    else
-    if (filterPersonsDTO.getStartDate().isEmpty())
-      // check all dates after start date
+    } else if (!filterPersonsDTO.getStartDate().isEmpty())
+    // check all dates after start date
+    {
       date = new DateAttribute(
           filterPersonsDTO.getStartDate(),
           DateQueryTypeEnum.AFTER
       );
-    else
-      // check all dates before end date
+    } else
+    // check all dates before end date
+    {
       date = new DateAttribute(
           filterPersonsDTO.getEndDate(),
           DateQueryTypeEnum.BEFORE
       );
+    }
 
     FilterPersonByBirthQuery query = new FilterPersonByBirthQuery(
         receiver,
@@ -150,7 +187,8 @@ public class PersonFacade {
     return receiver;
   }
 
-  public static QueryResultPersonList getPersonChildren(FilterPersonsDTO filterPersonsDTO, QueryResultPersonList receiver) {
+  public static QueryResultPersonList getPersonChildren(FilterPersonsDTO filterPersonsDTO,
+      QueryResultPersonList receiver) {
     ChildrenQuery query = new ChildrenQuery(receiver, filterPersonsDTO.getPerson());
 
     invoker.setCommand(query);
@@ -159,7 +197,8 @@ public class PersonFacade {
     return receiver;
   }
 
-  public static QueryResultPersonList getGrandChildren(FilterPersonsDTO filterPersonsDTO, QueryResultPersonList receiver) {
+  public static QueryResultPersonList getGrandChildren(FilterPersonsDTO filterPersonsDTO,
+      QueryResultPersonList receiver) {
     GrandChildrenQuery query = new GrandChildrenQuery(receiver, filterPersonsDTO.getPerson());
 
     invoker.setCommand(query);
@@ -168,8 +207,10 @@ public class PersonFacade {
     return receiver;
   }
 
-  public static QueryResultPersonList getGrandGrandChildren(FilterPersonsDTO filterPersonsDTO, QueryResultPersonList receiver) {
-    GrandGrandChildrenQuery query = new GrandGrandChildrenQuery(receiver, filterPersonsDTO.getPerson());
+  public static QueryResultPersonList getGrandGrandChildren(FilterPersonsDTO filterPersonsDTO,
+      QueryResultPersonList receiver) {
+    GrandGrandChildrenQuery query = new GrandGrandChildrenQuery(receiver,
+        filterPersonsDTO.getPerson());
 
     invoker.setCommand(query);
     invoker.executeCommand();

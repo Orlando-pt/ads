@@ -35,6 +35,23 @@ public class GrandGrandChildrenQuery implements QueryCommand{
             )
         );
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Searched by GrandgrandChildren of Person [");
+
+        if (this.root.getName() != null && !this.root.getName().isEmpty())
+            sb.append("First Name = " + this.root.getName() + ", ");
+
+        if (this.root.getMiddleName() != null && !this.root.getMiddleName().isEmpty())
+            sb.append("Middle Name = " + this.root.getMiddleName() + ", ");
+
+        if (this.root.getLastName() != null && !this.root.getLastName().isEmpty())
+            sb.append("Last Name = " + this.root.getLastName() + ", ");
+
+        return sb.substring(0, sb.length()  - 2) + "]";
+    }
+
     @Override
     public Map<String, Object> toYAMLObject() {
         return null;

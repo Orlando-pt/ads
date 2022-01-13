@@ -76,10 +76,7 @@ public class SimpleDate implements IDate {
 
     sBuilder.append(this.checkDateOrDay(year, true) + "/");
     sBuilder.append(this.checkDateOrDay(month, false) + "/");
-    sBuilder.append(this.checkDateOrDay(day, false) + " ");
-    sBuilder.append(this.checkDateOrDay(hour, false) + ":");
-    sBuilder.append(this.checkDateOrDay(minute, false) + ":");
-    sBuilder.append(this.checkDateOrDay(second, false));
+    sBuilder.append(this.checkDateOrDay(day, false));
 
     return sBuilder.toString();
   }

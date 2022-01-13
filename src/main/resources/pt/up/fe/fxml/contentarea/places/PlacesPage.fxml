@@ -12,7 +12,7 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <Button layoutX="73.0" layoutY="185.0" id="createPlace" fx:id="createPlace" mnemonicParsing="false" onMouseClicked="#goToAnotherPlacePage" text="Create Place">
+      <Button layoutX="73.0" layoutY="185.0" fx:id="createPlace" mnemonicParsing="false" onMouseClicked="#goToAnotherPlacePage" text="Create Place">
          <font>
             <Font size="16.0" />
          </font>
