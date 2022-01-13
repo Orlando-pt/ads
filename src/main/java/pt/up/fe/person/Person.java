@@ -58,7 +58,7 @@ public class Person extends BaseClass {
     if (obj.has("events")) {
       for (Object o : obj.getJSONArray("events")) {
         String id = (String) o;
-        this.auxChildren.add(UUID.fromString(id));
+        this.auxEvents.add(UUID.fromString(id));
       }
     }
   }
