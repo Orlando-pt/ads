@@ -31,61 +31,40 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class BirthEventController implements Initializable, IContentPageController {
-
     @FXML
     private AnchorPane anchorPane;
-
     @FXML
     private TextField birthDate;
-
     @FXML
     private TextArea description;
-
     @FXML
     private TextField fieldInput;
-
     @FXML
     private TextField maternity;
-
     @FXML
     private TextField nameInput;
-
     @FXML
     private TextField relationshipInput;
-
     @FXML
     private TableView<FieldDTO> table_fields;
-
     @FXML
     private TableColumn<FieldDTO, String> col_field;
-
     @FXML
     private TableColumn<FieldDTO, String> col_name;
-
     @FXML
     private TableView<PersonEventDTO> table_persons;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_relationship;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
-
     @FXML
     private Button mainButton;
-
     private IDate date;
-
     private Boolean inCreateMode = true;
-
     private UUID editId = null;
-
     private Person selectedPerson;
 
-    private final boolean editMode = true;
-
     // Source
-
     @FXML
     private Button selectSourceButton;
 
@@ -149,7 +128,7 @@ public class BirthEventController implements Initializable, IContentPageControll
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, birthEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
-        System.out.println(birthEvent.toString());
+        System.out.println(birthEvent);
     }
 
     @FXML
@@ -212,10 +191,6 @@ public class BirthEventController implements Initializable, IContentPageControll
     public void initialize(URL url, ResourceBundle resources) {
         this.initTables();
 
-        if (!Main.editMode) {
-            this.toggleViewMode();
-        }
-
         setButtonsInvisible();
         setPlaceButtonsInvisible();
     }
@@ -231,12 +206,12 @@ public class BirthEventController implements Initializable, IContentPageControll
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        if(ev.getDate() != null) {
+                        if (ev.getDate() != null) {
                             birthDate.setText(ev.getDate().toString());
                             date = ev.getDate();
                         }
 
-                        if(ev.getDescription() != null) {
+                        if (ev.getDescription() != null) {
                             description.setText(ev.getDescription());
                         }
 
@@ -346,27 +321,33 @@ public class BirthEventController implements Initializable, IContentPageControll
         } else {
             mainButton.setText("Edit");
         }
+        this.toggleApplicationMode(Main.editMode);
     }
 
-    private void toggleViewMode() {
+    private void toggleApplicationMode(Boolean isEditMode) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField) node).setEditable(false);
+                ((TextField) node).setEditable(isEditMode);
             }
             if (node instanceof Button) {
-                node.setDisable(true);
+                node.setDisable(!isEditMode);
             }
             if (node instanceof TextArea) {
-                ((TextArea) node).setEditable(false);
+                ((TextArea) node).setEditable(isEditMode);
             }
         }
 
         source_radio.getToggles().forEach(toggle -> {
             Node node = (Node) toggle;
-            node.setDisable(false);
+            node.setDisable(!isEditMode);
         });
 
-        mainButton.setVisible(false);
+        place_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        mainButton.setVisible(isEditMode);
     }
 
     // Source

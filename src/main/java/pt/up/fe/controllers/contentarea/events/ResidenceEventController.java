@@ -13,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dtos.events.BirthEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.dtos.events.ResidenceEventDTO;
@@ -134,7 +133,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
-        System.out.println(residenceEvent.toString());
+        System.out.println(residenceEvent);
     }
 
     @FXML
@@ -209,10 +208,6 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
         this.initTables();
 
-        if (!Main.editMode) {
-            this.toggleViewMode();
-        }
-
         setButtonsInvisible();
         setPlaceButtonsInvisible();
     }
@@ -228,12 +223,12 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        if(ev.getDate() != null) {
+                        if (ev.getDate() != null) {
                             residenceDate.setText(ev.getDate().toString());
                             date = ev.getDate();
                         }
 
-                        if(ev.getDescription() != null) {
+                        if (ev.getDescription() != null) {
                             description.setText(ev.getDescription());
                         }
 
@@ -345,25 +340,40 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         } else {
             mainButton.setText("Edit");
         }
+        this.toggleApplicationMode(Main.editMode);
     }
 
-    private void toggleViewMode() {
+    private void toggleApplicationMode(Boolean isEditMode) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField) node).setEditable(false);
+                ((TextField) node).setEditable(isEditMode);
             }
             if (node instanceof Button) {
-                node.setDisable(true);
+                node.setDisable(!isEditMode);
             }
             if (node instanceof TextArea) {
-                ((TextArea) node).setEditable(false);
+                ((TextArea) node).setEditable(isEditMode);
             }
             if (node instanceof ComboBox) {
-                ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+                if (isEditMode == false) {
+                    ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+                } else {
+                    ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
+                }
             }
         }
 
-        mainButton.setVisible(false);
+        source_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        place_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        mainButton.setVisible(isEditMode);
     }
 
     // Source

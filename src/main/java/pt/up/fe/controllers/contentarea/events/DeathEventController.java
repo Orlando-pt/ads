@@ -13,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dtos.events.BirthEventDTO;
 import pt.up.fe.dtos.events.DeathEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
@@ -32,8 +31,6 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class DeathEventController implements Initializable, IContentPageController {
-
-    private final boolean editMode = true;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -132,7 +129,7 @@ public class DeathEventController implements Initializable, IContentPageControll
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, deathEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
-        System.out.println(deathEvent.toString());
+        System.out.println(deathEvent);
     }
 
     @FXML
@@ -194,10 +191,6 @@ public class DeathEventController implements Initializable, IContentPageControll
     @FXML
     public void initialize(URL url, ResourceBundle resources) {
         this.initTables();
-
-        if (!Main.editMode) {
-            this.toggleViewMode();
-        }
 
         setButtonsInvisible();
         setPlaceButtonsInvisible();
@@ -329,27 +322,33 @@ public class DeathEventController implements Initializable, IContentPageControll
         } else {
             mainButton.setText("Edit");
         }
+        this.toggleApplicationMode(Main.editMode);
     }
 
-    private void toggleViewMode() {
+    private void toggleApplicationMode(Boolean isEditMode) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField) node).setEditable(false);
+                ((TextField) node).setEditable(isEditMode);
             }
             if (node instanceof Button) {
-                node.setDisable(true);
+                node.setDisable(!isEditMode);
             }
             if (node instanceof TextArea) {
-                ((TextArea) node).setEditable(false);
+                ((TextArea) node).setEditable(isEditMode);
             }
         }
 
         source_radio.getToggles().forEach(toggle -> {
             Node node = (Node) toggle;
-            node.setDisable(false);
+            node.setDisable(!isEditMode);
         });
 
-        mainButton.setVisible(false);
+        place_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        mainButton.setVisible(isEditMode);
     }
 
     // Source

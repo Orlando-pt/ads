@@ -31,8 +31,6 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class EmigrationEventController implements Initializable, IContentPageController {
-
-    private final boolean editMode = true;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -247,10 +245,6 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
         this.initTables();
 
-        if (!Main.editMode) {
-            this.toggleViewMode();
-        }
-
         setButtonsInvisible();
         setPlaceButtonsInvisible();
     }
@@ -385,30 +379,40 @@ public class EmigrationEventController implements Initializable, IContentPageCon
         } else {
             mainButton.setText("Edit");
         }
+        this.toggleApplicationMode(Main.editMode);
     }
 
-    private void toggleViewMode() {
+    private void toggleApplicationMode(Boolean isEditMode) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField) node).setEditable(false);
+                ((TextField) node).setEditable(isEditMode);
             }
             if (node instanceof Button) {
-                node.setDisable(true);
+                node.setDisable(!isEditMode);
             }
             if (node instanceof TextArea) {
-                ((TextArea) node).setEditable(false);
+                ((TextArea) node).setEditable(isEditMode);
             }
             if (node instanceof ComboBox) {
-                ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+                if (isEditMode == false) {
+                    ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+                } else {
+                    ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
+                }
             }
         }
 
         source_radio.getToggles().forEach(toggle -> {
             Node node = (Node) toggle;
-            node.setDisable(false);
+            node.setDisable(!isEditMode);
         });
 
-        mainButton.setVisible(false);
+        place_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        mainButton.setVisible(isEditMode);
     }
 
     // Source
