@@ -262,6 +262,8 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
         eventName += "Event";
       }
       CustomSceneHelper.getNodeById(eventName + "Page")
+              .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, selectedPerson));
+      CustomSceneHelper.getNodeById(eventName + "Page")
           .fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
       CustomSceneHelper.bringNodeToFront(eventName, "Page");
 

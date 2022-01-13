@@ -15,12 +15,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.dtos.sources.FilterSourcesDTO;
 import pt.up.fe.dtos.sources.SourceTableDTO;
 import pt.up.fe.facades.SourceFacade;
+import pt.up.fe.helpers.AutoCompleteTextField;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
@@ -47,7 +49,7 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
   private Label selectViewButtonLabel;
 
   @FXML
-  private TextField nameInput;
+  private AutoCompleteTextField nameInput;
 
   @FXML
   private TableColumn<SourceTableDTO, String> type;
@@ -87,6 +89,12 @@ public class ListSourcesPageController implements Initializable, IContentPageCon
 
   @Override
   public void initialize(URL url, ResourceBundle resources) {
+    Main.sourcesList.forEach(source -> {
+      if(source.getName() != null) {
+        nameInput.getEntries().add(source.getName());
+      }
+    });
+
     type.setCellValueFactory(new PropertyValueFactory<>("type"));
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     dateOfPublication.setCellValueFactory(new PropertyValueFactory<>("dateOfPublication"));

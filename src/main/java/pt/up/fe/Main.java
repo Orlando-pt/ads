@@ -101,6 +101,7 @@ public class Main extends Application {
     customEvent.addSpecialPurposeField("Type of Custom Event", "Fitness Hut");
     customEvent.setDescription("Entrada no ginásio");
     Main.eventsList.add(customEvent);
+    diogo.addEvent(customEvent);
 
     Event deathEvent = new Death();
     deathEvent.addSpecialPurposeField("Type of Death", "Death by Age");
@@ -108,6 +109,7 @@ public class Main extends Application {
     deathEvent.addPeopleRelation("Coveiro", hugo);
     deathEvent.setDescription("Morte do Diogo");
     Main.eventsList.add(deathEvent);
+    diogo.addEvent(deathEvent);
 
     Event emigrationEvent = new Emigration();
     emigrationEvent.addSpecialPurposeField("Type of Emigration", "Emigração para Paris");
@@ -117,6 +119,7 @@ public class Main extends Application {
     emigrationEvent.addSpecialPurposeField("Pull factor", "Promise of higher pay");
     emigrationEvent.setDescription("Emigração para Paris");
     Main.eventsList.add(emigrationEvent);
+    diogo.addEvent(emigrationEvent);
 
     Event marriageEvent = new Marriage();
     marriageEvent.addSpecialPurposeField("Marriage Name", "Casamento com a Sofia");
@@ -125,6 +128,7 @@ public class Main extends Application {
     marriageEvent.addSpecialPurposeField("Type Of Marriage", "Secret marriage");
     marriageEvent.setDescription("Casamento realizado em Copa Cabana");
     Main.eventsList.add(marriageEvent);
+    diogo.addEvent(marriageEvent);
 
     Event residenceEvent = new Residence();
     residenceEvent.addSpecialPurposeField("Residence Name", "Embaixador do Brasil");
@@ -133,6 +137,7 @@ public class Main extends Application {
     residenceEvent.addSpecialPurposeField("Type Of Place", "Villa");
     residenceEvent.setDescription("Embaixador do Brasil durante 2 anos");
     Main.eventsList.add(residenceEvent);
+    diogo.addEvent(residenceEvent);
 
     stage.initStyle(StageStyle.UNDECORATED);
     setPrimaryStage(stage);
