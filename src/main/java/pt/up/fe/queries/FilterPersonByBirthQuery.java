@@ -53,9 +53,11 @@ public class FilterPersonByBirthQuery implements QueryCommand{
                 if (date.getDateQueryType() == DateQueryTypeEnum.EXACT)
                     return person.getBirth().getDate().equals(date.getDate());
                 else if (date.getDateQueryType() == DateQueryTypeEnum.BEFORE)
-                    return person.getBirth().getDate().compareTo(date.getDate()) == -1;
+                    return person.getBirth().getDate().compareTo(date.getDate()) == -1 ||
+                        person.getBirth().getDate().compareTo(date.getDate()) == 0;
                 else if (date.getDateQueryType() == DateQueryTypeEnum.AFTER)
-                    return person.getBirth().getDate().compareTo(date.getDate()) == 1;
+                    return person.getBirth().getDate().compareTo(date.getDate()) == 1 ||
+                        person.getBirth().getDate().compareTo(date.getDate()) == 0;
                 else if (date.getDateQueryType() == DateQueryTypeEnum.CONTAINS)
                     return person.getBirth().getDate().compareTo(date.getDate()) == -10;
                 

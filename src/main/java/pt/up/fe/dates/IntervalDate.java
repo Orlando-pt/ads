@@ -97,7 +97,7 @@ public class IntervalDate implements IDate{
     if ((compareWithStartDate == 1 || compareWithStartDate == 0) && (compareWithEndDate == -1 || compareWithEndDate == 0))
       return -10;
 
-    if (compareWithStartDate == -1 && compareWithEndDate == 1)
+    if ((compareWithStartDate == -1 || compareWithStartDate == 0) && (compareWithEndDate == 1 || compareWithEndDate == 0))
       return -10;
 
     if (compareWithStartDate == 1)
