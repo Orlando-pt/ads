@@ -188,10 +188,10 @@ public class EventFacade {
             }
 
             ListIterator<Event> iterator1 = person.getEvents().listIterator();
-            while (iterator.hasNext()) {
-                Event next = iterator.next();
+            while (iterator1.hasNext()) {
+                Event next = iterator1.next();
                 if (next.getId().equals(id)) {
-                    iterator.set(event);
+                    iterator1.set(event);
                 }
             }
         } else {
