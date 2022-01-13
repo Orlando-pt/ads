@@ -18,7 +18,7 @@
             <Font size="23.0" />
          </font>
       </Text>
-      <Button fx:id="selectPersonButton" layoutX="227.0" layoutY="201.0" mnemonicParsing="false" text="Click to select a Person as Root" />
+      <Button fx:id="selectPersonButton" layoutX="227.0" layoutY="201.0" mnemonicParsing="false" onMouseClicked="#selectPerson" text="Click to select a Person as Root" />
       <Text fill="WHITE" layoutX="263.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Naming">
          <font>
             <Font size="23.0" />
@@ -30,13 +30,8 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="generateButton" layoutX="286.0" layoutY="352.0" mnemonicParsing="false" text="Generate" />
-      <Text fx:id="fileSavedLabel" fill="WHITE" layoutX="201.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File has been saved to graphs/image.png" textAlignment="CENTER">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fill="WHITE" layoutX="251.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="on the current directory">
+      <Button fx:id="generateButton" layoutX="286.0" layoutY="352.0" mnemonicParsing="false" onMouseClicked="#generate" text="Generate" />
+      <Text fx:id="fileSavedLabel" fill="WHITE" layoutX="131.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File has been saved to graphs/image.png on the current directory" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
