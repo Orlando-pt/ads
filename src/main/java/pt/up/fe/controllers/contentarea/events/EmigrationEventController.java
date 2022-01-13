@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dtos.events.EmigrationEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
@@ -30,62 +31,42 @@ import java.util.UUID;
 
 public class EmigrationEventController implements Initializable, IContentPageController {
 
+    private final boolean editMode = true;
     @FXML
     private AnchorPane anchorPane;
-
     @FXML
     private TextField emigrationDate;
-
     @FXML
     private TextArea description;
-
     @FXML
     private TextField fieldInput;
-
     @FXML
     private TextField typeOfEmigration;
-
     @FXML
     private TextField nameInput;
-
     @FXML
     private ComboBox<String> pushFactorsCombo;
-
     @FXML
     private ComboBox<String> pullFactorsCombo;
-
     @FXML
     private TextField relationshipInput;
-
     @FXML
     private TableView<FieldDTO> table_fields;
-
     @FXML
     private TableColumn<FieldDTO, String> col_field;
-
     @FXML
     private TableColumn<FieldDTO, String> col_name;
-
     @FXML
     private TableView<PersonEventDTO> table_persons;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_relationship;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
-
     @FXML
     private Button mainButton;
-
     private IDate date;
-
     private Boolean inCreateMode = true;
-
     private UUID editId = null;
-
-    private final boolean editMode = true;
-
     private Person selectedPerson;
 
     // Source
@@ -138,23 +119,24 @@ public class EmigrationEventController implements Initializable, IContentPageCon
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event emigrationEvent = new EventFacade().createEmigrationEvent(
-                this.typeOfEmigration.getText(),
-                this.selectedPlace,
-                this.date,
-                this.pushFactorsCombo.getValue(),
-                this.pullFactorsCombo.getValue(),
-                persons,
-                specialPurposeFields,
-                this.description.getText(),
-                selectedSource,
-                editId,
-                this.selectedPerson
-        );
+        EmigrationEventDTO eventDTO = new EmigrationEventDTO();
+        eventDTO.setTypeOfEmigration(this.typeOfEmigration.getText());
+        eventDTO.setPlace(this.selectedPlace);
+        eventDTO.setDate(this.date);
+        eventDTO.setPushFactor(this.pushFactorsCombo.getValue());
+        eventDTO.setPullFactor(this.pullFactorsCombo.getValue());
+        eventDTO.setPersons(persons);
+        eventDTO.setSpecialFields(specialPurposeFields);
+        eventDTO.setDescription(this.description.getText());
+        eventDTO.setSource(selectedSource);
+        eventDTO.setEditId(editId);
+        eventDTO.setPerson(this.selectedPerson);
+
+        Event emigrationEvent = EventFacade.createEmigrationEvent(eventDTO);
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
-        System.out.println(emigrationEvent.toString());
+        System.out.println(emigrationEvent);
     }
 
     @FXML
@@ -283,12 +265,12 @@ public class EmigrationEventController implements Initializable, IContentPageCon
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        if(ev.getDate() != null) {
+                        if (ev.getDate() != null) {
                             emigrationDate.setText(ev.getDate().toString());
                             date = ev.getDate();
                         }
 
-                        if(ev.getDescription() != null) {
+                        if (ev.getDescription() != null) {
                             description.setText(ev.getDescription());
                         }
 

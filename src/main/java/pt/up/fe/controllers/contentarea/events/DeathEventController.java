@@ -12,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dtos.events.BirthEventDTO;
+import pt.up.fe.dtos.events.DeathEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
@@ -114,17 +116,18 @@ public class DeathEventController implements Initializable, IContentPageControll
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event deathEvent = new EventFacade().createDeathEvent(
-                this.typeOfDeath.getText(),
-                this.selectedPlace,
-                this.date,
-                persons,
-                specialPurposeFields,
-                this.description.getText(),
-                selectedSource,
-                editId,
-                this.selectedPerson
-        );
+        DeathEventDTO eventDTO = new DeathEventDTO();
+        eventDTO.setTypeOfDeath(this.typeOfDeath.getText());
+        eventDTO.setPlace(this.selectedPlace);
+        eventDTO.setDate(this.date);
+        eventDTO.setPersons(persons);
+        eventDTO.setSpecialFields(specialPurposeFields);
+        eventDTO.setDescription(this.description.getText());
+        eventDTO.setSource(selectedSource);
+        eventDTO.setEditId(editId);
+        eventDTO.setPerson(this.selectedPerson);
+
+        Event deathEvent = EventFacade.createDeathEvent(eventDTO);
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, deathEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");

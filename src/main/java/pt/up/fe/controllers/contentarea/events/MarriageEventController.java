@@ -12,7 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dtos.events.BirthEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
+import pt.up.fe.dtos.events.MarriageEventDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.EventFacade;
@@ -135,18 +137,19 @@ public class MarriageEventController implements Initializable, IContentPageContr
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event marriageEvent = new EventFacade().createMarriageEvent(
-                this.marriageName.getText(),
-                this.selectedPlace,
-                this.date,
-                this.typeOfMarriage.getValue(),
-                persons,
-                specialPurposeFields,
-                this.description.getText(),
-                selectedSource,
-                editId,
-                this.selectedPerson
-        );
+        MarriageEventDTO eventDTO = new MarriageEventDTO();
+        eventDTO.setMarriageName(this.marriageName.getText());
+        eventDTO.setPlace(this.selectedPlace);
+        eventDTO.setDate(this.date);
+        eventDTO.setTypeOfMarriage(this.typeOfMarriage.getValue());
+        eventDTO.setPersons(persons);
+        eventDTO.setSpecialFields(specialPurposeFields);
+        eventDTO.setDescription(this.description.getText());
+        eventDTO.setSource(selectedSource);
+        eventDTO.setEditId(editId);
+        eventDTO.setPerson(this.selectedPerson);
+
+        Event marriageEvent = EventFacade.createMarriageEvent(eventDTO);
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");

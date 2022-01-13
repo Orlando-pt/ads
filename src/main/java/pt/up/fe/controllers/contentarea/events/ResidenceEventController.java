@@ -12,8 +12,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dtos.events.BirthEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
+import pt.up.fe.dtos.events.ResidenceEventDTO;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
@@ -116,18 +118,19 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event residenceEvent = new EventFacade().createResidenceEvent(
-                this.residenceName.getText(),
-                this.selectedPlace,
-                this.date,
-                this.typeOfPlace.getValue(),
-                persons,
-                specialPurposeFields,
-                this.description.getText(),
-                selectedSource,
-                editId,
-                this.selectedPerson
-        );
+        ResidenceEventDTO eventDTO = new ResidenceEventDTO();
+        eventDTO.setResidenceName(this.residenceName.getText());
+        eventDTO.setPlace(this.selectedPlace);
+        eventDTO.setDate(this.date);
+        eventDTO.setTypeOfPlace(this.typeOfPlace.getValue());
+        eventDTO.setPersons(persons);
+        eventDTO.setSpecialFields(specialPurposeFields);
+        eventDTO.setDescription(this.description.getText());
+        eventDTO.setSource(selectedSource);
+        eventDTO.setEditId(editId);
+        eventDTO.setPerson(this.selectedPerson);
+
+        Event residenceEvent = EventFacade.createResidenceEvent(eventDTO);
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");

@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dtos.events.CustomEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
 import pt.up.fe.events.Event;
@@ -29,59 +30,40 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class CustomEventController implements Initializable, IContentPageController {
+    private final boolean editMode = true;
     @FXML
     private AnchorPane anchorPane;
-
     @FXML
     private TextField customDate;
-
     @FXML
     private TextArea description;
-
     @FXML
     private TextField fieldInput;
-
     @FXML
     private TextField customName;
-
     @FXML
     private TextField nameInput;
-
     @FXML
     private TextField typeOfCustom;
-
     @FXML
     private TextField relationshipInput;
-
     @FXML
     private TableView<FieldDTO> table_fields;
-
     @FXML
     private TableColumn<FieldDTO, String> col_field;
-
     @FXML
     private TableColumn<FieldDTO, String> col_name;
-
     @FXML
     private TableView<PersonEventDTO> table_persons;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_relationship;
-
     @FXML
     private TableColumn<PersonEventDTO, String> col_person_name;
-
     @FXML
     private Button mainButton;
-
     private IDate date;
-
     private Boolean inCreateMode = true;
-
     private UUID editId = null;
-
-    private final boolean editMode = true;
-
     private Person selectedPerson;
 
     // Source
@@ -134,18 +116,19 @@ public class CustomEventController implements Initializable, IContentPageControl
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event customEvent = new EventFacade().createCustomEvent(
-                this.customName.getText(),
-                this.selectedPlace,
-                this.date,
-                this.typeOfCustom.getText(),
-                persons,
-                specialPurposeFields,
-                this.description.getText(),
-                selectedSource,
-                editId,
-                this.selectedPerson
-        );
+        CustomEventDTO eventDTO = new CustomEventDTO();
+        eventDTO.setCustomName(this.customName.getText());
+        eventDTO.setTypeOfCustom(this.typeOfCustom.getText());
+        eventDTO.setPlace(this.selectedPlace);
+        eventDTO.setDate(this.date);
+        eventDTO.setPersons(persons);
+        eventDTO.setSpecialFields(specialPurposeFields);
+        eventDTO.setDescription(this.description.getText());
+        eventDTO.setSource(selectedSource);
+        eventDTO.setEditId(editId);
+        eventDTO.setPerson(this.selectedPerson);
+
+        Event customEvent = EventFacade.createCustomEvent(eventDTO);
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, customEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
@@ -231,16 +214,16 @@ public class CustomEventController implements Initializable, IContentPageControl
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        if(ev.getName() != null) {
+                        if (ev.getName() != null) {
                             customName.setText(ev.getName());
                         }
 
-                        if(ev.getDate() != null) {
+                        if (ev.getDate() != null) {
                             customDate.setText(ev.getDate().toString());
                             date = ev.getDate();
                         }
 
-                        if(ev.getDescription() != null) {
+                        if (ev.getDescription() != null) {
                             description.setText(ev.getDescription());
                         }
 
