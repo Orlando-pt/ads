@@ -8,18 +8,24 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dtos.events.BirthEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
+import pt.up.fe.dtos.events.ResidenceEventDTO;
 import pt.up.fe.events.Event;
 import pt.up.fe.facades.EventFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.*;
 import pt.up.fe.person.Person;
+import pt.up.fe.places.Place;
+import pt.up.fe.sources.Source;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -39,8 +45,6 @@ public class ResidenceEventController implements Initializable, IContentPageCont
     private TextField residenceName;
     @FXML
     private TextField nameInput;
-    @FXML
-    private TextField placeResidence;
     @FXML
     private ComboBox<String> typeOfPlace;
     @FXML
@@ -64,6 +68,44 @@ public class ResidenceEventController implements Initializable, IContentPageCont
     private UUID editId = null;
     private Person selectedPerson;
 
+    // Source
+
+    @FXML
+    private Button selectSourceButton;
+
+    @FXML
+    private RadioButton selectSource;
+
+    @FXML
+    private Button newSourceButton;
+
+    @FXML
+    private RadioButton noSource;
+
+    @FXML
+    private ToggleGroup source_radio;
+
+    private Source selectedSource;
+
+    // Place
+
+    @FXML
+    private Button selectPlaceButton;
+
+    @FXML
+    private Button newPlaceButton;
+
+    @FXML
+    private ToggleGroup place_radio;
+
+    @FXML
+    private RadioButton noPlace;
+
+    @FXML
+    private RadioButton selectPlace;
+
+    private Place selectedPlace;
+
     @FXML
     void createEvent(ActionEvent event) {
         HashMap<String, Person> persons = new HashMap<>();
@@ -76,17 +118,19 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             specialPurposeFields.put(item.getField(), item.getName());
         }
 
-        Event residenceEvent = new EventFacade().createResidenceEvent(
-                this.residenceName.getText(),
-                this.placeResidence.getText(),
-                this.date,
-                this.typeOfPlace.getValue(),
-                persons,
-                specialPurposeFields,
-                this.description.getText(),
-                editId,
-                this.selectedPerson
-        );
+        ResidenceEventDTO eventDTO = new ResidenceEventDTO();
+        eventDTO.setResidenceName(this.residenceName.getText());
+        eventDTO.setPlace(this.selectedPlace);
+        eventDTO.setDate(this.date);
+        eventDTO.setTypeOfPlace(this.typeOfPlace.getValue());
+        eventDTO.setPersons(persons);
+        eventDTO.setSpecialFields(specialPurposeFields);
+        eventDTO.setDescription(this.description.getText());
+        eventDTO.setSource(selectedSource);
+        eventDTO.setEditId(editId);
+        eventDTO.setPerson(this.selectedPerson);
+
+        Event residenceEvent = EventFacade.createResidenceEvent(eventDTO);
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
@@ -168,6 +212,9 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         if (!Main.editMode) {
             this.toggleViewMode();
         }
+
+        setButtonsInvisible();
+        setPlaceButtonsInvisible();
     }
 
     @Override
@@ -181,8 +228,20 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        residenceDate.setText(ev.getDate().toString());
-                        description.setText(ev.getDescription());
+                        if(ev.getDate() != null) {
+                            residenceDate.setText(ev.getDate().toString());
+                            date = ev.getDate();
+                        }
+
+                        if(ev.getDescription() != null) {
+                            description.setText(ev.getDescription());
+                        }
+
+                        selectedSource = ev.getSource();
+                        setSourceInfo();
+
+                        selectedPlace = ev.getPlace();
+                        setPlaceInfo();
 
                         for (var entry : ev.getPeopleRelations().entrySet()) {
                             table_persons.getItems().add(new PersonEventDTO(entry.getKey(), entry.getValue()));
@@ -198,9 +257,6 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                             }
                         }
 
-                        // placeBirth.setText(ev.getPlace().toString());
-                        date = ev.getDate();
-
                         mainButton.setText("Edit");
                     }
                 });
@@ -210,6 +266,28 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
                         selectedPerson = personCustomEvent.getPerson();
+                    }
+                });
+
+        CustomSceneHelper.getNodeById("residenceEventPage").addEventFilter(SourceCustomEvent.SOURCE, new EventHandler<SourceCustomEvent>() {
+            @Override
+            public void handle(SourceCustomEvent sourceCustomEvent) {
+                selectedSource = sourceCustomEvent.getSource();
+                setButtonsInvisible();
+                source_radio.selectToggle(selectSource);
+                selectSourceButton.setVisible(true);
+                selectSourceButton.setText(selectedSource.getName());
+            }
+        });
+
+        CustomSceneHelper.getNodeById("residenceEventPage")
+                .addEventFilter(PlaceCustomEvent.PLACE, new EventHandler<PlaceCustomEvent>() {
+                    @Override
+                    public void handle(PlaceCustomEvent placeCustomEvent) {
+                        selectedPlace = placeCustomEvent.getPlace();
+                        place_radio.selectToggle(selectPlace);
+                        selectPlaceButton.setVisible(true);
+                        selectPlaceButton.setText(selectedPlace.getName());
                     }
                 });
     }
@@ -288,6 +366,100 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         mainButton.setVisible(false);
     }
 
+    // Source
+
+    @FXML
+    private void selectSourceType(MouseEvent event) throws NoSuchFieldException {
+
+        RadioButton selectedRadioButton = (RadioButton) source_radio.getSelectedToggle();
+        String toogleGroupSelectedValueID = selectedRadioButton.getId();
+        setButtonsInvisible();
+        try {
+            Field field = this.getClass().getDeclaredField(toogleGroupSelectedValueID + "Button");
+            Button b = (Button) field.get(this);
+            b.setVisible(true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            // No need to do anything, button invalid.
+        }
+    }
+
+    @FXML
+    private void selectSource(MouseEvent event) {
+        CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+        CustomSceneHelper.getNodeById("listSourcesPage").fireEvent(new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND, "residenceEventPage"));
+        CustomSceneHelper.bringNodeToFront("listSources", "Page");
+    }
+
+    @FXML
+    private void addSource(MouseEvent event) {
+        CustomSceneHelper.getNodeById("createSourcePage").fireEvent(new PageToSendCustomEvent(
+                PageToSendCustomEvent.PAGE_TO_SEND, "residenceEventPage"));
+        CustomSceneHelper.bringNodeToFront("createSource", "Page");
+    }
+
+    private void setSourceInfo() {
+        setButtonsInvisible();
+        if (selectedSource != null) {
+            source_radio.selectToggle(selectSource);
+            selectSourceButton.setVisible(true);
+            selectSourceButton.setText(selectedSource.getName());
+        }
+    }
+
+    private void setButtonsInvisible() {
+        newSourceButton.setVisible(false);
+        selectSourceButton.setVisible(false);
+    }
+
+    // Place
+
+    private void setPlaceButtonsInvisible() {
+        newPlaceButton.setVisible(false);
+        selectPlaceButton.setVisible(false);
+    }
+
+    @FXML
+    private void selectPlaceType(MouseEvent event) throws NoSuchFieldException {
+
+        RadioButton selectedRadioButton = (RadioButton) place_radio.getSelectedToggle();
+        String toogleGroupSelectedValueID = selectedRadioButton.getId();
+        setPlaceButtonsInvisible();
+        try {
+            Field field = this.getClass().getDeclaredField(toogleGroupSelectedValueID + "Button");
+            Button b = (Button) field.get(this);
+            b.setVisible(true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            // No need to do anything, button invalid.
+        }
+    }
+
+    @FXML
+    private void selectPlace(MouseEvent event) {
+        CustomSceneHelper.getNodeById("listPlacesPage")
+                .fireEvent(new SelectModeCustomEvent(SelectModeCustomEvent.SELECT_MODE, true));
+        CustomSceneHelper.getNodeById("listPlacesPage").fireEvent(
+                new PageToSendCustomEvent(PageToSendCustomEvent.PAGE_TO_SEND,
+                        "residenceEventPage"));
+        CustomSceneHelper.bringNodeToFront("listPlaces", "Page");
+    }
+
+    @FXML
+    private void addPlace(MouseEvent event) {
+        CustomSceneHelper.getNodeById("createPlacePage").fireEvent(new PageToSendCustomEvent(
+                PageToSendCustomEvent.PAGE_TO_SEND, "residenceEventPage"));
+        CustomSceneHelper.bringNodeToFront("createPlace", "Page");
+    }
+
+    private void setPlaceInfo() {
+        setPlaceButtonsInvisible();
+
+        if (selectedPlace != null) {
+            place_radio.selectToggle(selectPlace);
+            selectPlaceButton.setVisible(true);
+            selectPlaceButton.setText(selectedPlace.getName());
+        }
+    }
+
     @Override
     public void clearPage() {
         residenceDate.clear();
@@ -295,14 +467,19 @@ public class ResidenceEventController implements Initializable, IContentPageCont
         fieldInput.clear();
         residenceName.clear();
         nameInput.clear();
-        placeResidence.clear();
         relationshipInput.clear();
         table_fields.getItems().clear();
         table_persons.getItems().clear();
-        typeOfPlace.getItems().clear();
         date = null;
         inCreateMode = true;
         editId = null;
         handleButtonChange();
+        // Source
+        source_radio.selectToggle(noSource);
+        setButtonsInvisible();
+        selectedSource = null;
+        // Place
+        place_radio.selectToggle(noPlace);
+        selectedPlace = null;
     }
 }
