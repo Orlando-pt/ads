@@ -14,10 +14,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dtos.places.PlaceDTO;
 import pt.up.fe.dtos.places.PlaceType;
 import pt.up.fe.facades.PlaceFacade;
+import pt.up.fe.helpers.AutoCompleteTextField;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.DecimalNumberTextField;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
@@ -41,7 +43,7 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
   private Button selectParent;
 
   @FXML
-  private TextField nameInput;
+  private AutoCompleteTextField nameInput;
 
   @FXML
   private ComboBox typeInput;
@@ -84,6 +86,12 @@ public class CreatePlacePageController implements Initializable, IContentPageCon
 
   @Override
   public void initialize(URL url, ResourceBundle resources) {
+    Main.placesList.forEach(place -> {
+      if(place.getName() != null) {
+        nameInput.getEntries().add(place.getName());
+      }
+    });
+
     setButtonsInvisible();
   }
 

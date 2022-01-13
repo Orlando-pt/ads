@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import pt.up.fe.helpers.NumberTextField?>
 <AnchorPane id="createDatePage" fx:id="createDatePage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.dates.CreateDateController">
    <children>
       <Text fill="WHITE" layoutX="225.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Date">
@@ -33,10 +34,11 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <TextField fx:id="yearInput" layoutX="98.0" layoutY="229.0" prefHeight="38.0" prefWidth="167.0" promptText="Year" visible="false">
+      <NumberTextField fx:id="yearInput" layoutX="98.0" layoutY="229.0" prefHeight="38.0" prefWidth="167.0" promptText="Year" visible="false">
          <font>
             <Font size="16.0" />
-         </font></TextField>
+         </font>
+      </NumberTextField>
       <Text fx:id="toLabel" fill="WHITE" layoutX="460.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To" visible="false">
          <font>
             <Font size="16.0" />
@@ -52,60 +54,60 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <TextField fx:id="monthInput" layoutX="98.0" layoutY="279.0" prefHeight="38.0" prefWidth="167.0" promptText="Month" visible="false">
+      <NumberTextField fx:id="monthInput" layoutX="98.0" layoutY="279.0" prefHeight="38.0" prefWidth="167.0" promptText="Month" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="dayInput" layoutX="98.0" layoutY="329.0" prefHeight="38.0" prefWidth="167.0" promptText="Day" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="dayInput" layoutX="98.0" layoutY="329.0" prefHeight="38.0" prefWidth="167.0" promptText="Day" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="hourInput" layoutX="98.0" layoutY="389.0" prefHeight="38.0" prefWidth="167.0" promptText="Hour" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="hourInput" layoutX="98.0" layoutY="389.0" prefHeight="38.0" prefWidth="167.0" promptText="Hour" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="minuteInput" layoutX="98.0" layoutY="438.0" prefHeight="38.0" prefWidth="167.0" promptText="Minute" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="minuteInput" layoutX="98.0" layoutY="438.0" prefHeight="38.0" prefWidth="167.0" promptText="Minute" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="secondsInput" layoutX="98.0" layoutY="488.0" prefHeight="38.0" prefWidth="167.0" promptText="Seconds" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="secondsInput" layoutX="98.0" layoutY="488.0" prefHeight="38.0" prefWidth="167.0" promptText="Seconds" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="yearInput1" layoutX="385.0" layoutY="229.0" prefHeight="38.0" prefWidth="167.0" promptText="Year" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="yearInput1" layoutX="385.0" layoutY="229.0" prefHeight="38.0" prefWidth="167.0" promptText="Year" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="monthInput1" layoutX="385.0" layoutY="279.0" prefHeight="38.0" prefWidth="167.0" promptText="Month" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="monthInput1" layoutX="385.0" layoutY="279.0" prefHeight="38.0" prefWidth="167.0" promptText="Month" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="dayInput1" layoutX="385.0" layoutY="329.0" prefHeight="38.0" prefWidth="167.0" promptText="Day" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="dayInput1" layoutX="385.0" layoutY="329.0" prefHeight="38.0" prefWidth="167.0" promptText="Day" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="hourInput1" layoutX="385.0" layoutY="389.0" prefHeight="38.0" prefWidth="167.0" promptText="Hour" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="hourInput1" layoutX="385.0" layoutY="389.0" prefHeight="38.0" prefWidth="167.0" promptText="Hour" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="minuteInput1" layoutX="385.0" layoutY="438.0" prefHeight="38.0" prefWidth="167.0" promptText="Minute" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="minuteInput1" layoutX="385.0" layoutY="438.0" prefHeight="38.0" prefWidth="167.0" promptText="Minute" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
-      <TextField fx:id="secondsInput1" layoutX="385.0" layoutY="488.0" prefHeight="38.0" prefWidth="167.0" promptText="Seconds" visible="false">
+      </NumberTextField>
+      <NumberTextField fx:id="secondsInput1" layoutX="385.0" layoutY="488.0" prefHeight="38.0" prefWidth="167.0" promptText="Seconds" visible="false">
          <font>
             <Font size="16.0" />
          </font>
-      </TextField>
+      </NumberTextField>
    </children>
 </AnchorPane>
