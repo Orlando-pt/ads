@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dates.IntervalDate;
+import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.exports.IExportObject;
 
 public abstract class Source implements IExportObject {
@@ -24,6 +26,27 @@ public abstract class Source implements IExportObject {
   public Source(String name, String id) {
     this.id = UUID.fromString(id);
     this.name = name;
+  }
+
+  public Source(JSONObject obj) {
+    this.id = UUID.fromString((String) obj.get("id"));
+    this.name = (String) obj.get("name");
+
+    JSONArray authors = obj.getJSONArray("authors");
+    List<String> a = new ArrayList<>();
+    for (Object auth : authors.toList()) {
+      a.add((String) auth);
+    }
+    this.authors = a;
+
+    if (obj.has("dateOfPublication")) {
+      JSONObject date = obj.getJSONObject("dateOfPublication");
+      if (date.has("startDate") || date.has("endDate")) {
+        this.dateOfPublication = new IntervalDate(date);
+      } else {
+        this.dateOfPublication = new SimpleDate(obj);
+      }
+    }
   }
 
   public UUID getId() {
@@ -98,20 +121,20 @@ public abstract class Source implements IExportObject {
     return obj;
   }
 
-  public static Source importJSONObject(JSONObject obj) {
+  public static Source importJSONObject(JSONObject obj) throws ClassNotFoundException {
     switch ((String) obj.get("type")) {
       case "Book":
-        return Book.importJSONObject(obj);
+        return new Book(obj);
       case "CustomSource":
-        return CustomSource.importJSONObject(obj);
+        return new CustomSource(obj);
       case "HistoricalRecord":
-        return HistoricalRecord.importJSONObject(obj);
+        return new HistoricalRecord(obj);
       case "OnlineResource":
-        return OnlineResource.importJSONObject(obj);
+        return new OnlineResource(obj);
       case "OrallyTransmitted":
-        return OrallyTransmitted.importJSONObject(obj);
+        return new OrallyTransmitted(obj);
       default:
-        throw new NoClassDefFoundError();
+        throw new ClassNotFoundException();
     }
   }
 }

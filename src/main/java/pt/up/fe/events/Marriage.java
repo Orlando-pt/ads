@@ -21,6 +21,16 @@ public class Marriage extends Event {
         this.setName(this.getClass().getSimpleName());
     }
 
+    public Marriage(JSONObject obj) {
+      super(obj);
+        this.setName(this.getClass().getSimpleName());
+    }
+
+    public Marriage(Map<String, Object> obj) {
+      super(obj);
+        this.setName(this.getClass().getSimpleName());
+    }
+
     public Marriage(Person person1, Person person2) {
         this.person1 = person1;
         this.person2 = person2;
@@ -68,11 +78,5 @@ public class Marriage extends Event {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
     return obj;
-  }
-
-  public static Marriage importJSONObject(JSONObject obj) {
-    Marriage b = new Marriage((String) obj.get("id"));
-
-    return b;
   }
 }

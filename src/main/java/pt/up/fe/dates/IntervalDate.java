@@ -13,6 +13,15 @@ public class IntervalDate implements IDate {
     this.endDate = end;
   }
 
+  public IntervalDate(JSONObject obj) {
+    if (obj.has("startDate")) {
+      this.startDate = new SimpleDate(obj.getJSONObject("startDate"));
+    }
+    if (obj.has("endDate")) {
+      this.endDate = new SimpleDate(obj.getJSONObject("endDate"));
+    }
+  }
+
   public IDate getStartDate() {
     return startDate;
   }

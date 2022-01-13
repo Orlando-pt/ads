@@ -15,6 +15,16 @@ public class Death extends Event {
     this.setName(this.getClass().getSimpleName());
   }
 
+  public Death(JSONObject obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
+
+  public Death(Map<String, Object> obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
+
   public Logger initializeLogger() {
     return LogManager.getLogger(Death.class);
   }
@@ -31,11 +41,5 @@ public class Death extends Event {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
     return obj;
-  }
-
-  public static Death importJSONObject(JSONObject obj) {
-    Death d = new Death((String) obj.get("id"));
-
-    return d;
   }
 }

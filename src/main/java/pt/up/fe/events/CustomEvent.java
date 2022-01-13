@@ -16,6 +16,16 @@ public class CustomEvent extends Event {
     this.setName(name);
   }
 
+  public CustomEvent(JSONObject obj) {
+    super(obj);
+    this.setName((String) obj.get("name"));
+  }
+
+  public CustomEvent(Map<String, Object> obj) {
+    super(obj);
+    this.setName((String) obj.get("name"));
+  }
+
   public Logger initializeLogger() {
     return LogManager.getLogger(CustomEvent.class);
   }
@@ -34,11 +44,5 @@ public class CustomEvent extends Event {
     obj.put("type", this.getClass().getSimpleName());
     obj.put("name", this.getName());
     return obj;
-  }
-
-  public static CustomEvent importJSONObject(JSONObject obj) {
-    CustomEvent e = new CustomEvent((String) obj.get("name"), (String) obj.get("id"));
-
-    return e;
   }
 }

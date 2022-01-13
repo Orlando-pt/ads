@@ -1,14 +1,14 @@
 package pt.up.fe.sources;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import org.json.JSONArray;
+import java.util.UUID;
+
 import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
 public class OrallyTransmitted extends Source {
   private Place place;
+  private UUID auxPlace;
 
   public OrallyTransmitted(String name) {
     super(name);
@@ -18,12 +18,21 @@ public class OrallyTransmitted extends Source {
     super(name, id);
   }
 
+  public OrallyTransmitted(JSONObject obj) {
+    super(obj);
+    this.auxPlace = UUID.fromString((String) obj.get("place"));
+  }
+
   public Place getPlace() {
     return place;
   }
 
   public void setPlace(Place place) {
     this.place = place;
+  }
+
+  public UUID getAuxPlace() {
+    return this.auxPlace;
   }
 
   @Override
@@ -45,23 +54,5 @@ public class OrallyTransmitted extends Source {
     }
 
     return obj;
-  }
-
-  public static OrallyTransmitted importJSONObject(JSONObject obj) {
-    OrallyTransmitted book =
-        new OrallyTransmitted((String) obj.get("name"), (String) obj.get("id"));
-
-    // TODO: Date of Publication
-
-    JSONArray authors = obj.getJSONArray("authors");
-    List<String> a = new ArrayList<>();
-    for (Object auth : authors.toList()) {
-      a.add((String) auth);
-    }
-    book.setAuthors(a);
-
-    // TODO: Place
-
-    return book;
   }
 }

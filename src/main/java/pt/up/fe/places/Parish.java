@@ -1,11 +1,25 @@
 package pt.up.fe.places;
 
+import java.util.Map;
+
+import org.json.JSONObject;
+
 public class Parish extends Place {
 
   private Double area;
 
   public Parish(String name) {
     super(name);
+  }
+
+  public Parish(JSONObject obj) {
+    super(obj);
+    this.area = (Double) obj.get("area");
+  }
+
+  public Parish(Map<String, Object> obj) {
+    super(obj);
+    this.area = (Double) obj.get("area");
   }
 
   public CompoundPlace toCompound(){

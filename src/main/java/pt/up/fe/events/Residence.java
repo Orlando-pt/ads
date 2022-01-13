@@ -13,6 +13,14 @@ public class Residence extends Event {
     super(id);
     this.setName(this.getClass().getSimpleName());
   }
+  public Residence(JSONObject obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
+  public Residence(Map<String, Object> obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
 
   public Logger initializeLogger() {
     return LogManager.getLogger(Residence.class);
@@ -30,10 +38,5 @@ public class Residence extends Event {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
     return obj;
-  }
-  public static Residence importJSONObject(JSONObject obj) {
-    Residence b = new Residence((String) obj.get("id"));
-
-    return b;
   }
 }

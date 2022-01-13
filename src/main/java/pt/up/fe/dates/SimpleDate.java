@@ -12,6 +12,31 @@ public class SimpleDate implements IDate {
   private Integer minute;
   private Integer second;
 
+  public SimpleDate() {
+    /* Intentionally empty */
+  }
+
+  public SimpleDate(JSONObject obj) {
+    if (obj.has("year")) {
+      this.year = (Integer) obj.get("year");
+    }
+    if (obj.has("month")) {
+      this.month = (Integer) obj.get("month");
+    }
+    if (obj.has("day")) {
+      this.day = (Integer) obj.get("day");
+    }
+    if (obj.has("hour")) {
+      this.hour = (Integer) obj.get("hour");
+    }
+    if (obj.has("minute")) {
+      this.minute = (Integer) obj.get("minute");
+    }
+    if (obj.has("second")) {
+      this.second = (Integer) obj.get("second");
+    }
+  }
+
   public Integer getYear() {
     return year;
   }

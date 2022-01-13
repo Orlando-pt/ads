@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.json.JSONArray;
@@ -23,6 +24,8 @@ public class Person extends BaseClass {
   private String lastName;
   private List<Event> events = new ArrayList<>();
   private List<Person> children = new ArrayList<>();
+  private List<UUID> auxEvents = new ArrayList<>();
+  private List<UUID> auxChildren = new ArrayList<>();
 
   public Person() {
     /* Intentionally empty */
@@ -30,6 +33,25 @@ public class Person extends BaseClass {
 
   public Person(String id) {
     super(id);
+  }
+
+  public Person(JSONObject obj) {
+    super(obj);
+    this.setGender(Gender.valueOf((String) obj.get("gender")));
+
+    for (Object o : obj.getJSONArray("children")) {
+      String id = (String)o;
+      this.auxChildren.add(UUID.fromString(id));
+    }
+    for (Object o : obj.getJSONArray("events")) {
+      String id = (String)o;
+      this.auxChildren.add(UUID.fromString(id));
+    }
+  }
+
+  public Person(Map<String, Object> obj) {
+    super(obj);
+    this.setGender(Gender.valueOf((String) obj.get("gender")));
   }
 
   public PersonIteratorInterface<ImmutablePair<Integer, Person>> createIterator() {
@@ -79,6 +101,14 @@ public class Person extends BaseClass {
 
   public List<Person> getChildren() {
     return children;
+  }
+
+  public List<UUID> getAuxChildren() {
+    return this.auxChildren;
+  }
+
+  public List<UUID> getAuxEvents() {
+    return this.auxEvents;
   }
 
   public void addChild(Person person) {
@@ -254,8 +284,10 @@ public class Person extends BaseClass {
   }
 
   public static Person importJSONObject(JSONObject obj) {
-    Person p = new Person((String) obj.get("id"));
-    p.setGender(Gender.valueOf((String) obj.get("gender")));
-    return p;
+    return new Person(obj);
+  }
+
+  public static Person importYAMLObject(Map<String, Object> obj) {
+    return new Person(obj);
   }
 }

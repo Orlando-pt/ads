@@ -1,10 +1,7 @@
 package pt.up.fe.sources;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Book extends Source {
@@ -17,6 +14,13 @@ public class Book extends Source {
 
   public Book(String name, String id) {
     super(name, id);
+  }
+
+  public Book(JSONObject obj) {
+    super(obj);
+
+    this.pages = (Integer) obj.get("pages");
+    this.publisher = (String) obj.get("publisher");
   }
 
   public Integer getPages() {
@@ -52,23 +56,5 @@ public class Book extends Source {
     obj.put("publisher", this.getPublisher());
 
     return obj;
-  }
-
-  public static Book importJSONObject(JSONObject obj) {
-    Book book = new Book((String) obj.get("name"), (String) obj.get("id"));
-
-    // TODO: Date of Publication
-
-    JSONArray authors = obj.getJSONArray("authors");
-    List<String> a = new ArrayList<>();
-    for (Object auth : authors.toList()) {
-      a.add((String) auth);
-    }
-    book.setAuthors(a);
-
-    book.setPages((Integer) obj.get("pages"));
-    book.setPublisher((String) obj.get("publisher"));
-
-    return book;
   }
 }

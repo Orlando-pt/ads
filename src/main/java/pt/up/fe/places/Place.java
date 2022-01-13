@@ -16,6 +16,20 @@ public abstract class Place extends BaseClass {
     this.setName(name);
   }
 
+  public Place(JSONObject obj) {
+    super(obj);
+    this.latitude = (Double) obj.get("latitude");
+    this.longitude = (Double) obj.get("longitude");
+    this.altitude = (Double) obj.get("altitude");
+  }
+
+  public Place(Map<String, Object> obj) {
+    super(obj);
+    this.latitude = (Double) obj.get("latitude");
+    this.longitude = (Double) obj.get("longitude");
+    this.altitude = (Double) obj.get("altitude");
+  }
+
   public abstract Boolean isComposite();
 
   public Double getLatitude() {
@@ -45,8 +59,8 @@ public abstract class Place extends BaseClass {
   public abstract Double getArea();
 
   public PlaceIteratorInterface<Place> createIterator() {
-		return new PlaceBreathIterator(this);
-	}
+    return new PlaceBreathIterator(this);
+  }
 
   @Override
   public abstract String toString();
@@ -71,5 +85,19 @@ public abstract class Place extends BaseClass {
     obj.put("area", this.getArea());
     obj.put("isComposite", this.isComposite());
     return obj;
+  }
+
+  public static Place importJSONObject(JSONObject obj) {
+    if ((Boolean) obj.get("isComposite")) {
+      return new CompoundPlace(obj);
+    }
+    return new Parish(obj);
+  }
+
+  public static Place importYAMLObject(Map<String, Object> obj) {
+    if ((Boolean) obj.get("isComposite")) {
+      return new CompoundPlace(obj);
+    }
+    return new Parish(obj);
   }
 }

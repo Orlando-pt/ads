@@ -14,6 +14,16 @@ public class Emigration extends Event {
     this.setName(this.getClass().getSimpleName());
   }
 
+  public Emigration(JSONObject obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
+
+  public Emigration(Map<String, Object> obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
+
   public Logger initializeLogger() {
     return LogManager.getLogger(Emigration.class);
   }
@@ -30,12 +40,5 @@ public class Emigration extends Event {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
     return obj;
-  }
-
-
-  public static Emigration importJSONObject(JSONObject obj) {
-    Emigration b = new Emigration((String) obj.get("id"));
-
-    return b;
   }
 }

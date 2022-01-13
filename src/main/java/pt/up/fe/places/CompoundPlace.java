@@ -3,15 +3,30 @@ package pt.up.fe.places;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CompoundPlace extends Place {
-
   private final List<Place> children = new ArrayList<>();
+  private final List<UUID> auxChildren = new ArrayList<>();
 
   public CompoundPlace(String name) {
     super(name);
+  }
+
+  public CompoundPlace(JSONObject obj) {
+    super(obj);
+
+    for (Object o : obj.getJSONArray("children")) {
+      String id = (String)o;
+      this.auxChildren.add(UUID.fromString(id));
+    }
+  }
+
+  public CompoundPlace(Map<String, Object> obj) {
+    super(obj);
   }
 
   @Override
@@ -21,6 +36,10 @@ public class CompoundPlace extends Place {
 
   public List<Place> getChildren() {
     return children;
+  }
+
+  public List<UUID> getAuxChildren() {
+    return this.auxChildren;
   }
 
   public void addChild(Place child) {
