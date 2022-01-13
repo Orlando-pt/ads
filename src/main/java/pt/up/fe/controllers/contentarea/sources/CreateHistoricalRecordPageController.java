@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.sources.HistoricalRecordDTO;
@@ -79,8 +80,6 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
   private Place selectedPlace;
 
   private HistoricalRecord selectedHistoricalRecord;
-
-  private boolean editMode = true;
 
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
@@ -152,7 +151,6 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
     selectedHistoricalRecord = null;
     date = null;
     createHistoricalRecordButton.setText("Create Historical Record");
-    editMode = true;
     changePageMode();
   }
 
@@ -176,7 +174,7 @@ public class CreateHistoricalRecordPageController implements Initializable, ICon
   }
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       historicalRecordNameInput.setEditable(true);
       addAuthorButton.setVisible(true);
       authorNameInput.setVisible(true);

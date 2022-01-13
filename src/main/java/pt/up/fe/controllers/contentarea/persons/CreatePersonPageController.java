@@ -18,6 +18,7 @@ import pt.up.fe.dtos.persons.PersonDTO;
 import pt.up.fe.facades.PersonFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
 import pt.up.fe.helpers.events.PageToSendCustomEvent;
+import pt.up.fe.helpers.events.PersonCustomEvent;
 import pt.up.fe.helpers.events.SelectModeCustomEvent;
 import pt.up.fe.helpers.events.SourceCustomEvent;
 import pt.up.fe.person.Gender;
@@ -109,6 +110,9 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
     personDTO.setSource(selectedSource);
 
     Person person = PersonFacade.createPerson(personDTO);
+    CustomSceneHelper.getNodeById("birthEventPage")
+        .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
+    CustomSceneHelper.bringNodeToFront("birthEvent", "Page");
   }
 
   @FXML

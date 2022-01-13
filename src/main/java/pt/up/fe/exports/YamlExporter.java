@@ -24,7 +24,7 @@ public class YamlExporter<T extends IExportObject> extends Exporter<T> {
   }
 
   @Override
-  protected String buildOutputString(Iterator<T> iterator) {
+  public String buildOutputString(Iterator<T> iterator) {
     List<Map<String, Object>> obj = new ArrayList<>();
     while (iterator.hasNext()) {
       T c = iterator.next();

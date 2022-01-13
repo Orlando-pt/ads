@@ -10,9 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dtos.events.BirthEventDTO;
 import pt.up.fe.dtos.events.FieldDTO;
 import pt.up.fe.dtos.events.MarriageEventDTO;
 import pt.up.fe.dtos.events.PersonEventDTO;
@@ -83,8 +83,6 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     private UUID editId = null;
 
-    private final boolean editMode = true;
-
     private Person selectedPerson;
 
     // Source
@@ -153,7 +151,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
         CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
         CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
-        System.out.println(marriageEvent.toString());
+        System.out.println(marriageEvent);
     }
 
     @FXML
@@ -254,10 +252,6 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
         this.initTables();
 
-        if (this.editMode == false) {
-            this.toggleViewMode();
-        }
-
         setButtonsInvisible();
         setPlaceButtonsInvisible();
     }
@@ -273,12 +267,12 @@ public class MarriageEventController implements Initializable, IContentPageContr
                         inCreateMode = false;
                         editId = ev.getId();
 
-                        if(ev.getDate() != null) {
+                        if (ev.getDate() != null) {
                             marriageDate.setText(ev.getDate().toString());
                             date = ev.getDate();
                         }
 
-                        if(ev.getDescription() != null) {
+                        if (ev.getDescription() != null) {
                             description.setText(ev.getDescription());
                         }
 
@@ -390,25 +384,40 @@ public class MarriageEventController implements Initializable, IContentPageContr
         } else {
             mainButton.setText("Edit");
         }
+        this.toggleApplicationMode(Main.editMode);
     }
 
-    private void toggleViewMode() {
+    private void toggleApplicationMode(Boolean isEditMode) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof TextField) {
-                ((TextField) node).setEditable(false);
+                ((TextField) node).setEditable(isEditMode);
             }
             if (node instanceof Button) {
-                node.setDisable(true);
+                node.setDisable(!isEditMode);
             }
             if (node instanceof TextArea) {
-                ((TextArea) node).setEditable(false);
+                ((TextArea) node).setEditable(isEditMode);
             }
             if (node instanceof ComboBox) {
-                ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+                if (isEditMode == false) {
+                    ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
+                } else {
+                    ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
+                }
             }
         }
 
-        mainButton.setVisible(false);
+        source_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        place_radio.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle;
+            node.setDisable(!isEditMode);
+        });
+
+        mainButton.setVisible(isEditMode);
     }
 
     // Source

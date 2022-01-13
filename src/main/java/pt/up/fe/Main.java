@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pt.up.fe.dates.IntervalDate;
+import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.events.*;
 import pt.up.fe.facades.DateFacade;
 import pt.up.fe.helpers.CustomSceneHelper;
@@ -24,6 +26,7 @@ public class Main extends Application {
   public static List<Source> sourcesList = new ArrayList<>();
   public static List<Place> placesList = new ArrayList<>();
   public static List<Event> eventsList = new ArrayList<>();
+  public static boolean editMode = false;
 
 
   private static Scene scene;
@@ -83,6 +86,13 @@ public class Main extends Application {
     birthEvent.setDate(new DateFacade().createSimpleDate("2021", "", "", "", "",""));
     birthEvent.addPeopleRelation("Mother", catia);
     birthEvent.setDescription("Nascimento do Diogo");
+    birthEvent.setDate(
+        new IntervalDate(
+            new SimpleDate(1800, 1, 1),
+            new SimpleDate(1800, 1, 3)
+        )
+    );
+    diogo.addEvent(birthEvent);
     Main.eventsList.add(birthEvent);
 
     Event customEvent = new CustomEvent("Ginásio");
