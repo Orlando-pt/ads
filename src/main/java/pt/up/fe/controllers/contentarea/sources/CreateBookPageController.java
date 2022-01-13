@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.sources.BookDTO;
@@ -63,8 +64,6 @@ public class CreateBookPageController implements Initializable, IContentPageCont
   private IDate date;
 
   private Book selectedBook;
-
-  private boolean editMode = true;
 
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
@@ -124,7 +123,6 @@ public class CreateBookPageController implements Initializable, IContentPageCont
     date = null;
     pageToSend = null;
     createBookButton.setText("Create Book");
-    editMode = true;
     changePageMode();
   }
 
@@ -144,7 +142,7 @@ public class CreateBookPageController implements Initializable, IContentPageCont
   }
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       publisherNameInput.setEditable(true);
       bookNameInput.setEditable(true);
       pagesInput.setEditable(true);

@@ -2,18 +2,20 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <ScrollPane id="birthEventPage" fx:id="birthEventPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.BirthEventController">
   <content>
-    <AnchorPane fx:id="anchorPane" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;">
+    <AnchorPane fx:id="anchorPane" prefHeight="605.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;">
         <children>
             <Label layoutX="261.0" layoutY="14.0" prefWidth="79.0" text="Birth Event" textAlignment="CENTER" textFill="WHITE">
                 <font>
@@ -21,10 +23,9 @@
                 </font>
             </Label>
             <Separator layoutY="44.0" prefHeight="2.0" prefWidth="650.0" />
-            <TextField fx:id="maternity" layoutX="57.0" layoutY="111.0" prefHeight="25.0" prefWidth="538.0" />
-            <Label layoutX="57.0" layoutY="85.0" text="Maternity" textFill="WHITE" />
-            <TextField fx:id="placeBirth" layoutX="57.0" layoutY="180.0" prefHeight="25.0" prefWidth="538.0" />
-            <Label layoutX="57.0" layoutY="154.0" text="Place of Birth" textFill="WHITE" />
+            <TextField fx:id="maternity" layoutX="58.0" layoutY="90.0" prefHeight="25.0" prefWidth="538.0" />
+            <Label layoutX="58.0" layoutY="64.0" text="Maternity" textFill="WHITE" />
+            <Label layoutX="58.0" layoutY="131.0" text="Place of Birth" textFill="WHITE" />
             <Label layoutX="57.0" layoutY="219.0" text="Date of Birth" textFill="WHITE" />
             <Label layoutX="57.0" layoutY="312.0" text="Persons" textFill="WHITE">
                 <font>
@@ -55,7 +56,7 @@
                     <Font name="System Bold" size="18.0" />
                 </font>
             </Label>
-            <Button fx:id="mainButton" layoutX="285.0" layoutY="1190.0" mnemonicParsing="false" onAction="#createEvent" text="Create">
+            <Button fx:id="mainButton" layoutX="284.0" layoutY="1293.0" mnemonicParsing="false" onAction="#createEvent" text="Create">
                 <font>
                     <Font size="20.0" />
                 </font>
@@ -67,7 +68,33 @@
             <TextField fx:id="fieldInput" layoutX="55.0" layoutY="713.0" prefHeight="25.0" prefWidth="200.0" promptText="Field" />
             <TextField fx:id="nameInput" layoutX="261.0" layoutY="713.0" prefHeight="25.0" prefWidth="200.0" promptText="Name" />
             <Button layoutX="504.0" layoutY="244.0" mnemonicParsing="false" onAction="#openDateBuilder" prefHeight="25.0" prefWidth="91.0" text="Add Date" />
+
+            <Label layoutX="59.0" layoutY="1176.0" text="Source" textFill="WHITE">
+                <font>
+                    <Font size="20.0" />
+                </font>
+            </Label>
+            
+            <RadioButton fx:id="noSource" layoutX="61.0" layoutY="1216.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" selected="true" text="No Source" textFill="WHITE">
+                <toggleGroup>
+                    <ToggleGroup fx:id="source_radio" />
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="selectSource" layoutX="259.0" layoutY="1216.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" text="Existing Source" textFill="WHITE" toggleGroup="$source_radio" />
+            <RadioButton fx:id="newSource" layoutX="455.0" layoutY="1216.0" mnemonicParsing="false" onMouseClicked="#selectSourceType" text="New Source" textFill="WHITE" toggleGroup="$source_radio" />
+            <Button fx:id="selectSourceButton" layoutX="273.0" layoutY="1246.0" mnemonicParsing="false" onMouseClicked="#selectSource" text="Select Source" />
+            <Button fx:id="newSourceButton" layoutX="446.0" layoutY="1246.0" mnemonicParsing="false" onMouseClicked="#addSource" text="Create New Source" />
+
             <TextField fx:id="birthDate" disable="true" layoutX="55.0" layoutY="244.0" opacity="0.81" prefHeight="26.0" prefWidth="436.0" />
+            <RadioButton fx:id="noPlace" layoutX="60.0" layoutY="158.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" selected="true" text="No Place" textFill="WHITE">
+                <toggleGroup>
+                    <ToggleGroup fx:id="place_radio" />
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="selectPlace" layoutX="258.0" layoutY="158.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="Existing Place" textFill="WHITE" toggleGroup="$place_radio" />
+            <RadioButton fx:id="newPlace" layoutX="454.0" layoutY="158.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="New Place" textFill="WHITE" toggleGroup="$place_radio" />
+            <Button fx:id="selectPlaceButton" layoutX="272.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#selectPlace" text="Select Place" />
+            <Button fx:id="newPlaceButton" layoutX="445.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#addPlace" text="Create New Place" />
         </children>
     </AnchorPane>
   </content>

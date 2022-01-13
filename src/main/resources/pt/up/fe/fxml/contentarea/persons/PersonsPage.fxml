@@ -5,19 +5,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="personsPage" fx:id="personsPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.PersonsPageController">
+<AnchorPane id="personsPage" fx:id="personsPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.PersonsPageController">
    <children>
-      <Text fill="WHITE" layoutX="190.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person Menu">
+      <Text fill="WHITE" layoutX="209.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person Menu">
          <font>
             <Font size="40.0" />
          </font>
       </Text>
-      <Button layoutX="73.0" layoutY="185.0" id="createPerson" fx:id="createPerson" mnemonicParsing="false" onMouseClicked="#goToAnotherPersonPage" text="Create Person">
+      <Button id="createPerson" fx:id="createPerson" layoutX="262.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#goToAnotherPersonPage" text="Create Person">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="411.0" layoutY="185.0" mnemonicParsing="false" fx:id="listPersons" onMouseClicked="#goToAnotherPersonPage" text="List Persons">
+      <Button fx:id="listPersons" layoutX="269.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#goToAnotherPersonPage" text="List Persons">
          <font>
             <Font size="16.0" />
          </font>

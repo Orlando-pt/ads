@@ -17,7 +17,7 @@ public class JsonExporter<T extends IExportObject> extends Exporter<T> {
   }
 
   @Override
-  protected String buildOutputString(Iterator<T> iterator) {
+  public String buildOutputString(Iterator<T> iterator) {
     JSONArray arr = new JSONArray();
     while (iterator.hasNext()) {
       T c = iterator.next();

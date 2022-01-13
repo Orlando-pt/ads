@@ -22,15 +22,15 @@ public class PersonTableDTO {
 
   public PersonTableDTO(
       String firstName,
-      String lastName,
       String middleName,
+      String lastName,
       Gender gender,
       IDate birthDate,
       Integer children,
       Person person) {
     this.firstName = firstName;
-    this.lastName = lastName;
     this.middleName = middleName;
+    this.lastName = lastName;
     this.gender = gender;
     this.birthDate = birthDate;
     this.children = children;

@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dtos.persons.PersonTableDTO;
 import pt.up.fe.dtos.places.PlaceDTO;
@@ -114,8 +115,6 @@ public class ViewEditPlacePageController implements Initializable, IContentPageC
 
   private Place selectedPlace;
 
-  private boolean editMode = true;
-
   @Override
   public void initialize(URL url, ResourceBundle resources) {
     typeInput.setDisable(true);
@@ -197,7 +196,7 @@ public class ViewEditPlacePageController implements Initializable, IContentPageC
   }
 
   public void savePlace() throws IllegalAccessException {
-    if (editMode) {
+    if (Main.editMode) {
       if (selectedPlace.isComposite()) {
         childrenTableList.forEach(placeTableDTO -> {
           Place place = placeTableDTO.getPlace();
@@ -294,7 +293,7 @@ public class ViewEditPlacePageController implements Initializable, IContentPageC
   }
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       descriptionInput.setEditable(true);
       nameInput.setEditable(true);
       latitudeInput.setEditable(true);

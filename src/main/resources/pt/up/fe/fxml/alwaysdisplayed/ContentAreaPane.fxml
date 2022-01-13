@@ -35,7 +35,11 @@
       <fx:include fx:id="customEventPage" source="../contentarea/events/CustomEventPage.fxml" />
       <fx:include fx:id="listEventsPage" source="../contentarea/events/ListEventsPage.fxml" />
 
-      <fx:include fx:id="createDatePage" source="../contentarea/CreateDatePage.fxml" />
+      <fx:include fx:id="createDatePage" source="../contentarea/dates/CreateDatePage.fxml" />
+
+      <fx:include fx:id="graphVizPage" source="../contentarea/graphviz/graphVizPage.fxml" />
+
+      <fx:include fx:id="importExportPage" source="../contentarea/importExport/importExportPage.fxml" />
 
       <fx:include fx:id="homePage" source="../contentarea/HomePage.fxml" />
    </children>

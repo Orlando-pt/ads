@@ -19,6 +19,7 @@ import pt.up.fe.iterators.PersonBreathIteratorWithDepthLimit;
 import pt.up.fe.iterators.PersonIteratorInterface;
 
 public class Person extends BaseClass {
+
   private Gender gender;
   private String middleName;
   private String lastName;
@@ -40,11 +41,11 @@ public class Person extends BaseClass {
     this.setGender(Gender.valueOf((String) obj.get("gender")));
 
     for (Object o : obj.getJSONArray("children")) {
-      String id = (String)o;
+      String id = (String) o;
       this.auxChildren.add(UUID.fromString(id));
     }
     for (Object o : obj.getJSONArray("events")) {
-      String id = (String)o;
+      String id = (String) o;
       this.auxChildren.add(UUID.fromString(id));
     }
   }
@@ -218,16 +219,18 @@ public class Person extends BaseClass {
 
   // birth methods
   public Birth getBirth() {
-    return (Birth)
-        this.events.stream()
-            .filter((event) -> event.getClass() == Birth.class)
-            .collect(Collectors.toList())
-            .get(0);
+    List<Event> birthList = this.events.stream().filter(
+        (event) -> event.getClass() == Birth.class
+    ).collect(Collectors.toList());
+
+    return birthList.size() == 1 ? (Birth) birthList.get(0) : null;
   }
 
   public Person getOppositeParent(Person parent) {
     Birth birth = this.getBirth();
-    if (birth.getParent1().equals(parent)) return birth.getParent2();
+    if (birth.getParent1().equals(parent)) {
+      return birth.getParent2();
+    }
 
     return birth.getParent1();
   }
@@ -264,21 +267,38 @@ public class Person extends BaseClass {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
     Person other = (Person) obj;
     if (children == null) {
-      if (other.children != null) return false;
-    } else if (!children.equals(other.children)) return false;
+      if (other.children != null) {
+        return false;
+      }
+    } else if (!children.equals(other.children)) {
+      return false;
+    }
     if (events == null) {
-      if (other.events != null) return false;
-    } else if (!events.equals(other.events)) return false;
-    if (gender != other.gender) return false;
+      if (other.events != null) {
+        return false;
+      }
+    } else if (!events.equals(other.events)) {
+      return false;
+    }
+    if (gender != other.gender) {
+      return false;
+    }
     return true;
   }
 
   public static Person importJSONObject(JSONObject obj) {
     return new Person(obj);
   }
+
 }

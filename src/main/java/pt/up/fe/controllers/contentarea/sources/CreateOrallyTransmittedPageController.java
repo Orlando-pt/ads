@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dtos.sources.OrallyTransmittedDTO;
@@ -82,8 +83,6 @@ public class CreateOrallyTransmittedPageController implements Initializable,
 
   private OrallyTransmitted selectedOrallyTransmitted;
 
-  private boolean editMode = true;
-
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
   @FXML
@@ -139,7 +138,6 @@ public class CreateOrallyTransmittedPageController implements Initializable,
     selectedOrallyTransmitted = null;
     date = null;
     createOrallyTransmittedButton.setText("Create Historical Record");
-    editMode = true;
     changePageMode();
   }
 
@@ -163,7 +161,7 @@ public class CreateOrallyTransmittedPageController implements Initializable,
   }
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       orallyTransmittedNameInput.setEditable(true);
       addAuthorButton.setVisible(true);
       authorNameInput.setVisible(true);

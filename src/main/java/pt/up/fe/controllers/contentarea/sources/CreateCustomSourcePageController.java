@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
@@ -57,8 +58,6 @@ public class CreateCustomSourcePageController implements Initializable, IContent
   private IDate date;
 
   private CustomSource selectedCustomSource;
-
-  private boolean editMode = true;
 
   ObservableList<String> authorsList = FXCollections.observableArrayList();
 
@@ -114,7 +113,6 @@ public class CreateCustomSourcePageController implements Initializable, IContent
     selectedCustomSource = null;
     date = null;
     createCustomSourceButton.setText("Create Custom Source");
-    editMode = true;
     changePageMode();
   }
 
@@ -130,7 +128,7 @@ public class CreateCustomSourcePageController implements Initializable, IContent
   }
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       customSourceNameInput.setEditable(true);
       addAuthorButton.setVisible(true);
       authorNameInput.setVisible(true);

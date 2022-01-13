@@ -5,15 +5,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import pt.up.fe.controllers.contentarea.HomePageController;
 import pt.up.fe.controllers.contentarea.events.*;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.controllers.contentarea.dates.CreateDateController;
+import pt.up.fe.controllers.contentarea.graphviz.GraphVizPageController;
+import pt.up.fe.controllers.contentarea.importExport.ImportExportPageController;
 import pt.up.fe.controllers.contentarea.persons.CreatePersonPageController;
 import pt.up.fe.controllers.contentarea.persons.ListPersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.PersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.ViewEditPersonPageController;
 import pt.up.fe.controllers.contentarea.places.CreatePlacePageController;
 import pt.up.fe.controllers.contentarea.places.ListPlacesPageController;
+import pt.up.fe.controllers.contentarea.places.PlacesPageController;
 import pt.up.fe.controllers.contentarea.places.ViewEditPlacePageController;
 import pt.up.fe.controllers.contentarea.sources.CreateBookPageController;
 import pt.up.fe.controllers.contentarea.sources.CreateCustomSourcePageController;
@@ -94,10 +98,22 @@ public class ContentAreaPaneController implements Initializable {
   private CreatePlacePageController createPlacePageController;
 
   @FXML
+  private PlacesPageController placesPageController;
+
+  @FXML
   private ListPlacesPageController listPlacesPageController;
 
   @FXML
   private ViewEditPlacePageController viewEditPlacePageController;
+
+  @FXML
+  private GraphVizPageController graphVizPageController;
+
+  @FXML
+  private ImportExportPageController importExportPageController;
+
+  @FXML
+  private HomePageController homePageController;
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {

@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pt.up.fe.Main;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.dates.IDate;
 import pt.up.fe.dates.SimpleDate;
@@ -116,8 +117,6 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
   private Person selectedPerson;
 
-  private boolean editMode = true;
-
   ObservableList<PersonTableDTO> childrenTableList = FXCollections.observableArrayList();
 
   ObservableList<EventTableDTO> eventsTableList = FXCollections.observableArrayList();
@@ -156,14 +155,12 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
         EventCustomEvent.EVENT, new EventHandler<EventCustomEvent>() {
           @Override
           public void handle(EventCustomEvent eventCustomEvent) {
-            Event event = eventCustomEvent.getEvent();
-
-            System.out.println(event.toString());
-
-            eventsTableList.add(
-                new EventTableDTO(event.getName(), event.getPlace(), event.getDate(),
-                    event.getDescription(), event));
-
+            eventsTableList.clear();
+            selectedPerson.getEvents().forEach(event1 -> {
+              eventsTableList.add(
+                  new EventTableDTO(event1.getName(), event1.getPlace(), event1.getDate(),
+                      event1.getDescription(), event1));
+            });
           }
         });
 
@@ -266,15 +263,14 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
       }
       CustomSceneHelper.getNodeById(eventName + "Page")
           .fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, curEvent));
-      CustomSceneHelper.bringNodeToFront(eventName + "Page", "Page");
-      clearPage();
+      CustomSceneHelper.bringNodeToFront(eventName, "Page");
 
     }
   }
 
   @FXML
   private void addEvent(MouseEvent event) {
-    if (editMode) {
+    if (Main.editMode) {
       CustomSceneHelper.getNodeById("createEventPage")
           .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, selectedPerson));
       CustomSceneHelper.bringNodeToFront("createEvent", "Page");
@@ -283,7 +279,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
 
 
   private void changePageMode() {
-    if (editMode) {
+    if (Main.editMode) {
       descriptionInput.setEditable(true);
       firstNameInput.setEditable(true);
       middleNameInput.setEditable(true);
@@ -332,7 +328,7 @@ public class ViewEditPersonPageController implements Initializable, IContentPage
   }
 
   public void save() throws IllegalAccessException {
-    if (editMode) {
+    if (Main.editMode) {
       PersonDTO personDTO = new PersonDTO();
       personDTO.setFirstName(firstNameInput.getText());
       personDTO.setMiddleName(middleNameInput.getText());
