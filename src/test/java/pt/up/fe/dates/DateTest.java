@@ -183,7 +183,7 @@ public class DateTest {
     );
 
     assertEquals(
-      -10,
+      1,
       interval1.compareTo(
         new IntervalDate(
           new SimpleDate(2021, 12, 23),

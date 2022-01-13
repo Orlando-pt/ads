@@ -218,13 +218,8 @@ public class PersonFacade {
     return receiver;
   }
 
-  public static void createFamilyTreeVisualization(Person root, String filename) {
-    try {
-      dotExporter.createGraphHavingRoot(root, filename);
-    } catch (Exception e) {
-      System.err.println("Error while exporting family tree.");
-      e.printStackTrace();
-    }
+  public static void createFamilyTreeVisualization(Person root, String filename) throws Exception {
+    dotExporter.createGraphHavingRoot(root, filename);
   }
 
 }

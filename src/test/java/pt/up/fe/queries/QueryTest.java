@@ -176,7 +176,7 @@ public class QueryTest {
 
         Assertions.assertThat(
             queryReceiver.getPersonList()
-        ).extracting(Person::getName).containsOnly("Ana", "Ana Grila");
+        ).extracting(Person::getName).containsOnly("Ana", "Joana", "Ana Grila");
 
         // test exact name
         personAttributes.setName(
@@ -313,7 +313,7 @@ public class QueryTest {
 
         Assertions.assertThat(
             queryReceiver.getPersonList()
-        ).extracting(Person::getName).containsOnly("Diogo", "Catia");
+        ).extracting(Person::getName).containsOnly("Diogo");
     }
     
 

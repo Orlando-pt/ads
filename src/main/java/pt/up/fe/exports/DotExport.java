@@ -30,7 +30,6 @@ public class DotExport {
     public void createGraphHavingRoot(Person personRoot, String imageName) throws Exception {
         Graph g = graph("Family Tree of " + personRoot.getName()).directed()
         .graphAttr().with(Rank.dir(RankDir.TOP_TO_BOTTOM))
-        .nodeAttr().with(Font.name("arial"))
         .linkAttr().with("class", "link-class")
         .with(
                 getLinkSourcesTree(personRoot)

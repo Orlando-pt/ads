@@ -9,6 +9,8 @@ import pt.up.fe.controllers.contentarea.HomePageController;
 import pt.up.fe.controllers.contentarea.events.*;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.controllers.contentarea.dates.CreateDateController;
+import pt.up.fe.controllers.contentarea.graphviz.GraphVizPageController;
+import pt.up.fe.controllers.contentarea.importExport.ImportExportPageController;
 import pt.up.fe.controllers.contentarea.persons.CreatePersonPageController;
 import pt.up.fe.controllers.contentarea.persons.ListPersonsPageController;
 import pt.up.fe.controllers.contentarea.persons.PersonsPageController;
@@ -106,6 +108,12 @@ public class ContentAreaPaneController implements Initializable {
 
   @FXML
   private ListEventsPageController listEventsPageController;
+  
+  @FXML
+  private GraphVizPageController graphVizPageController;
+
+  @FXML
+  private ImportExportPageController importExportPageController;
 
   @FXML
   private HomePageController homePageController;
