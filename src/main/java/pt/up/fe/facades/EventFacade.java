@@ -2,23 +2,17 @@ package pt.up.fe.facades;
 
 import pt.up.fe.Main;
 import pt.up.fe.dates.IDate;
-import pt.up.fe.dtos.events.FilterEventsDTO;
+import pt.up.fe.dtos.events.*;
 import pt.up.fe.events.*;
 import pt.up.fe.person.Person;
+import pt.up.fe.places.Place;
+import pt.up.fe.sources.Source;
 
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class EventFacade {
-
-    private PlaceFacade placeFacade;
-    private DateFacade dateFacade;
-
-    public EventFacade() {
-        Scanner sc = new Scanner(System.in);
-        this.dateFacade = new DateFacade();
-    }
 
     public static List<Event> filterEvents(FilterEventsDTO filters) {
 
@@ -41,231 +35,149 @@ public class EventFacade {
         return result;
     }
 
-    public PlaceFacade getPlaceFacade() {
-        return placeFacade;
-    }
-
-    public void setPlaceFacade(PlaceFacade placeFacade) {
-        this.placeFacade = placeFacade;
-    }
-
-    public DateFacade getDateFacade() {
-        return dateFacade;
-    }
-
-    public void setDateFacade(DateFacade dateFacade) {
-        this.dateFacade = dateFacade;
-    }
-
-    public Event createBirthEvent(String maternity, String placeOfBirth, IDate dateOfBirth, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public static Event createBirthEvent(BirthEventDTO event) {
         Event birthEvent = new Birth();
 
-        if (!maternity.isEmpty()) {
-            birthEvent.addSpecialPurposeField("Maternity", maternity);
+        if (!event.getMaternity().isEmpty()) {
+            birthEvent.addSpecialPurposeField("Maternity", event.getMaternity());
         }
 
-        if (!placeOfBirth.isEmpty()) {
-            // TODO Fix this
-            //birthEvent.addPlaceRelation("Place of Birth", this.getPlaceFacade().choosePlace());
-        }
+        addCommonFields(
+                birthEvent,
+                event.getPlace(),
+                event.getDate(),
+                event.getSource(),
+                event.getPersons(),
+                event.getSpecialFields(),
+                event.getDescription()
+        );
 
-        if (dateOfBirth != null) {
-            birthEvent.setDate(dateOfBirth);
-        }
-
-        persons.forEach((key, value) -> {
-            birthEvent.addPeopleRelation(key, value);
-        });
-
-        specialFields.forEach((key, value) -> {
-            birthEvent.addSpecialPurposeField(key, value);
-        });
-
-        if (!description.isEmpty()) {
-            birthEvent.setDescription(description);
-        }
-
-        handleEditOrCreate(birthEvent, editId, person);
+        handleEditOrCreate(birthEvent, event.getEditId(), event.getPerson());
         return birthEvent;
     }
 
-    public Event createDeathEvent(String typeOfDeath, String placeOfDeath, IDate dateOfDeath, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public static Event createDeathEvent(DeathEventDTO event) {
         Event deathEvent = new Death();
 
-        if (!typeOfDeath.isEmpty()) {
-            deathEvent.addSpecialPurposeField("Type of Death", typeOfDeath);
+        if (!event.getTypeOfDeath().isEmpty()) {
+            deathEvent.addSpecialPurposeField("Type of Death", event.getTypeOfDeath());
         }
 
-        if (!placeOfDeath.isEmpty()) {
-            // TODO Fix this
-            //deathEvent.addPlaceRelation("Place of Death", this.getPlaceFacade().choosePlace());
-        }
+        addCommonFields(
+                deathEvent,
+                event.getPlace(),
+                event.getDate(),
+                event.getSource(),
+                event.getPersons(),
+                event.getSpecialFields(),
+                event.getDescription()
+        );
 
-        if (dateOfDeath != null) {
-            deathEvent.setDate(dateOfDeath);
-        }
-
-        persons.forEach((key, value) -> {
-            deathEvent.addPeopleRelation(key, value);
-        });
-
-        specialFields.forEach((key, value) -> {
-            deathEvent.addSpecialPurposeField(key, value);
-        });
-
-        if (!description.isEmpty()) {
-            deathEvent.setDescription(description);
-        }
-
-        handleEditOrCreate(deathEvent, editId, person);
+        handleEditOrCreate(deathEvent, event.getEditId(), event.getPerson());
         return deathEvent;
     }
 
-    public Event createEmigrationEvent(String typeOfEmigration, String placeOfEmigration, IDate dateOfEmigration, String pushFactor, String pullFactor, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public static Event createEmigrationEvent(EmigrationEventDTO event) {
         Event emigrationEvent = new Emigration();
 
-        if (!typeOfEmigration.isEmpty()) {
-            emigrationEvent.addSpecialPurposeField("Type of Emigration", typeOfEmigration);
+        if (!event.getTypeOfEmigration().isEmpty()) {
+            emigrationEvent.addSpecialPurposeField("Type of Emigration", event.getTypeOfEmigration());
         }
 
-        if (!placeOfEmigration.isEmpty()) {
-            // TODO Fix this
-            // emigrationEvent.addPlaceRelation("Country of Emigration", this.getPlaceFacade().choosePlace());
+        if (event.getPushFactor() != null) {
+            emigrationEvent.addSpecialPurposeField("Push factor", event.getPushFactor());
         }
 
-        if (dateOfEmigration != null) {
-            emigrationEvent.setDate(dateOfEmigration);
+        if (event.getPullFactor() != null) {
+            emigrationEvent.addSpecialPurposeField("Pull factor", event.getPullFactor());
         }
 
-        if (!pushFactor.isEmpty()) {
-            emigrationEvent.addSpecialPurposeField("Push factor", pushFactor);
-        }
+        addCommonFields(
+                emigrationEvent,
+                event.getPlace(),
+                event.getDate(),
+                event.getSource(),
+                event.getPersons(),
+                event.getSpecialFields(),
+                event.getDescription()
+        );
 
-        if (!pullFactor.isEmpty()) {
-            emigrationEvent.addSpecialPurposeField("Pull factor", pullFactor);
-        }
-
-        persons.forEach((key, value) -> {
-            emigrationEvent.addPeopleRelation(key, value);
-        });
-
-        specialFields.forEach((key, value) -> {
-            emigrationEvent.addSpecialPurposeField(key, value);
-        });
-
-        if (!description.isEmpty()) {
-            emigrationEvent.setDescription(description);
-        }
-
-        handleEditOrCreate(emigrationEvent, editId, person);
+        handleEditOrCreate(emigrationEvent, event.getEditId(), event.getPerson());
         return emigrationEvent;
     }
 
-    public Event createMarriageEvent(String marriageName, String placeOfMarriage, IDate dateOfMarriage, String typeOfMarriage, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public static Event createMarriageEvent(MarriageEventDTO event) {
         Event marriageEvent = new Marriage();
 
-        if (!marriageName.isEmpty()) {
-            marriageEvent.addSpecialPurposeField("Marriage Name", marriageName);
+        if (!event.getMarriageName().isEmpty()) {
+            marriageEvent.addSpecialPurposeField("Marriage Name", event.getMarriageName());
         }
 
-        if (!placeOfMarriage.isEmpty()) {
-            // TODO Fix this
-            // marriageEvent.addPlaceRelation("Country of Marriage", this.getPlaceFacade().choosePlace());
+        if (event.getTypeOfMarriage() != null) {
+            marriageEvent.addSpecialPurposeField("Type Of Marriage", event.getTypeOfMarriage());
         }
 
-        if (dateOfMarriage != null) {
-            marriageEvent.setDate(dateOfMarriage);
-        }
+        addCommonFields(
+                marriageEvent,
+                event.getPlace(),
+                event.getDate(),
+                event.getSource(),
+                event.getPersons(),
+                event.getSpecialFields(),
+                event.getDescription()
+        );
 
-        if (!typeOfMarriage.isEmpty()) {
-            marriageEvent.addSpecialPurposeField("Type Of Marriage", typeOfMarriage);
-        }
-
-        persons.forEach((key, value) -> {
-            marriageEvent.addPeopleRelation(key, value);
-        });
-
-        specialFields.forEach((key, value) -> {
-            marriageEvent.addSpecialPurposeField(key, value);
-        });
-
-        if (!description.isEmpty()) {
-            marriageEvent.setDescription(description);
-        }
-
-        handleEditOrCreate(marriageEvent, editId, person);
+        handleEditOrCreate(marriageEvent, event.getEditId(), event.getPerson());
         return marriageEvent;
     }
 
-    public Event createResidenceEvent(String residenceName, String placeOfResidence, IDate dateOfResidence, String typeOfPlace, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
+    public static Event createResidenceEvent(ResidenceEventDTO event) {
         Event residenceEvent = new Residence();
 
-        if (!residenceName.isEmpty()) {
-            residenceEvent.addSpecialPurposeField("Residence Name", residenceName);
+        if (!event.getResidenceName().isEmpty()) {
+            residenceEvent.addSpecialPurposeField("Residence Name", event.getResidenceName());
         }
 
-        if (!placeOfResidence.isEmpty()) {
-            // TODO Fix this
-            // residenceEvent.addPlaceRelation("Country of Residence", this.getPlaceFacade().choosePlace());
+        if (event.getTypeOfPlace() == null) {
+            residenceEvent.addSpecialPurposeField("Type Of Place", event.getTypeOfPlace());
         }
 
-        if (dateOfResidence != null) {
-            residenceEvent.setDate(dateOfResidence);
-        }
+        addCommonFields(
+                residenceEvent,
+                event.getPlace(),
+                event.getDate(),
+                event.getSource(),
+                event.getPersons(),
+                event.getSpecialFields(),
+                event.getDescription()
+        );
 
-        if (!typeOfPlace.isEmpty()) {
-            residenceEvent.addSpecialPurposeField("Type Of Place", typeOfPlace);
-        }
-
-        persons.forEach((key, value) -> {
-            residenceEvent.addPeopleRelation(key, value);
-        });
-
-        specialFields.forEach((key, value) -> {
-            residenceEvent.addSpecialPurposeField(key, value);
-        });
-
-        if (!description.isEmpty()) {
-            residenceEvent.setDescription(description);
-        }
-
-        handleEditOrCreate(residenceEvent, editId, person);
+        handleEditOrCreate(residenceEvent, event.getEditId(), event.getPerson());
         return residenceEvent;
     }
 
-    public Event createCustomEvent(String customName, String placeOfCustom, IDate dateOfCustom, String typeOfCustom, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description, UUID editId, Person person) {
-        Event customEvent = new CustomEvent(customName);
+    public static Event createCustomEvent(CustomEventDTO event) {
+        Event customEvent = new CustomEvent(event.getCustomName());
 
-        if (!typeOfCustom.isEmpty()) {
-            customEvent.addSpecialPurposeField("Type of Custom Event", typeOfCustom);
+        if (!event.getTypeOfCustom().isEmpty()) {
+            customEvent.addSpecialPurposeField("Type of Custom Event", event.getTypeOfCustom());
         }
 
-        if (!placeOfCustom.isEmpty()) {
-            // TODO Fix this
-            // customEvent.addPlaceRelation("Country of Custom Event", this.getPlaceFacade().choosePlace());
-        }
+        addCommonFields(
+                customEvent,
+                event.getPlace(),
+                event.getDate(),
+                event.getSource(),
+                event.getPersons(),
+                event.getSpecialFields(),
+                event.getDescription()
+        );
 
-        if (dateOfCustom != null) {
-            customEvent.setDate(dateOfCustom);
-        }
-
-        persons.forEach((key, value) -> {
-            customEvent.addPeopleRelation(key, value);
-        });
-
-        specialFields.forEach((key, value) -> {
-            customEvent.addSpecialPurposeField(key, value);
-        });
-
-        if (!description.isEmpty()) {
-            customEvent.setDescription(description);
-        }
-
-        handleEditOrCreate(customEvent, editId, person);
+        handleEditOrCreate(customEvent, event.getEditId(), event.getPerson());
         return customEvent;
     }
 
-    private void handleEditOrCreate(Event event, UUID id, Person person) {
+    private static void handleEditOrCreate(Event event, UUID id, Person person) {
         if (id != null) {
             ListIterator<Event> iterator = Main.eventsList.listIterator();
             while (iterator.hasNext()) {
@@ -285,6 +197,32 @@ public class EventFacade {
         } else {
             person.addEvent(event);
             Main.eventsList.add(event);
+        }
+    }
+
+    private static void addCommonFields(Event ev, Place place, IDate date, Source source, HashMap<String, Person> persons, HashMap<String, String> specialFields, String description) {
+        if (place != null) {
+            ev.setPlace(place);
+        }
+
+        if (date != null) {
+            ev.setDate(date);
+        }
+
+        if(source != null) {
+            ev.setSource(source);
+        }
+
+        persons.forEach((key, value) -> {
+            ev.addPeopleRelation(key, value);
+        });
+
+        specialFields.forEach((key, value) -> {
+            ev.addSpecialPurposeField(key, value);
+        });
+
+        if (!description.isEmpty()) {
+            ev.setDescription(description);
         }
     }
 }
