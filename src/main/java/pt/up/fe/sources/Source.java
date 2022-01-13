@@ -13,6 +13,7 @@ import pt.up.fe.dates.SimpleDate;
 import pt.up.fe.exports.IExportObject;
 
 public abstract class Source implements IExportObject {
+
   private final UUID id;
   private IDate dateOfPublication;
   private String name;
@@ -29,15 +30,17 @@ public abstract class Source implements IExportObject {
   }
 
   public Source(JSONObject obj) {
-    this.id = UUID.fromString((String) obj.get("id"));
-    this.name = (String) obj.get("name");
+    this.id = (obj.has("id") ? UUID.fromString((String) obj.get("id")) : null);
+    this.name = (String) (obj.has("id") ? obj.get("name") : null);
 
-    JSONArray authors = obj.getJSONArray("authors");
-    List<String> a = new ArrayList<>();
-    for (Object auth : authors.toList()) {
-      a.add((String) auth);
+    if (obj.has("authors")) {
+      JSONArray authors = obj.getJSONArray("authors");
+      List<String> a = new ArrayList<>();
+      for (Object auth : authors.toList()) {
+        a.add((String) auth);
+      }
+      this.authors = a;
     }
-    this.authors = a;
 
     if (obj.has("dateOfPublication")) {
       JSONObject date = obj.getJSONObject("dateOfPublication");
@@ -122,7 +125,7 @@ public abstract class Source implements IExportObject {
   }
 
   public static Source importJSONObject(JSONObject obj) throws ClassNotFoundException {
-    switch ((String) obj.get("type")) {
+    switch ((String) (obj.has("type") ? obj.get("type"): null)) {
       case "Book":
         return new Book(obj);
       case "CustomSource":

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import pt.up.fe.controllers.contentarea.IContentPageController;
+import pt.up.fe.facades.ImportExportFacade;
 
 public class ImportExportPageController implements Initializable, IContentPageController {
 
@@ -27,12 +28,27 @@ public class ImportExportPageController implements Initializable, IContentPageCo
 
   @FXML
   private void importContent(MouseEvent event) {
-
+    try {
+      ImportExportFacade.importContent();
+      exportLabel.setText("Import was successful");
+    } catch (Exception e) {
+      exportLabel.setText("There was an error while importing");
+      e.printStackTrace();
+    }
+    exportLabel.setVisible(true);
   }
 
 
   @FXML
   private void exportContent(MouseEvent event) {
+    try {
+      ImportExportFacade.exportContent();
+      exportLabel.setText("Export was successful");
+    } catch (Exception e) {
+      exportLabel.setText("There was an error while exporting");
+      e.printStackTrace();
+    }
+    exportLabel.setVisible(true);
 
   }
 
@@ -45,6 +61,6 @@ public class ImportExportPageController implements Initializable, IContentPageCo
 
   @Override
   public void clearPage() {
-
+    exportLabel.setVisible(false);
   }
 }

@@ -38,15 +38,20 @@ public class Person extends BaseClass {
 
   public Person(JSONObject obj) {
     super(obj);
-    this.setGender(Gender.valueOf((String) obj.get("gender")));
+    this.setGender((obj.has("gender") ? Gender.valueOf((String) obj.get("gender")) : null));
 
-    for (Object o : obj.getJSONArray("children")) {
-      String id = (String) o;
-      this.auxChildren.add(UUID.fromString(id));
+    if (obj.has("children")) {
+      for (Object o : obj.getJSONArray("children")) {
+        String id = (String) o;
+        this.auxChildren.add(UUID.fromString(id));
+      }
     }
-    for (Object o : obj.getJSONArray("events")) {
-      String id = (String) o;
-      this.auxChildren.add(UUID.fromString(id));
+
+    if (obj.has("events")) {
+      for (Object o : obj.getJSONArray("events")) {
+        String id = (String) o;
+        this.auxChildren.add(UUID.fromString(id));
+      }
     }
   }
 

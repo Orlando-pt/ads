@@ -14,7 +14,7 @@ public class Parish extends Place {
 
   public Parish(JSONObject obj) {
     super(obj);
-    this.area = (Double) obj.get("area");
+    this.area = (Double) (obj.has("area") ? obj.get("area") : null);
   }
 
   public CompoundPlace toCompound(){

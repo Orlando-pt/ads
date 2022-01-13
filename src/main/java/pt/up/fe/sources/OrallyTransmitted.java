@@ -2,11 +2,11 @@ package pt.up.fe.sources;
 
 import java.util.Map;
 import java.util.UUID;
-
 import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
 public class OrallyTransmitted extends Source {
+
   private Place place;
   private UUID auxPlace;
 
@@ -20,7 +20,7 @@ public class OrallyTransmitted extends Source {
 
   public OrallyTransmitted(JSONObject obj) {
     super(obj);
-    this.auxPlace = UUID.fromString((String) obj.get("place"));
+    this.auxPlace = (obj.has("place") ? UUID.fromString((String) obj.get("place")) : null);
   }
 
   public Place getPlace() {

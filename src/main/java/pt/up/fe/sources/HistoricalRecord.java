@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
 public class HistoricalRecord extends Source {
+
   private Place nationalArchiveCountry;
   private UUID auxNationalArchiveCountry;
 
@@ -19,7 +20,8 @@ public class HistoricalRecord extends Source {
 
   public HistoricalRecord(JSONObject obj) {
     super(obj);
-    this.auxNationalArchiveCountry = UUID.fromString((String) obj.get("nationalArchiveCountry"));
+    this.auxNationalArchiveCountry = (obj.has("nationalArchiveCountry") ? UUID.fromString(
+        (String) obj.get("nationalArchiveCountry")) : null);
   }
 
   public Place getNationalArchiveCountry() {

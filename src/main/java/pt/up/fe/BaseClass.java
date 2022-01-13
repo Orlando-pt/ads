@@ -23,7 +23,7 @@ public abstract class BaseClass implements IExportObject {
   }
 
   public BaseClass(JSONObject obj) {
-    this.id = UUID.fromString((String) obj.get("id"));
+    this.id = UUID.fromString((String) (obj.has("id") ? obj.get("id") : null));
   }
 
   public UUID getId() {

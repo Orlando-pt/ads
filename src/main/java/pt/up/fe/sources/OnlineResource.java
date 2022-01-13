@@ -16,7 +16,7 @@ public class OnlineResource extends Source {
 
   public OnlineResource(JSONObject obj) {
     super(obj);
-    this.link = (String) obj.get("link");
+    this.link = (String) (obj.has("link") ? obj.get("link") : null);
   }
 
   public String getLink() {

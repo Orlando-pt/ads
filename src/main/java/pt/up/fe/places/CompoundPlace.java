@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CompoundPlace extends Place {
+
   private final List<Place> children = new ArrayList<>();
   private final List<UUID> auxChildren = new ArrayList<>();
 
@@ -19,9 +19,11 @@ public class CompoundPlace extends Place {
   public CompoundPlace(JSONObject obj) {
     super(obj);
 
-    for (Object o : obj.getJSONArray("children")) {
-      String id = (String)o;
-      this.auxChildren.add(UUID.fromString(id));
+    if (obj.has("children")) {
+      for (Object o : obj.getJSONArray("children")) {
+        String id = (String) o;
+        this.auxChildren.add(UUID.fromString(id));
+      }
     }
   }
 

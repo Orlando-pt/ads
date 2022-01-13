@@ -1,10 +1,10 @@
 package pt.up.fe.sources;
 
 import java.util.Map;
-
 import org.json.JSONObject;
 
 public class Book extends Source {
+
   private Integer pages;
   private String publisher;
 
@@ -19,8 +19,8 @@ public class Book extends Source {
   public Book(JSONObject obj) {
     super(obj);
 
-    this.pages = (Integer) obj.get("pages");
-    this.publisher = (String) obj.get("publisher");
+    this.pages = (Integer) (obj.has("pages") ? obj.get("pages") : null);
+    this.publisher = (String) (obj.has("publisher") ? obj.get("publisher") : null);
   }
 
   public Integer getPages() {

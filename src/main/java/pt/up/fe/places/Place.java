@@ -18,9 +18,9 @@ public abstract class Place extends BaseClass {
 
   public Place(JSONObject obj) {
     super(obj);
-    this.latitude = (Double) obj.get("latitude");
-    this.longitude = (Double) obj.get("longitude");
-    this.altitude = (Double) obj.get("altitude");
+    this.latitude = (Double) (obj.has("latitude") ? obj.get("latitude") : null);
+    this.longitude = (Double) (obj.has("longitude") ? obj.get("longitude") : null);
+    this.altitude = (Double) (obj.has("altitude") ? obj.get("altitude") : null);
   }
 
   public abstract Boolean isComposite();
@@ -81,7 +81,7 @@ public abstract class Place extends BaseClass {
   }
 
   public static Place importJSONObject(JSONObject obj) {
-    if ((Boolean) obj.get("isComposite")) {
+    if ((Boolean) (obj.has("isComposite") ? obj.get("isComposite") : false)) {
       return new CompoundPlace(obj);
     }
     return new Parish(obj);

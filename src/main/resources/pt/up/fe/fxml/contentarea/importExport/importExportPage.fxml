@@ -12,17 +12,17 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <Button fx:id="importButton" onMouseClicked="#importContent" layoutX="154.0" layoutY="200.0" mnemonicParsing="false" text="Import">
+      <Button fx:id="importButton" layoutX="154.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#importContent" text="Import">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="exportButton" onMouseClicked="#exportContent" layoutX="421.0" layoutY="200.0" mnemonicParsing="false" text="Export">
+      <Button fx:id="exportButton" layoutX="421.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#exportContent" text="Export">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Text fill="WHITE" fx:id="exportLabel" layoutX="220.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Export was successfully made">
+      <Text fx:id="exportLabel" fill="WHITE" layoutX="213.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Export was successfully made">
          <font>
             <Font size="16.0" />
          </font>

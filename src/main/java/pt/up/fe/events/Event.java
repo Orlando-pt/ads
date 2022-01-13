@@ -13,6 +13,7 @@ import pt.up.fe.person.Person;
 import pt.up.fe.places.Place;
 
 public abstract class Event extends BaseClass {
+
   private Place place;
   private UUID auxPlace;
   private IDate date;
@@ -50,25 +51,36 @@ public abstract class Event extends BaseClass {
       }
     }
 
-    JSONObject peopleRelations = obj.getJSONObject("peopleRelations");
-    for (String key : peopleRelations.keySet()) {
-      this.auxPeopleRelations.put(key, UUID.fromString((String) peopleRelations.get(key)));
+    if (obj.has("peopleRelations")) {
+      JSONObject peopleRelations = obj.getJSONObject("peopleRelations");
+      for (String key : peopleRelations.keySet()) {
+        this.auxPeopleRelations.put(key, UUID.fromString((String) peopleRelations.get(key)));
+      }
     }
-    JSONObject placeRelations = obj.getJSONObject("placeRelations");
-    for (String key : placeRelations.keySet()) {
-      this.auxPlaceRelations.put(key, UUID.fromString((String) placeRelations.get(key)));
+
+    if (obj.has("placeRelations")) {
+      JSONObject placeRelations = obj.getJSONObject("placeRelations");
+      for (String key : placeRelations.keySet()) {
+        this.auxPlaceRelations.put(key, UUID.fromString((String) placeRelations.get(key)));
+      }
     }
-    JSONObject specialPurposeFields = obj.getJSONObject("specialPurposeFields");
-    for (String key : specialPurposeFields.keySet()) {
-      this.specialPurposeFields.put(key, (String) specialPurposeFields.get(key));
+
+    if (obj.has("specialPurposeFields")) {
+      JSONObject specialPurposeFields = obj.getJSONObject("specialPurposeFields");
+      for (String key : specialPurposeFields.keySet()) {
+        this.specialPurposeFields.put(key, (String) specialPurposeFields.get(key));
+      }
     }
-    JSONObject dateRelations = obj.getJSONObject("dateRelations");
-    for (String key : dateRelations.keySet()) {
-      JSONObject date = obj.getJSONObject(key);
-      if (date.has("startDate") || date.has("endDate")) {
-        this.dateRelations.put(key, new IntervalDate(date));
-      } else {
-        this.dateRelations.put(key, new SimpleDate(date));
+
+    if (obj.has("dateRelations")) {
+      JSONObject dateRelations = obj.getJSONObject("dateRelations");
+      for (String key : dateRelations.keySet()) {
+        JSONObject date = obj.getJSONObject(key);
+        if (date.has("startDate") || date.has("endDate")) {
+          this.dateRelations.put(key, new IntervalDate(date));
+        } else {
+          this.dateRelations.put(key, new SimpleDate(date));
+        }
       }
     }
   }
@@ -235,7 +247,7 @@ public abstract class Event extends BaseClass {
   }
 
   public static Event importJSONObject(JSONObject obj) throws ClassNotFoundException {
-    switch ((String) obj.get("type")) {
+    switch ((String) (obj.has("type") ? obj.get("type") : null)) {
       case "Birth":
         return new Birth(obj);
       case "CustomEvent":
