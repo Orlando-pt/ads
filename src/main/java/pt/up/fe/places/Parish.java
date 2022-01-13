@@ -17,11 +17,6 @@ public class Parish extends Place {
     this.area = (Double) obj.get("area");
   }
 
-  public Parish(Map<String, Object> obj) {
-    super(obj);
-    this.area = (Double) obj.get("area");
-  }
-
   public CompoundPlace toCompound(){
     CompoundPlace copy = new CompoundPlace(this.getName());
     copy.setSource(this.getSource());

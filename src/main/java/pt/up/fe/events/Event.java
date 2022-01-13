@@ -73,10 +73,6 @@ public abstract class Event extends BaseClass {
     }
   }
 
-  public Event(Map<String, Object> obj) {
-    super(obj);
-  }
-
   public abstract Logger initializeLogger();
 
   public Place getPlace() {
@@ -239,25 +235,6 @@ public abstract class Event extends BaseClass {
   }
 
   public static Event importJSONObject(JSONObject obj) throws ClassNotFoundException {
-    switch ((String) obj.get("type")) {
-      case "Birth":
-        return new Birth(obj);
-      case "CustomEvent":
-        return new CustomEvent(obj);
-      case "Death":
-        return new Death(obj);
-      case "Emigration":
-        return new Emigration(obj);
-      case "Marriage":
-        return new Marriage(obj);
-      case "Residence":
-        return new Residence(obj);
-      default:
-        throw new ClassNotFoundException();
-    }
-  }
-
-  public static Event importYAMLObject(Map<String, Object> obj) throws ClassNotFoundException {
     switch ((String) obj.get("type")) {
       case "Birth":
         return new Birth(obj);

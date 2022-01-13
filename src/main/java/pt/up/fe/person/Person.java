@@ -49,11 +49,6 @@ public class Person extends BaseClass {
     }
   }
 
-  public Person(Map<String, Object> obj) {
-    super(obj);
-    this.setGender(Gender.valueOf((String) obj.get("gender")));
-  }
-
   public PersonIteratorInterface<ImmutablePair<Integer, Person>> createIterator() {
     return new PersonBreathIterator(this);
   }
@@ -284,10 +279,6 @@ public class Person extends BaseClass {
   }
 
   public static Person importJSONObject(JSONObject obj) {
-    return new Person(obj);
-  }
-
-  public static Person importYAMLObject(Map<String, Object> obj) {
     return new Person(obj);
   }
 }

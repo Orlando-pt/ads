@@ -21,11 +21,6 @@ public class CustomEvent extends Event {
     this.setName((String) obj.get("name"));
   }
 
-  public CustomEvent(Map<String, Object> obj) {
-    super(obj);
-    this.setName((String) obj.get("name"));
-  }
-
   public Logger initializeLogger() {
     return LogManager.getLogger(CustomEvent.class);
   }

@@ -36,11 +36,6 @@ public class Birth extends Event {
         this.setName(this.getClass().getSimpleName());
     }
 
-    public Birth(Map<String, Object> obj) {
-      super(obj);
-        this.setName(this.getClass().getSimpleName());
-    }
-
     public Logger initializeLogger() {
         return LogManager.getLogger(Birth.class);
     }

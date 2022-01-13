@@ -26,11 +26,6 @@ public class Marriage extends Event {
         this.setName(this.getClass().getSimpleName());
     }
 
-    public Marriage(Map<String, Object> obj) {
-      super(obj);
-        this.setName(this.getClass().getSimpleName());
-    }
-
     public Marriage(Person person1, Person person2) {
         this.person1 = person1;
         this.person2 = person2;

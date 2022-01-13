@@ -17,10 +17,6 @@ public class Residence extends Event {
     super(obj);
     this.setName(this.getClass().getSimpleName());
   }
-  public Residence(Map<String, Object> obj) {
-    super(obj);
-    this.setName(this.getClass().getSimpleName());
-  }
 
   public Logger initializeLogger() {
     return LogManager.getLogger(Residence.class);

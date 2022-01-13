@@ -25,10 +25,6 @@ public class CompoundPlace extends Place {
     }
   }
 
-  public CompoundPlace(Map<String, Object> obj) {
-    super(obj);
-  }
-
   @Override
   public Boolean isComposite() {
     return true;

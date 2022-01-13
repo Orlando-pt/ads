@@ -20,11 +20,6 @@ public class Death extends Event {
     this.setName(this.getClass().getSimpleName());
   }
 
-  public Death(Map<String, Object> obj) {
-    super(obj);
-    this.setName(this.getClass().getSimpleName());
-  }
-
   public Logger initializeLogger() {
     return LogManager.getLogger(Death.class);
   }

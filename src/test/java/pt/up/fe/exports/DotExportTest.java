@@ -29,7 +29,7 @@ public class DotExportTest {
 
     @Test
     void createGraphImageTest() throws Exception{
-        // this.dotExport.createGraphHavingRoot(this.listOfPeople.get(0), "brenoOurFather");
+        this.dotExport.createGraphHavingRoot(this.listOfPeople.get(0), "brenoOurFather");
     }
 
     private void generateFamilyTree() {
