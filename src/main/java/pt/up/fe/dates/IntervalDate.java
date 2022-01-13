@@ -113,4 +113,9 @@ public class IntervalDate implements IDate{
     return -comparationResult;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return this.endDate.isEmpty() && this.startDate.isEmpty();
+  }
+
 }

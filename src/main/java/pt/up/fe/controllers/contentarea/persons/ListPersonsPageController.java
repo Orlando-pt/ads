@@ -100,7 +100,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
   private String pageToSend;
 
-  private IDate date;
+  private IntervalDate date;
 
   private FilterPersonType typeDTO;
 
@@ -117,8 +117,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
     typeSearchComboBox.getItems().clear();
     typeSearchComboBox.getItems()
-        .addAll("Names", "Children", "GrandChildren", "GrandGrandChildren", "Interval of Dates",
-            "Date");
+        .addAll("Names", "Children", "GrandChildren", "GrandGrandChildren", "Interval of Dates");
     typeSearchComboBox.getSelectionModel().select("Names");
 
     this.clearPage();
@@ -164,15 +163,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         middleNameInput.setDisable(true);
         addDate1Button.setVisible(true);
         addDate1Button.setText("Add Dates");
-        break;
-      case "Date":
-        typeDTO = FilterPersonType.DATE;
-        firstNameLabel.setText("Date");
-        firstNameLabel.setVisible(true);
-        firstNameInput.setVisible(true);
-        firstNameInput.setDisable(true);
-        addDate1Button.setVisible(true);
-        addDate1Button.setText("Add Date");
         break;
     }
   }
@@ -249,8 +239,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
 
     PersonTableDTO personTable = personsTable.getSelectionModel().getSelectedItem();
 
-
-
     if (personTable != null && typeDTO != FilterPersonType.NAMES && typeDTO != FilterPersonType.DATE) {
       firstNameLabel.setText(
           "Showing information of " + personTable.getFirstName() + " " + personTable.getLastName());
@@ -259,12 +247,8 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     }
 
     if (date != null) {
-      if (date.getClass().getSimpleName().equals("IntervalDate")) {
-        filters.setStartDate((SimpleDate) date);
-      } else {
-        filters.setStartDate(((IntervalDate) date).getStartDate());
-        filters.setEndDate(((IntervalDate) date).getEndDate());
-      }
+        filters.setStartDate(date.getStartDate());
+        filters.setEndDate(date.getEndDate());
     }
 
     list.clear();
@@ -301,7 +285,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
   public void openDate1Builder(MouseEvent event) {
     CustomSceneHelper.getNodeById("createDatePage")
         .fireEvent(new TypeSelectionDateCustomEvent(TypeSelectionDateCustomEvent.INTERVALSELECTION,
-            ((String) typeSearchComboBox.getSelectionModel().getSelectedItem()).equals(
+            (typeSearchComboBox.getSelectionModel().getSelectedItem()).equals(
                 "Interval of Dates")));
 
     CustomSceneHelper.bringNodeToFront("createDate", "Page");
@@ -310,7 +294,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         .addEventFilter(DateCustomEvent.DATE, new EventHandler<DateCustomEvent>() {
           @Override
           public void handle(DateCustomEvent dateCustomEvent) {
-            date = dateCustomEvent.getDate();
+            date = (IntervalDate)  dateCustomEvent.getDate();
 
             if (date.getClass().getSimpleName().equals("SimpleDate")) {
               firstNameInput.setText(date.toString());
