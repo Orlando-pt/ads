@@ -105,6 +105,9 @@ public class ContentAreaPaneController implements Initializable {
   private ViewEditPlacePageController viewEditPlacePageController;
 
   @FXML
+  private ListEventsPageController listEventsPageController;
+
+  @FXML
   private HomePageController homePageController;
 
   @Override

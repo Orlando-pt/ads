@@ -131,8 +131,14 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
         Event residenceEvent = EventFacade.createResidenceEvent(eventDTO);
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
-        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        if(this.selectedPerson == null) {
+            CustomSceneHelper.getNodeById("listEventsPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
+            CustomSceneHelper.bringNodeToFront("listEvents", "Page");
+        }
+        else {
+            CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
+            CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        }
         System.out.println(residenceEvent);
     }
 
