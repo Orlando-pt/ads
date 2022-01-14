@@ -2,7 +2,10 @@ package pt.up.fe.imports;
 
 import java.util.Map;
 import java.util.UUID;
+
+import pt.up.fe.events.Birth;
 import pt.up.fe.events.Event;
+import pt.up.fe.events.Marriage;
 import pt.up.fe.person.Person;
 import pt.up.fe.places.CompoundPlace;
 import pt.up.fe.places.Place;
@@ -74,6 +77,17 @@ public abstract class ImportUtils {
       }
 
       e.setSource(sources.get(e.getAuxSource()));
+      if (e instanceof Marriage) {
+        Marriage marriage = (Marriage)e;
+        marriage.setPerson1(people.get(marriage.getAuxPerson1()));
+        marriage.setPerson2(people.get(marriage.getAuxPerson2()));
+      }
+      if (e instanceof Birth) {
+        Birth birth = (Birth)e;
+        birth.setParent1(people.get(birth.getAuxParent1()));
+        birth.setParent2(people.get(birth.getAuxParent2()));
+        birth.setChild(people.get(birth.getAuxChild()));
+      }
     }
     return events;
   }
