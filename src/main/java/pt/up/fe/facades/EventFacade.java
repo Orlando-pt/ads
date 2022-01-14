@@ -52,6 +52,13 @@ public class EventFacade {
                 event.getDescription()
         );
 
+        // Add child to mother and father
+        event.getPersons().forEach((key, value) -> {
+            if(key == "Mother" || key == "Father") {
+                value.addChild(event.getPerson());
+            }
+        });
+
         handleEditOrCreate(birthEvent, event.getEditId(), event.getPerson());
         return birthEvent;
     }
