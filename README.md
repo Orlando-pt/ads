@@ -1,5 +1,5 @@
-# ads
-ADS project using patterns
+# HighestTree
+HighestTree ADS project made with special emphasis on software design patterns.
 
 ## Creating a jar executable
 Some dependencies were added, so those dependencies need to be added to the jar.
