@@ -222,6 +222,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         changeFilterType(new ActionEvent());
         break;
       case "Query History":
+        getQueryHistory();
         typeOfSearchLabel.setVisible(false);
         searchButton.setVisible(false);
         searchHistoryButton.setVisible(true);
@@ -373,6 +374,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     pageToSend = null;
     this.changeButtonLayout();
     date = null;
+    changeMode(new ActionEvent());
   }
 
   @FXML

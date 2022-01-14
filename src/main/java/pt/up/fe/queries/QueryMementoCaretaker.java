@@ -60,7 +60,6 @@ public class QueryMementoCaretaker {
 
     for (Object obj : arr) {
       JSONObject object = (JSONObject) obj;
-      // System.out.println((object).getString("query_command"));
       this.commandHistory.add(
           this.commandCreator(object)
       );
@@ -74,8 +73,6 @@ public class QueryMementoCaretaker {
   }
 
   public QueryMemento commandCreator(JSONObject jsonObject) {
-    System.out.println(jsonObject);
-
     switch (jsonObject.getString("query_command")) {
       case "pt.up.fe.queries.FilterPersonByNameQuery":
         return new QueryMemento(createNameFilter(jsonObject));
@@ -135,20 +132,20 @@ public class QueryMementoCaretaker {
     JSONObject nameObject;
 
     nameObject = this.getPossibleNull(jsonObject.getJSONObject("name_fields"), "name");
-      if (nameObject != null) {
+    if (!jsonObject.isNull("name")) {
           attributes.setName(
               new NameAttribute(nameObject.getString("name"), nameObject.getBoolean("exact")));
       }
 
     nameObject = this.getPossibleNull(jsonObject.getJSONObject("name_fields"), "middle_name");
-      if (nameObject != null) {
+    if (!jsonObject.isNull("middle_name")) {
           attributes.setMiddleName(
               new NameAttribute(nameObject.getString("middle_name"),
                   nameObject.getBoolean("exact")));
       }
 
     nameObject = this.getPossibleNull(jsonObject.getJSONObject("name_fields"), "last_name");
-      if (nameObject != null) {
+    if (!jsonObject.isNull("last_name")) {
           attributes.setLastName(
               new NameAttribute(nameObject.getString("last_name"), nameObject.getBoolean("exact")));
       }

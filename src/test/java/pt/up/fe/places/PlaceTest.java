@@ -44,8 +44,6 @@ public class PlaceTest {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
 
-    System.out.print(this.p);
-
     StringBuilder sBuilder = new StringBuilder();
     sBuilder.append("Portugal");
 
