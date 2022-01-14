@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import pt.up.fe.controllers.contentarea.IContentPageController;
@@ -205,5 +204,11 @@ public class CreateDateController implements Initializable, IContentPageControll
     this.hourInput1.clear();
     this.minuteInput1.clear();
     this.secondsInput1.clear();
+    toogleGroupDate.getToggles().forEach(toggle -> {
+      Node node = (Node) toggle;
+      node.setDisable(false);
+    });
+    toogleGroupDate.selectToggle(simpleDateRadio);
+    chooseButton.fire();
   }
 }
