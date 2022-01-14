@@ -63,6 +63,7 @@ public class DeathEventController implements Initializable, IContentPageControll
     private Boolean inCreateMode = true;
     private UUID editId = null;
     private Person selectedPerson;
+    private boolean isAddingPerson = false;
 
     // Source
 
@@ -154,6 +155,7 @@ public class DeathEventController implements Initializable, IContentPageControll
 
     @FXML
     void addPerson(ActionEvent event) {
+        this.isAddingPerson = true;
         CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
         String btnName = ((Button) event.getSource()).getText();
@@ -169,6 +171,8 @@ public class DeathEventController implements Initializable, IContentPageControll
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
+
+                        isAddingPerson = false;
                         CustomSceneHelper.getNodeById("deathEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
@@ -247,7 +251,9 @@ public class DeathEventController implements Initializable, IContentPageControll
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        selectedPerson = personCustomEvent.getPerson();
+                        if(isAddingPerson == false) {
+                            selectedPerson = personCustomEvent.getPerson();
+                        }
                     }
                 });
 

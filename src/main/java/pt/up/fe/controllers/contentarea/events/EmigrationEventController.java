@@ -67,6 +67,7 @@ public class EmigrationEventController implements Initializable, IContentPageCon
     private Boolean inCreateMode = true;
     private UUID editId = null;
     private Person selectedPerson;
+    private boolean isAddingPerson = false;
 
     // Source
 
@@ -160,6 +161,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
     @FXML
     void addPerson(ActionEvent event) {
+        this.isAddingPerson = true;
+
         CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
         String btnName = ((Button) event.getSource()).getText();
@@ -175,6 +178,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
+
+                        isAddingPerson = false;
                         CustomSceneHelper.getNodeById("emigrationEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
@@ -304,7 +309,9 @@ public class EmigrationEventController implements Initializable, IContentPageCon
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        selectedPerson = personCustomEvent.getPerson();
+                        if(isAddingPerson == false) {
+                            selectedPerson = personCustomEvent.getPerson();
+                        }
                     }
                 });
 

@@ -101,6 +101,8 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
   private Person selectedPerson;
 
+  private boolean isAddingPerson = false;
+
   // Source
 
   @FXML
@@ -199,6 +201,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
   @FXML
   void addPerson(ActionEvent event) {
+    this.isAddingPerson = true;
     CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
     String btnName = ((Button) event.getSource()).getText();
@@ -215,6 +218,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
           public void handle(PersonCustomEvent personCustomEvent) {
             table_persons.getItems().add(new PersonEventDTO(getRelation(),
                 personCustomEvent.getPerson())); // Add person to table
+            isAddingPerson = false;
             CustomSceneHelper.getNodeById("marriageEventPage")
                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
           }
@@ -359,7 +363,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
         PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
           @Override
           public void handle(PersonCustomEvent personCustomEvent) {
-            if (!receivingPartner) {
+            if (receivingPartner == false || isAddingPerson == false) {
               selectedPerson = personCustomEvent.getPerson();
             }
           }
