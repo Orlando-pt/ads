@@ -24,6 +24,8 @@ At this document it will be explained what was the process to develop this platf
     - [Consequences v1](#consequences-v1)
     - [The Pattern v2](#the-pattern-v2)
     - [Implementation v2](#implementation-v2)
+    - [The Pattern v3](#the-pattern-v3)
+    - [Implementation v3](#implementation-v3)
   - [Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects](#solving-the-complexity-of-instantiatingeditingremoving-the-different-types-of-objects)
     - [Design Problem](#design-problem-3)
     - [The Pattern](#the-pattern-2)
@@ -149,7 +151,7 @@ Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/
 
 ## Solving Exporting/Loading Data In Different Formats
 
-And now, how do we export, for instance the locations, in different formats?
+And now, how do we export, for instance the locations, in different formats? And how dow we import them?
 
 ### Design Problem
 
@@ -193,7 +195,28 @@ As we can see in the image, we require the classes that want to be exported to i
 
 In this implementation, the *Exporter* doesn't care about the object itself, it only requires an Iterator of the object.
 
-Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
+Link to [implementation](../src/main/java/pt/up/fe/exports).
+
+### The Pattern v3
+
+As for the final solution, we decided to go back, partially, to the first approach. We ended up with the following:
+
+- Export: We use the Template Method.
+- Import: We use a combination of a Template Method with Strategy.
+
+In terms of the *Export* part, nothing has chaged, so the next steps will mainly focus on *Import*.
+
+### Implementation v3
+
+<p align="center">
+  <img src="images/class-Import.drawio.png" alt="Exporter" style="height: 300px"/>
+</p>
+
+The reason for this *"step back"* to the previous implementation for the import was because, whereas before we could have a common interface to export, in the import the objects differ too much, therefore using a strategy that applies to each object was the best approach.
+
+We still kept the original part of the Template Method being actually responsible for importing, just the "way" it's imported is changed for each type of object.
+
+Link to [implementation](../src/main/java/pt/up/fe/imports).
 
 ---
 
@@ -359,7 +382,7 @@ Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/
 
 ### Problem
 
-Using for example `Create Person` workflow for example we have at least **5** different contexts that are: 
+Using for example `Create Person` workflow for example we have at least **5** different contexts that are:
 
 - `CreatePersonPage` - Contains the info from persons such as First Name, Middle Name, Last Name, Description, Source (is redirected to `CreateSourcePage`), etc.
 - `BirthEventPage` - Is responsible for creating an event and contains fields such as Maternity, Place of Birth (redirects to `CreateDatePage`), Mother and Father (redirects for a `ListPersonsPage`), source (redirects to `CreateSourcePage` or `ListSourcePage`), etc.
@@ -367,7 +390,7 @@ Using for example `Create Person` workflow for example we have at least **5** di
 - `ListSourcePage` - It lists all the possible sources already created/imported in the system.
 - `CreateDatePage` - It is responsible for date creation and gives you the possibility to set an interval date or a simple date.
 
-After the specification above is possible to see that there is a lot of complexity involved and an efficient and solid solution had to take place. 
+After the specification above is possible to see that there is a lot of complexity involved and an efficient and solid solution had to take place.
 
 ### Solution
 
@@ -384,15 +407,15 @@ In the example above we show an example of the workflow of when a source is crea
 
 **`CreatePersonPage`**
 - **Producer**: fires an event `PAGE_TO_SEND` for the `CreateSourcePage` for when the creation purpose ends it knows the page that he needs to go back to.
-  
+
 - **Listener**: will listen for an event `SOURCE` sent from one of `CreateSourcePages`(e.g. `CreateBookPage`) that will send the created Source to be added on person creation.
 
 **`CreateSourcePage`**
 - **Producer**: fires an event `PAGE_TO_SEND` for the `CreateBookPage` that was passed from `CreatePersonPage`.
-  
+
 - **Listener**: will listen for an event `PAGE_TO_SEND` that will be later passed to the chosen type of source.
 
 **`CreateBookPage`**
 - **Producer**: fires an event `SOURCE` for the page received on `PAGE_TO_SEND` event with the newly created source.
-  
+
 - **Listener**: will listen for an event `PAGE_TO_SEND` that will be later passed to the chosen type of source.
