@@ -107,7 +107,15 @@ public class EventFacade {
     }
 
     public static Event createMarriageEvent(MarriageEventDTO event) {
-        Event marriageEvent = new Marriage();
+        Person partner = null;
+
+        for (Map.Entry person : event.getPersons().entrySet()) {
+            if(person.getKey() == "Partner") {
+               partner = (Person) person.getValue(); 
+            }
+        }
+
+        Event marriageEvent = new Marriage(event.getPerson(), partner);
 
         if (!event.getMarriageName().isEmpty()) {
             marriageEvent.addSpecialPurposeField("Marriage Name", event.getMarriageName());
@@ -206,6 +214,13 @@ public class EventFacade {
                 }
             }
         } else {
+            if(event.getName() == "Marriage") {
+                event.getPeopleRelations().forEach((key, value) -> {
+                    if(key == "Partner") {
+                        value.addEvent(event);
+                    }
+                });
+            }
             person.addEvent(event);
             Main.eventsList.add(event);
         }
