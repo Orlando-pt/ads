@@ -26,24 +26,27 @@ At this document it will be explained what was the process to develop this platf
     - [Implementation v2](#implementation-v2)
   - [Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects](#solving-the-complexity-of-instantiatingeditingremoving-the-different-types-of-objects)
     - [Design Problem](#design-problem-3)
+    - [The Pattern](#the-pattern-2)
+    - [Implementation](#implementation-2)
+    - [Consequences](#consequences-2)
+  - [Solving The Addition of Locations](#solving-the-addition-of-locations)
+    - [Design Problem](#design-problem-4)
     - [The Pattern](#the-pattern-3)
     - [Implementation](#implementation-3)
     - [Consequences](#consequences-3)
-  - [Solving The Addition of Locations](#solving-the-addition-of-locations)
-    - [Design Problem](#design-problem-4)
+  - [Standardize Iteration Through Persons](#standardize-iteration-through-persons)
+    - [Design Problem](#design-problem-5)
     - [The Pattern](#the-pattern-4)
     - [Implementation](#implementation-4)
     - [Consequences](#consequences-4)
-  - [Standardize Iteration Through Persons](#standardize-iteration-through-persons)
-    - [Design Problem](#design-problem-5)
+  - [Standardize Iteration Through Places](#standardize-iteration-through-places)
+    - [Design Problem](#design-problem-6)
     - [The Pattern](#the-pattern-5)
     - [Implementation](#implementation-5)
     - [Consequences](#consequences-5)
-  - [Standardize Iteration Through Places](#standardize-iteration-through-places)
-    - [Design Problem](#design-problem-6)
-    - [The Pattern](#the-pattern-6)
-    - [Implementation](#implementation-6)
-    - [Consequences](#consequences-6)
+  - [JavaFX Communication](#javafx-communication)
+    - [Problem](#problem)
+    - [Solution](#solution)
 
 # Functionalities Made
 
@@ -349,3 +352,47 @@ Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/
   - We can use this iterator both in the exporting of places and in search operations that will be needed eventually.
 - Negative Consequences:
   - We were able to promptly find a problem to using this pattern. If the search for a specific place ends up using this pattern, it is expected that the performance of using the pattern will be inferior, for example, when fetching the intended node directly by a method declared in the Place class that directly accesses the childs array.
+
+## JavaFX Communication
+
+> How can the different components communicate between each other on the frontend?
+
+### Problem
+
+Using for example `Create Person` workflow for example we have at least **5** different contexts that are: 
+
+- `CreatePersonPage` - Contains the info from persons such as First Name, Middle Name, Last Name, Description, Source (is redirected to `CreateSourcePage`), etc.
+- `BirthEventPage` - Is responsible for creating an event and contains fields such as Maternity, Place of Birth (redirects to `CreateDatePage`), Mother and Father (redirects for a `ListPersonsPage`), source (redirects to `CreateSourcePage` or `ListSourcePage`), etc.
+- `CreateSourcePage` - It shows us the available source options to be created and after choosing one will be redirected to the respective Source Creation Page.
+- `ListSourcePage` - It lists all the possible sources already created/imported in the system.
+- `CreateDatePage` - It is responsible for date creation and gives you the possibility to set an interval date or a simple date.
+
+After the specification above is possible to see that there is a lot of complexity involved and an efficient and solid solution had to take place. 
+
+### Solution
+
+For this, we started implementing an Event-driven development, where all the communications were made using Events. For this to work we have two roles:
+
+- Producer - Fires the event with the data
+- Listener - Is waiting for the event to be `fired` from Producer
+
+<p align="center">
+  <img src="images/events-workflow.png" alt="Person - Source creation workflow using events" style="height: 300px"/>
+</p>
+
+In the example above we show an example of the workflow of when a source is created inside the creation of a person. In this case:
+
+**`CreatePersonPage`**
+- **Producer**: fires an event `PAGE_TO_SEND` for the `CreateSourcePage` for when the creation purpose ends it knows the page that he needs to go back to.
+  
+- **Listener**: will listen for an event `SOURCE` sent from one of `CreateSourcePages`(e.g. `CreateBookPage`) that will send the created Source to be added on person creation.
+
+**`CreateSourcePage`**
+- **Producer**: fires an event `PAGE_TO_SEND` for the `CreateBookPage` that was passed from `CreatePersonPage`.
+  
+- **Listener**: will listen for an event `PAGE_TO_SEND` that will be later passed to the chosen type of source.
+
+**`CreateBookPage`**
+- **Producer**: fires an event `SOURCE` for the page received on `PAGE_TO_SEND` event with the newly created source.
+  
+- **Listener**: will listen for an event `PAGE_TO_SEND` that will be later passed to the chosen type of source.
