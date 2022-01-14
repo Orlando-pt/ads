@@ -418,4 +418,4 @@ In the example above we show an example of the workflow of when a source is crea
 **`CreateBookPage`**
 - **Producer**: fires an event `SOURCE` for the page received on `PAGE_TO_SEND` event with the newly created source.
 
-- **Listener**: will listen for an event `PAGE_TO_SEND` that will be later passed to the chosen type of source.
+- **Listener**: will listen for an event `PAGE_TO_SEND` that will be to know where to send the created `SOURCE`.
