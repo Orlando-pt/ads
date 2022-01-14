@@ -53,7 +53,7 @@ public abstract class Source implements IExportObject {
       if (date.has("startDate") || date.has("endDate")) {
         this.dateOfPublication = new IntervalDate(date);
       } else {
-        this.dateOfPublication = new SimpleDate(obj);
+        this.dateOfPublication = new SimpleDate(date);
       }
     }
   }

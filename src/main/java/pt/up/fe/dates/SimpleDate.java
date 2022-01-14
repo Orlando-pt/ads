@@ -36,7 +36,6 @@ public class SimpleDate implements IDate {
     if (obj.has("second")) {
       this.second = obj.getInt("second");
     }
-
   }
 
   public SimpleDate(int year, int month, int day) {
