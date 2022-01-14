@@ -36,6 +36,12 @@ public class EventFacade {
     }
 
     public static Event createBirthEvent(BirthEventDTO event) {
+        for (Map.Entry person : event.getPersons().entrySet()) {
+            if(person.getKey().equals("Mother") || person.getKey().equals("Father")) {
+                    ((Person) person.getValue()).addChild(event.getPerson());
+            }
+        }
+
         Event birthEvent = new Birth();
 
         if (!event.getMaternity().isEmpty()) {
@@ -51,13 +57,6 @@ public class EventFacade {
                 event.getSpecialFields(),
                 event.getDescription()
         );
-
-        // Add child to mother and father
-        event.getPersons().forEach((key, value) -> {
-            if(key == "Mother" || key == "Father") {
-                value.addChild(event.getPerson());
-            }
-        });
 
         handleEditOrCreate(birthEvent, event.getEditId(), event.getPerson());
         return birthEvent;

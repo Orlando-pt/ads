@@ -251,6 +251,7 @@ public class BirthEventController implements Initializable, IContentPageControll
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
+                        System.out.println(personCustomEvent.getPerson().getName());
                         selectedPerson = personCustomEvent.getPerson();
                     }
                 });

@@ -126,6 +126,8 @@ public class CreatePersonPageController implements Initializable, IContentPageCo
     personDTO.setSource(selectedSource);
 
     Person person = PersonFacade.createPerson(personDTO);
+    CustomSceneHelper.getNodeById("viewEditPersonPage")
+            .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
     CustomSceneHelper.getNodeById("birthEventPage")
         .fireEvent(new PersonCustomEvent(PersonCustomEvent.PERSON, person));
     CustomSceneHelper.bringNodeToFront("birthEvent", "Page");
