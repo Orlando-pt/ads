@@ -47,17 +47,7 @@ public class PlaceTest {
     System.out.print(this.p);
 
     StringBuilder sBuilder = new StringBuilder();
-    sBuilder.append("Portugal(");
-    sBuilder.append("Lisboa(");
-    sBuilder.append("Lisboa(");
-    sBuilder.append("Benfica+Parque das Nações");
-    sBuilder.append(")");
-    sBuilder.append("+");
-    sBuilder.append("Sintra(");
-    sBuilder.append("Mem Martins+Mercês");
-    sBuilder.append(")");
-    sBuilder.append(")");
-    sBuilder.append(")");
+    sBuilder.append("Portugal");
 
     String expected = sBuilder.toString();
 
