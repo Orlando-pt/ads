@@ -67,6 +67,7 @@ public class EmigrationEventController implements Initializable, IContentPageCon
     private Boolean inCreateMode = true;
     private UUID editId = null;
     private Person selectedPerson;
+    private boolean isAddingPerson = false;
 
     // Source
 
@@ -141,7 +142,6 @@ public class EmigrationEventController implements Initializable, IContentPageCon
             CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
-        System.out.println(emigrationEvent);
     }
 
     @FXML
@@ -161,6 +161,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
     @FXML
     void addPerson(ActionEvent event) {
+        this.isAddingPerson = true;
+
         CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
         String btnName = ((Button) event.getSource()).getText();
@@ -176,6 +178,8 @@ public class EmigrationEventController implements Initializable, IContentPageCon
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
+
+                        isAddingPerson = false;
                         CustomSceneHelper.getNodeById("emigrationEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
@@ -305,7 +309,9 @@ public class EmigrationEventController implements Initializable, IContentPageCon
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        selectedPerson = personCustomEvent.getPerson();
+                        if(isAddingPerson == false) {
+                            selectedPerson = personCustomEvent.getPerson();
+                        }
                     }
                 });
 
@@ -399,12 +405,15 @@ public class EmigrationEventController implements Initializable, IContentPageCon
             if (node instanceof TextArea) {
                 ((TextArea) node).setEditable(isEditMode);
             }
+            try {
             if (node instanceof ComboBox) {
                 if (isEditMode == false) {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
                 } else {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
                 }
+            }} catch (Exception e){
+
             }
         }
 
@@ -517,6 +526,7 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         emigrationDate.clear();
         description.clear();
         fieldInput.clear();

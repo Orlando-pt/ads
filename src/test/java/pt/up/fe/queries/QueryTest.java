@@ -233,8 +233,6 @@ public class QueryTest {
         this.queryInvoker.setCommand(query);
         this.queryInvoker.executeCommand();
 
-        // System.out.println(this.queryReceiver.getPersonList());
-
         Assertions.assertThat(
             queryReceiver.getPersonList()
         ).extracting(Person::getName).containsOnly("Orlando");

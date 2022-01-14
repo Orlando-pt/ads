@@ -10,6 +10,17 @@ public class OnlineResource extends Source {
     super(name);
   }
 
+  public OnlineResource(String name, String id) {
+    super(name, id);
+  }
+
+  public OnlineResource(JSONObject obj) {
+    super(obj);
+    if (obj.has("link")) {
+      this.link = obj.getString("link");
+    }
+  }
+
   public String getLink() {
     return link;
   }

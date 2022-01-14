@@ -10,6 +10,16 @@ public class Death extends Event {
     this.setName(this.getClass().getSimpleName());
   }
 
+  public Death(String id) {
+    super(id);
+    this.setName(this.getClass().getSimpleName());
+  }
+
+  public Death(JSONObject obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
+
   public Logger initializeLogger() {
     return LogManager.getLogger(Death.class);
   }

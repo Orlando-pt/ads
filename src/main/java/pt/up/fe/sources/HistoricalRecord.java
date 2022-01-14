@@ -1,14 +1,28 @@
 package pt.up.fe.sources;
 
 import java.util.Map;
+import java.util.UUID;
 import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
 public class HistoricalRecord extends Source {
+
   private Place nationalArchiveCountry;
+  private UUID auxNationalArchiveCountry;
 
   public HistoricalRecord(String name) {
     super(name);
+  }
+
+  public HistoricalRecord(String name, String id) {
+    super(name, id);
+  }
+
+  public HistoricalRecord(JSONObject obj) {
+    super(obj);
+    if (obj.has("nationalArchiveCountry")) {
+      this.auxNationalArchiveCountry = UUID.fromString(obj.getString("nationalArchiveCountry"));
+    }
   }
 
   public Place getNationalArchiveCountry() {
@@ -17,6 +31,10 @@ public class HistoricalRecord extends Source {
 
   public void setNationalArchiveCountry(Place nationalArchiveCountry) {
     this.nationalArchiveCountry = nationalArchiveCountry;
+  }
+
+  public UUID getAuxNationalArchiveCountry() {
+    return this.auxNationalArchiveCountry;
   }
 
   @Override

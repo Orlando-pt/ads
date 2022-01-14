@@ -7,18 +7,55 @@ import java.util.Map;
 import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import pt.up.fe.exports.IExportObject;
 import pt.up.fe.dates.IDate;
+import pt.up.fe.dates.IntervalDate;
+import pt.up.fe.dates.SimpleDate;
+import pt.up.fe.exports.IExportObject;
 
 public abstract class Source implements IExportObject {
-  private final UUID id = UUID.randomUUID();
+
+  private final UUID id;
   private IDate dateOfPublication;
   private String name;
-  private List<String> authors;
+  private List<String> authors = new ArrayList<>();
 
   public Source(String name) {
+    this.id = UUID.randomUUID();
     this.name = name;
-    this.authors = new ArrayList<>();
+  }
+
+  public Source(String name, String id) {
+    this.id = UUID.fromString(id);
+    this.name = name;
+  }
+
+  public Source(JSONObject obj) {
+    if (obj.has("id")) {
+      this.id = UUID.fromString(obj.getString("id"));
+    } else {
+      this.id = UUID.randomUUID();
+    }
+    if (obj.has("name")) {
+      this.name = obj.getString("name");
+    }
+
+    if (obj.has("authors")) {
+      JSONArray authors = obj.getJSONArray("authors");
+      List<String> a = new ArrayList<>();
+      for (Object auth : authors.toList()) {
+        a.add((String) auth);
+      }
+      this.authors = a;
+    }
+
+    if (obj.has("dateOfPublication")) {
+      JSONObject date = obj.getJSONObject("dateOfPublication");
+      if (date.has("startDate") || date.has("endDate")) {
+        this.dateOfPublication = new IntervalDate(date);
+      } else {
+        this.dateOfPublication = new SimpleDate(date);
+      }
+    }
   }
 
   public UUID getId() {
@@ -91,5 +128,22 @@ public abstract class Source implements IExportObject {
     obj.put("authors", this.getAuthors());
 
     return obj;
+  }
+
+  public static Source importJSONObject(JSONObject obj) throws ClassNotFoundException {
+    switch ((String) (obj.has("type") ? obj.get("type"): null)) {
+      case "Book":
+        return new Book(obj);
+      case "CustomSource":
+        return new CustomSource(obj);
+      case "HistoricalRecord":
+        return new HistoricalRecord(obj);
+      case "OnlineResource":
+        return new OnlineResource(obj);
+      case "OrallyTransmitted":
+        return new OrallyTransmitted(obj);
+      default:
+        throw new ClassNotFoundException();
+    }
   }
 }

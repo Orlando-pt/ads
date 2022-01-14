@@ -40,30 +40,13 @@ public class PlaceTest {
 
   @Test
   public void testOutput() {
-    PrintStream originalOut = System.out;
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(outContent));
-
-    System.out.print(this.p);
-
     StringBuilder sBuilder = new StringBuilder();
-    sBuilder.append("Portugal(");
-    sBuilder.append("Lisboa(");
-    sBuilder.append("Lisboa(");
-    sBuilder.append("Benfica+Parque das Nações");
-    sBuilder.append(")");
-    sBuilder.append("+");
-    sBuilder.append("Sintra(");
-    sBuilder.append("Mem Martins+Mercês");
-    sBuilder.append(")");
-    sBuilder.append(")");
-    sBuilder.append(")");
+    sBuilder.append("Portugal");
 
     String expected = sBuilder.toString();
 
-    assertEquals(expected, outContent.toString());
+    assertEquals(expected, this.p.toString());
 
-    System.setOut(originalOut);
   }
 
   @Test

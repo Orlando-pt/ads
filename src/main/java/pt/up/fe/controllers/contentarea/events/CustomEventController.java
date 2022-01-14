@@ -65,6 +65,7 @@ public class CustomEventController implements Initializable, IContentPageControl
     private Boolean inCreateMode = true;
     private UUID editId = null;
     private Person selectedPerson;
+    private boolean isAddingPerson = false;
 
     // Source
 
@@ -138,8 +139,6 @@ public class CustomEventController implements Initializable, IContentPageControl
             CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, customEvent));
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
-
-        System.out.println(customEvent);
     }
 
     @FXML
@@ -159,6 +158,7 @@ public class CustomEventController implements Initializable, IContentPageControl
 
     @FXML
     void addPerson(ActionEvent event) {
+        this.isAddingPerson = true;
         CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
         String btnName = ((Button) event.getSource()).getText();
@@ -174,6 +174,8 @@ public class CustomEventController implements Initializable, IContentPageControl
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
+
+                        isAddingPerson = false;
                         CustomSceneHelper.getNodeById("customEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
@@ -256,7 +258,9 @@ public class CustomEventController implements Initializable, IContentPageControl
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        selectedPerson = personCustomEvent.getPerson();
+                        if(isAddingPerson == false) {
+                            selectedPerson = personCustomEvent.getPerson();
+                        }
                     }
                 });
 
@@ -461,6 +465,7 @@ public class CustomEventController implements Initializable, IContentPageControl
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         customDate.clear();
         description.clear();
         fieldInput.clear();

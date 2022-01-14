@@ -66,6 +66,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
     private Boolean inCreateMode = true;
     private UUID editId = null;
     private Person selectedPerson;
+    private boolean isAddingPerson = false;
 
     // Source
 
@@ -139,7 +140,6 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
-        System.out.println(residenceEvent);
     }
 
     @FXML
@@ -159,6 +159,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
     @FXML
     void addPerson(ActionEvent event) {
+        this.isAddingPerson = true;
         CustomSceneHelper.bringNodeToFront("ListPersons", "Page");
 
         String btnName = ((Button) event.getSource()).getText();
@@ -174,6 +175,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                     public void handle(PersonCustomEvent personCustomEvent) {
                         table_persons.getItems().add(new PersonEventDTO(getRelation(),
                                 personCustomEvent.getPerson())); // Add person to table
+                        isAddingPerson = false;
                         CustomSceneHelper.getNodeById("residenceEventPage")
                                 .removeEventFilter(PersonCustomEvent.PERSON, this); // Remove event handler
                     }
@@ -266,7 +268,9 @@ public class ResidenceEventController implements Initializable, IContentPageCont
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        selectedPerson = personCustomEvent.getPerson();
+                        if(isAddingPerson == false) {
+                            selectedPerson = personCustomEvent.getPerson();
+                        }
                     }
                 });
 
@@ -360,12 +364,15 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             if (node instanceof TextArea) {
                 ((TextArea) node).setEditable(isEditMode);
             }
+            try{
             if (node instanceof ComboBox) {
                 if (isEditMode == false) {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
                 } else {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
                 }
+            }} catch (Exception e){
+
             }
         }
 
@@ -478,6 +485,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         residenceDate.clear();
         description.clear();
         fieldInput.clear();

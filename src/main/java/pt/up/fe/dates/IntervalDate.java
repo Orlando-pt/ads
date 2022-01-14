@@ -4,14 +4,30 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
 
-public class IntervalDate implements IDate{
+public class IntervalDate implements IDate {
+
   private SimpleDate startDate;
   private SimpleDate endDate;
+
+  public IntervalDate() {
+    /* Intentionally empty */
+  }
 
   public IntervalDate(SimpleDate start, SimpleDate end) {
     this.startDate = start;
     this.endDate = end;
   }
+
+
+  public IntervalDate(JSONObject obj) {
+    if (obj.has("startDate")) {
+      this.startDate = new SimpleDate(obj.getJSONObject("startDate"));
+    }
+    if (obj.has("endDate")) {
+      this.endDate = new SimpleDate(obj.getJSONObject("endDate"));
+    }
+  }
+
 
   public SimpleDate getStartDate() {
     return startDate;
@@ -40,16 +56,30 @@ public class IntervalDate implements IDate{
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
     IntervalDate other = (IntervalDate) obj;
     if (endDate == null) {
-      if (other.endDate != null) return false;
-    } else if (!endDate.equals(other.endDate)) return false;
+      if (other.endDate != null) {
+        return false;
+      }
+    } else if (!endDate.equals(other.endDate)) {
+      return false;
+    }
     if (startDate == null) {
-      if (other.startDate != null) return false;
-    } else if (!startDate.equals(other.startDate)) return false;
+      if (other.startDate != null) {
+        return false;
+      }
+    } else if (!startDate.equals(other.startDate)) {
+      return false;
+    }
     return true;
   }
 
@@ -84,31 +114,40 @@ public class IntervalDate implements IDate{
 
   @Override
   public int compareTo(IDate date) {
-    if (this.equals(date))
+    if (this.equals(date)) {
       return 0;
+    }
 
-    if (date.getClass() == SimpleDate.class)
+    if (date.getClass() == SimpleDate.class) {
       return this.compareWithSimpleDate((SimpleDate) date);
+    }
 
     IntervalDate intervalDate = (IntervalDate) date;
     int compareWithStartDate = this.startDate.compareTo(intervalDate);
     int compareWithEndDate = this.endDate.compareTo(intervalDate);
 
-    if ((compareWithStartDate == 1 || compareWithStartDate == 0) && (compareWithEndDate == -1 || compareWithEndDate == 0))
+    if ((compareWithStartDate == 1 || compareWithStartDate == 0) && (compareWithEndDate == -1
+        || compareWithEndDate == 0)) {
       return -10;
+    }
 
-    if ((compareWithStartDate == -1 || compareWithStartDate == 0) && (compareWithEndDate == 1 || compareWithEndDate == 0))
+    if ((compareWithStartDate == -1 || compareWithStartDate == 0) && (compareWithEndDate == 1
+        || compareWithEndDate == 0)) {
       return -10;
+    }
 
-    if (compareWithStartDate == 1)
+    if (compareWithStartDate == 1) {
       return compareWithStartDate;
+    }
 
     return compareWithEndDate;
   }
 
   private int compareWithSimpleDate(SimpleDate date) {
     int comparationResult = date.compareTo(this);
-    if (comparationResult == -10) return comparationResult;
+    if (comparationResult == -10) {
+      return comparationResult;
+    }
 
     return -comparationResult;
   }

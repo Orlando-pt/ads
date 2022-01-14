@@ -9,10 +9,36 @@ import pt.up.fe.exports.IExportObject;
 import pt.up.fe.sources.Source;
 
 public abstract class BaseClass implements IExportObject {
-  private final UUID id = UUID.randomUUID();
+  private final UUID id;
   private String name;
   private String description;
   private Source source;
+  private UUID auxSource;
+
+  public BaseClass() {
+    this.id = UUID.randomUUID();
+  }
+
+  public BaseClass(String id) {
+    this.id = UUID.fromString(id);
+  }
+
+  public BaseClass(JSONObject obj) {
+    if (obj.has("id")) {
+      this.id = UUID.fromString(obj.getString("id"));
+    } else {
+      this.id = UUID.randomUUID();
+    }
+    if (obj.has("name")) {
+      this.name = obj.getString("name");
+    }
+    if (obj.has("description")) {
+      this.description = obj.getString("description");
+    }
+    if (obj.has("source")) {
+      this.auxSource = UUID.fromString(obj.getString("source"));
+    }
+  }
 
   public UUID getId() {
     return id;
@@ -40,6 +66,10 @@ public abstract class BaseClass implements IExportObject {
 
   public void setSource(Source source) {
     this.source = source;
+  }
+
+  public UUID getAuxSource() {
+    return this.auxSource;
   }
 
   @Override

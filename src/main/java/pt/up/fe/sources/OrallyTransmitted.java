@@ -1,14 +1,28 @@
 package pt.up.fe.sources;
 
 import java.util.Map;
+import java.util.UUID;
 import org.json.JSONObject;
 import pt.up.fe.places.Place;
 
 public class OrallyTransmitted extends Source {
+
   private Place place;
+  private UUID auxPlace;
 
   public OrallyTransmitted(String name) {
     super(name);
+  }
+
+  public OrallyTransmitted(String name, String id) {
+    super(name, id);
+  }
+
+  public OrallyTransmitted(JSONObject obj) {
+    super(obj);
+    if (obj.has("place")) {
+      this.auxPlace = UUID.fromString(obj.getString("place"));
+    }
   }
 
   public Place getPlace() {
@@ -17,6 +31,10 @@ public class OrallyTransmitted extends Source {
 
   public void setPlace(Place place) {
     this.place = place;
+  }
+
+  public UUID getAuxPlace() {
+    return this.auxPlace;
   }
 
   @Override

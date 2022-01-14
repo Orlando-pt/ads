@@ -86,7 +86,7 @@ public class ExportTest {
   }
 
   @Test
-  public void testCSVExport() {
+  public void testYAMLExport() {
     List<Person> list = this.getRandomList();
     Exporter<Person> exp = new YamlExporter<Person>("./file");
     exp.setObject(list.iterator());

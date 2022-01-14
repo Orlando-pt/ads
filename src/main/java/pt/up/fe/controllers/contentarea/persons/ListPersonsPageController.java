@@ -222,6 +222,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
         changeFilterType(new ActionEvent());
         break;
       case "Query History":
+        getQueryHistory();
         typeOfSearchLabel.setVisible(false);
         searchButton.setVisible(false);
         searchHistoryButton.setVisible(true);
@@ -314,9 +315,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     }
 
     if (date != null) {
-      System.out.println(date);
-      System.out.println(date.getStartDate());
-      System.out.println(date.getEndDate());
       filters.setStartDate(date.getStartDate());
       filters.setEndDate(date.getEndDate());
     }
@@ -376,6 +374,7 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     pageToSend = null;
     this.changeButtonLayout();
     date = null;
+    changeMode(new ActionEvent());
   }
 
   @FXML

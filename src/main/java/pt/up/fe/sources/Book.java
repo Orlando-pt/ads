@@ -4,11 +4,27 @@ import java.util.Map;
 import org.json.JSONObject;
 
 public class Book extends Source {
+
   private Integer pages;
   private String publisher;
 
   public Book(String name) {
     super(name);
+  }
+
+  public Book(String name, String id) {
+    super(name, id);
+  }
+
+  public Book(JSONObject obj) {
+    super(obj);
+
+    if (obj.has("pages")) {
+      this.pages = obj.getInt("pages");
+    }
+    if (obj.has("publisher")) {
+      this.publisher = obj.getString("publisher");
+    }
   }
 
   public Integer getPages() {

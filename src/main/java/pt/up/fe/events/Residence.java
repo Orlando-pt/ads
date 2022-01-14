@@ -9,6 +9,14 @@ public class Residence extends Event {
   public Residence() {
     this.setName(this.getClass().getSimpleName());
   }
+  public Residence(String id) {
+    super(id);
+    this.setName(this.getClass().getSimpleName());
+  }
+  public Residence(JSONObject obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
 
   public Logger initializeLogger() {
     return LogManager.getLogger(Residence.class);

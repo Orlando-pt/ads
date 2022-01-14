@@ -9,6 +9,15 @@ public class Emigration extends Event {
   public Emigration() {
     this.setName(this.getClass().getSimpleName());
   }
+  public Emigration(String id) {
+    super(id);
+    this.setName(this.getClass().getSimpleName());
+  }
+
+  public Emigration(JSONObject obj) {
+    super(obj);
+    this.setName(this.getClass().getSimpleName());
+  }
 
   public Logger initializeLogger() {
     return LogManager.getLogger(Emigration.class);

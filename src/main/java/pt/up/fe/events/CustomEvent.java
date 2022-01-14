@@ -11,6 +11,18 @@ public class CustomEvent extends Event {
     this.setName(name);
   }
 
+  public CustomEvent(String name, String id) {
+    super(id);
+    this.setName(name);
+  }
+
+  public CustomEvent(JSONObject obj) {
+    super(obj);
+    if (obj.has("name")) {
+      this.setName(obj.getString("name"));
+    }
+  }
+
   public Logger initializeLogger() {
     return LogManager.getLogger(CustomEvent.class);
   }
@@ -19,6 +31,7 @@ public class CustomEvent extends Event {
   public JSONObject toJSONObject() {
     JSONObject obj = super.toJSONObject();
     obj.put("type", this.getClass().getSimpleName());
+    obj.put("name", this.getName());
     return obj;
   }
 
@@ -26,6 +39,7 @@ public class CustomEvent extends Event {
   public Map<String, Object> toYAMLObject() {
     Map<String, Object> obj = super.toYAMLObject();
     obj.put("type", this.getClass().getSimpleName());
+    obj.put("name", this.getName());
     return obj;
   }
 }
