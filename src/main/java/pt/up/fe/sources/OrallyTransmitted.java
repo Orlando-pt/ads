@@ -20,7 +20,9 @@ public class OrallyTransmitted extends Source {
 
   public OrallyTransmitted(JSONObject obj) {
     super(obj);
-    this.auxPlace = (obj.has("place") ? UUID.fromString((String) obj.get("place")) : null);
+    if (obj.has("place")) {
+      this.auxPlace = UUID.fromString(obj.getString("place"));
+    }
   }
 
   public Place getPlace() {

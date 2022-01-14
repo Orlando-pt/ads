@@ -19,8 +19,12 @@ public class Book extends Source {
   public Book(JSONObject obj) {
     super(obj);
 
-    this.pages = (Integer) (obj.has("pages") ? obj.get("pages") : null);
-    this.publisher = (String) (obj.has("publisher") ? obj.get("publisher") : null);
+    if (obj.has("pages")) {
+      this.pages = obj.getInt("pages");
+    }
+    if (obj.has("publisher")) {
+      this.publisher = obj.getString("publisher");
+    }
   }
 
   public Integer getPages() {
