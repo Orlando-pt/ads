@@ -47,7 +47,7 @@ public abstract class Event extends BaseClass {
       if (date.has("startDate") || date.has("endDate")) {
         this.date = new IntervalDate(date);
       } else {
-        this.date = new SimpleDate(obj);
+        this.date = new SimpleDate(date);
       }
     }
 
