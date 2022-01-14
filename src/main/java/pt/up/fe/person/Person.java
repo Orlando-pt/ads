@@ -39,7 +39,7 @@ public class Person extends BaseClass {
   public Person(JSONObject obj) {
     super(obj);
     if (obj.has("gender")) {
-      Gender.valueOf(obj.getString("gender"));
+      this.gender = Gender.valueOfString(obj.getString("gender"));
     }
 
     if (obj.has("middleName")) {
