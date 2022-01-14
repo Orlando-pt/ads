@@ -108,6 +108,10 @@ public class BirthEventController implements Initializable, IContentPageControll
             persons.put(item.getRelationship(), item.getPerson());
         }
 
+        if (!persons.containsKey("Father") && !persons.containsKey("Mother")){
+            return;
+        }
+
         HashMap<String, String> specialPurposeFields = new HashMap<>();
         for (FieldDTO item : this.table_fields.getItems()) {
             specialPurposeFields.put(item.getField(), item.getName());
@@ -135,7 +139,6 @@ public class BirthEventController implements Initializable, IContentPageControll
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
 
-        System.out.println(birthEvent);
     }
 
     @FXML
@@ -248,7 +251,6 @@ public class BirthEventController implements Initializable, IContentPageControll
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        System.out.println(personCustomEvent.getPerson().getName());
                         selectedPerson = personCustomEvent.getPerson();
                     }
                 });

@@ -23,4 +23,15 @@ public enum Gender {
   public static Gender valueOf(Integer gender) {
     return (Gender) map.get(gender);
   }
+
+  public static Gender valueOfString(String gender) {
+    if ("MALE".equals(gender)) {
+      return (Gender) map.get(1);
+
+    } else if ("FEMALE".equals(gender)) {
+      return (Gender) map.get(2);
+    }
+
+    return null;
+  }
 }
