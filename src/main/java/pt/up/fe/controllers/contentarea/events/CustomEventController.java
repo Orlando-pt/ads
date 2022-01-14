@@ -461,6 +461,7 @@ public class CustomEventController implements Initializable, IContentPageControl
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         customDate.clear();
         description.clear();
         fieldInput.clear();

@@ -517,6 +517,7 @@ public class EmigrationEventController implements Initializable, IContentPageCon
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         emigrationDate.clear();
         description.clear();
         fieldInput.clear();

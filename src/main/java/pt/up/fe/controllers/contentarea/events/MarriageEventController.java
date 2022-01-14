@@ -522,6 +522,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         marriageDate.clear();
         description.clear();
         fieldInput.clear();

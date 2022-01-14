@@ -454,6 +454,7 @@ public class BirthEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         birthDate.clear();
         description.clear();
         fieldInput.clear();
