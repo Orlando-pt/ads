@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import pt.up.fe.controllers.contentarea.IContentPageController;
 import pt.up.fe.facades.ImportExportFacade;
+import pt.up.fe.facades.PersonFacade;
 
 public class ImportExportPageController implements Initializable, IContentPageController {
 
@@ -20,6 +21,9 @@ public class ImportExportPageController implements Initializable, IContentPageCo
 
   @FXML
   private Text exportLabel;
+
+  @FXML
+  private Text exportLabelQueries;
 
   @FXML
   public void initialize(URL url, ResourceBundle resources) {
@@ -52,6 +56,32 @@ public class ImportExportPageController implements Initializable, IContentPageCo
 
   }
 
+  @FXML
+  private void importQueries(MouseEvent event) {
+    try {
+      PersonFacade.importQueries();
+      exportLabelQueries.setText("Import was successful");
+    } catch (Exception e) {
+      exportLabelQueries.setText("There was an error while importing");
+      e.printStackTrace();
+    }
+    exportLabelQueries.setVisible(true);
+  }
+
+
+  @FXML
+  private void exportQueries(MouseEvent event) {
+    try {
+      PersonFacade.exportQueries();
+      exportLabelQueries.setText("Export was successful");
+    } catch (Exception e) {
+      exportLabelQueries.setText("There was an error while exporting");
+      e.printStackTrace();
+    }
+    exportLabelQueries.setVisible(true);
+
+  }
+
 
   @Override
   public void setEventHandlers() {
@@ -61,6 +91,7 @@ public class ImportExportPageController implements Initializable, IContentPageCo
 
   @Override
   public void clearPage() {
+    exportLabelQueries.setVisible(false);
     exportLabel.setVisible(false);
   }
 }

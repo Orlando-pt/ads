@@ -50,7 +50,6 @@ public class Marriage extends Event {
     }
 
     public Person getPartner(Person known) {
-        // TODO when the equals() is created maybe change this method to compare the objects
         if (this.person1.getName().equals(known.getName()))
             return this.person2;
         else

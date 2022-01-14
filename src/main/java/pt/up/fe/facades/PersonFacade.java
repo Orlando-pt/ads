@@ -222,4 +222,12 @@ public class PersonFacade {
     dotExporter.createGraphHavingRoot(root, filename);
   }
 
+  public static void exportQueries() {
+    caretaker.exportCommands();
+  }
+
+  public static void importQueries() {
+    caretaker.importCommands();
+  }
+
 }

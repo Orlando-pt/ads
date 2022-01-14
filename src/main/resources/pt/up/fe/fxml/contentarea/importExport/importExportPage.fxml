@@ -12,17 +12,32 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <Button fx:id="importButton" layoutX="154.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#importContent" text="Import">
+      <Button fx:id="importButton" layoutX="142.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#importContent" text="Import All Content">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="exportButton" layoutX="421.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#exportContent" text="Export">
+      <Button fx:id="exportButton" layoutX="398.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#exportContent" text="Export All Content">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Text fx:id="exportLabel" fill="WHITE" layoutX="213.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Export was successfully made">
+      <Text fx:id="exportLabel" fill="WHITE" layoutX="220.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Export was successfully made">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Button fx:id="importButtonQueries" layoutX="112.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#importQueries" text="Import Queries History">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="exportButtonQueries" layoutX="383.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#exportQueries" text="Export Queries History">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Text fx:id="exportLabelQueries" fill="WHITE" layoutX="220.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Export was successfully made">
          <font>
             <Font size="16.0" />
          </font>

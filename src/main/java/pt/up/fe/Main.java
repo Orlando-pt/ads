@@ -53,7 +53,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    Person breno = new Person();
+    Person breno = new Person("eb6ad4a6-4cba-450d-be0f-baae7d06643a");
     breno.setName("Breno");
     breno.setMiddleName("Fonseca");
     breno.setLastName("Salles");
@@ -70,7 +70,7 @@ public class Main extends Application {
     Main.peopleList.add(breno);
     Main.sourcesList.add(book);
 
-    Person catia = new Person();
+    Person catia = new Person("eb6ad4a6-4cba-450d-be0f-baae7d06643b");
     catia.setName("Catia");
     catia.setMiddleName("Susana da Silva");
     catia.setLastName("Condez");
@@ -83,7 +83,7 @@ public class Main extends Application {
     Main.peopleList.add(catia);
     Main.sourcesList.add(customSource);
 
-    Person diogo = new Person();
+    Person diogo = new Person("eb6ad4a6-4cba-450d-be0f-baae7d06643c");
     diogo.setName("Diogo");
     diogo.setMiddleName("Alexandre");
     diogo.setLastName("Costa");
@@ -99,7 +99,7 @@ public class Main extends Application {
     Main.sourcesList.add(historicalRecord);
     Main.placesList.add(portugal);
 
-    Person sofia = new Person();
+    Person sofia = new Person("eb6ad4a6-4cba-450d-be0f-baae7d06643d");
     sofia.setGender(Gender.FEMALE);
     sofia.setName("Sofia");
     sofia.setMiddleName("Isabel");
@@ -112,7 +112,7 @@ public class Main extends Application {
     Main.peopleList.add(sofia);
     Main.sourcesList.add(onlineResource);
 
-    Person hugo = new Person();
+    Person hugo = new Person("eb6ad4a6-4cba-450d-be0f-baae7d06643e");
     hugo.setName("Hugo");
     hugo.setMiddleName("Paiva");
     hugo.setLastName("Almeida");
@@ -131,7 +131,7 @@ public class Main extends Application {
     Main.sourcesList.add(orallyTransmitted);
     Main.placesList.add(vouzela);
 
-    Person carolina = new Person();
+    Person carolina = new Person("eb6ad4a6-4cba-450d-be0f-baae7d06643f");
     carolina.setName("Carolina");
     carolina.setMiddleName("Marques");
     carolina.setLastName("Albuquerque");
