@@ -108,6 +108,10 @@ public class BirthEventController implements Initializable, IContentPageControll
             persons.put(item.getRelationship(), item.getPerson());
         }
 
+        if (!persons.containsKey("Father") && !persons.containsKey("Mother")){
+            return;
+        }
+
         HashMap<String, String> specialPurposeFields = new HashMap<>();
         for (FieldDTO item : this.table_fields.getItems()) {
             specialPurposeFields.put(item.getField(), item.getName());
