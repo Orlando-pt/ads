@@ -40,18 +40,13 @@ public class PlaceTest {
 
   @Test
   public void testOutput() {
-    PrintStream originalOut = System.out;
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(outContent));
-
     StringBuilder sBuilder = new StringBuilder();
     sBuilder.append("Portugal");
 
     String expected = sBuilder.toString();
 
-    assertEquals(expected, outContent.toString());
+    assertEquals(expected, this.p.toString());
 
-    System.setOut(originalOut);
   }
 
   @Test
