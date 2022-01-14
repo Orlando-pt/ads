@@ -39,7 +39,7 @@ public abstract class Event extends BaseClass {
     super(obj);
 
     if (obj.has("place")) {
-      this.auxPlace = UUID.fromString((String) obj.get("place"));
+      this.auxPlace = UUID.fromString(obj.getString("place"));
     }
 
     if (obj.has("date")) {

@@ -30,8 +30,14 @@ public abstract class Source implements IExportObject {
   }
 
   public Source(JSONObject obj) {
-    this.id = (obj.has("id") ? UUID.fromString((String) obj.get("id")) : null);
-    this.name = (String) (obj.has("id") ? obj.get("name") : null);
+    if (obj.has("id")) {
+      this.id = UUID.fromString(obj.getString("id"));
+    } else {
+      this.id = UUID.randomUUID();
+    }
+    if (obj.has("name")) {
+      this.name = obj.getString("name");
+    }
 
     if (obj.has("authors")) {
       JSONArray authors = obj.getJSONArray("authors");

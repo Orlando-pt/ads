@@ -24,15 +24,19 @@ public abstract class BaseClass implements IExportObject {
   }
 
   public BaseClass(JSONObject obj) {
-    this.id = UUID.fromString((String) (obj.has("id") ? obj.get("id") : null));
+    if (obj.has("id")) {
+      this.id = UUID.fromString(obj.getString("id"));
+    } else {
+      this.id = UUID.randomUUID();
+    }
     if (obj.has("name")) {
-      this.name = (String) obj.get("name");
+      this.name = obj.getString("name");
     }
     if (obj.has("description")) {
-      this.description = (String) obj.get("description");
+      this.description = obj.getString("description");
     }
     if (obj.has("source")) {
-      this.auxSource = UUID.fromString((String) obj.get("source"));
+      this.auxSource = UUID.fromString(obj.getString("source"));
     }
   }
 

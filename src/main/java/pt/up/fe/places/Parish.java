@@ -1,7 +1,5 @@
 package pt.up.fe.places;
 
-import java.util.Map;
-
 import org.json.JSONObject;
 
 public class Parish extends Place {
@@ -14,7 +12,9 @@ public class Parish extends Place {
 
   public Parish(JSONObject obj) {
     super(obj);
-    this.area = (Double) (obj.has("area") ? obj.get("area") : null);
+    if (obj.has("area")) {
+      this.area = obj.getDouble("area");
+    }
   }
 
   public CompoundPlace toCompound(){

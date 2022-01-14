@@ -20,8 +20,9 @@ public class HistoricalRecord extends Source {
 
   public HistoricalRecord(JSONObject obj) {
     super(obj);
-    this.auxNationalArchiveCountry = (obj.has("nationalArchiveCountry") ? UUID.fromString(
-        (String) obj.get("nationalArchiveCountry")) : null);
+    if (obj.has("nationalArchiveCountry")) {
+      this.auxNationalArchiveCountry = UUID.fromString(obj.getString("nationalArchiveCountry"));
+    }
   }
 
   public Place getNationalArchiveCountry() {
