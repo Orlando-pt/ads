@@ -38,14 +38,16 @@ public class Person extends BaseClass {
 
   public Person(JSONObject obj) {
     super(obj);
-    this.setGender((obj.has("gender") ? Gender.valueOf((String) obj.get("gender")) : null));
+    if (obj.has("gender")) {
+      Gender.valueOf(obj.getString("gender"));
+    }
 
     if (obj.has("middleName")) {
-      this.middleName = (String)obj.get("middleName");
+      this.middleName = obj.getString("middleName");
     }
 
     if (obj.has("lastName")) {
-      this.lastName = (String)obj.get("lastName");
+      this.lastName = obj.getString("lastName");
     }
 
     if (obj.has("children")) {

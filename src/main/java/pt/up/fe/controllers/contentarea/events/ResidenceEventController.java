@@ -480,6 +480,7 @@ public class ResidenceEventController implements Initializable, IContentPageCont
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         residenceDate.clear();
         description.clear();
         fieldInput.clear();

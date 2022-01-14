@@ -18,7 +18,9 @@ public class CustomEvent extends Event {
 
   public CustomEvent(JSONObject obj) {
     super(obj);
-    this.setName((String) (obj.has("name") ? obj.get("name") : null));
+    if (obj.has("name")) {
+      this.setName(obj.getString("name"));
+    }
   }
 
   public Logger initializeLogger() {

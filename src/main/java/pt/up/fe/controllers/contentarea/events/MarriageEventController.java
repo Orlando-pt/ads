@@ -543,6 +543,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
     } catch (NoSuchFieldException | IllegalAccessException e) {
       // No need to do anything, button invalid.
     }
+
   }
 
   @FXML
@@ -574,6 +575,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
   @Override
   public void clearPage() {
+    this.selectedPerson = null;
     marriageDate.clear();
     description.clear();
     fieldInput.clear();

@@ -452,6 +452,7 @@ public class DeathEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         deathDate.clear();
         description.clear();
         fieldInput.clear();
