@@ -127,8 +127,14 @@ public class DeathEventController implements Initializable, IContentPageControll
 
         Event deathEvent = EventFacade.createDeathEvent(eventDTO);
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, deathEvent));
-        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        if(this.selectedPerson == null) {
+            CustomSceneHelper.getNodeById("listEventsPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, deathEvent));
+            CustomSceneHelper.bringNodeToFront("listEvents", "Page");
+        }
+        else {
+            CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, deathEvent));
+            CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        }
         System.out.println(deathEvent);
     }
 
@@ -447,6 +453,7 @@ public class DeathEventController implements Initializable, IContentPageControll
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         deathDate.clear();
         description.clear();
         fieldInput.clear();

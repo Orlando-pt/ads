@@ -10,6 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import pt.up.fe.helpers.AutoCompleteTextField?>
 <AnchorPane id="listPersonsPage" fx:id="listPersonsPage" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.persons.ListPersonsPageController">
    <children>
       <Text fill="WHITE" layoutX="225.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Persons">
@@ -36,19 +37,19 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="firstNameInput" layoutX="24.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
+      <AutoCompleteTextField fx:id="firstNameInput" layoutX="24.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
       <Label fx:id="middleNameLabel" layoutX="161.0" layoutY="74.0" text="Middle Name" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="middleNameInput" layoutX="161.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
+      <AutoCompleteTextField fx:id="middleNameInput" layoutX="161.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
       <Label fx:id="lastNameLabel" layoutX="298.0" layoutY="74.0" text="Last Name" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="lastNameInput" layoutX="298.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
+      <AutoCompleteTextField fx:id="lastNameInput" layoutX="298.0" layoutY="94.0" prefHeight="26.0" prefWidth="114.0" />
       <Button fx:id="selectButton" layoutX="274.0" layoutY="544.0" mnemonicParsing="false" onMouseClicked="#selectPerson" prefHeight="26.0" prefWidth="114.0" text="Select Person" />
       <Label fx:id="selectButtonLabel" layoutX="141.0" layoutY="523.0" text="Please select a person and then click the following button" textFill="WHITE">
          <font>

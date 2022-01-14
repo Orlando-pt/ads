@@ -149,8 +149,14 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
         Event marriageEvent = EventFacade.createMarriageEvent(eventDTO);
 
-        CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
-        CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        if(this.selectedPerson == null) {
+            CustomSceneHelper.getNodeById("listEventsPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
+            CustomSceneHelper.bringNodeToFront("listEvents", "Page");
+        }
+        else {
+            CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, marriageEvent));
+            CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
+        }
         System.out.println(marriageEvent);
     }
 
@@ -516,6 +522,7 @@ public class MarriageEventController implements Initializable, IContentPageContr
 
     @Override
     public void clearPage() {
+        this.selectedPerson = null;
         marriageDate.clear();
         description.clear();
         fieldInput.clear();

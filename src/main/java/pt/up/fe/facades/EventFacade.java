@@ -187,11 +187,22 @@ public class EventFacade {
                 }
             }
 
-            ListIterator<Event> iterator1 = person.getEvents().listIterator();
-            while (iterator1.hasNext()) {
-                Event next = iterator1.next();
-                if (next.getId().equals(id)) {
-                    iterator1.set(event);
+            if(person == null) {
+                Main.peopleList.forEach(people -> {
+                    for(int i = 0; i < people.getEvents().size(); i++) {
+                        if(people.getEvents().get(i).getId().equals(id)) {
+                            people.getEvents().set(i, event);
+                        }
+                    }
+                });
+            }
+            else {
+                ListIterator<Event> iterator1 = person.getEvents().listIterator();
+                while (iterator1.hasNext()) {
+                    Event next = iterator1.next();
+                    if (next.getId().equals(id)) {
+                        iterator1.set(event);
+                    }
                 }
             }
         } else {
