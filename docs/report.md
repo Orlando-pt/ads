@@ -5,7 +5,7 @@ At this document it will be explained what was the process to develop this platf
 # Table of contents
 - [Report](#report)
 - [Table of contents](#table-of-contents)
-- [Functionalities Made So Far](#functionalities-made-so-far)
+- [Functionalities Made](#functionalities-made)
 - [The Design](#the-design)
   - [Solving Simple Dates And Intervals](#solving-simple-dates-and-intervals)
     - [Design Problem](#design-problem)
@@ -44,22 +44,36 @@ At this document it will be explained what was the process to develop this platf
     - [The Pattern](#the-pattern-6)
     - [Implementation](#implementation-6)
     - [Consequences](#consequences-6)
-# Functionalities Made So Far
 
-The main functionalities of the program implemented already are:
+# Functionalities Made
 
-- Allow record of **dates** (simple and interval)
-- Allow record of **birth** event
-- Allow record of **person** (missing birth event)
-- Allow listing of **persons**
-- Allow record **sources** (missing places and date)
-- Allow listing of **sources**
+The main functionalities of the program implemented are:
 
-The main functionalities already started:
+- Allow record of **dates** (Simple and Interval)
+- Allow record and listing (with queries and auto-complete) of **events** of type:
+	- Birth
+	- Death
+	- Emigration
+	- Marriage
+	- Residence
+	- Custom
+- Allow record and listing (with queries and auto-complete) of **sources** of type:
+	- Book
+	- Online Resource
+	- Historical Record
+	- Orally Transmitted
+	- Custom Source
+- Allow record and listing (with queries and auto-complete) of **places**
+- Allow record and listing (with queries and auto-complete) of **persons**
+- Allow use of a **Query History** recorded every time a query is done to the person list
+- Allow generation of a **GraphViz** representation
+- Allow **import and export** of the **Query History** on the system
+- Allow **import and export** of **all entities** on the system with JSON
 
-- Allow record of **places** (without GUI)
-- Allow export in JSON and YAML (without GUI)
-- Allow export the genealogy information to formats that allow a graphical visualization (without GUI)
+The functionalities started but not finished:
+
+- Allow import and export in YAML (only export is done)
+- Set fields as having sensitive information
 
 <!-- # Goals -->
 
