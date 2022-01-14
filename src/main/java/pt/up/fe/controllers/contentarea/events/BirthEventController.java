@@ -135,7 +135,6 @@ public class BirthEventController implements Initializable, IContentPageControll
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
 
-        System.out.println(birthEvent);
     }
 
     @FXML
@@ -248,7 +247,6 @@ public class BirthEventController implements Initializable, IContentPageControll
                 PersonCustomEvent.PERSON, new EventHandler<PersonCustomEvent>() {
                     @Override
                     public void handle(PersonCustomEvent personCustomEvent) {
-                        System.out.println(personCustomEvent.getPerson().getName());
                         selectedPerson = personCustomEvent.getPerson();
                     }
                 });

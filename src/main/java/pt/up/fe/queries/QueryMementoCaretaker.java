@@ -44,9 +44,6 @@ public class QueryMementoCaretaker {
         String res = jsonExporter.buildOutputString(this.commandHistory.iterator());
 
         JSONArray resLoaded = new JSONArray(res);
-        
-        // TODO remove this experiment
-        System.out.println(resLoaded.getJSONObject(0));
 
         try {
             Class<?> command = Class.forName(resLoaded.getJSONObject(0).getString("query_command"));
@@ -60,8 +57,6 @@ public class QueryMementoCaretaker {
                 new NameAttribute("Orlando", true)
             );
             FilterPersonByNameQuery commandObject = (FilterPersonByNameQuery) commandConstructor.newInstance(null, specifiedPersonAttributes, null);
-            
-            System.out.println(commandObject.toJSONObject());
             
         } catch (Exception e) {
             e.printStackTrace();

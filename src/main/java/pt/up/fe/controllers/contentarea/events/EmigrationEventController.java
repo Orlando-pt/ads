@@ -141,7 +141,6 @@ public class EmigrationEventController implements Initializable, IContentPageCon
             CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, emigrationEvent));
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
-        System.out.println(emigrationEvent);
     }
 
     @FXML
@@ -399,12 +398,15 @@ public class EmigrationEventController implements Initializable, IContentPageCon
             if (node instanceof TextArea) {
                 ((TextArea) node).setEditable(isEditMode);
             }
+            try {
             if (node instanceof ComboBox) {
                 if (isEditMode == false) {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
                 } else {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
                 }
+            }} catch (Exception e){
+
             }
         }
 

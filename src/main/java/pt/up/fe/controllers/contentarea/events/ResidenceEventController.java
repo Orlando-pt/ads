@@ -139,7 +139,6 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             CustomSceneHelper.getNodeById("viewEditPersonPage").fireEvent(new EventCustomEvent(EventCustomEvent.EVENT, residenceEvent));
             CustomSceneHelper.bringNodeToFront("viewEditPerson", "Page");
         }
-        System.out.println(residenceEvent);
     }
 
     @FXML
@@ -360,12 +359,15 @@ public class ResidenceEventController implements Initializable, IContentPageCont
             if (node instanceof TextArea) {
                 ((TextArea) node).setEditable(isEditMode);
             }
+            try{
             if (node instanceof ComboBox) {
                 if (isEditMode == false) {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).hide());
                 } else {
                     ((ComboBox) node).setOnShown(event -> ((ComboBox) node).show());
                 }
+            }} catch (Exception e){
+
             }
         }
 

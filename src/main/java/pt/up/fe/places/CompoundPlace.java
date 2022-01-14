@@ -59,19 +59,7 @@ public class CompoundPlace extends Place {
 
   @Override
   public String toString() {
-    ArrayList<String> arr = new ArrayList<>();
-    StringBuilder sBuilder = new StringBuilder();
-    sBuilder.append(super.getName() + "(");
-
-    for (Place place : this.children) {
-      arr.add(place.toString());
-    }
-    String joined = String.join("+", arr);
-
-    sBuilder.append(joined);
-    sBuilder.append(")");
-
-    return sBuilder.toString();
+    return super.getName();
   }
 
   @Override

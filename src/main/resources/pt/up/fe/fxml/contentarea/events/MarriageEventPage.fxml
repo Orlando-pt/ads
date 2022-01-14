@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane id="marriageEventPage" fx:id="marriageEventPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.MarriageEventController">
+<ScrollPane id="marriageEventPage" fx:id="marriageEventPage" hbarPolicy="NEVER" prefHeight="605.0" prefWidth="640.0" style="-fx-background-color: #1E1F23;" vvalue="0.32" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.up.fe.controllers.contentarea.events.MarriageEventController">
     <content>
         <AnchorPane fx:id="anchorPane" prefHeight="1413.0" prefWidth="650.0" style="-fx-background-color: #1E1F23;">
             <children>
@@ -95,6 +95,7 @@
                 <RadioButton fx:id="newPlace" layoutX="451.0" layoutY="153.0" mnemonicParsing="false" onMouseClicked="#selectPlaceType" text="New Place" textFill="WHITE" toggleGroup="$place_radio" />
                 <Button fx:id="selectPlaceButton" layoutX="269.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#selectPlace" text="Select Place" />
                 <Button fx:id="newPlaceButton" layoutX="442.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#addPlace" text="Create New Place" />
+            <Button fx:id="addPartnerButton" onAction="#addPartner" layoutX="275.0" layoutY="694.0" mnemonicParsing="false" onMouseClicked="#selectPlace" text="Add Partner" />
             </children>
         </AnchorPane>
     </content>

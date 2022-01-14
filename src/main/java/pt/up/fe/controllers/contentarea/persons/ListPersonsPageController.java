@@ -314,9 +314,6 @@ public class ListPersonsPageController implements Initializable, IContentPageCon
     }
 
     if (date != null) {
-      System.out.println(date);
-      System.out.println(date.getStartDate());
-      System.out.println(date.getEndDate());
       filters.setStartDate(date.getStartDate());
       filters.setEndDate(date.getEndDate());
     }
