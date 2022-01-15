@@ -349,3 +349,96 @@ Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/
   - We can use this iterator both in the exporting of places and in search operations that will be needed eventually.
 - Negative Consequences:
   - We were able to promptly find a problem to using this pattern. If the search for a specific place ends up using this pattern, it is expected that the performance of using the pattern will be inferior, for example, when fetching the intended node directly by a method declared in the Place class that directly accesses the childs array.
+
+
+---
+
+## Find a scalable way for implementing queries
+
+How do we allow the addition of new queries without causing a great effort of refactoring and maintaining the algorithmic complexity of the solution?
+
+### Design Problem
+
+One of the goals of this project was to provide the functionality to make queries. This functionality brings with it a scalability problem, as the code complexity must remain the same after adding new queries.
+
+
+### The Pattern
+
+The pattern that best solves the problem of adding new queries is the **Command pattern**. This pattern makes possible to standardize the way a query is called, as well as to treat the query itself as an object, being able to perform operations on it.
+In our specific project it will allow the addition of new queries and not have a big increase in code complexity, for example avoiding conditional expressions. All queries will be treated as objects that can be called from the **Invoker**, so the queries only need to obey the interface called by **Invoker** and from there the way each one evolves is independent. In addition to what was said before, the **Command pattern** is a pattern that combines very well with the **Memento pattern**, and this, as will be explained in the next section, will prove to be something very advantageous.
+
+### Implementation
+
+The center part of the **Command pattern** is the **Command interface** represented in the diagram by the **QueryCommand** interface. This interface must be respected by all queries created and allows standardizing all queries so that they can be called by the **Invoker**, in this diagram represented by the **QueryInvoker** class.
+
+All classes that implement the **QueryCommand** are implementing the logic that allows the execution of a query (**Concrete Commands**). In this case there are queries that allow the search for a person's children (ChildrenQuery), also allowing the search by names and date of birth (FilterPersonByNameQuery and FilterPersonByBirthQuery, respectively), among others.
+
+The element that represents the **Receiver** is the **QueryResultPersonList**, which is nothing more than a class that abstracts a list of people that allows a query to add the people that satisfy it.
+
+After the **Receiver** has been changed with all the people who obey the query, then the **Client**, which in the diagram is represented by the **PersonFacade** class, can fetch the people who obeyed the query from the *getPersonList()* method.
+
+<p align="center">
+  <img src="images/class-Query-command.png" alt="Iterator Pattern for Persons" style="height: 400px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/queries).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/blob/master/src/test/java/pt/up/fe/queries/QueryTest.java).
+
+### Consequences
+
+- Positive Consequences:
+  - Standardize query creation.
+  - Standardize the call of queries, avoiding conditional logic.
+  - The **Command pattern** has great affinity with the **Memento pattern** which will be important for the functionality of storing the query history.
+- Negative Consequences:
+  - The fact that we are abstracting queries by making classes that call them later, when we could instead simply create a new class with a query and make the call promptly, makes it more difficult to understand how a query is executed. For programmers unfamiliar with the pattern, understanding the structure of queries can be challenging.
+  - Another disadvantage, although minor, is that we are calling objects that later call other objects. This usually takes a toll on performance, but as said, it's a minor disadvantage because it would never be anything significant to the overall performance of the application.
+
+
+---
+
+## Encrontrar uma forma escalável de implementar queries
+
+How do we allow the addition of new queries without causing a great effort of refactoring and maintaining the algorithmic complexity of the solution?
+
+### Design Problem
+
+One of the goals of this project was to provide the functionality to make queries. This functionality brings with it a scalability problem, as the code complexity must remain the same after adding new queries.
+
+
+### The Pattern
+
+The pattern that best solves the problem of adding new queries is the **Command pattern**. This pattern makes possible to standardize the way a query is called, as well as to treat the query itself as an object, being able to perform operations on it.
+In our specific project it will allow the addition of new queries and not have a big increase in code complexity, for example avoiding conditional expressions. All queries will be treated as objects that can be called from the **Invoker**, so the queries only need to obey the interface called by **Invoker** and from there the way each one evolves is independent. In addition to what was said before, the **Command pattern** is a pattern that combines very well with the **Memento pattern**, and this, as will be explained in the next section, will prove to be something very advantageous.
+
+### Implementation
+
+The center part of the **Command pattern** is the **Command interface** represented in the diagram by the **QueryCommand** interface. This interface must be respected by all queries created and allows standardizing all queries so that they can be called by the **Invoker**, in this diagram represented by the **QueryInvoker** class.
+
+All classes that implement the **QueryCommand** are implementing the logic that allows the execution of a query (**Concrete Commands**). In this case there are queries that allow the search for a person's children (ChildrenQuery), also allowing the search by names and date of birth (FilterPersonByNameQuery and FilterPersonByBirthQuery, respectively), among others.
+
+The element that represents the **Receiver** is the **QueryResultPersonList**, which is nothing more than a class that abstracts a list of people that allows a query to add the people that satisfy it.
+
+After the **Receiver** has been changed with all the people who obey the query, then the **Client**, which in the diagram is represented by the **PersonFacade** class, can fetch the people who obeyed the query from the *getPersonList()* method.
+
+<p align="center">
+  <img src="images/class-Query-command.png" alt="Iterator Pattern for Persons" style="height: 400px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/queries).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/blob/master/src/test/java/pt/up/fe/queries/QueryTest.java).
+
+### Consequences
+
+- Positive Consequences:
+  - Standardize query creation.
+  - Standardize the call of queries, avoiding conditional logic.
+  - The **Command pattern** has great affinity with the **Memento pattern** which will be important for the functionality of storing the query history.
+- Negative Consequences:
+  - The fact that we are abstracting queries by making classes that call them later, when we could instead simply create a new class with a query and make the call promptly, makes it more difficult to understand how a query is executed. For programmers unfamiliar with the pattern, understanding the structure of queries can be challenging.
+  - Another disadvantage, although minor, is that we are calling objects that later call other objects. This usually takes a toll on performance, but as said, it's a minor disadvantage because it would never be anything significant to the overall performance of the application.
+
+ 
+
