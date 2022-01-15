@@ -398,32 +398,29 @@ Link to the [tests](https://github.com/Orlando-pt/ads/blob/master/src/test/java/
 
 ---
 
-## Encrontrar uma forma escalável de implementar queries
+## Saving the history of the executed queries
 
-How do we allow the addition of new queries without causing a great effort of refactoring and maintaining the algorithmic complexity of the solution?
+What is the best way to save the queries so that they can be used later?
 
 ### Design Problem
 
-One of the goals of this project was to provide the functionality to make queries. This functionality brings with it a scalability problem, as the code complexity must remain the same after adding new queries.
+Keeping the history of queries that were executed was one of the goals of the project. These saved queries should be runned later and something that could help us with that, was the fact that we implemented the queries using the **Command pattern**.
 
 
 ### The Pattern
 
-The pattern that best solves the problem of adding new queries is the **Command pattern**. This pattern makes possible to standardize the way a query is called, as well as to treat the query itself as an object, being able to perform operations on it.
-In our specific project it will allow the addition of new queries and not have a big increase in code complexity, for example avoiding conditional expressions. All queries will be treated as objects that can be called from the **Invoker**, so the queries only need to obey the interface called by **Invoker** and from there the way each one evolves is independent. In addition to what was said before, the **Command pattern** is a pattern that combines very well with the **Memento pattern**, and this, as will be explained in the next section, will prove to be something very advantageous.
+The most natural pattern to solve the previous mentioned problem is the **Memento pattern**. This is a pattern that matches the **Command pattern** very well, allowing us to save and restore the state of a given object. In our case, it will save the state of **QueryInvoker** (which will invoke several queries), and it will also be able to restore the state, allowing the **Invoker** to call previous queries.
 
 ### Implementation
 
-The center part of the **Command pattern** is the **Command interface** represented in the diagram by the **QueryCommand** interface. This interface must be respected by all queries created and allows standardizing all queries so that they can be called by the **Invoker**, in this diagram represented by the **QueryInvoker** class.
+The implementation involves creating a **Memento** that holds the state of the *originator object*. As the diagram shows, the class corresponding to **Memento** is **QueryMemento** that stores the current state of **QueryInvoker**, and its current state can be reflected in the query that is being executed at the moment.
 
-All classes that implement the **QueryCommand** are implementing the logic that allows the execution of a query (**Concrete Commands**). In this case there are queries that allow the search for a person's children (ChildrenQuery), also allowing the search by names and date of birth (FilterPersonByNameQuery and FilterPersonByBirthQuery, respectively), among others.
+The **Caretaker**, reflected in the implementation by the **QueryMementoCaretaker** class, is the entity that stores the *originator* state history. In addition, it also stores and restores the *originator* state.
 
-The element that represents the **Receiver** is the **QueryResultPersonList**, which is nothing more than a class that abstracts a list of people that allows a query to add the people that satisfy it.
-
-After the **Receiver** has been changed with all the people who obey the query, then the **Client**, which in the diagram is represented by the **PersonFacade** class, can fetch the people who obeyed the query from the *getPersonList()* method.
+Finally, **PersonFacade** acts again in order to translate the client's wishes. This way the user can identify which query he wants to run again and the **PersonFacade** will interact with **QueryMementoCaretaker** so that it resets the state of **QueryInvoker**. In the end, **QueryInvoker** can be called again, containing a previous state inside it.
 
 <p align="center">
-  <img src="images/class-Query-command.png" alt="Iterator Pattern for Persons" style="height: 400px"/>
+  <img src="images/class-Query-command-memento-v2.png" alt="Iterator Pattern for Persons" style="height: 400px"/>
 </p>
 
 Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/queries).
@@ -433,12 +430,10 @@ Link to the [tests](https://github.com/Orlando-pt/ads/blob/master/src/test/java/
 ### Consequences
 
 - Positive Consequences:
-  - Standardize query creation.
-  - Standardize the call of queries, avoiding conditional logic.
-  - The **Command pattern** has great affinity with the **Memento pattern** which will be important for the functionality of storing the query history.
+  - It's a structured way of storing the different queries that go through **QueryInvoker**.
+  - Allows us to store the different queries without messing with the object's innards, maintaining the encapsulation.
+  - Iterating through the mementos list makes it easier to export and import queries.
 - Negative Consequences:
-  - The fact that we are abstracting queries by making classes that call them later, when we could instead simply create a new class with a query and make the call promptly, makes it more difficult to understand how a query is executed. For programmers unfamiliar with the pattern, understanding the structure of queries can be challenging.
-  - Another disadvantage, although minor, is that we are calling objects that later call other objects. This usually takes a toll on performance, but as said, it's a minor disadvantage because it would never be anything significant to the overall performance of the application.
-
+  - Subsequently, if there were queries that were relatively large in terms of their memory consumption, we would have a ram consumption problem. Thinking about the case that these queries would be called many times, saving the state of **QueryInvoker** would imply that the *garbage collector* would not get rid of these objects, and consequently, requiring large amounts of ram memory.
  
 
