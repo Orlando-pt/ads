@@ -24,26 +24,41 @@ At this document it will be explained what was the process to develop this platf
     - [Consequences v1](#consequences-v1)
     - [The Pattern v2](#the-pattern-v2)
     - [Implementation v2](#implementation-v2)
+    - [The Pattern v3](#the-pattern-v3)
+    - [Implementation v3](#implementation-v3)
   - [Solving The Complexity Of Instantiating/Editing/Removing The Different Types Of Objects](#solving-the-complexity-of-instantiatingeditingremoving-the-different-types-of-objects)
     - [Design Problem](#design-problem-3)
+    - [The Pattern](#the-pattern-2)
+    - [Implementation](#implementation-2)
+    - [Consequences](#consequences-2)
+  - [Solving The Addition of Locations](#solving-the-addition-of-locations)
+    - [Design Problem](#design-problem-4)
     - [The Pattern](#the-pattern-3)
     - [Implementation](#implementation-3)
     - [Consequences](#consequences-3)
-  - [Solving The Addition of Locations](#solving-the-addition-of-locations)
-    - [Design Problem](#design-problem-4)
+  - [Standardize Iteration Through Persons](#standardize-iteration-through-persons)
+    - [Design Problem](#design-problem-5)
     - [The Pattern](#the-pattern-4)
     - [Implementation](#implementation-4)
     - [Consequences](#consequences-4)
-  - [Standardize Iteration Through Persons](#standardize-iteration-through-persons)
-    - [Design Problem](#design-problem-5)
+  - [Standardize Iteration Through Places](#standardize-iteration-through-places)
+    - [Design Problem](#design-problem-6)
     - [The Pattern](#the-pattern-5)
     - [Implementation](#implementation-5)
     - [Consequences](#consequences-5)
-  - [Standardize Iteration Through Places](#standardize-iteration-through-places)
-    - [Design Problem](#design-problem-6)
+  - [JavaFX Communication](#javafx-communication)
+    - [Problem](#problem)
+    - [Solution](#solution)
+  - [Find a scalable way for implementing queries](#find-a-scalable-way-for-implementing-queries)
+    - [Design Problem](#design-problem-7)
     - [The Pattern](#the-pattern-6)
     - [Implementation](#implementation-6)
     - [Consequences](#consequences-6)
+  - [Saving the history of the executed queries](#saving-the-history-of-the-executed-queries)
+    - [Design Problem](#design-problem-8)
+    - [The Pattern](#the-pattern-7)
+    - [Implementation](#implementation-7)
+    - [Consequences](#consequences-7)
 
 # Functionalities Made
 
@@ -146,7 +161,7 @@ Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/
 
 ## Solving Exporting/Loading Data In Different Formats
 
-And now, how do we export, for instance the locations, in different formats?
+And now, how do we export, for instance the locations, in different formats? And how dow we import them?
 
 ### Design Problem
 
@@ -190,7 +205,28 @@ As we can see in the image, we require the classes that want to be exported to i
 
 In this implementation, the *Exporter* doesn't care about the object itself, it only requires an Iterator of the object.
 
-Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/exports).
+Link to [implementation](../src/main/java/pt/up/fe/exports).
+
+### The Pattern v3
+
+As for the final solution, we decided to go back, partially, to the first approach. We ended up with the following:
+
+- Export: We use the Template Method.
+- Import: We use a combination of a Template Method with Strategy.
+
+In terms of the *Export* part, nothing has chaged, so the next steps will mainly focus on *Import*.
+
+### Implementation v3
+
+<p align="center">
+  <img src="images/class-Import.drawio.png" alt="Exporter" style="height: 300px"/>
+</p>
+
+The reason for this *"step back"* to the previous implementation for the import was because, whereas before we could have a common interface to export, in the import the objects differ too much, therefore using a strategy that applies to each object was the best approach.
+
+We still kept the original part of the Template Method being actually responsible for importing, just the "way" it's imported is changed for each type of object.
+
+Link to [implementation](../src/main/java/pt/up/fe/imports).
 
 ---
 
@@ -349,3 +385,136 @@ Link to the [tests](https://github.com/Orlando-pt/ads/tree/master/src/test/java/
   - We can use this iterator both in the exporting of places and in search operations that will be needed eventually.
 - Negative Consequences:
   - We were able to promptly find a problem to using this pattern. If the search for a specific place ends up using this pattern, it is expected that the performance of using the pattern will be inferior, for example, when fetching the intended node directly by a method declared in the Place class that directly accesses the childs array.
+
+---
+
+## JavaFX Communication
+
+> How can the different components communicate between each other on the frontend?
+
+### Problem
+
+Using for example `Create Person` workflow for example we have at least **5** different contexts that are:
+
+- `CreatePersonPage` - Contains the info from persons such as First Name, Middle Name, Last Name, Description, Source (is redirected to `CreateSourcePage`), etc.
+- `BirthEventPage` - Is responsible for creating an event and contains fields such as Maternity, Place of Birth (redirects to `CreateDatePage`), Mother and Father (redirects for a `ListPersonsPage`), source (redirects to `CreateSourcePage` or `ListSourcePage`), etc.
+- `CreateSourcePage` - It shows us the available source options to be created and after choosing one will be redirected to the respective Source Creation Page.
+- `ListSourcePage` - It lists all the possible sources already created/imported in the system.
+- `CreateDatePage` - It is responsible for date creation and gives you the possibility to set an interval date or a simple date.
+
+After the specification above is possible to see that there is a lot of complexity involved and an efficient and solid solution had to take place.
+
+### Solution
+
+For this, we started implementing an Event-driven development, where all the communications were made using Events. For this to work we have two roles:
+
+- Producer - Fires the event with the data
+- Listener - Is waiting for the event to be `fired` from Producer
+
+<p align="center">
+  <img src="images/events-workflow.png" alt="Person - Source creation workflow using events" style="height: 300px"/>
+</p>
+
+In the example above we show an example of the workflow of when a source is created inside the creation of a person. In this case:
+
+**`CreatePersonPage`**
+- **Producer**: fires an event `PAGE_TO_SEND` for the `CreateSourcePage` for when the creation purpose ends it knows the page that he needs to go back to.
+
+- **Listener**: will listen for an event `SOURCE` sent from one of `CreateSourcePages`(e.g. `CreateBookPage`) that will send the created Source to be added on person creation.
+
+**`CreateSourcePage`**
+- **Producer**: fires an event `PAGE_TO_SEND` for the `CreateBookPage` that was passed from `CreatePersonPage`.
+
+- **Listener**: will listen for an event `PAGE_TO_SEND` that will be later passed to the chosen type of source.
+
+**`CreateBookPage`**
+- **Producer**: fires an event `SOURCE` for the page received on `PAGE_TO_SEND` event with the newly created source.
+
+- **Listener**: will listen for an event `PAGE_TO_SEND` that will be to know where to send the created `SOURCE`.
+
+---
+
+## Find a scalable way for implementing queries
+
+How do we allow the addition of new queries without causing a great effort of refactoring and maintaining the algorithmic complexity of the solution?
+
+### Design Problem
+
+One of the goals of this project was to provide the functionality to make queries. This functionality brings with it a scalability problem, as the code complexity must remain the same after adding new queries.
+
+
+### The Pattern
+
+The pattern that best solves the problem of adding new queries is the **Command pattern**. This pattern makes possible to standardize the way a query is called, as well as to treat the query itself as an object, being able to perform operations on it.
+In our specific project it will allow the addition of new queries and not have a big increase in code complexity, for example avoiding conditional expressions. All queries will be treated as objects that can be called from the **Invoker**, so the queries only need to obey the interface called by **Invoker** and from there the way each one evolves is independent. In addition to what was said before, the **Command pattern** is a pattern that combines very well with the **Memento pattern**, and this, as will be explained in the next section, will prove to be something very advantageous.
+
+### Implementation
+
+The center part of the **Command pattern** is the **Command interface** represented in the diagram by the **QueryCommand** interface. This interface must be respected by all queries created and allows standardizing all queries so that they can be called by the **Invoker**, in this diagram represented by the **QueryInvoker** class.
+
+All classes that implement the **QueryCommand** are implementing the logic that allows the execution of a query (**Concrete Commands**). In this case there are queries that allow the search for a person's children (ChildrenQuery), also allowing the search by names and date of birth (FilterPersonByNameQuery and FilterPersonByBirthQuery, respectively), among others.
+
+The element that represents the **Receiver** is the **QueryResultPersonList**, which is nothing more than a class that abstracts a list of people that allows a query to add the people that satisfy it.
+
+After the **Receiver** has been changed with all the people who obey the query, then the **Client**, which in the diagram is represented by the **PersonFacade** class, can fetch the people who obeyed the query from the *getPersonList()* method.
+
+<p align="center">
+  <img src="images/class-Query-command.png" alt="Iterator Pattern for Persons" style="height: 400px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/queries).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/blob/master/src/test/java/pt/up/fe/queries/QueryTest.java).
+
+### Consequences
+
+- Positive Consequences:
+  - Standardize query creation.
+  - Standardize the call of queries, avoiding conditional logic.
+  - The **Command pattern** has great affinity with the **Memento pattern** which will be important for the functionality of storing the query history.
+- Negative Consequences:
+  - The fact that we are abstracting queries by making classes that call them later, when we could instead simply create a new class with a query and make the call promptly, makes it more difficult to understand how a query is executed. For programmers unfamiliar with the pattern, understanding the structure of queries can be challenging.
+  - Another disadvantage, although minor, is that we are calling objects that later call other objects. This usually takes a toll on performance, but as said, it's a minor disadvantage because it would never be anything significant to the overall performance of the application.
+
+
+---
+
+## Saving the history of the executed queries
+
+What is the best way to save the queries so that they can be used later?
+
+### Design Problem
+
+Keeping the history of queries that were executed was one of the goals of the project. These saved queries should be runned later and something that could help us with that, was the fact that we implemented the queries using the **Command pattern**.
+
+
+### The Pattern
+
+The most natural pattern to solve the previous mentioned problem is the **Memento pattern**. This is a pattern that matches the **Command pattern** very well, allowing us to save and restore the state of a given object. In our case, it will save the state of **QueryInvoker** (which will invoke several queries), and it will also be able to restore the state, allowing the **Invoker** to call previous queries.
+
+### Implementation
+
+The implementation involves creating a **Memento** that holds the state of the *originator object*. As the diagram shows, the class corresponding to **Memento** is **QueryMemento** that stores the current state of **QueryInvoker**, and its current state can be reflected in the query that is being executed at the moment.
+
+The **Caretaker**, reflected in the implementation by the **QueryMementoCaretaker** class, is the entity that stores the *originator* state history. In addition, it also stores and restores the *originator* state.
+
+Finally, **PersonFacade** acts again in order to translate the client's wishes. This way the user can identify which query he wants to run again and the **PersonFacade** will interact with **QueryMementoCaretaker** so that it resets the state of **QueryInvoker**. In the end, **QueryInvoker** can be called again, containing a previous state inside it.
+
+<p align="center">
+  <img src="images/class-Query-command-memento-v2.png" alt="Iterator Pattern for Persons" style="height: 400px"/>
+</p>
+
+Link to [implementation](https://github.com/Orlando-pt/ads/tree/master/src/main/java/pt/up/fe/queries).
+
+Link to the [tests](https://github.com/Orlando-pt/ads/blob/master/src/test/java/pt/up/fe/queries/QueryTest.java).
+
+### Consequences
+
+- Positive Consequences:
+  - It's a structured way of storing the different queries that go through **QueryInvoker**.
+  - Allows us to store the different queries without messing with the object's innards, maintaining the encapsulation.
+  - Iterating through the mementos list makes it easier to export and import queries.
+- Negative Consequences:
+  - Subsequently, if there were queries that were relatively large in terms of their memory consumption, we would have a ram consumption problem. Thinking about the case that these queries would be called many times, saving the state of **QueryInvoker** would imply that the *garbage collector* would not get rid of these objects, and consequently, requiring large amounts of ram memory.
+ 
+
